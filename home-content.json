@@ -6,9 +6,9 @@
     "link2Label": "Corporativo",
     "link2Href": "/corporate",
     "link3Label": "Club Top Rentals",
-    "link3Href": "#",
+    "link3Href": "/club-top-rentals",
     "ctaLabel": "Reservar ahora",
-    "ctaHref": "/propiedades"
+    "ctaHref": "/reservas"
   },
   "hero": {
     "title": "Departamentos con servicio de hotel.",
@@ -20,7 +20,7 @@
     "videoPlaceholder": "[ Video: edificios, amenidades, lifestyle — loop · sin sonido ]",
     "exploreLabel": "Explorar",
     "ctaPrimary": "Reservar ahora",
-    "ctaPrimaryHref": "/propiedades",
+    "ctaPrimaryHref": "/reservas",
     "ctaSecondary": "Soluciones corporativas",
     "ctaSecondaryHref": "/corporate",
     "whatsappUrl": "https://wa.me/",
