@@ -1,0 +1,61 @@
+<!-- Referencia: widget v3 con destinos — Top Rentals -->
+<!-- En producción: src/components/gnahs/BookingWidget.tsx + getGnahsWidgetConfig() -->
+<link rel="stylesheet" href="https://assets.gnahs.com/modules/booking-widget/v3/app.css" />
+<style>
+  :root {
+    --booking-color-primary: 42, 42, 42;
+    --booking-color-secondary: 217, 217, 217;
+  }
+</style>
+<div class="c-booking-widget">
+  <div class="c-booking-widget__body">
+    <div class="c-booking-widget__container">
+      <div
+        class="c-booking-widget__item destination-component"
+        widget-label-destination="Destinos"
+      ></div>
+      <div
+        class="c-booking-widget__item dates-component dates-component-wrapper"
+        widget-label-check-in="Fecha de entrada"
+        widget-label-check-out="Fecha de salida"
+      ></div>
+      <div
+        class="c-booking-widget__item occupancy-component occupancy-component-container"
+        widget-label-occupancy="Habitaciones y personas"
+      ></div>
+      <div
+        class="c-booking-widget__item promo-code"
+        widget-label-promocode="Código promocional"
+      ></div>
+      <div
+        class="c-booking-widget__item booking-button"
+        widget-label-booking="Reservar"
+      ></div>
+    </div>
+  </div>
+</div>
+<script>
+  function loadWidget() {
+    var Widget = new GNAHS_BookingWidget({
+      settings: {
+        uuid: "a74723e1-187c-44d3-8c2d-948c2685e77e",
+        apiUrl: "https://hostalric.gnahs.app",
+        establishments: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        language: "es",
+        bookingRoute: "/reservas",
+        saveLastSeach: false,
+        appearance: { gap: 0 },
+      },
+    });
+    // Opcional: preseleccionar primer destino
+    // document.querySelector(".c-booking-widget").addEventListener("initWidget", function () {
+    //   Widget.$destination.setDestination(Widget.configuration.destinations[0]);
+    // });
+  }
+</script>
+<script
+  defer
+  src="https://assets.gnahs.com/modules/booking-widget/v3/app.js"
+  type="module"
+  onload="loadWidget()"
+></script>

@@ -1,0 +1,53 @@
+{
+  "header": {
+    "logoText": "TOP RENTALS",
+    "link1Label": "Propiedades",
+    "link1Href": "/propiedades",
+    "link2Label": "Corporativo",
+    "link2Href": "/corporate",
+    "link3Label": "Club Top Rentals",
+    "link3Href": "#",
+    "ctaLabel": "Reservar ahora",
+    "ctaHref": "/propiedades"
+  },
+  "hero": {
+    "title": "Departamentos con servicio de hotel.",
+    "subtitle": "Alquileres temporarios en 15 torres\nBuenos Aires · Quito.",
+    "videoSrc": "",
+    "videoUrl": "",
+    "posterSrc": "/images/placeholders/home-hero.svg",
+    "playingLabel": "Reproduciendo",
+    "videoPlaceholder": "[ Video: edificios, amenidades, lifestyle — loop · sin sonido ]",
+    "exploreLabel": "Explorar",
+    "ctaPrimary": "Reservar ahora",
+    "ctaPrimaryHref": "/propiedades",
+    "ctaSecondary": "Soluciones corporativas",
+    "ctaSecondaryHref": "/corporate",
+    "whatsappUrl": "https://wa.me/",
+    "whatsappEnabled": true
+  },
+  "heroSlides": [
+    { "posterSrc": "/images/placeholders/home-hero.svg", "durationMs": 8000 },
+    { "posterSrc": "/images/placeholders/home-hero.svg", "durationMs": 8000 },
+    { "posterSrc": "/images/placeholders/home-hero.svg", "durationMs": 8000 },
+    { "posterSrc": "/images/placeholders/home-hero.svg", "durationMs": 8000 }
+  ],
+  "stats": {
+    "label1": "+100",
+    "text1": "Departamentos",
+    "label2": "+600",
+    "text2": "Huéspedes al año",
+    "label3": "10",
+    "text3": "Años de experiencia"
+  },
+  "featured": {
+    "title": "Propiedades Destacadas"
+  },
+  "buildings": {
+    "title": "Nuestros edificios, por adentro."
+  },
+  "seo": {
+    "title": "Top Rentals — Alquiler temporario",
+    "description": "Alquileres temporarios en Buenos Aires y Quito."
+  }
+}

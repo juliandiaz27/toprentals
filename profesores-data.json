@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "id": "prof-1",
+      "name": "María García",
+      "role": "Directora académica",
+      "imageSrc": "/images/placeholders/person.svg"
+    }
+  ]
+}
