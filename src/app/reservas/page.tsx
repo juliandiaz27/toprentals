@@ -1,30 +1,19 @@
-import type { Metadata } from "next";
-import { BookingEngine } from "@/components/gnahs/BookingEngine";
-import { getGnahsEngineConfig } from "@/lib/gnahs/config";
+import {
+  buildReservasMetadata,
+  ReservasEnginePage,
+} from "@/components/gnahs/ReservasEnginePage";
 
-export const metadata: Metadata = {
+export const metadata = buildReservasMetadata({
   title: "Reservas | Top Rentals",
-  description: "Reservá tu estadía en Top Rentals",
-};
-
-/** BookingParams en HTML antes de los scripts GNAHS (igual que la guía oficial). */
-function BookingParamsScript() {
-  const params = getGnahsEngineConfig();
-  return (
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `window.BookingParams = ${JSON.stringify(params)};`,
-      }}
-    />
-  );
-}
+  description: "Reservá en todas nuestras torres — Buenos Aires y Quito.",
+});
 
 export default function ReservasPage() {
   return (
-    <main className="mx-auto w-full max-w-7xl px-4 py-8 lg:px-8">
-      <BookingParamsScript />
-      <div id="GNAHSEngine" className="min-h-[480px] w-full" aria-label="Motor de reservas" />
-      <BookingEngine />
-    </main>
+    <ReservasEnginePage
+      region="all"
+      title="Reservas"
+      description="Motor de reservas con todos los establecimientos Top Rentals."
+    />
   );
 }

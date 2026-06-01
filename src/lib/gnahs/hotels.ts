@@ -14,6 +14,8 @@ export const GNAHS_HOTELS = [
   { id: 9, name: "Top Rentals Belgrano" },
   { id: 10, name: "Top Rentals Downtown" },
   { id: 11, name: "Top Rentals Torre Nuñez" },
+  /** Ecuador — motor Quito (`engine-quito.html`). */
+  { id: 12, name: "Top Rentals Quito", city: "Quito" as const },
 ] as const;
 
 export const GNAHS_HOTEL_IDS = GNAHS_HOTELS.map((h) => h.id);

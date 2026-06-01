@@ -64,9 +64,26 @@ function IconChevronDown() {
   );
 }
 
+function IconPlay() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  );
+}
+
+function IconPause() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M6 5h4v14H6V5zm8 0h4v14h-4V5z" />
+    </svg>
+  );
+}
+
 export function HeroBanner({ hero, slides }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const skipSlideResetRef = useRef(true);
   const [activeIndex, setActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [playing, setPlaying] = useState(true);
@@ -85,8 +102,11 @@ export function HeroBanner({ hero, slides }: Props) {
   const togglePlay = () => {
     const el = videoRef.current;
     if (el) {
-      if (el.paused) void el.play();
-      else el.pause();
+      if (el.paused) {
+        void el.play().catch(() => setPlaying(false));
+      } else {
+        el.pause();
+      }
       return;
     }
     setPlaying((p) => !p);
@@ -122,38 +142,35 @@ export function HeroBanner({ hero, slides }: Props) {
     };
   }, [activeIndex, playing, hasVideo, slide?.durationMs, goNext]);
 
-  // Progreso desde el video del slide activo
+  // Al terminar el video, pasar al siguiente slide (el progreso visual lo maneja HeroProgressBar)
   useEffect(() => {
     const el = videoRef.current;
     if (!el || !hasVideo) return;
 
-    const onTimeUpdate = () => {
-      if (el.duration && Number.isFinite(el.duration)) {
-        setProgress(el.currentTime / el.duration);
-      }
-    };
     const onEnded = () => goNext();
-
-    el.addEventListener("timeupdate", onTimeUpdate);
     el.addEventListener("ended", onEnded);
-    return () => {
-      el.removeEventListener("timeupdate", onTimeUpdate);
-      el.removeEventListener("ended", onEnded);
-    };
+    return () => el.removeEventListener("ended", onEnded);
   }, [activeIndex, hasVideo, goNext]);
 
+  // Solo al cambiar de slide: reiniciar desde el inicio (nunca al pausar/reanudar)
   useEffect(() => {
     setProgress(0);
-    if (videoRef.current && hasVideo) {
-      videoRef.current.load();
-      if (playing) void videoRef.current.play();
+    const el = videoRef.current;
+    if (!el || !hasVideo) return;
+
+    if (skipSlideResetRef.current) {
+      skipSlideResetRef.current = false;
+      return;
     }
-  }, [activeIndex, hasVideo, playing]);
+
+    el.currentTime = 0;
+    void el.play().catch(() => setPlaying(false));
+  }, [activeIndex, hasVideo]);
 
   const showPlaceholder = !videoSrc && slide?.posterSrc?.includes("placeholders");
 
   return (
-    <section className="hero-banner relative min-h-[min(calc(100dvh-72px),1000px)] w-full overflow-hidden bg-[#141414] pb-6 text-white sm:min-h-[min(calc(100svh-72px),1000px)]">
+    <section className="hero-banner relative min-h-[min(calc(100dvh-72px),1000px)] w-full overflow-hidden bg-[#141414] pb-0 text-white sm:min-h-[min(calc(100svh-72px),1000px)]">
       {/* Slides de fondo (detrás del contenido) */}
       {slides.map((s, i) => {
         const src = slideVideoSrc(s);
@@ -204,17 +221,21 @@ export function HeroBanner({ hero, slides }: Props) {
         aria-hidden
       />
 
-      <div className="relative z-10 mx-auto flex h-full min-h-[inherit] w-full max-w-[1440px] flex-col px-6 pb-20 pt-8 lg:px-12 lg:pb-24">
+      <div className="relative z-10 mx-auto flex h-full min-h-[inherit] w-full max-w-[1440px] flex-col px-6 pb-8 pt-8 lg:px-12">
         <div className="flex items-start justify-between">
           <button
             type="button"
             onClick={togglePlay}
-            className="inline-flex items-center gap-2.5 rounded-full bg-[#525252]/90 px-4 py-2 text-[13px] font-normal text-white backdrop-blur-sm transition hover:bg-[#5c5c5c]"
+            aria-pressed={playing}
+            aria-label={playing ? "Pausar video" : "Reproducir video"}
+            className="inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-black/45 px-4 py-2 text-[13px] font-medium text-white shadow-sm backdrop-blur-md transition hover:bg-black/60"
           >
             <span
-              className={`h-2 w-2 shrink-0 rounded-full bg-white ${playing ? "opacity-100" : "opacity-40"}`}
+              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/15"
               aria-hidden
-            />
+            >
+              {playing ? <IconPause /> : <IconPlay />}
+            </span>
             {playing ? hero.playingLabel : "Pausado"}
           </button>
 
@@ -232,7 +253,7 @@ export function HeroBanner({ hero, slides }: Props) {
           )}
         </div>
 
-        <div className="mt-auto max-w-[780px] pb-10 pt-12 lg:pb-12">
+        <div className="mt-auto max-w-[780px] pb-4 pt-12 lg:max-w-[min(780px,55%)]">
           <h1 className="text-[clamp(2.5rem,4.5vw,4.25rem)] font-bold leading-[1] tracking-normal text-white">
             <FormattedText value={hero.title} as="inline" />
           </h1>
@@ -263,30 +284,20 @@ export function HeroBanner({ hero, slides }: Props) {
 
         <a
           href="#buscador"
-          className="absolute bottom-12 right-6 flex items-center gap-1.5 text-[12px] font-normal text-white/60 transition hover:text-white lg:bottom-14 lg:right-12"
+          className="absolute bottom-10 right-6 flex items-center gap-1.5 text-[12px] font-normal text-white/60 transition hover:text-white lg:right-12"
         >
           <IconChevronDown />
           <span>{hero.exploreLabel}</span>
         </a>
       </div>
 
-      {hero.whatsappEnabled && hero.whatsappUrl ? (
-        <a
-          href={hero.whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute bottom-16 right-6 flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#25D366] text-[13px] font-bold text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)] transition hover:scale-105 lg:bottom-[4.5rem] lg:right-10"
-          aria-label="WhatsApp"
-        >
-          WA
-        </a>
-      ) : null}
-
-      {slideCount > 1 ? (
+      {hasVideo || slideCount > 1 ? (
         <HeroProgressBar
           count={slideCount}
           activeIndex={activeIndex}
           progress={progress}
+          singleTimeline={hasVideo && slideCount <= 1}
+          videoRef={hasVideo ? videoRef : undefined}
         />
       ) : null}
     </section>

@@ -5,6 +5,7 @@ import {
   getGnahsEngineConfig,
   GNAHS_FETCH_SCRIPT,
   GNAHS_RHO_INIT_SCRIPT,
+  type GnahsEngineRegion,
 } from "@/lib/gnahs/config";
 import { loadScript } from "@/lib/gnahs/scripts";
 import { pushGnahsStepLoaded } from "@/lib/gnahs/tracking";
@@ -14,9 +15,13 @@ import { pushGnahsStepLoaded } from "@/lib/gnahs/tracking";
  * Scripts: rho-init → fetch.min.js (no cargar en otras rutas).
  * @see https://docs.gnahs.com/2.0/booking-engine/basic-integration-booking-engine
  */
-export function BookingEngine() {
+type Props = {
+  region?: GnahsEngineRegion;
+};
+
+export function BookingEngine({ region = "all" }: Props) {
   useEffect(() => {
-    window.BookingParams = getGnahsEngineConfig();
+    window.BookingParams = getGnahsEngineConfig(region);
 
     let cleanupFetch: (() => void) | undefined;
 
@@ -38,7 +43,7 @@ export function BookingEngine() {
       cleanupRho();
       cleanupFetch?.();
     };
-  }, []);
+  }, [region]);
 
   useEffect(() => {
     const engine = document.getElementById("GNAHSEngine");

@@ -1,0 +1,27 @@
+<!-- Motor GNAHS — Quito / Ecuador -->
+<!-- En producción: /reservas/quito -->
+<html>
+  <head>
+    <script
+      src="https://assets.gnahs.com/services/booking-engine/metasearch-tracker/v1/launcher.js"
+      defer
+    ></script>
+  </head>
+  <body>
+    <div id="GNAHSEngine"></div>
+    <script>
+      window.BookingParams = {
+        uuid: "a74723e1-187c-44d3-8c2d-948c2685e77e",
+        establishments: [4, 12],
+        language: "es",
+        api: "https://hostalric.gnahs.app",
+        assets: "https://hostalric.gnahs.app/dist/",
+      };
+    </script>
+    <script
+      src="https://assets.gnahs.com/scripts/rho-initialization/gnahs-get-rho-initial-settings-v2.js"
+      onload="new GNAHSGetRhoInitialSettings()"
+    ></script>
+    <script src="https://assets.gnahs.com/scripts/booking-engine/fetch.min.js"></script>
+  </body>
+</html>

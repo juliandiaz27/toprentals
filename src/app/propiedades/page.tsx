@@ -49,11 +49,11 @@ export default async function PropiedadesPage() {
             ) : null}
           </header>
 
-          <div className="mt-10">
+          <div className="relative z-40 mt-10">
             <PropertiesSearchBar config={gnahsWidget} />
           </div>
 
-          <div className="mt-8">
+          <div className="relative z-0 mt-8">
             <PropertiesGrid filterLabels={filters} />
           </div>
 

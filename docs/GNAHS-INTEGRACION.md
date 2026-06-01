@@ -121,7 +121,9 @@ Snippet HTML: `docs/gnahs-snippets/my-booking.html`.
 | Pedido | Snippet | Ruta / componente | Estado |
 |--------|---------|-------------------|--------|
 | Buscador | `widget.html` | `/` → `BookingWidget` | ✅ |
-| Listado / motor | `engine.html` | `/reservas` → `BookingEngine` + `#GNAHSEngine` | ✅ |
+| Listado / motor (todos) | `engine.html` | `/reservas` | ✅ |
+| Motor Buenos Aires | `engine-buenos-aires.html` | `/reservas/buenos-aires` — ids `1,2,3,5,6,7,8,9,10,11` | ✅ |
+| Motor Quito | `engine-quito.html` | `/reservas/quito` — ids `4,12` | ✅ |
 | Mis reservas | `my-booking.html` | `/mis-reservas` → `MyBooking` | ✅ |
 | Loyalty | `loyalty.html` | `/club-top-rentals` → `LoyaltyModule` | ✅ |
 | Agencias | `agencies.html` | `/agencias` → `AgenciesModule` | ✅ |

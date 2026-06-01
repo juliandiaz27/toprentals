@@ -3,10 +3,33 @@
  * Establishment IDs del motor: 1–11 (no usar códigos PMS).
  */
 
-/** IDs de establecimiento para widget y motor (`establishment_id` del PDF). */
+/** IDs de establecimiento para widget y motor general (`establishment_id` del PDF). */
 export const GNAHS_ESTABLISHMENT_IDS = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
 ] as const;
+
+/** Motor solo Buenos Aires — `engine-buenos-aires.html` de GNAHS. */
+export const GNAHS_ESTABLISHMENTS_BUENOS_AIRES = [
+  1, 2, 3, 5, 6, 7, 8, 9, 10, 11,
+] as const;
+
+/** Motor Quito / Ecuador — `engine-quito.html` de GNAHS (incluye id 12). */
+export const GNAHS_ESTABLISHMENTS_QUITO = [4, 12] as const;
+
+export type GnahsEngineRegion = "all" | "buenos-aires" | "quito";
+
+export function getEstablishmentsForEngineRegion(
+  region: GnahsEngineRegion,
+): number[] {
+  switch (region) {
+    case "buenos-aires":
+      return [...GNAHS_ESTABLISHMENTS_BUENOS_AIRES];
+    case "quito":
+      return [...GNAHS_ESTABLISHMENTS_QUITO];
+    default:
+      return [...GNAHS_ESTABLISHMENT_IDS];
+  }
+}
 
 export const GNAHS_CLIENT_SLUG =
   process.env.NEXT_PUBLIC_GNAHS_CLIENT_SLUG ?? "top-rentals";
@@ -47,11 +70,11 @@ export const GNAHS_WIDGET_CSS =
 export const GNAHS_WIDGET_JS =
   "https://assets.gnahs.com/modules/booking-widget/v3/app.js";
 
-/** `window.BookingParams` — motor #GNAHSEngine (engine.html). */
-export function getGnahsEngineConfig() {
+/** `window.BookingParams` — motor #GNAHSEngine (engine.html por región). */
+export function getGnahsEngineConfig(region: GnahsEngineRegion = "all") {
   return {
     uuid: GNAHS_UUID,
-    establishments: [...GNAHS_ESTABLISHMENT_IDS],
+    establishments: getEstablishmentsForEngineRegion(region),
     language: "es" as const,
     api: GNAHS_API_URL,
     assets: GNAHS_ASSETS_URL,
