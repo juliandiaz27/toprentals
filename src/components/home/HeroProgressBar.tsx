@@ -5,10 +5,13 @@ type Props = {
   progress: number;
 };
 
+/**
+ * Indicadores de carrusel — sobre el video, debajo del buscador flotante (z-10 < buscador z-20).
+ */
 export function HeroProgressBar({ count, activeIndex, progress }: Props) {
   return (
     <div
-      className="hero-progress absolute bottom-0 left-0 right-0 z-30 flex gap-[3px] px-0"
+      className="hero-progress pointer-events-none absolute bottom-20 left-0 right-0 z-10 flex gap-[3px] px-6 lg:bottom-[5.5rem] lg:px-12"
       role="progressbar"
       aria-valuenow={Math.round(progress * 100)}
       aria-valuemin={0}
@@ -23,10 +26,10 @@ export function HeroProgressBar({ count, activeIndex, progress }: Props) {
         return (
           <div
             key={i}
-            className="h-[2px] min-w-0 flex-1 overflow-hidden bg-white/25"
+            className="h-[2px] min-w-0 flex-1 overflow-hidden rounded-full bg-white/20"
           >
             <div
-              className="h-full bg-white transition-[width] duration-75 ease-linear"
+              className="h-full rounded-full bg-white transition-[width] duration-75 ease-linear"
               style={{ width: `${fill}%` }}
             />
           </div>

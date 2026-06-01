@@ -153,15 +153,15 @@ export function HeroBanner({ hero, slides }: Props) {
   const showPlaceholder = !videoSrc && slide?.posterSrc?.includes("placeholders");
 
   return (
-    <section className="hero-banner relative min-h-[min(calc(100dvh-72px),880px)] w-full overflow-hidden bg-[#141414] text-white">
-      {/* Slides de fondo */}
+    <section className="hero-banner relative min-h-[min(calc(100dvh-72px),1000px)] w-full overflow-hidden bg-[#141414] pb-6 text-white sm:min-h-[min(calc(100svh-72px),1000px)]">
+      {/* Slides de fondo (detrás del contenido) */}
       {slides.map((s, i) => {
         const src = slideVideoSrc(s);
         const isActive = i === activeIndex;
         return (
           <div
             key={i}
-            className={`absolute inset-0 transition-opacity duration-700 ${
+            className={`absolute inset-0 z-0 transition-opacity duration-700 ${
               isActive ? "opacity-100" : "opacity-0"
             }`}
             aria-hidden={!isActive}
@@ -200,11 +200,11 @@ export function HeroBanner({ hero, slides }: Props) {
       )}
 
       <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/15"
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-black/85 via-black/35 to-black/15"
         aria-hidden
       />
 
-      <div className="relative z-10 mx-auto flex h-full min-h-[inherit] w-full max-w-[1440px] flex-col px-6 pb-16 pt-8 lg:px-12">
+      <div className="relative z-10 mx-auto flex h-full min-h-[inherit] w-full max-w-[1440px] flex-col px-6 pb-20 pt-8 lg:px-12 lg:pb-24">
         <div className="flex items-start justify-between">
           <button
             type="button"
@@ -263,7 +263,7 @@ export function HeroBanner({ hero, slides }: Props) {
 
         <a
           href="#buscador"
-          className="absolute bottom-10 right-6 z-20 flex items-center gap-1.5 text-[12px] font-normal text-white/60 transition hover:text-white lg:right-12"
+          className="absolute bottom-12 right-6 flex items-center gap-1.5 text-[12px] font-normal text-white/60 transition hover:text-white lg:bottom-14 lg:right-12"
         >
           <IconChevronDown />
           <span>{hero.exploreLabel}</span>
@@ -275,14 +275,14 @@ export function HeroBanner({ hero, slides }: Props) {
           href={hero.whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute bottom-14 right-6 z-20 flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#25D366] text-[13px] font-bold text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)] transition hover:scale-105 lg:right-10"
+          className="absolute bottom-16 right-6 flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#25D366] text-[13px] font-bold text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)] transition hover:scale-105 lg:bottom-[4.5rem] lg:right-10"
           aria-label="WhatsApp"
         >
           WA
         </a>
       ) : null}
 
-      {slideCount > 0 ? (
+      {slideCount > 1 ? (
         <HeroProgressBar
           count={slideCount}
           activeIndex={activeIndex}

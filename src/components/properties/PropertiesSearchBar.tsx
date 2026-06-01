@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { getGnahsWidgetConfig } from "@/lib/gnahs/config";
-import { BookingWidget } from "@/components/gnahs/BookingWidget";
+import { BookingWidget } from "@/components/gnahs/BookingWidgetDynamic";
 
 type WidgetConfig = ReturnType<typeof getGnahsWidgetConfig>;
 

@@ -13,7 +13,7 @@
   "hero": {
     "title": "Departamentos con servicio de hotel.",
     "subtitle": "Alquileres temporarios en 15 torres\nBuenos Aires · Quito.",
-    "videoSrc": "",
+    "videoSrc": "/videos/hero-banner.mp4",
     "videoUrl": "",
     "posterSrc": "/images/placeholders/home-hero.svg",
     "playingLabel": "Reproduciendo",
@@ -27,10 +27,11 @@
     "whatsappEnabled": true
   },
   "heroSlides": [
-    { "posterSrc": "/images/placeholders/home-hero.svg", "durationMs": 8000 },
-    { "posterSrc": "/images/placeholders/home-hero.svg", "durationMs": 8000 },
-    { "posterSrc": "/images/placeholders/home-hero.svg", "durationMs": 8000 },
-    { "posterSrc": "/images/placeholders/home-hero.svg", "durationMs": 8000 }
+    {
+      "videoSrc": "/videos/hero-banner.mp4",
+      "posterSrc": "/images/placeholders/home-hero.svg",
+      "durationMs": 25000
+    }
   ],
   "stats": {
     "label1": "+100",
@@ -46,10 +47,10 @@
   "buildings": {
     "title": "Nuestros edificios, por adentro.",
     "subtitle": "Un recorrido por los departamentos, amenities y el estilo de vida Top Rentals.",
-    "videoSrc": "",
+    "videoSrc": "/videos/hero-banner.mp4",
     "videoUrl": "",
     "posterSrc": "",
-    "placeholder": "[ Video ]",
+    "placeholder": "",
     "meta": "2:45 min · Buenos Aires · Quito"
   },
   "corporateTeaser": {
