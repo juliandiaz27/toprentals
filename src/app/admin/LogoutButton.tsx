@@ -11,9 +11,9 @@ export function LogoutButton() {
       type="button"
       disabled={pending}
       onClick={() => startTransition(() => logout())}
-      className="text-sm text-neutral-500 hover:text-neutral-800 disabled:opacity-50"
+      className="admin-btn-secondary text-neutral-600 disabled:opacity-50"
     >
-      Salir
+      {pending ? "Saliendo…" : "Salir"}
     </button>
   );
 }

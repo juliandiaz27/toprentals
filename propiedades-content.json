@@ -1,0 +1,23 @@
+{
+  "hero": {
+    "title": "Nuestros departamentos",
+    "subtitle": "Más de 500 departamentos operados en edificios estratégicamente ubicados.",
+    "imageSrc": "/images/placeholders/page-hero.svg"
+  },
+  "filters": {
+    "all": "Todos",
+    "buenosAires": "Buenos Aires",
+    "ecuador": "Ecuador",
+    "disponibilidad": "Disponibilidad",
+    "grupos": "Grupos",
+    "exclusivas": "Unidades exclusivas",
+    "barrio": "Barrio"
+  },
+  "development": {
+    "label": "EN DESARROLLO",
+    "title": "Top Rentals Maipú",
+    "description": "80 unidades en el centro de la ciudad. Amenities de primer nivel. Próximamente.",
+    "ctaLabel": "Registrarme para recibir novedades →",
+    "ctaHref": "#"
+  }
+}

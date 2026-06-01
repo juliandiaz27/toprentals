@@ -17,7 +17,7 @@ export function LoginForm() {
           type="password"
           required
           autoComplete="current-password"
-          className="rounded border border-neutral-300 px-3 py-2"
+          className="admin-input"
         />
       </label>
       {state && !state.ok ? (
@@ -28,7 +28,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={pending}
-        className="rounded bg-neutral-800 py-2 text-sm font-medium text-white disabled:opacity-50"
+        className="admin-btn-primary w-full"
       >
         {pending ? "Ingresando…" : "Ingresar"}
       </button>

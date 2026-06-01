@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         destination: "/reservas",
         permanent: true,
       },
+      {
+        source: "/misreservas",
+        destination: "/mis-reservas",
+        permanent: true,
+      },
     ];
   },
 };

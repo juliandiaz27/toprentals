@@ -1,36 +1,68 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { readPageContent } from "@/lib/pageContent/storage";
-import { getNested } from "@/lib/pageContent/nested";
+import {
+  pickPropiedadesDevelopment,
+  pickPropiedadesFilters,
+  pickPropiedadesHero,
+} from "@/lib/pageContent/propiedadesTypes";
+import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
+import { getGnahsWidgetConfig } from "@/lib/gnahs/config";
+import { SiteHeader } from "@/components/home/SiteHeader";
+import { PropertiesSearchBar } from "@/components/properties/PropertiesSearchBar";
+import { PropertiesGrid } from "@/components/properties/PropertiesGrid";
+import { PropertiesDevelopment } from "@/components/properties/PropertiesDevelopment";
+import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await readPageContent("propiedades");
-  const title = String(getNested(content, "hero.title") ?? "Propiedades");
-  return { title: `${title} | Top Rentals` };
+  const hero = pickPropiedadesHero(content);
+  return { title: `${hero.title} | Top Rentals` };
 }
 
 export default async function PropiedadesPage() {
-  const content = await readPageContent("propiedades");
-  const title = String(getNested(content, "hero.title") ?? "Propiedades");
-  const subtitle = String(getNested(content, "hero.subtitle") ?? "");
+  const [propContent, homeContent] = await Promise.all([
+    readPageContent("propiedades"),
+    readPageContent("home"),
+  ]);
+  const header = pickHomeHeader(homeContent);
+  const homeHero = pickHomeHero(homeContent);
+  const hero = pickPropiedadesHero(propContent);
+  const filters = pickPropiedadesFilters(propContent);
+  const development = pickPropiedadesDevelopment(propContent);
+  const gnahsWidget = getGnahsWidgetConfig();
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="text-3xl font-semibold text-neutral-900">{title}</h1>
-      {subtitle ? (
-        <p className="mt-3 text-lg text-neutral-600">{subtitle}</p>
+    <>
+      <SiteHeader header={header} />
+      <main className="bg-white">
+        <div className="mx-auto max-w-[1440px] px-6 pb-20 pt-10 lg:px-12 lg:pt-14">
+          <header className="max-w-3xl">
+            <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight text-neutral-950">
+              {hero.title}
+            </h1>
+            {hero.subtitle ? (
+              <p className="mt-4 text-base leading-relaxed text-neutral-600 lg:text-lg">
+                {hero.subtitle}
+              </p>
+            ) : null}
+          </header>
+
+          <div className="mt-10">
+            <PropertiesSearchBar config={gnahsWidget} />
+          </div>
+
+          <div className="mt-8">
+            <PropertiesGrid filterLabels={filters} />
+          </div>
+
+          <PropertiesDevelopment content={development} />
+        </div>
+      </main>
+      {homeHero.whatsappEnabled && homeHero.whatsappUrl ? (
+        <WhatsAppFab url={homeHero.whatsappUrl} />
       ) : null}
-      <p className="mt-6 text-neutral-600">
-        Consultá disponibilidad y tarifas en nuestro motor de reservas.
-      </p>
-      <Link
-        href="/reservas"
-        className="mt-8 inline-block rounded bg-neutral-900 px-6 py-3 text-sm font-medium text-white hover:bg-neutral-800"
-      >
-        Ir a reservar
-      </Link>
-    </main>
+    </>
   );
 }

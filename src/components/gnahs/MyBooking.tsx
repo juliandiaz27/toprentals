@@ -13,19 +13,16 @@ import { loadScript } from "@/lib/gnahs/scripts";
  */
 export function MyBooking() {
   useEffect(() => {
-    window.GNAHS_MyBooking = getGnahsMyBookingConfig();
+    if (!window.GNAHS_MyBooking) {
+      window.GNAHS_MyBooking = getGnahsMyBookingConfig();
+    }
 
     return loadScript(GNAHS_MY_BOOKING_LAUNCHER, {
       id: "gnahs-my-booking-launcher",
       defer: true,
+      appendTo: "body",
     });
   }, []);
 
-  return (
-    <div
-      id="GNAHS-my-booking"
-      className="min-h-[480px] w-full"
-      aria-label="Mis reservas"
-    />
-  );
+  return null;
 }

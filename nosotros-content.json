@@ -1,0 +1,12 @@
+{
+  "hero": {
+    "title": "Nosotros",
+    "subtitle": "",
+    "imageSrc": "/images/placeholders/page-hero.svg"
+  },
+  "body": {
+    "intro": "",
+    "column1": "",
+    "column2": ""
+  }
+}

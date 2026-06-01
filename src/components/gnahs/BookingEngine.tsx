@@ -7,31 +7,36 @@ import {
   GNAHS_RHO_INIT_SCRIPT,
 } from "@/lib/gnahs/config";
 import { loadScript } from "@/lib/gnahs/scripts";
+import { pushGnahsStepLoaded } from "@/lib/gnahs/tracking";
 
 /**
- * Motor de reservas GNAHS — contenedor #GNAHSEngine.
+ * Motor GNAHS — solo en `/reservas`.
+ * Scripts: rho-init → fetch.min.js (no cargar en otras rutas).
  * @see https://docs.gnahs.com/2.0/booking-engine/basic-integration-booking-engine
  */
 export function BookingEngine() {
   useEffect(() => {
     window.BookingParams = getGnahsEngineConfig();
 
+    let cleanupFetch: (() => void) | undefined;
+
     const cleanupRho = loadScript(GNAHS_RHO_INIT_SCRIPT, {
       id: "gnahs-rho-initial-settings",
+      appendTo: "body",
       onLoad: () => {
         if (window.GNAHSGetRhoInitialSettings) {
           new window.GNAHSGetRhoInitialSettings();
         }
+        cleanupFetch = loadScript(GNAHS_FETCH_SCRIPT, {
+          id: "gnahs-booking-fetch",
+          appendTo: "body",
+        });
       },
-    });
-
-    const cleanupFetch = loadScript(GNAHS_FETCH_SCRIPT, {
-      id: "gnahs-booking-fetch",
     });
 
     return () => {
       cleanupRho();
-      cleanupFetch();
+      cleanupFetch?.();
     };
   }, []);
 
@@ -40,10 +45,8 @@ export function BookingEngine() {
     if (!engine) return;
 
     const onStepLoaded = (ev: Event) => {
-      const detail = (ev as CustomEvent<Record<string, unknown>>).detail;
-      if (process.env.NODE_ENV === "development") {
-        console.debug("[GNAHS] step-loaded", detail);
-      }
+      const detail = (ev as CustomEvent<Record<string, unknown>>).detail ?? {};
+      pushGnahsStepLoaded(detail);
     };
 
     engine.addEventListener("GNAHS:step-loaded", onStepLoaded);
@@ -52,11 +55,5 @@ export function BookingEngine() {
     };
   }, []);
 
-  return (
-    <div
-      id="GNAHSEngine"
-      className="min-h-[480px] w-full"
-      aria-label="Motor de reservas"
-    />
-  );
+  return null;
 }

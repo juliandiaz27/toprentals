@@ -16,3 +16,32 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+/* Contenido enriquecido desde el panel (HTML sanitizado) */
+.formatted-text p {
+  margin: 0 0 0.75em;
+}
+
+.formatted-text p:last-child {
+  margin-bottom: 0;
+}
+
+.formatted-text ul,
+.formatted-text ol {
+  margin: 0 0 0.75em;
+  padding-left: 1.25rem;
+}
+
+.formatted-text li {
+  margin-bottom: 0.25em;
+}
+
+.formatted-text a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.formatted-text strong,
+.formatted-text b {
+  font-weight: 600;
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FormattedText } from "@/components/content/FormattedText";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { HomeHeroContent, HeroSlide } from "@/lib/pageContent/homeTypes";
 import { slideVideoSrc } from "@/lib/pageContent/homeTypes";
@@ -233,12 +234,13 @@ export function HeroBanner({ hero, slides }: Props) {
 
         <div className="mt-auto max-w-[780px] pb-10 pt-12 lg:pb-12">
           <h1 className="text-[clamp(2.5rem,4.5vw,4.25rem)] font-bold leading-[1] tracking-normal text-white">
-            {hero.title}
+            <FormattedText value={hero.title} as="inline" />
           </h1>
           {hero.subtitle ? (
-            <p className="mt-5 max-w-md whitespace-pre-line text-[15px] font-normal leading-[1.6] text-white/85 md:text-base">
-              {hero.subtitle}
-            </p>
+            <FormattedText
+              value={hero.subtitle}
+              className="mt-5 block max-w-md text-[15px] font-normal leading-[1.6] text-white/85 md:text-base"
+            />
           ) : null}
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link

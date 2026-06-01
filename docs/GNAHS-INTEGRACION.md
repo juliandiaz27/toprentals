@@ -22,7 +22,7 @@ Referencias:
 | `language` / `locale` | `es` |
 | `slug` (mis reservas) | `top-rentals` → URL `https://hostalric.gnahs.app/top-rentals` |
 
-Establecimientos (id → nombre): `src/lib/gnahs/hotels.ts`.
+Establishments: `GNAHS_ESTABLISHMENT_IDS` = `[1..11]` en `src/lib/gnahs/config.ts`. Nombres: `src/lib/gnahs/hotels.ts`.
 
 Variables en `.env.local`: ver `.env.example`.
 
@@ -116,22 +116,43 @@ Snippet HTML: `docs/gnahs-snippets/my-booking.html`.
 
 ---
 
-## Otras piezas (fuera de la guía básica del motor)
+## Checklist Alejo (mail dic. 2025) ↔ proyecto
+
+| Pedido | Snippet | Ruta / componente | Estado |
+|--------|---------|-------------------|--------|
+| Buscador | `widget.html` | `/` → `BookingWidget` | ✅ |
+| Listado / motor | `engine.html` | `/reservas` → `BookingEngine` + `#GNAHSEngine` | ✅ |
+| Mis reservas | `my-booking.html` | `/mis-reservas` → `MyBooking` | ✅ |
+| Loyalty | `loyalty.html` | `/club-top-rentals` → `LoyaltyModule` | ✅ |
+| Agencias | `agencies.html` | `/agencias` → `AgenciesModule` | ✅ |
+| Tracking motor | [docs tracking](https://docs.gnahs.com/2.0/tracking/booking-engine-tracking) | `/reservas` → `pushGnahsStepLoaded` | ✅ |
+| Metasearch (sitio) | paso 1 guía básica | `layout.tsx` → `GnahsMetasearchTracker` | ✅ |
+
+**Establishments:** siempre `[1,2,3,4,5,6,7,8,9,10,11]` (`GNAHS_ESTABLISHMENT_IDS` en `config.ts`). No usar códigos PMS en el embed.
+
+## Otras piezas
 
 | Ruta | Componente | Docs |
 |------|------------|------|
 | `/` (buscador) | `BookingWidget` | **`docs/GNAHS-WIDGET.md`** |
 | `/agencias` | `AgenciesModule` | **`docs/GNAHS-AGENCIES.md`** |
-| `/club-top-rentals` | `LoyaltyModule` | loyalty (si el cliente lo activa) |
+| `/club-top-rentals` | `LoyaltyModule` | loyalty |
 | `/reservar` | redirect 301 | → `/reservas` |
+| `/misreservas` | redirect 301 | → `/mis-reservas` |
 
 ---
 
-## Tracking del motor
+## Tracking del motor (Alejo / GTM)
 
-En `#GNAHSEngine` el motor dispara `GNAHS:step-loaded`. Implementado en `BookingEngine.tsx` (modo dev: `console.debug`).
+En `#GNAHSEngine` el motor dispara `GNAHS:step-loaded`. Implementado en `BookingEngine.tsx` + `src/lib/gnahs/tracking.ts`:
 
-Para GTM: [booking-engine-tracking](https://docs.gnahs.com/2.0/tracking/booking-engine-tracking).
+```js
+dataLayer.push({ event: "GNAHS:step-loaded", data: ev.detail });
+```
+
+En GTM: activador de evento personalizado **`GNAHS:step-loaded`** (ver [booking-engine-tracking](https://docs.gnahs.com/2.0/tracking/booking-engine-tracking)).
+
+Tras completar la reserva, el seguimiento continúa en la página de detalle (My Booking / Booking Details).
 
 ---
 
@@ -141,7 +162,7 @@ Para GTM: [booking-engine-tracking](https://docs.gnahs.com/2.0/tracking/booking-
 |-------|-----|
 | `secretkey` | API servidor (`GNAHS_SECRET_KEY`) — no en widget/motor |
 | `downloadkey` | Descarga reservas (`GNAHS_DOWNLOAD_KEY`) |
-| Códigos PMS 1294–1304 | Referencia en `hotels.ts`; el motor usa ids **1–11** |
+| Establishment ids | `[1..11]` en `GNAHS_ESTABLISHMENT_IDS` |
 | `ADMIN_TOKEN` | Solo panel `/admin` — no es de GNAHS |
 
 ---
@@ -162,10 +183,10 @@ GNAHS valida el **origen** del navegador. Sin dominio autorizado → 401 → el 
 GNAHS pide enviar las **URLs finales** del motor y mis reservas (todos los idiomas) para darlas de alta y probar antes de activar:
 
 - [ ] `https://[TU-DOMINIO]/reservas`
-- [ ] `https://[TU-DOMINIO]/mis-reservas`
+- [ ] `https://[TU-DOMINIO]/mis-reservas` (no `/misreservas`; hay redirect por si acaso)
 - [ ] Dominios autorizados (localhost + producción)
 - [ ] Color corporativo del motor (vía account manager)
-- [ ] GTM / `GNAHS:step-loaded` si aplica
+- [x] Push `dataLayer` / evento `GNAHS:step-loaded` (código listo; falta contenedor GTM en producción si usan Analytics)
 
 **Ya implementado en código:**
 
@@ -197,6 +218,7 @@ src/
     config.ts
     hotels.ts
     scripts.ts
+    tracking.ts
     serverCredentials.ts
 docs/gnahs-snippets/       ← HTML de referencia (widget, engine, my-booking, …)
 docs/GNAHS-WIDGET.md       ← documentación del buscador v3

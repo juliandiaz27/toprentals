@@ -1,16 +1,178 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState, useTransition } from "react";
-import type { PageDefinition } from "@/lib/pageContent/types";
+import { useMemo, useState, useTransition, type ReactNode } from "react";
+import type { PageDefinition, PageField } from "@/lib/pageContent/types";
 import type { PageContent } from "@/lib/pageContent/types";
 import { getNested } from "@/lib/pageContent/nested";
+import { shouldUseRichEditor } from "@/lib/pageContent/richEditor";
 import { savePageContent } from "./pageActions";
+import { WysiwygField } from "./WysiwygField";
 
 type Props = {
   definition: PageDefinition;
   content: PageContent;
 };
+
+function isPairableLabel(field: PageField): boolean {
+  return (
+    /\.(link\d+Label|ctaPrimary|ctaSecondary|ctaLabel|bullet\d+|card\d+Title)$/.test(
+      field.key,
+    ) && field.type === "text"
+  );
+}
+
+function isPairableHref(field: PageField): boolean {
+  return (
+    /\.(link\d+Href|ctaPrimaryHref|ctaSecondaryHref|ctaHref|card\d+Href|card\d+Subtitle|card\d+Text)$/.test(
+      field.key,
+    ) &&
+    (field.type === "text" || field.type === "url" || field.type === "textarea")
+  );
+}
+
+function fieldSpan(field: PageField): string {
+  if (
+    field.type === "textarea" ||
+    field.type === "rich" ||
+    shouldUseRichEditor(field) ||
+    field.type === "image" ||
+    field.type === "video"
+  ) {
+    return "lg:col-span-2";
+  }
+  return "";
+}
+
+function FieldControl({
+  field,
+  content,
+}: {
+  field: PageField;
+  content: PageContent;
+}) {
+  const value = getNested(content, field.key);
+  const strValue = value === undefined || value === null ? "" : String(value);
+
+  if (field.type === "image" || field.type === "video") {
+    const src = strValue || field.fallback || "/images/placeholders/home-hero.svg";
+    return (
+      <div className={`flex flex-col gap-2 ${fieldSpan(field)}`}>
+        <span className="admin-field-label">{field.label}</span>
+        {field.hint ? <span className="admin-field-hint">{field.hint}</span> : null}
+        {field.type === "image" ? (
+          <div className="relative aspect-[21/9] max-w-xl overflow-hidden rounded-lg border border-neutral-200 bg-neutral-100">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={src} alt="" className="h-full w-full object-cover" />
+          </div>
+        ) : strValue ? (
+          <p className="font-mono text-xs text-neutral-500">{strValue}</p>
+        ) : null}
+        <input type="hidden" name={field.key} defaultValue={strValue} />
+        <input
+          type="file"
+          name={`__file__${field.key}`}
+          accept={field.type === "video" ? "video/mp4,video/webm" : "image/*"}
+          className="text-sm text-neutral-600 file:mr-3 file:rounded-md file:border-0 file:bg-neutral-100 file:px-3 file:py-1.5 file:text-sm file:font-medium"
+        />
+      </div>
+    );
+  }
+
+  if (shouldUseRichEditor(field)) {
+    return (
+      <WysiwygField
+        name={field.key}
+        label={field.label}
+        hint={field.hint}
+        required={field.required}
+        defaultValue={strValue}
+        placeholder={field.fallback}
+        className={fieldSpan(field)}
+      />
+    );
+  }
+
+  if (field.type === "textarea") {
+    return (
+      <label className={`flex flex-col ${fieldSpan(field)}`}>
+        <span className="admin-field-label">
+          {field.label}
+          {field.required ? " *" : ""}
+        </span>
+        {field.hint ? <span className="admin-field-hint">{field.hint}</span> : null}
+        <textarea
+          name={field.key}
+          rows={4}
+          required={field.required}
+          defaultValue={strValue}
+          className="admin-textarea"
+        />
+      </label>
+    );
+  }
+
+  if (field.type === "boolean") {
+    return (
+      <label
+        className={`flex items-center gap-3 rounded-lg border border-neutral-200 bg-neutral-50 px-4 py-3 ${fieldSpan(field)}`}
+      >
+        <input
+          type="checkbox"
+          name={field.key}
+          defaultChecked={value === true}
+          value="on"
+          className="h-4 w-4 rounded border-neutral-300"
+        />
+        <span className="text-sm font-medium text-neutral-700">{field.label}</span>
+      </label>
+    );
+  }
+
+  return (
+    <label className={`flex flex-col ${fieldSpan(field)}`}>
+      <span className="admin-field-label">
+        {field.label}
+        {field.required ? " *" : ""}
+      </span>
+      {field.hint ? <span className="admin-field-hint">{field.hint}</span> : null}
+      <input
+        type={field.type === "url" ? "url" : "text"}
+        name={field.key}
+        required={field.required}
+        defaultValue={strValue}
+        className="admin-input"
+        placeholder={field.fallback}
+      />
+    </label>
+  );
+}
+
+function renderSectionFields(fields: PageField[], content: PageContent) {
+  const nodes: ReactNode[] = [];
+  let i = 0;
+
+  while (i < fields.length) {
+    const field = fields[i];
+    const next = fields[i + 1];
+
+    if (field && next && isPairableLabel(field) && isPairableHref(next)) {
+      nodes.push(
+        <div key={field.key} className="grid gap-4 lg:col-span-2 lg:grid-cols-2">
+          <FieldControl field={field} content={content} />
+          <FieldControl field={next} content={content} />
+        </div>,
+      );
+      i += 2;
+      continue;
+    }
+
+    nodes.push(<FieldControl key={field.key} field={field} content={content} />);
+    i += 1;
+  }
+
+  return nodes;
+}
 
 export function PageEditor({ definition, content }: Props) {
   const router = useRouter();
@@ -19,7 +181,7 @@ export function PageEditor({ definition, content }: Props) {
   const [pending, startTransition] = useTransition();
 
   const sections = useMemo(() => {
-    const map = new Map<string, typeof definition.fields>();
+    const map = new Map<string, PageField[]>();
     for (const field of definition.fields) {
       const list = map.get(field.section) ?? [];
       list.push(field);
@@ -45,165 +207,62 @@ export function PageEditor({ definition, content }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="page-editor max-w-3xl">
-      <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-neutral-900">
-            Editar: {definition.title}
+    <form onSubmit={handleSubmit} className="page-editor w-full">
+      <div className="admin-sticky-toolbar flex flex-wrap items-center justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="text-2xl font-semibold tracking-tight text-neutral-950">
+            {definition.title}
           </h1>
           {definition.description ? (
             <p className="mt-1 text-sm text-neutral-500">{definition.description}</p>
           ) : null}
           <p className="mt-1 text-xs text-neutral-400">
-            Ruta pública:{" "}
+            Ruta:{" "}
             <a
               href={definition.publicPath}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline"
+              className="font-medium text-neutral-600 underline-offset-2 hover:underline"
             >
               {definition.publicPath}
             </a>
           </p>
         </div>
-        <button
-          type="submit"
-          disabled={pending}
-          className="admin-btn-primary shrink-0 rounded bg-[#2271b1] px-5 py-2 text-sm font-medium text-white hover:bg-[#135e96] disabled:opacity-50"
-        >
+        <button type="submit" disabled={pending} className="admin-btn-primary shrink-0">
           {pending ? "Guardando…" : "Guardar cambios"}
         </button>
       </div>
 
       {error ? (
-        <p className="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
+        <p
+          className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+          role="alert"
+        >
           {error}
         </p>
       ) : null}
       {success ? (
-        <p className="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-800">
+        <p className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
           Cambios guardados correctamente.
         </p>
       ) : null}
 
-      <div className="flex flex-col gap-8">
+      <div className="grid gap-6 xl:grid-cols-2">
         {sections.map(([sectionTitle, fields]) => (
           <section
             key={sectionTitle}
-            className="rounded border border-neutral-200 bg-white shadow-sm"
+            className={`admin-section-card ${fields.length > 4 ? "xl:col-span-2" : ""}`}
           >
-            <h2 className="border-b border-neutral-100 bg-neutral-50 px-4 py-3 text-sm font-semibold text-neutral-800">
-              {sectionTitle}
-            </h2>
-            <div className="flex flex-col gap-4 p-4">
-              {fields.map((field) => {
-                const value = getNested(content, field.key);
-                const strValue =
-                  value === undefined || value === null ? "" : String(value);
-
-                if (field.type === "image" || field.type === "video") {
-                  const src =
-                    strValue || field.fallback || "/images/placeholders/home-hero.svg";
-                  return (
-                    <div key={field.key} className="flex flex-col gap-2">
-                      <span className="text-sm font-medium text-neutral-700">
-                        {field.label}
-                      </span>
-                      {field.hint ? (
-                        <span className="text-xs text-neutral-500">{field.hint}</span>
-                      ) : null}
-                      {field.type === "image" ? (
-                        <div className="relative aspect-[21/9] max-w-md overflow-hidden rounded border bg-neutral-100">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={src}
-                            alt=""
-                            className="h-full w-full object-cover"
-                          />
-                        </div>
-                      ) : strValue ? (
-                        <p className="text-xs font-mono text-neutral-500">{strValue}</p>
-                      ) : null}
-                      <input type="hidden" name={field.key} defaultValue={strValue} />
-                      <input
-                        type="file"
-                        name={`__file__${field.key}`}
-                        accept={field.type === "video" ? "video/mp4,video/webm" : "image/*"}
-                        className="text-sm"
-                      />
-                    </div>
-                  );
-                }
-
-                if (field.type === "textarea") {
-                  return (
-                    <label key={field.key} className="flex flex-col gap-1">
-                      <span className="text-sm font-medium text-neutral-700">
-                        {field.label}
-                        {field.required ? " *" : ""}
-                      </span>
-                      {field.hint ? (
-                        <span className="text-xs text-neutral-500">{field.hint}</span>
-                      ) : null}
-                      <textarea
-                        name={field.key}
-                        rows={4}
-                        required={field.required}
-                        defaultValue={strValue}
-                        className="rounded border border-neutral-300 px-3 py-2 text-sm"
-                      />
-                    </label>
-                  );
-                }
-
-                if (field.type === "boolean") {
-                  return (
-                    <label
-                      key={field.key}
-                      className="flex items-center gap-2 text-sm"
-                    >
-                      <input
-                        type="checkbox"
-                        name={field.key}
-                        defaultChecked={value === true}
-                        value="on"
-                      />
-                      {field.label}
-                    </label>
-                  );
-                }
-
-                return (
-                  <label key={field.key} className="flex flex-col gap-1">
-                    <span className="text-sm font-medium text-neutral-700">
-                      {field.label}
-                      {field.required ? " *" : ""}
-                    </span>
-                    {field.hint ? (
-                      <span className="text-xs text-neutral-500">{field.hint}</span>
-                    ) : null}
-                    <input
-                      type={field.type === "url" ? "url" : "text"}
-                      name={field.key}
-                      required={field.required}
-                      defaultValue={strValue}
-                      className="rounded border border-neutral-300 px-3 py-2 text-sm"
-                      placeholder={field.fallback}
-                    />
-                  </label>
-                );
-              })}
+            <h2 className="admin-section-card__head">{sectionTitle}</h2>
+            <div className="admin-section-card__body grid gap-5 lg:grid-cols-2">
+              {renderSectionFields(fields, content)}
             </div>
           </section>
         ))}
       </div>
 
-      <div className="mt-6 flex justify-end border-t border-neutral-200 pt-4">
-        <button
-          type="submit"
-          disabled={pending}
-          className="rounded bg-[#2271b1] px-5 py-2 text-sm font-medium text-white disabled:opacity-50"
-        >
+      <div className="mt-8 flex justify-end border-t border-neutral-200 pt-6">
+        <button type="submit" disabled={pending} className="admin-btn-primary">
           {pending ? "Guardando…" : "Guardar cambios"}
         </button>
       </div>

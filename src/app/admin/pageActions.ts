@@ -6,6 +6,8 @@ import { saveUpload } from "@/lib/upload";
 import { getPageDefinition } from "@/lib/pageContent/schemas";
 import { readPageContent, writePageContent } from "@/lib/pageContent/storage";
 import { setNested } from "@/lib/pageContent/nested";
+import { shouldUseRichEditor } from "@/lib/pageContent/richEditor";
+import { normalizeStoredRichHtml } from "@/lib/richText/sanitize";
 import type { ActionResult } from "./actions";
 
 export async function savePageContent(
@@ -44,8 +46,15 @@ export async function savePageContent(
         continue;
       }
 
-      const value = String(formData.get(field.key) ?? "").trim();
-      if (field.required && !value) {
+      let value = String(formData.get(field.key) ?? "").trim();
+      if (shouldUseRichEditor(field)) {
+        value = normalizeStoredRichHtml(value);
+      }
+      const isEmpty =
+        !value ||
+        (shouldUseRichEditor(field) &&
+          !value.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").trim());
+      if (field.required && isEmpty) {
         return { ok: false, error: `"${field.label}" es obligatorio.` };
       }
       setNested(content, field.key, value);

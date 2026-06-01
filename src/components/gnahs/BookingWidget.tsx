@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { getGnahsWidgetConfig } from "@/lib/gnahs/config";
 import { GNAHS_WIDGET_CSS, GNAHS_WIDGET_JS } from "@/lib/gnahs/config";
@@ -61,19 +62,24 @@ export function BookingWidget({ config }: Props) {
     };
   }, [config]);
 
+  if (apiBlocked) {
+    return (
+      <div className="py-2 text-center" role="status">
+        <p className="text-sm text-neutral-600">
+          Buscador temporalmente no disponible en este dominio.
+        </p>
+        <Link
+          href={config.bookingRoute}
+          className="mt-3 inline-flex h-11 items-center justify-center rounded-lg bg-neutral-900 px-6 text-sm font-medium text-white transition hover:bg-neutral-800"
+        >
+          Ir al motor de reservas
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="gnahs-booking-widget w-full">
-      {apiBlocked && (
-        <p
-          className="mb-3 rounded border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
-          role="status"
-        >
-          El buscador no pudo conectar con GNAHS (401). Pedí a GNAHS que autorice este
-          dominio (p. ej. <code className="text-xs">localhost:3000</code> en desarrollo
-          o tu URL de producción).
-        </p>
-      )}
-
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -92,13 +98,25 @@ export function BookingWidget({ config }: Props) {
               className="c-booking-widget__item destination-component"
               {...{ "widget-label-destination": "Destinos" }}
             />
-            <div className="c-booking-widget__item dates-component dates-component-wrapper" />
-            <div className="c-booking-widget__item occupancy-component occupancy-component-container" />
+            <div
+              className="c-booking-widget__item dates-component dates-component-wrapper"
+              {...{
+                "widget-label-check-in": "Fecha de entrada",
+                "widget-label-check-out": "Fecha de salida",
+              }}
+            />
+            <div
+              className="c-booking-widget__item occupancy-component occupancy-component-container"
+              {...{ "widget-label-occupancy": "Habitaciones y personas" }}
+            />
             <div
               className="c-booking-widget__item promo-code"
               {...{ "widget-label-promocode": "Código promo" }}
             />
-            <div className="c-booking-widget__item booking-button" />
+            <div
+              className="c-booking-widget__item booking-button"
+              {...{ "widget-label-booking": "Reservar" }}
+            />
           </div>
         </div>
       </div>

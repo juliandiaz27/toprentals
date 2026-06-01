@@ -44,7 +44,72 @@
     "title": "Propiedades Destacadas"
   },
   "buildings": {
-    "title": "Nuestros edificios, por adentro."
+    "title": "Nuestros edificios, por adentro.",
+    "subtitle": "Un recorrido por los departamentos, amenities y el estilo de vida Top Rentals.",
+    "videoSrc": "",
+    "videoUrl": "",
+    "posterSrc": "",
+    "placeholder": "[ Video ]",
+    "meta": "2:45 min · Buenos Aires · Quito"
+  },
+  "corporateTeaser": {
+    "title": "Soluciones de alojamiento\npara empresas",
+    "description": "Coordinamos el alojamiento de tu equipo con la eficiencia y el profesionalismo que tu empresa necesita.",
+    "bullet1": "Múltiples departamentos en una misma torre",
+    "bullet2": "Contratos flexibles para estadías largas",
+    "bullet3": "Tarifas corporativas negociadas",
+    "ctaLabel": "Cotizar alojamiento corporativo →",
+    "ctaHref": "/corporate",
+    "imageSrc": "",
+    "imagePlaceholder": "[ Imagen Corporate ]"
+  },
+  "directBenefits": {
+    "title": "Beneficios de reservar directo con nosotros",
+    "card1Title": "Mejor tarifa garantizada",
+    "card1Text": "Beneficios exclusivos para socios. Siempre el precio más bajo.",
+    "card2Title": "Late check-out disponible",
+    "card2Text": "Sujeto a disponibilidad, sin costo adicional.",
+    "card3Title": "Atención 24 hs",
+    "card3Text": "Nuestro equipo siempre a tu disposición.",
+    "card4Title": "Confirmación inmediata",
+    "card4Text": "Sin esperas ni aprobaciones de terceros."
+  },
+  "locations": {
+    "title": "Dónde operamos",
+    "card1Title": "Buenos Aires",
+    "card1Subtitle": "+400 departamentos · 7 zonas",
+    "card1LinkLabel": "Ver propiedades →",
+    "card1Href": "/propiedades",
+    "card2Title": "Quito, Ecuador",
+    "card2Subtitle": "+100 departamentos · La Carolina",
+    "card2LinkLabel": "Ver propiedades →",
+    "card2Href": "/propiedades"
+  },
+  "investorCta": {
+    "title": "¿Sos un desarrollador o querés invertir en el sector?",
+    "devLabel": "Desarrolladores →",
+    "devHref": "/desarrolladores",
+    "invLabel": "Inversores →",
+    "invHref": "/inversores"
+  },
+  "footer": {
+    "brand": "TOP RENTALS",
+    "tagline": "Temporary Apartments · Buenos Aires · Quito",
+    "siteUrl": "toprentals.com.ar",
+    "copyright": "© 2025 Top Rentals. Todos los derechos reservados.",
+    "link1Label": "Propiedades",
+    "link1Href": "/propiedades",
+    "link2Label": "Corporativo",
+    "link2Href": "/corporate",
+    "link3Label": "Club Top Rentals",
+    "link3Href": "/club-top-rentals",
+    "link4Label": "Propietarios",
+    "link4Href": "/propietarios",
+    "link5Label": "Real Estate",
+    "link5Href": "/real-estate",
+    "instagramUrl": "https://instagram.com/",
+    "facebookUrl": "https://facebook.com/",
+    "whatsappUrl": "https://wa.me/"
   },
   "seo": {
     "title": "Top Rentals — Alquiler temporario",

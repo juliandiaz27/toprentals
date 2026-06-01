@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function AdminIndex() {
-  redirect("/admin/paginas/home");
+  redirect("/admin/paginas/home-header");
 }

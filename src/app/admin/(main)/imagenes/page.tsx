@@ -69,10 +69,17 @@ export default async function AdminImagesPage() {
   }, {});
 
   return (
-    <div className="admin-images flex flex-col gap-10">
+    <div className="admin-images flex w-full flex-col gap-10">
+      <header className="mb-2">
+        <h1 className="text-2xl font-semibold tracking-tight text-neutral-950">
+          Imágenes globales
+        </h1>
+        <p className="mt-1 text-sm text-neutral-500">
+          Archivos en <code className="text-xs">public/uploads/</code>
+        </p>
+      </header>
       <section>
-        <h1 className="text-xl font-semibold text-neutral-900">Imágenes globales</h1>
-        <p className="mt-1 text-sm text-neutral-600">
+        <p className="text-sm text-neutral-600">
           Slots técnicos (heroes compartidos, etc.). Para textos y banner de cada página usá{" "}
           <strong>Páginas → Home</strong> en el menú lateral.
         </p>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { readPageContent } from "@/lib/pageContent/storage";
+import { FormattedText } from "@/components/content/FormattedText";
 import { getNested } from "@/lib/pageContent/nested";
 
 export const dynamic = "force-dynamic";
@@ -33,17 +34,20 @@ export default async function CorporatePage() {
           className="absolute inset-0 h-full w-full object-cover opacity-40"
         />
         <div className="relative mx-auto max-w-4xl px-6 py-20">
-          <h1 className="text-3xl font-semibold md:text-4xl">{title}</h1>
+          <h1 className="text-3xl font-semibold md:text-4xl">
+            <FormattedText value={title} as="inline" />
+          </h1>
           {subtitle ? (
-            <p className="mt-4 max-w-2xl text-lg text-neutral-200">
-              {subtitle}
-            </p>
+            <FormattedText
+              value={subtitle}
+              className="mt-4 block max-w-2xl text-lg text-neutral-200"
+            />
           ) : null}
         </div>
       </section>
       <section className="mx-auto max-w-3xl px-6 py-16">
         {body ? (
-          <div className="whitespace-pre-wrap text-neutral-700">{body}</div>
+          <FormattedText value={body} className="text-neutral-700" />
         ) : (
           <p className="text-neutral-600">
             Contenido corporativo — editable desde el panel{" "}

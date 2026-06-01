@@ -1,6 +1,7 @@
 export type PageFieldType =
   | "text"
   | "textarea"
+  | "rich"
   | "image"
   | "video"
   | "url"

@@ -116,3 +116,210 @@ export function slideVideoSrc(slide: HeroSlide): string | null {
   if (slide.videoUrl) return slide.videoUrl;
   return null;
 }
+
+export type HomeBuildingsContent = {
+  title: string;
+  subtitle: string;
+  videoSrc: string;
+  videoUrl: string;
+  posterSrc: string;
+  placeholder: string;
+  meta: string;
+};
+
+export type HomeCorporateTeaserContent = {
+  title: string;
+  description: string;
+  bullets: string[];
+  ctaLabel: string;
+  ctaHref: string;
+  imageSrc: string;
+  imagePlaceholder: string;
+};
+
+export function pickHomeBuildings(raw: Record<string, unknown>): HomeBuildingsContent {
+  const b = (raw.buildings ?? {}) as Record<string, unknown>;
+  return {
+    title: String(b.title ?? "Nuestros edificios, por adentro."),
+    subtitle: String(
+      b.subtitle ??
+        "Un recorrido por los departamentos, amenities y el estilo de vida Top Rentals.",
+    ),
+    videoSrc: String(b.videoSrc ?? ""),
+    videoUrl: String(b.videoUrl ?? ""),
+    posterSrc: String(b.posterSrc ?? ""),
+    placeholder: String(b.placeholder ?? "[ Video ]"),
+    meta: String(b.meta ?? "2:45 min · Buenos Aires · Quito"),
+  };
+}
+
+export function resolveBuildingsVideoSrc(buildings: HomeBuildingsContent): string | null {
+  if (buildings.videoSrc) return buildings.videoSrc;
+  if (buildings.videoUrl) return buildings.videoUrl;
+  return null;
+}
+
+export function pickHomeCorporateTeaser(
+  raw: Record<string, unknown>,
+): HomeCorporateTeaserContent {
+  const c = (raw.corporateTeaser ?? {}) as Record<string, unknown>;
+  const bullets = c.bullets;
+  const defaultBullets = [
+    String(c.bullet1 ?? "Múltiples departamentos en una misma torre"),
+    String(c.bullet2 ?? "Contratos flexibles para estadías largas"),
+    String(c.bullet3 ?? "Tarifas corporativas negociadas"),
+  ];
+  const fromArray =
+    Array.isArray(bullets) && bullets.length > 0
+      ? bullets.map((b) => String(b))
+      : null;
+  return {
+    title: String(c.title ?? "Soluciones de alojamiento\npara empresas"),
+    description: String(
+      c.description ??
+        "Coordinamos el alojamiento de tu equipo con la eficiencia y el profesionalismo que tu empresa necesita.",
+    ),
+    bullets: fromArray ?? defaultBullets,
+    ctaLabel: String(c.ctaLabel ?? "Cotizar alojamiento corporativo →"),
+    ctaHref: String(c.ctaHref ?? "/corporate"),
+    imageSrc: String(c.imageSrc ?? ""),
+    imagePlaceholder: String(c.imagePlaceholder ?? "[ Imagen Corporate ]"),
+  };
+}
+
+export type HomeDirectBenefitCard = { title: string; text: string };
+
+export type HomeDirectBenefitsContent = {
+  title: string;
+  cards: HomeDirectBenefitCard[];
+};
+
+export type HomeLocationCard = {
+  title: string;
+  subtitle: string;
+  linkLabel: string;
+  href: string;
+};
+
+export type HomeLocationsContent = {
+  title: string;
+  locations: HomeLocationCard[];
+};
+
+export type HomeInvestorCtaContent = {
+  title: string;
+  devLabel: string;
+  devHref: string;
+  invLabel: string;
+  invHref: string;
+};
+
+export type HomeFooterLink = { label: string; href: string };
+
+export type HomeFooterContent = {
+  brand: string;
+  tagline: string;
+  siteUrl: string;
+  copyright: string;
+  links: HomeFooterLink[];
+  socialLabel: string;
+  instagramUrl: string;
+  facebookUrl: string;
+  whatsappUrl: string;
+};
+
+function pickBenefitCards(raw: Record<string, unknown>): HomeDirectBenefitCard[] {
+  const d = raw;
+  const defaults = [
+    {
+      title: "Mejor tarifa garantizada",
+      text: "Beneficios exclusivos para socios. Siempre el precio más bajo.",
+    },
+    {
+      title: "Late check-out disponible",
+      text: "Sujeto a disponibilidad, sin costo adicional.",
+    },
+    {
+      title: "Atención 24 hs",
+      text: "Nuestro equipo siempre a tu disposición.",
+    },
+    {
+      title: "Confirmación inmediata",
+      text: "Sin esperas ni aprobaciones de terceros.",
+    },
+  ];
+  return [1, 2, 3, 4].map((n, i) => ({
+    title: String(d[`card${n}Title`] ?? defaults[i]?.title ?? ""),
+    text: String(d[`card${n}Text`] ?? defaults[i]?.text ?? ""),
+  }));
+}
+
+export function pickHomeDirectBenefits(
+  raw: Record<string, unknown>,
+): HomeDirectBenefitsContent {
+  const b = (raw.directBenefits ?? {}) as Record<string, unknown>;
+  return {
+    title: String(b.title ?? "Beneficios de reservar directo con nosotros"),
+    cards: pickBenefitCards(b),
+  };
+}
+
+export function pickHomeLocations(raw: Record<string, unknown>): HomeLocationsContent {
+  const l = (raw.locations ?? {}) as Record<string, unknown>;
+  return {
+    title: String(l.title ?? "Dónde operamos"),
+    locations: [
+      {
+        title: String(l.card1Title ?? "Buenos Aires"),
+        subtitle: String(l.card1Subtitle ?? "+400 departamentos · 7 zonas"),
+        linkLabel: String(l.card1LinkLabel ?? "Ver propiedades →"),
+        href: String(l.card1Href ?? "/propiedades"),
+      },
+      {
+        title: String(l.card2Title ?? "Quito, Ecuador"),
+        subtitle: String(l.card2Subtitle ?? "+100 departamentos · La Carolina"),
+        linkLabel: String(l.card2LinkLabel ?? "Ver propiedades →"),
+        href: String(l.card2Href ?? "/propiedades"),
+      },
+    ],
+  };
+}
+
+export function pickHomeInvestorCta(raw: Record<string, unknown>): HomeInvestorCtaContent {
+  const i = (raw.investorCta ?? {}) as Record<string, unknown>;
+  return {
+    title: String(
+      i.title ?? "¿Sos un desarrollador o querés invertir en el sector?",
+    ),
+    devLabel: String(i.devLabel ?? "Desarrolladores →"),
+    devHref: String(i.devHref ?? "/desarrolladores"),
+    invLabel: String(i.invLabel ?? "Inversores →"),
+    invHref: String(i.invHref ?? "/inversores"),
+  };
+}
+
+export function pickHomeFooter(raw: Record<string, unknown>): HomeFooterContent {
+  const f = (raw.footer ?? {}) as Record<string, unknown>;
+  const defaults: HomeFooterLink[] = [
+    { label: "Propiedades", href: "/propiedades" },
+    { label: "Corporativo", href: "/corporate" },
+    { label: "Club Top Rentals", href: "/club-top-rentals" },
+    { label: "Propietarios", href: "/propietarios" },
+    { label: "Real Estate", href: "/real-estate" },
+  ];
+  const links = [1, 2, 3, 4, 5].map((n, idx) => ({
+    label: String(f[`link${n}Label`] ?? defaults[idx]?.label ?? ""),
+    href: String(f[`link${n}Href`] ?? defaults[idx]?.href ?? "#"),
+  }));
+  return {
+    brand: String(f.brand ?? "TOP RENTALS"),
+    tagline: String(f.tagline ?? "Temporary Apartments · Buenos Aires · Quito"),
+    siteUrl: String(f.siteUrl ?? "toprentals.com.ar"),
+    copyright: String(f.copyright ?? "© 2025 Top Rentals. Todos los derechos reservados."),
+    links,
+    socialLabel: String(f.socialLabel ?? "Instagram · Facebook · WhatsApp"),
+    instagramUrl: String(f.instagramUrl ?? "#"),
+    facebookUrl: String(f.facebookUrl ?? "#"),
+    whatsappUrl: String(f.whatsappUrl ?? "#"),
+  };
+}
