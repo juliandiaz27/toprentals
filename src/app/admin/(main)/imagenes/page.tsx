@@ -70,25 +70,18 @@ export default async function AdminImagesPage() {
 
   return (
     <div className="admin-images flex w-full flex-col gap-10">
-      <header className="mb-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-neutral-950">
-          Imágenes globales
-        </h1>
-        <p className="mt-1 text-sm text-neutral-500">
-          Archivos en <code className="text-xs">public/uploads/</code>
+      <header className="admin-page-header">
+        <h1>Imágenes del sitio</h1>
+        <p>
+          Archivos en <code>public/uploads/</code>. Para textos y banner del home usá las
+          pestañas de páginas (Header, Home, Footer).
         </p>
       </header>
-      <section>
-        <p className="text-sm text-neutral-600">
-          Slots técnicos (heroes compartidos, etc.). Para textos y banner de cada página usá{" "}
-          <strong>Páginas → Home</strong> en el menú lateral.
-        </p>
-      </section>
 
       {Object.entries(configByCategory).map(([category, slots]) => (
         <section key={category}>
-          <h2 className="mb-1 text-lg font-medium text-neutral-800">{category}</h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <h2 className="admin-section-title">{category}</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {slots.map((slot) => (
               <ImageUploader
                 key={slot.key}
@@ -108,10 +101,10 @@ export default async function AdminImagesPage() {
         if (rows.length === 0) return null;
         return (
           <section key={kind}>
-            <h2 className="mb-1 text-lg font-medium text-neutral-800">
+            <h2 className="admin-section-title admin-section-title--lg">
               {ENTITY_IMAGE_LABELS[kind]}
             </h2>
-            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {rows.map((row) => (
                 <EntityImageUploader
                   key={row.id}

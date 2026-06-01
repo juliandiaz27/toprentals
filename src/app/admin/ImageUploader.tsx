@@ -69,52 +69,51 @@ export function ImageUploader({
   }
 
   return (
-    <article className="admin-card flex flex-col gap-3 rounded-lg border border-neutral-200 bg-white p-4 shadow-sm">
-      <div>
-        <h3 className="text-sm font-semibold text-neutral-900">{label}</h3>
-        {hint ? <p className="mt-0.5 text-xs text-neutral-500">{hint}</p> : null}
-        <p className="mt-1 font-mono text-xs text-neutral-400">{slotKey}</p>
-      </div>
-      <div className="relative aspect-video w-full overflow-hidden rounded-md bg-neutral-100">
+    <article className="admin-image-card">
+      <div className="admin-image-card__preview">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={displayUrl}
-          alt={label}
-          className="h-full w-full object-cover"
-        />
+        <img src={displayUrl} alt={label} className="h-full w-full object-cover" />
+        {hasOverride ? <span className="admin-tag-custom">Custom</span> : null}
       </div>
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        className="text-xs"
-        onChange={onFileChange}
-        disabled={pending}
-      />
-      {error ? (
-        <p className="text-xs text-red-600" role="alert">
-          {error}
-        </p>
-      ) : null}
-      <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          onClick={handleSave}
+      <div className="admin-image-card__body">
+        <h3 className="admin-image-card__title">{label}</h3>
+        {hint ? (
+          <p className="mt-0.5 text-xs text-[var(--admin-text-dim)]">{hint}</p>
+        ) : null}
+        <p className="admin-image-card__slug">{slotKey}</p>
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          className="mt-3 w-full"
+          onChange={onFileChange}
           disabled={pending}
-          className="admin-btn-primary rounded px-3 py-1.5 text-xs font-medium text-white bg-neutral-800 disabled:opacity-50"
-        >
-          {pending ? "Guardando…" : "Guardar"}
-        </button>
-        {hasOverride ? (
+        />
+        {error ? (
+          <p className="mt-2 text-xs text-red-400" role="alert">
+            {error}
+          </p>
+        ) : null}
+        <div className="mt-3 flex flex-wrap gap-2">
           <button
             type="button"
-            onClick={handleReset}
+            onClick={handleSave}
             disabled={pending}
-            className="admin-btn-secondary rounded border border-neutral-300 px-3 py-1.5 text-xs font-medium text-neutral-700 disabled:opacity-50"
+            className="admin-btn-primary px-3 py-1.5 text-xs"
           >
-            Restablecer
+            {pending ? "Guardando…" : "Guardar"}
           </button>
-        ) : null}
+          {hasOverride ? (
+            <button
+              type="button"
+              onClick={handleReset}
+              disabled={pending}
+              className="admin-btn-secondary px-3 py-1.5 text-xs"
+            >
+              Restaurar original
+            </button>
+          ) : null}
+        </div>
       </div>
     </article>
   );

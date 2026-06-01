@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { GnahsMetasearchTracker } from "@/components/gnahs/GnahsMetasearchTracker";
 import { SiteFooter } from "@/components/home/SiteFooter";
+import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 import { readPageContent } from "@/lib/pageContent/storage";
 import { pickHomeFooter } from "@/lib/pageContent/homeTypes";
 import "./globals.css";
@@ -31,6 +32,7 @@ export default async function RootLayout({
     <html lang="es" className={`${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
         <GnahsMetasearchTracker />
+        <RevealOnScroll />
         {children}
         <SiteFooter footer={footer} />
       </body>

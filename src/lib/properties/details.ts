@@ -20,6 +20,7 @@ export type PropertyDetailExtra = {
   subtitle: string;
   tags: string[];
   pdfHref: string;
+  pdfLabel?: string;
   about: string;
   poi: string[];
   units: PropertyUnit[];
@@ -87,6 +88,7 @@ export function buildDefaultDetail(listing: PropertyListing): PropertyDetailExtr
     subtitle: `Departamentos con servicio de hotel en ${location}, ${listing.city}.`,
     tags: [listing.neighborhood, listing.city, "Servicio de hotel"].filter(Boolean),
     pdfHref: "#",
+    pdfLabel: "Descargar PDF torre",
     about: `${listing.name} forma parte de la red Top Rentals en ${listing.city}. Departamentos totalmente equipados, atención 24 hs y la flexibilidad de un alquiler temporario con estándares de hotel.${listing.address ? ` Ubicación: ${listing.address}.` : ""}`,
     poi: DEFAULT_POI_BA,
     units: DEFAULT_UNITS,
@@ -108,7 +110,8 @@ export function buildDefaultDetail(listing: PropertyListing): PropertyDetailExtr
 /** Overrides opcionales por slug (textos reales cuando el cliente los pase). */
 const PROPERTY_OVERRIDES: Partial<Record<string, Partial<PropertyDetailExtra>>> = {
   "downtown-torre-bellini": {
-    subtitle: "Estilo y confort en el corazón financiero de Buenos Aires.",
+    subtitle:
+      "Escala y confort en el corazón financiero de Buenos Aires.",
     tags: ["+270 Huéspedes", "45 Pisos", "Microcentro"],
     about:
       "Torre Bellini es el edificio insignia de Top Rentals en el microcentro porteño. Departamentos totalmente equipados con servicios de hotel, amenities de primer nivel y una ubicación estratégica para viajes de negocios y estadías prolongadas.",

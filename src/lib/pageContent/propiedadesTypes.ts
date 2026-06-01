@@ -40,7 +40,7 @@ export function pickPropiedadesFilters(raw: PageContent): PropiedadesFiltersCont
     all: f.all ?? "Todos",
     buenosAires: f.buenosAires ?? "Buenos Aires",
     ecuador: f.ecuador ?? "Ecuador",
-    disponibilidad: f.disponibilidad ?? "Disponibilidad",
+    disponibilidad: f.disponibilidad ?? "Disponible ahora",
     grupos: f.grupos ?? "Grupos",
     exclusivas: f.exclusivas ?? "Unidades exclusivas",
     barrio: f.barrio ?? "Barrio",
@@ -52,11 +52,11 @@ export function pickPropiedadesDevelopment(
 ): PropiedadesDevelopmentContent {
   const d = (raw.development ?? {}) as Record<string, string>;
   return {
-    label: d.label ?? "EN DESARROLLO",
+    label: d.label ?? "En desarrollo",
     title: d.title ?? "Top Rentals Maipú",
     description:
       d.description ??
-      "80 unidades en el centro de la ciudad. Amenities de primer nivel. Próximamente.",
+      "90 unidades en el centro de la ciudad. Amenities de primer nivel. Próximamente.",
     ctaLabel: d.ctaLabel ?? "Registrarme para recibir novedades →",
     ctaHref: d.ctaHref ?? "#",
   };

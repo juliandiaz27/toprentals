@@ -8,7 +8,12 @@ import {
   pickHomeDirectBenefits,
   pickHomeLocations,
   pickHomeInvestorCta,
+  pickHomeStats,
+  pickHomeDifferentials,
+  pickHomeFeatured,
 } from "@/lib/pageContent/homeTypes";
+import { HomeAnimatedStats } from "@/components/home/HomeAnimatedStats";
+import { HomeBelowSearchSection } from "@/components/home/HomeBelowSearchSection";
 import { getGnahsWidgetConfig } from "@/lib/gnahs/config";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { HeroBanner } from "@/components/home/HeroBanner";
@@ -33,6 +38,9 @@ export default async function Home() {
   const directBenefits = pickHomeDirectBenefits(content);
   const locations = pickHomeLocations(content);
   const investorCta = pickHomeInvestorCta(content);
+  const stats = pickHomeStats(content);
+  const differentials = pickHomeDifferentials(content);
+  const featured = pickHomeFeatured(content);
 
   return (
     <>
@@ -40,7 +48,14 @@ export default async function Home() {
       <main>
         <HeroBanner hero={hero} slides={slides} />
 
-        <HomeSearchBar config={gnahsWidget} />
+        <HomeSearchBar bookingRoute={gnahsWidget.bookingRoute} />
+
+        <HomeAnimatedStats items={stats.items} />
+
+        <HomeBelowSearchSection
+          differentials={differentials}
+          featured={featured}
+        />
 
         <div className="bg-black">
           <BuildingsTourSection content={buildings} />

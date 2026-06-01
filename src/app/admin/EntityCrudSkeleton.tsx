@@ -14,6 +14,7 @@ type FieldDef = {
 
 type Props<T extends { id: string }> = {
   title: string;
+  description?: string;
   entityLabel: string;
   items: T[];
   fields: FieldDef[];
@@ -24,6 +25,7 @@ type Props<T extends { id: string }> = {
 
 export function EntityCrudSkeleton<T extends { id: string }>({
   title,
+  description,
   entityLabel,
   items: initialItems,
   fields,
@@ -36,6 +38,8 @@ export function EntityCrudSkeleton<T extends { id: string }>({
   const [editing, setEditing] = useState<Partial<T> | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
+
+  const primaryColumn = listColumns[0]?.key;
 
   const openCreate = () => {
     const blank: Record<string, unknown> = { id: "" };
@@ -86,88 +90,92 @@ export function EntityCrudSkeleton<T extends { id: string }>({
     });
   }
 
+  function listMeta(item: T): string {
+    return listColumns
+      .slice(1)
+      .map((col) => String(item[col.key] ?? ""))
+      .filter(Boolean)
+      .join(" · ");
+  }
+
   return (
-    <div className="admin-crud flex flex-col gap-4">
-      <div className="rounded border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
-        CRUD base para <strong>{title}</strong>. Podés extenderlo como en Profesores.
-      </div>
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-neutral-600">
+    <div className="admin-crud flex flex-col gap-6">
+      <header className="admin-page-header !mb-0">
+        <h1>{title}</h1>
+        {description ? <p>{description}</p> : null}
+      </header>
+
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <p className="text-sm text-[var(--admin-text-dim)]">
           {initialItems.length} registro{initialItems.length === 1 ? "" : "s"}
         </p>
-        <button
-          type="button"
-          onClick={openCreate}
-          className="rounded bg-neutral-800 px-4 py-2 text-sm font-medium text-white"
-        >
-          Agregar
+        <button type="button" onClick={openCreate} className="admin-btn-primary">
+          + Nuevo {entityLabel}
         </button>
       </div>
+
       {error && !open ? (
-        <p className="text-sm text-red-600" role="alert">
+        <p className="admin-alert-error" role="alert">
           {error}
         </p>
       ) : null}
-      <div className="overflow-x-auto rounded-lg border border-neutral-200 bg-white">
-        <table className="w-full min-w-[400px] text-left text-sm">
-          <thead className="border-b bg-neutral-50 text-neutral-600">
-            <tr>
-              {listColumns.map((col) => (
-                <th key={String(col.key)} className="px-4 py-2 font-medium">
-                  {col.label}
-                </th>
-              ))}
-              <th className="px-4 py-2 text-right font-medium">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {initialItems.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={listColumns.length + 1}
-                  className="px-4 py-8 text-center text-neutral-500"
-                >
-                  Sin registros
-                </td>
-              </tr>
-            ) : (
-              initialItems.map((item) => (
-                <tr key={item.id} className="border-b border-neutral-100">
-                  {listColumns.map((col) => (
-                    <td key={String(col.key)} className="px-4 py-3">
-                      {String(item[col.key] ?? "")}
-                    </td>
-                  ))}
-                  <td className="px-4 py-3 text-right">
-                    <button
-                      type="button"
-                      onClick={() => openEdit(item)}
-                      className="mr-2 text-sm underline"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(item.id)}
-                      disabled={pending}
-                      className="text-sm text-red-600 underline"
-                    >
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+
+      {initialItems.length === 0 ? (
+        <p className="rounded-xl border border-dashed border-[var(--admin-border)] py-12 text-center text-sm text-[var(--admin-text-dim)]">
+          Sin registros. Creá el primero con el botón de arriba.
+        </p>
+      ) : (
+        <ul className="admin-list">
+          {initialItems.map((item) => {
+            const titleText = primaryColumn
+              ? String(item[primaryColumn] ?? item.id)
+              : item.id;
+            const visible =
+              "visible" in item ? Boolean((item as Record<string, unknown>).visible) : null;
+            return (
+              <li key={item.id} className="admin-list-card">
+                <div className="min-w-0 flex-1">
+                  <p className="admin-list-card__title">{titleText}</p>
+                  {visible === true ? (
+                    <span className="admin-list-card__badge">Visible en el sitio</span>
+                  ) : null}
+                  {listMeta(item) ? (
+                    <p className="admin-list-card__meta">{listMeta(item)}</p>
+                  ) : null}
+                </div>
+                <div className="admin-list-card__actions">
+                  <button
+                    type="button"
+                    onClick={() => openEdit(item)}
+                    className="admin-btn-ghost"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(item.id)}
+                    disabled={pending}
+                    className="admin-btn-danger"
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+
       {open && editing ? (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4">
-          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-lg bg-white p-6 shadow-xl">
-            <h2 className="text-lg font-semibold">
+        <div className="admin-modal-backdrop fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <div className="admin-modal w-full max-w-lg">
+            <p className="admin-form-section-label">
+              {editing.id ? "Editar" : "Nuevo"}
+            </p>
+            <h2 className="mt-1">
               {editing.id ? `Editar ${entityLabel}` : `Nuevo ${entityLabel}`}
             </h2>
-            <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">
+            <form onSubmit={handleSubmit} className="mt-5 grid gap-4 sm:grid-cols-2">
               <input type="hidden" name="id" value={String(editing.id ?? "")} />
               {"imageSrc" in editing ? (
                 <input
@@ -177,9 +185,16 @@ export function EntityCrudSkeleton<T extends { id: string }>({
                 />
               ) : null}
               {fields.map((f) => {
+                const span =
+                  f.type === "textarea" || f.type === "file"
+                    ? "sm:col-span-2"
+                    : "";
                 if (f.type === "checkbox") {
                   return (
-                    <label key={f.name} className="flex items-center gap-2 text-sm">
+                    <label
+                      key={f.name}
+                      className={`flex items-center gap-2 text-sm text-[var(--admin-text-muted)] ${span}`}
+                    >
                       <input
                         name={f.name}
                         type="checkbox"
@@ -194,30 +209,30 @@ export function EntityCrudSkeleton<T extends { id: string }>({
                 }
                 if (f.type === "textarea") {
                   return (
-                    <label key={f.name} className="flex flex-col gap-1 text-sm">
-                      <span className="font-medium">{f.label}</span>
+                    <label key={f.name} className={`flex flex-col gap-1.5 ${span}`}>
+                      <span className="admin-field-label">{f.label}</span>
                       <textarea
                         name={f.name}
                         rows={3}
                         defaultValue={String(
                           (editing as Record<string, unknown>)[f.name] ?? "",
                         )}
-                        className="rounded border border-neutral-300 px-3 py-2"
+                        className="admin-textarea"
                       />
                     </label>
                   );
                 }
                 if (f.type === "file") {
                   return (
-                    <label key={f.name} className="flex flex-col gap-1 text-sm">
-                      <span className="font-medium">{f.label}</span>
+                    <label key={f.name} className={`flex flex-col gap-1.5 ${span}`}>
+                      <span className="admin-field-label">{f.label}</span>
                       <input name={f.name} type="file" accept="image/*" />
                     </label>
                   );
                 }
                 return (
-                  <label key={f.name} className="flex flex-col gap-1 text-sm">
-                    <span className="font-medium">{f.label}</span>
+                  <label key={f.name} className={`flex flex-col gap-1.5 ${span}`}>
+                    <span className="admin-field-label">{f.label}</span>
                     <input
                       name={f.name}
                       type={f.type === "number" ? "number" : "text"}
@@ -225,29 +240,25 @@ export function EntityCrudSkeleton<T extends { id: string }>({
                       defaultValue={String(
                         (editing as Record<string, unknown>)[f.name] ?? "",
                       )}
-                      className="rounded border border-neutral-300 px-3 py-2"
+                      className="admin-input"
                     />
                   </label>
                 );
               })}
-              {error ? <p className="text-sm text-red-600">{error}</p> : null}
-              <div className="flex justify-end gap-2">
+              {error ? <p className="admin-alert-error sm:col-span-2">{error}</p> : null}
+              <div className="flex justify-end gap-2 sm:col-span-2">
                 <button
                   type="button"
                   onClick={() => {
                     setOpen(false);
                     setEditing(null);
                   }}
-                  className="rounded border px-4 py-2 text-sm"
+                  className="admin-btn-secondary"
                 >
                   Cancelar
                 </button>
-                <button
-                  type="submit"
-                  disabled={pending}
-                  className="rounded bg-neutral-800 px-4 py-2 text-sm text-white disabled:opacity-50"
-                >
-                  Guardar
+                <button type="submit" disabled={pending} className="admin-btn-primary">
+                  {pending ? "Guardando…" : "Guardar"}
                 </button>
               </div>
             </form>

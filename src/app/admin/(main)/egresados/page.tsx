@@ -7,10 +7,9 @@ export const dynamic = "force-dynamic";
 export default async function AdminEgresadosPage() {
   const data = await readEgresados();
   return (
-    <div>
-      <h1 className="mb-4 text-xl font-semibold">Egresados</h1>
       <EntityCrudSkeleton
         title="Egresados"
+        description="Gestioná egresados destacados y sus fotos."
         entityLabel="egresado"
         items={data.items}
         saveAction={saveEgresado}
@@ -27,6 +26,5 @@ export default async function AdminEgresadosPage() {
           { name: "image", label: "Foto", type: "file" },
         ]}
       />
-    </div>
   );
 }

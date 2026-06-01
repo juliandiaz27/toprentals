@@ -15,6 +15,8 @@ export function EntityImageUploader({ entity, id, label, currentSrc }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const inputRef = useRef<HTMLInputElement>(null);
+  const src = currentSrc || "/images/placeholders/person.svg";
+  const isCustom = Boolean(currentSrc && !currentSrc.includes("placeholders"));
 
   function handleSave() {
     const file = inputRef.current?.files?.[0];
@@ -36,37 +38,36 @@ export function EntityImageUploader({ entity, id, label, currentSrc }: Props) {
   }
 
   return (
-    <article className="admin-card flex flex-col gap-2 rounded-lg border border-neutral-200 bg-white p-3 shadow-sm">
-      <p className="text-sm font-medium text-neutral-900">{label}</p>
-      <p className="font-mono text-xs text-neutral-400">{id}</p>
-      <div className="relative aspect-square w-full overflow-hidden rounded-md bg-neutral-100">
+    <article className="admin-image-card">
+      <div className="admin-image-card__preview aspect-square">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={currentSrc || "/images/placeholders/person.svg"}
-          alt={label}
-          className="h-full w-full object-cover"
-        />
+        <img src={src} alt={label} className="h-full w-full object-cover" />
+        {isCustom ? <span className="admin-tag-custom">Custom</span> : null}
       </div>
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        className="text-xs"
-        disabled={pending}
-      />
-      {error ? (
-        <p className="text-xs text-red-600" role="alert">
-          {error}
-        </p>
-      ) : null}
-      <button
-        type="button"
-        onClick={handleSave}
-        disabled={pending}
-        className="admin-btn-primary self-start rounded px-3 py-1.5 text-xs font-medium text-white bg-neutral-800 disabled:opacity-50"
-      >
-        {pending ? "Subiendo…" : "Guardar foto"}
-      </button>
+      <div className="admin-image-card__body">
+        <h3 className="admin-image-card__title">{label}</h3>
+        <p className="admin-image-card__slug">{id}</p>
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          className="mt-3 w-full"
+          disabled={pending}
+        />
+        {error ? (
+          <p className="mt-2 text-xs text-red-400" role="alert">
+            {error}
+          </p>
+        ) : null}
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={pending}
+          className="admin-btn-primary mt-3 px-3 py-1.5 text-xs"
+        >
+          {pending ? "Subiendo…" : "Guardar foto"}
+        </button>
+      </div>
     </article>
   );
 }

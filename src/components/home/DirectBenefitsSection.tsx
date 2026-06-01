@@ -7,7 +7,7 @@ type Props = {
 
 export function DirectBenefitsSection({ content }: Props) {
   return (
-    <section className="bg-white px-6 py-16 sm:px-8 lg:px-16 lg:py-20">
+    <section data-reveal className="bg-white px-6 py-16 sm:px-8 lg:px-16 lg:py-20">
       <div className="mx-auto w-full max-w-[1440px]">
         <h2 className="text-left text-[clamp(1.5rem,2.8vw,2rem)] font-bold leading-tight text-neutral-950">
           <FormattedText value={content.title} as="inline" />

@@ -69,127 +69,108 @@ export function ProfesoresManager({ initialItems }: Props) {
   }
 
   return (
-    <div className="admin-crud flex flex-col gap-4">
-      <div className="flex items-center justify-between gap-4">
-        <p className="text-sm text-neutral-600">
+    <div className="admin-crud flex flex-col gap-6">
+      <header className="admin-page-header !mb-0">
+        <h1>Profesores</h1>
+        <p>Gestioná el listado de profesores y sus fotos.</p>
+      </header>
+
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <p className="text-sm text-[var(--admin-text-dim)]">
           {initialItems.length} profesor{initialItems.length === 1 ? "" : "es"}
         </p>
-        <button
-          type="button"
-          onClick={openCreate}
-          className="admin-btn-primary rounded bg-neutral-800 px-4 py-2 text-sm font-medium text-white"
-        >
-          Agregar
+        <button type="button" onClick={openCreate} className="admin-btn-primary">
+          + Nuevo profesor
         </button>
       </div>
 
       {error && !open ? (
-        <p className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
+        <p className="admin-alert-error" role="alert">
           {error}
         </p>
       ) : null}
 
-      <div className="overflow-x-auto rounded-lg border border-neutral-200 bg-white">
-        <table className="admin-table w-full min-w-[480px] text-left text-sm">
-          <thead className="border-b border-neutral-200 bg-neutral-50 text-neutral-600">
-            <tr>
-              <th className="px-4 py-2 font-medium">Nombre</th>
-              <th className="px-4 py-2 font-medium">Rol</th>
-              <th className="px-4 py-2 font-medium">ID</th>
-              <th className="px-4 py-2 font-medium text-right">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {initialItems.length === 0 ? (
-              <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-neutral-500">
-                  No hay profesores. Agregá el primero.
-                </td>
-              </tr>
-            ) : (
-              initialItems.map((p) => (
-                <tr key={p.id} className="border-b border-neutral-100 last:border-0">
-                  <td className="px-4 py-3 font-medium text-neutral-900">{p.name}</td>
-                  <td className="px-4 py-3 text-neutral-600">{p.role}</td>
-                  <td className="px-4 py-3 font-mono text-xs text-neutral-400">{p.id}</td>
-                  <td className="px-4 py-3 text-right">
-                    <button
-                      type="button"
-                      onClick={() => openEdit(p)}
-                      className="mr-2 text-sm text-neutral-700 underline"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(p.id, p.name)}
-                      disabled={pending}
-                      className="text-sm text-red-600 underline disabled:opacity-50"
-                    >
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      {initialItems.length === 0 ? (
+        <p className="rounded-xl border border-dashed border-[var(--admin-border)] py-12 text-center text-sm text-[var(--admin-text-dim)]">
+          No hay profesores. Agregá el primero.
+        </p>
+      ) : (
+        <ul className="admin-list">
+          {initialItems.map((p) => (
+            <li key={p.id} className="admin-list-card">
+              <div className="min-w-0 flex-1">
+                <p className="admin-list-card__title">{p.name}</p>
+                <p className="admin-list-card__meta">
+                  {p.role} · <span className="font-mono text-xs">{p.id}</span>
+                </p>
+              </div>
+              <div className="admin-list-card__actions">
+                <button type="button" onClick={() => openEdit(p)} className="admin-btn-ghost">
+                  Editar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(p.id, p.name)}
+                  disabled={pending}
+                  className="admin-btn-danger"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
 
       {open && editing ? (
-        <div className="admin-modal-backdrop fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4">
+        <div className="admin-modal-backdrop fixed inset-0 z-[60] flex items-center justify-center p-4">
           <div
-            className="admin-modal w-full max-w-md rounded-lg bg-white p-6 shadow-xl"
+            className="admin-modal w-full max-w-md"
             role="dialog"
             aria-modal="true"
             aria-labelledby="prof-form-title"
           >
-            <h2 id="prof-form-title" className="text-lg font-semibold text-neutral-900">
+            <p className="admin-form-section-label">
+              {editing.id ? "Editar" : "Nuevo"}
+            </p>
+            <h2 id="prof-form-title" className="mt-1">
               {editing.id ? "Editar profesor" : "Nuevo profesor"}
             </h2>
-            <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">
+            <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-4">
               <input type="hidden" name="id" value={editing.id} />
               <input type="hidden" name="imageSrc" value={editing.imageSrc} />
-              <label className="flex flex-col gap-1 text-sm">
-                <span className="font-medium text-neutral-700">Nombre</span>
+              <label className="flex flex-col gap-1.5">
+                <span className="admin-field-label">Nombre</span>
                 <input
                   name="name"
                   required
                   defaultValue={editing.name}
-                  className="rounded border border-neutral-300 px-3 py-2"
+                  className="admin-input"
                 />
               </label>
-              <label className="flex flex-col gap-1 text-sm">
-                <span className="font-medium text-neutral-700">Rol / cargo</span>
+              <label className="flex flex-col gap-1.5">
+                <span className="admin-field-label">Rol / cargo</span>
                 <input
                   name="role"
                   required
                   defaultValue={editing.role}
-                  className="rounded border border-neutral-300 px-3 py-2"
+                  className="admin-input"
                 />
               </label>
-              <label className="flex flex-col gap-1 text-sm">
-                <span className="font-medium text-neutral-700">Foto (opcional)</span>
-                <input name="image" type="file" accept="image/*" className="text-xs" />
+              <label className="flex flex-col gap-1.5">
+                <span className="admin-field-label">Foto (opcional)</span>
+                <input name="image" type="file" accept="image/*" />
               </label>
               {error ? (
-                <p className="text-sm text-red-600" role="alert">
+                <p className="admin-alert-error" role="alert">
                   {error}
                 </p>
               ) : null}
-              <div className="mt-2 flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={closePanel}
-                  className="rounded border border-neutral-300 px-4 py-2 text-sm"
-                >
+              <div className="flex justify-end gap-2">
+                <button type="button" onClick={closePanel} className="admin-btn-secondary">
                   Cancelar
                 </button>
-                <button
-                  type="submit"
-                  disabled={pending}
-                  className="rounded bg-neutral-800 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-                >
+                <button type="submit" disabled={pending} className="admin-btn-primary">
                   {pending ? "Guardando…" : "Guardar"}
                 </button>
               </div>

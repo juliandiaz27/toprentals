@@ -4,35 +4,33 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const TABS = [
-  { href: "/admin", label: "Imágenes", exact: true },
-  { href: "/admin/profesores", label: "Profesores" },
-  { href: "/admin/egresados", label: "Egresados" },
-  { href: "/admin/carreras", label: "Carreras" },
-  { href: "/admin/postitulos", label: "Postítulos" },
-  { href: "/admin/cursos", label: "Cursos" },
-  { href: "/admin/beneficios", label: "Beneficios" },
+  { href: "/admin/imagenes", label: "Imágenes", icon: "🖼" },
+  { href: "/admin/profesores", label: "Profesores", icon: "👤" },
+  { href: "/admin/egresados", label: "Egresados", icon: "🎓" },
+  { href: "/admin/carreras", label: "Carreras", icon: "📋" },
+  { href: "/admin/postitulos", label: "Postítulos", icon: "📄" },
+  { href: "/admin/cursos", label: "Cursos", icon: "📚" },
+  { href: "/admin/beneficios", label: "Beneficios", icon: "✦" },
 ] as const;
+
+function isTabActive(pathname: string, href: string): boolean {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 export function AdminNav() {
   const pathname = usePathname() ?? "";
 
   return (
-    <nav className="admin-nav flex flex-wrap gap-1 border-b border-neutral-200 px-4">
+    <nav className="admin-tabs" aria-label="Secciones del panel">
       {TABS.map((tab) => {
-        const active =
-          "exact" in tab && tab.exact
-            ? pathname === tab.href
-            : pathname.startsWith(tab.href);
+        const active = isTabActive(pathname, tab.href);
         return (
           <Link
             key={tab.href}
             href={tab.href}
-            className={`admin-nav-tab px-3 py-2 text-sm font-medium border-b-2 -mb-px transition-colors ${
-              active
-                ? "border-neutral-900 text-neutral-900"
-                : "border-transparent text-neutral-500 hover:text-neutral-800"
-            }`}
+            className={`admin-tab ${active ? "admin-tab--active" : ""}`}
           >
+            <span aria-hidden>{tab.icon}</span>
             {tab.label}
           </Link>
         );

@@ -26,7 +26,7 @@ export function CorporateTeaserSection({ content }: Props) {
   const { text: ctaText, showArrow } = ctaParts(content.ctaLabel);
 
   return (
-    <section className="bg-[#111111] px-6 py-20 text-white sm:px-10 lg:px-16 lg:py-24">
+    <section data-reveal className="bg-[#111111] px-6 py-20 text-white sm:px-10 lg:px-16 lg:py-24">
       <div className="mx-auto grid w-full max-w-[1440px] items-center gap-12 lg:grid-cols-2 lg:gap-[80px]">
         <div className="flex flex-col justify-center lg:py-4">
           <h2 className="text-[2rem] font-bold leading-[1.08] tracking-[-0.02em] sm:text-[2.25rem] lg:text-[2.75rem] lg:leading-[1.1]">

@@ -18,11 +18,12 @@ type Props = {
   onChange: (id: PropertyFilterId) => void;
 };
 
+/** Orden alineado al wireframe: ciudades y disponibilidad primero. */
 const CHIP_ORDER: PropertyFilterId[] = [
-  "all",
   "buenos-aires",
   "ecuador",
   "disponibilidad",
+  "all",
   "grupos",
   "exclusivas",
   "barrio",
@@ -51,22 +52,20 @@ export function PropertiesFilters({ labels, active, onChange }: Props) {
   };
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {CHIP_ORDER.map((id) => {
         const isActive = active === id;
-        const isPlaceholder = ["disponibilidad", "grupos", "exclusivas", "barrio"].includes(
-          id,
-        );
         return (
           <button
             key={id}
             type="button"
             onClick={() => onChange(id)}
-            className={`rounded-full px-4 py-2 text-[13px] font-medium transition ${
+            aria-pressed={isActive}
+            className={`shrink-0 rounded-full px-4 py-2.5 text-[13px] font-medium transition-colors ${
               isActive
                 ? "bg-neutral-950 text-white"
                 : "bg-neutral-100 text-neutral-800 hover:bg-neutral-200"
-            } ${isPlaceholder && !isActive ? "opacity-90" : ""}`}
+            }`}
           >
             {labelMap[id]}
           </button>

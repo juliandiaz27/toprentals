@@ -1,1 +1,117 @@
-{}
+{
+  "hero": {
+    "label": "CORPORATIVO",
+    "title": "Alojamiento corporativo sin complicaciones.",
+    "subtitle": "Soluciones de alojamiento profesional para empresas, equipos en movimiento y proyectos flexibles.",
+    "ctaPrimaryLabel": "Acceso corporativo →",
+    "ctaPrimaryHref": "#acceso-corporativo",
+    "ctaSecondaryLabel": "Cotizar alojamiento →",
+    "ctaSecondaryHref": "#acceso-corporativo",
+    "imageSrc": "/images/corporate/corporate-teaser.png",
+    "features": [
+      "Múltiples depts. en una misma torre",
+      "Contratos flexibles y estadías largas",
+      "Tarifas corporativas negociadas",
+      "Soporte dedicado 24/7"
+    ]
+  },
+  "designedFor": {
+    "title": "Diseñado para equipos que viajan",
+    "intro": "Top Rentals Corporate está pensado para:",
+    "items": [
+      "Empresas con equipos en movimiento",
+      "Relocaciones de corta y larga estadía",
+      "Agencias mayoristas de viajes",
+      "Programas de jóvenes profesionales y grupos universitarios"
+    ],
+    "closing": "Todo con un estándar consistente y sin la fricción de alquileres informales."
+  },
+  "features": {
+    "title": "Más que un departamento",
+    "items": [
+      {
+        "title": "Departamentos totalmente equipados",
+        "text": "Listos para vivir y trabajar desde el primer día."
+      },
+      {
+        "title": "Ubicaciones estratégicas",
+        "text": "Cerca de polos corporativos y zonas clave."
+      },
+      {
+        "title": "Estándar hotelero",
+        "text": "Limpieza profesional, ropa blanca y soporte."
+      },
+      {
+        "title": "Flexibilidad total",
+        "text": "Estadías cortas, medias o prolongadas."
+      }
+    ]
+  },
+  "benefits": {
+    "title": "Beneficios exclusivos para empresas",
+    "leftColumn": [
+      "Tarifas corporativas preferenciales",
+      "Condiciones flexibles según volumen y duración.",
+      "Facturación clara y centralizada"
+    ],
+    "rightColumn": [
+      "Gestión simple de múltiples reservas",
+      "Atención personalizada.",
+      "Ejecutivo corporate dedicado para tu cuenta.",
+      "Servicios adicionales a medida."
+    ],
+    "closing": "Todo gestionado desde una cuenta corporativa única."
+  },
+  "howItWorks": {
+    "title": "Cómo funciona Top Rentals Corporate",
+    "steps": [
+      {
+        "title": "Solicitud de cuenta",
+        "text": "Completá el formulario de acceso corporativo."
+      },
+      {
+        "title": "Activación personalizada",
+        "text": "Nuestro equipo valida la cuenta, asigna tarifas especiales y designa un ejecutivo corporate dedicado."
+      },
+      {
+        "title": "Reservas simples",
+        "text": "Accedé al catálogo completo con precios corporativos y soporte directo para cada reserva."
+      },
+      {
+        "title": "Gestión centralizada",
+        "text": "Control de reservas, estadías y facturación con acompañamiento personalizado."
+      }
+    ]
+  },
+  "spaces": {
+    "title": "Espacios para reuniones y eventos corporativos",
+    "subtitle": "Soluciones flexibles para encuentros profesionales, reuniones privadas y eventos empresariales.",
+    "cards": [
+      "Espacios de cowork",
+      "Salas de reuniones privadas premium",
+      "Auditorios para eventos y presentaciones"
+    ]
+  },
+  "destinations": {
+    "title": "Destinos disponibles",
+    "items": [
+      {
+        "title": "Buenos Aires",
+        "text": "Departamentos ubicados en zonas estratégicas para negocios, con fácil acceso a polos corporativos."
+      },
+      {
+        "title": "Ecuador",
+        "text": "Soluciones prácticas para estadías laborales, proyectos temporales y equipos en movimiento."
+      }
+    ]
+  },
+  "access": {
+    "title": "Acceso Corporativo",
+    "loginQuestion": "¿Ya sos cliente corporate?",
+    "loginDescription": "Ingresá a tu cuenta y reservá con tarifas corporativas.",
+    "loginCtaLabel": "Acceso corporativo →",
+    "loginCtaHref": "#",
+    "formTitle": "Solicitar acceso corporate",
+    "formSubmitLabel": "Solicitar información →"
+  }
+}

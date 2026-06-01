@@ -37,28 +37,29 @@ export default async function PropiedadesPage() {
     <>
       <SiteHeader header={header} />
       <main className="bg-white">
-        <div className="mx-auto max-w-[1440px] px-6 pb-20 pt-10 lg:px-12 lg:pt-14">
+        <div
+          data-reveal
+          className="mx-auto w-full max-w-[1440px] px-6 pt-10 pb-0 lg:px-12 lg:pt-14"
+        >
           <header className="max-w-3xl">
-            <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight text-neutral-950">
+            <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight tracking-tight text-neutral-950">
               {hero.title}
             </h1>
             {hero.subtitle ? (
-              <p className="mt-4 text-base leading-relaxed text-neutral-600 lg:text-lg">
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-600 lg:text-lg">
                 {hero.subtitle}
               </p>
             ) : null}
           </header>
-
-          <div className="relative z-40 mt-10">
-            <PropertiesSearchBar config={gnahsWidget} />
-          </div>
-
-          <div className="relative z-0 mt-8">
-            <PropertiesGrid filterLabels={filters} />
-          </div>
-
-          <PropertiesDevelopment content={development} />
         </div>
+
+        <div className="mt-10">
+          <PropertiesSearchBar config={gnahsWidget} />
+        </div>
+
+        <PropertiesGrid filterLabels={filters} />
+
+        <PropertiesDevelopment content={development} />
       </main>
       {homeHero.whatsappEnabled && homeHero.whatsappUrl ? (
         <WhatsAppFab url={homeHero.whatsappUrl} />

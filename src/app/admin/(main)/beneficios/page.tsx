@@ -7,10 +7,9 @@ export const dynamic = "force-dynamic";
 export default async function AdminBeneficiosPage() {
   const data = await readBeneficios();
   return (
-    <div>
-      <h1 className="mb-4 text-xl font-semibold">Beneficios</h1>
       <EntityCrudSkeleton
         title="Beneficios"
+        description="Gestioná beneficios y descuentos visibles en el sitio."
         entityLabel="beneficio"
         items={data.items}
         saveAction={saveBeneficio}
@@ -28,6 +27,5 @@ export default async function AdminBeneficiosPage() {
           { name: "image", label: "Imagen", type: "file" },
         ]}
       />
-    </div>
   );
 }

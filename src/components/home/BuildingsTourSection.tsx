@@ -38,7 +38,7 @@ export function BuildingsTourSection({ content }: Props) {
   };
 
   return (
-    <section className="bg-black px-6 pb-0 pt-16 text-white sm:px-8 lg:px-16 lg:pt-20">
+    <section data-reveal className="bg-black px-6 pb-0 pt-16 text-white sm:px-8 lg:px-16 lg:pt-20">
       <div className="mx-auto w-full max-w-[1440px]">
         <header className="text-center">
           <h2 className="text-[clamp(1.875rem,3.5vw,2.75rem)] font-bold leading-[1.12] tracking-tight">

@@ -137,6 +137,84 @@ export type HomeCorporateTeaserContent = {
   imagePlaceholder: string;
 };
 
+export type HomeStatItem = { value: string; label: string };
+
+export type HomeStatsContent = {
+  items: HomeStatItem[];
+};
+
+export type HomeDifferentialCard = {
+  title: string;
+  text: string;
+};
+
+export type HomeDifferentialsContent = {
+  title: string;
+  cards: HomeDifferentialCard[];
+};
+
+export type HomeFeaturedContent = {
+  title: string;
+  linkLabel: string;
+  linkHref: string;
+};
+
+export function pickHomeStats(raw: Record<string, unknown>): HomeStatsContent {
+  const s = (raw.stats ?? {}) as Record<string, string>;
+  return {
+    items: [
+      { value: String(s.label1 ?? "+100"), label: String(s.text1 ?? "Personas en el equipo") },
+      {
+        value: String(s.label2 ?? "+100"),
+        label: String(s.text2 ?? "Departamentos en operación"),
+      },
+      {
+        value: String(s.label3 ?? "+600"),
+        label: String(s.text3 ?? "empresas alojadas por año"),
+      },
+      { value: String(s.label4 ?? "10"), label: String(s.text4 ?? "años de operación") },
+    ],
+  };
+}
+
+export function pickHomeDifferentials(
+  raw: Record<string, unknown>,
+): HomeDifferentialsContent {
+  const d = (raw.differentials ?? {}) as Record<string, string>;
+  return {
+    title: String(d.title ?? "Nuestros diferenciales"),
+    cards: [
+      {
+        title: String(d.card1Title ?? "Limpieza profesional"),
+        text: String(
+          d.card1Text ?? "Estándares de hotel en cada departamento",
+        ),
+      },
+      {
+        title: String(d.card2Title ?? "Propuesta estandarizada"),
+        text: String(
+          d.card2Text ?? "Calidad consistente en cada propiedad",
+        ),
+      },
+      {
+        title: String(d.card3Title ?? "Ubicaciones estratégicas"),
+        text: String(
+          d.card3Text ?? "Edificios completos en zonas clave",
+        ),
+      },
+    ],
+  };
+}
+
+export function pickHomeFeatured(raw: Record<string, unknown>): HomeFeaturedContent {
+  const f = (raw.featured ?? {}) as Record<string, string>;
+  return {
+    title: String(f.title ?? "Propiedades"),
+    linkLabel: String(f.linkLabel ?? "Ver todas →"),
+    linkHref: String(f.linkHref ?? "/propiedades"),
+  };
+}
+
 export function pickHomeBuildings(raw: Record<string, unknown>): HomeBuildingsContent {
   const b = (raw.buildings ?? {}) as Record<string, unknown>;
   return {

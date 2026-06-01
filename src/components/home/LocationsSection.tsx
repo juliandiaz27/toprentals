@@ -8,7 +8,7 @@ type Props = {
 
 export function LocationsSection({ content }: Props) {
   return (
-    <section className="border-y border-[#D0D0D0] bg-[#F8F8F8] px-6 py-16 sm:px-8 lg:px-16 lg:py-20">
+    <section data-reveal className="border-y border-[#D0D0D0] bg-[#F8F8F8] px-6 py-16 sm:px-8 lg:px-16 lg:py-20">
       <div className="mx-auto w-full max-w-[1440px]">
         <h2 className="text-[clamp(1.5rem,2.8vw,2rem)] font-bold leading-tight text-neutral-950">
           <FormattedText value={content.title} as="inline" />

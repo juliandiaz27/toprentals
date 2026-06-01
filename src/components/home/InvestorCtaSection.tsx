@@ -22,7 +22,7 @@ export function InvestorCtaSection({ content }: Props) {
   const inv = splitArrow(content.invLabel);
 
   return (
-    <section className="bg-white px-6 py-16 sm:px-8 lg:px-16 lg:py-20">
+    <section data-reveal className="bg-white px-6 py-16 sm:px-8 lg:px-16 lg:py-20">
       <div className="mx-auto w-full max-w-[1440px]">
         <h2 className="max-w-3xl text-[clamp(1.375rem,2.5vw,1.75rem)] font-bold leading-snug text-neutral-950">
           <FormattedText value={content.title} as="inline" />

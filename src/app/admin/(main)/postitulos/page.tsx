@@ -18,10 +18,9 @@ const programFields = [
 export default async function AdminPostitulosPage() {
   const data = await readPostitulos();
   return (
-    <div>
-      <h1 className="mb-4 text-xl font-semibold">Postítulos</h1>
       <EntityCrudSkeleton
         title="Postítulos"
+        description="Gestioná postítulos: contenido, imágenes y visibilidad."
         entityLabel="postítulo"
         items={data.items}
         saveAction={savePostitulo}
@@ -33,6 +32,5 @@ export default async function AdminPostitulosPage() {
         ]}
         fields={programFields}
       />
-    </div>
   );
 }

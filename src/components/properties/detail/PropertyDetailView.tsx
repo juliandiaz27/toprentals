@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { PropertyDetail } from "@/lib/properties/details";
 import { getRelatedProperties } from "@/lib/properties/details";
 import { PropertyCard } from "@/components/properties/PropertyCard";
-import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
+import { PropertyDetailHero } from "@/components/properties/detail/PropertyDetailHero";
 
 type Props = {
   property: PropertyDetail;
@@ -14,55 +14,13 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
 
   return (
     <main className="bg-white">
-      <div className="mx-auto max-w-[1440px] px-6 pb-16 pt-8 lg:px-12 lg:pt-10">
-        <nav className="text-[13px] text-neutral-500" aria-label="Miga de pan">
-          <Link href="/" className="hover:text-neutral-950">
-            Inicio
-          </Link>
-          <span className="mx-2">/</span>
-          <Link href="/propiedades" className="hover:text-neutral-950">
-            Propiedades
-          </Link>
-          <span className="mx-2">/</span>
-          <span className="text-neutral-800">{property.name}</span>
-        </nav>
+      <PropertyDetailHero property={property} whatsappUrl={whatsappUrl} />
 
-        <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-3xl">
-            <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight text-neutral-950">
-              {property.name}
-            </h1>
-            <ul className="mt-4 flex flex-wrap gap-2">
-              {property.tags.map((tag) => (
-                <li
-                  key={tag}
-                  className="rounded-full bg-neutral-100 px-3 py-1 text-[13px] font-medium text-neutral-800"
-                >
-                  {tag}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="flex shrink-0 flex-col items-start gap-3 lg:items-end">
-            <a
-              href={property.pdfHref}
-              className="text-[14px] font-medium text-neutral-950 underline-offset-2 hover:underline"
-            >
-              Descargar PDF ficha
-            </a>
-          </div>
-        </div>
-
-        <p className="mt-6 max-w-2xl text-lg text-neutral-600">{property.subtitle}</p>
-
-        <Link
-          href="/reservas"
-          className="mt-6 inline-flex h-11 items-center justify-center rounded-lg bg-neutral-950 px-6 text-[14px] font-medium text-white hover:bg-neutral-800"
+      <div className="mx-auto max-w-[1440px] px-6 pb-16 pt-10 lg:px-12 lg:pt-12">
+        <div
+          data-reveal
+          className="grid gap-3 rounded-lg border border-neutral-200 bg-white p-4 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-end lg:gap-4"
         >
-          Consultar disponibilidad
-        </Link>
-
-        <div className="mt-10 grid gap-3 rounded-lg border border-neutral-200 bg-white p-4 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-end lg:gap-4">
           {[
             { label: "ENTRADA", placeholder: "Fecha" },
             { label: "SALIDA", placeholder: "Fecha" },
@@ -86,13 +44,47 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
           </Link>
         </div>
 
-        <div className="mt-10 grid gap-3 lg:grid-cols-[1.2fr_1fr] lg:grid-rows-2 lg:gap-4">
-          <div className="min-h-[280px] rounded-lg bg-neutral-200 lg:row-span-2 lg:min-h-[360px]" />
-          <div className="min-h-[160px] rounded-lg bg-neutral-200" />
-          <div className="min-h-[160px] rounded-lg bg-neutral-200" />
+        <div
+          data-reveal
+          className="mt-10 grid gap-3 lg:grid-cols-[1.2fr_1fr] lg:grid-rows-2 lg:gap-4"
+        >
+          {property.imageSrc ? (
+            <>
+              <div className="relative min-h-[280px] overflow-hidden rounded-lg bg-neutral-200 lg:row-span-2 lg:min-h-[360px]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={property.imageSrc}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+              <div className="relative min-h-[160px] overflow-hidden rounded-lg bg-neutral-200">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={property.imageSrc}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+              <div className="relative min-h-[160px] overflow-hidden rounded-lg bg-neutral-200">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={property.imageSrc}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="min-h-[280px] rounded-lg bg-neutral-200 lg:row-span-2 lg:min-h-[360px]" />
+              <div className="min-h-[160px] rounded-lg bg-neutral-200" />
+              <div className="min-h-[160px] rounded-lg bg-neutral-200" />
+            </>
+          )}
         </div>
 
-        <section className="mt-16 grid gap-10 lg:grid-cols-2 lg:gap-12">
+        <section data-reveal className="mt-16 grid gap-10 lg:grid-cols-2 lg:gap-12">
           <div>
             <h2 className="text-xl font-bold text-neutral-950">Sobre el edificio</h2>
             <p className="mt-4 text-[15px] leading-relaxed text-neutral-600">
@@ -109,7 +101,7 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
           </div>
         </section>
 
-        <section className="mt-16">
+        <section data-reveal className="mt-16">
           <h2 className="text-xl font-bold text-neutral-950">Unidades disponibles</h2>
           <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {property.units.map((unit) => (
@@ -141,7 +133,7 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
         </section>
       </div>
 
-      <section className="bg-neutral-950 px-6 py-10 text-white lg:px-12">
+      <section data-reveal className="bg-neutral-950 px-6 py-10 text-white lg:px-12">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-lg font-semibold lg:text-xl">{property.groupsHeadline}</p>
           <Link
@@ -164,7 +156,7 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
       </section>
 
       {related.length > 0 ? (
-        <section className="mx-auto max-w-[1440px] px-6 py-16 lg:px-12">
+        <section data-reveal className="mx-auto max-w-[1440px] px-6 py-16 lg:px-12">
           <h2 className="text-xl font-bold text-neutral-950">Otras propiedades</h2>
           <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((p) => (
@@ -176,7 +168,7 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
         </section>
       ) : null}
 
-      <section className="bg-neutral-950 px-6 py-10 lg:px-12">
+      <section data-reveal className="bg-neutral-950 px-6 py-10 lg:px-12">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-lg font-semibold text-white lg:text-xl">
             {property.finalCtaTitle}
@@ -190,7 +182,6 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
         </div>
       </section>
 
-      {whatsappUrl ? <WhatsAppFab url={whatsappUrl} /> : null}
     </main>
   );
 }

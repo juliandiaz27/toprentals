@@ -8,15 +8,15 @@
     "all": "Todos",
     "buenosAires": "Buenos Aires",
     "ecuador": "Ecuador",
-    "disponibilidad": "Disponibilidad",
+    "disponibilidad": "Disponible ahora",
     "grupos": "Grupos",
     "exclusivas": "Unidades exclusivas",
     "barrio": "Barrio"
   },
   "development": {
-    "label": "EN DESARROLLO",
+    "label": "En desarrollo",
     "title": "Top Rentals Maipú",
-    "description": "80 unidades en el centro de la ciudad. Amenities de primer nivel. Próximamente.",
+    "description": "90 unidades en el centro de la ciudad. Amenities de primer nivel. Próximamente.",
     "ctaLabel": "Registrarme para recibir novedades →",
     "ctaHref": "#"
   }

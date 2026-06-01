@@ -20,7 +20,7 @@ function MyBookingParamsScript() {
 
 export default function MisReservasPage() {
   return (
-    <main className="mx-auto w-full max-w-7xl px-4 py-8 lg:px-8">
+    <main data-reveal className="mx-auto w-full max-w-7xl px-4 py-8 lg:px-8">
       <h1 className="sr-only">Mis reservas</h1>
       <MyBookingParamsScript />
       <div

@@ -61,12 +61,12 @@ function FieldControl({
         <span className="admin-field-label">{field.label}</span>
         {field.hint ? <span className="admin-field-hint">{field.hint}</span> : null}
         {field.type === "image" ? (
-          <div className="relative aspect-[21/9] max-w-xl overflow-hidden rounded-lg border border-neutral-200 bg-neutral-100">
+          <div className="relative aspect-[21/9] max-w-xl overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-raised)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={src} alt="" className="h-full w-full object-cover" />
           </div>
         ) : strValue ? (
-          <p className="font-mono text-xs text-neutral-500">{strValue}</p>
+          <p className="font-mono text-xs text-[var(--admin-text-dim)]">{strValue}</p>
         ) : null}
         <input type="hidden" name={field.key} defaultValue={strValue} />
         <input
@@ -115,16 +115,16 @@ function FieldControl({
   if (field.type === "boolean") {
     return (
       <label
-        className={`flex items-center gap-3 rounded-lg border border-neutral-200 bg-neutral-50 px-4 py-3 ${fieldSpan(field)}`}
+        className={`flex items-center gap-3 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-raised)] px-4 py-3 ${fieldSpan(field)}`}
       >
         <input
           type="checkbox"
           name={field.key}
           defaultChecked={value === true}
           value="on"
-          className="h-4 w-4 rounded border-neutral-300"
+          className="h-4 w-4"
         />
-        <span className="text-sm font-medium text-neutral-700">{field.label}</span>
+        <span className="text-sm font-medium text-[var(--admin-text-muted)]">{field.label}</span>
       </label>
     );
   }
@@ -210,19 +210,17 @@ export function PageEditor({ definition, content }: Props) {
     <form onSubmit={handleSubmit} className="page-editor w-full">
       <div className="admin-sticky-toolbar flex flex-wrap items-center justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold tracking-tight text-neutral-950">
-            {definition.title}
-          </h1>
+          <h1>{definition.title}</h1>
           {definition.description ? (
-            <p className="mt-1 text-sm text-neutral-500">{definition.description}</p>
+            <p className="mt-1 text-sm">{definition.description}</p>
           ) : null}
-          <p className="mt-1 text-xs text-neutral-400">
+          <p className="mt-1 text-xs text-[var(--admin-text-dim)]">
             Ruta:{" "}
             <a
               href={definition.publicPath}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-neutral-600 underline-offset-2 hover:underline"
+              className="font-medium underline-offset-2 hover:underline"
             >
               {definition.publicPath}
             </a>
@@ -235,14 +233,14 @@ export function PageEditor({ definition, content }: Props) {
 
       {error ? (
         <p
-          className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+          className="admin-alert-error mb-6"
           role="alert"
         >
           {error}
         </p>
       ) : null}
       {success ? (
-        <p className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+        <p className="admin-alert-success mb-6">
           Cambios guardados correctamente.
         </p>
       ) : null}
@@ -261,7 +259,7 @@ export function PageEditor({ definition, content }: Props) {
         ))}
       </div>
 
-      <div className="mt-8 flex justify-end border-t border-neutral-200 pt-6">
+      <div className="mt-8 flex justify-end border-t border-[var(--admin-border)] pt-6">
         <button type="submit" disabled={pending} className="admin-btn-primary">
           {pending ? "Guardando…" : "Guardar cambios"}
         </button>

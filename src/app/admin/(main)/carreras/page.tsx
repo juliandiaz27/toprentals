@@ -19,10 +19,9 @@ const programFields = [
 export default async function AdminCarrerasPage() {
   const data = await readCarreras();
   return (
-    <div>
-      <h1 className="mb-4 text-xl font-semibold">Carreras</h1>
-      <EntityCrudSkeleton
+    <EntityCrudSkeleton
         title="Carreras"
+        description="Gestioná las carreras: contenido, imágenes, visibilidad y datos de inscripción."
         entityLabel="carrera"
         items={data.items}
         saveAction={saveCarrera}
@@ -34,6 +33,5 @@ export default async function AdminCarrerasPage() {
         ]}
         fields={programFields}
       />
-    </div>
   );
 }

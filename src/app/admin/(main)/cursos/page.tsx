@@ -18,10 +18,9 @@ const programFields = [
 export default async function AdminCursosPage() {
   const data = await readCursos();
   return (
-    <div>
-      <h1 className="mb-4 text-xl font-semibold">Cursos</h1>
       <EntityCrudSkeleton
         title="Cursos"
+        description="Gestioná cursos: contenido, imágenes y visibilidad."
         entityLabel="curso"
         items={data.items}
         saveAction={saveCurso}
@@ -33,6 +32,5 @@ export default async function AdminCursosPage() {
         ]}
         fields={programFields}
       />
-    </div>
   );
 }

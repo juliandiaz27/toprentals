@@ -9,9 +9,9 @@ export function LoginForm() {
   const [state, formAction, pending] = useActionState(login, initial);
 
   return (
-    <form action={formAction} className="mt-6 flex flex-col gap-4">
-      <label className="flex flex-col gap-1 text-sm">
-        <span className="font-medium text-neutral-700">Contraseña</span>
+    <form action={formAction} className="flex flex-col gap-4">
+      <label className="flex flex-col gap-1.5">
+        <span className="admin-field-label">Contraseña</span>
         <input
           name="password"
           type="password"
@@ -21,7 +21,7 @@ export function LoginForm() {
         />
       </label>
       {state && !state.ok ? (
-        <p className="text-sm text-red-600" role="alert">
+        <p className="admin-alert-error" role="alert">
           {state.error}
         </p>
       ) : null}

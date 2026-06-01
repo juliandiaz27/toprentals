@@ -35,14 +35,27 @@
   ],
   "stats": {
     "label1": "+100",
-    "text1": "Departamentos",
-    "label2": "+600",
-    "text2": "Huéspedes al año",
-    "label3": "10",
-    "text3": "Años de experiencia"
+    "text1": "Personas en el equipo",
+    "label2": "+100",
+    "text2": "Departamentos en operación",
+    "label3": "+600",
+    "text3": "empresas alojadas por año",
+    "label4": "10",
+    "text4": "años de operación"
+  },
+  "differentials": {
+    "title": "Nuestros diferenciales",
+    "card1Title": "Limpieza profesional",
+    "card1Text": "Estándares de hotel en cada departamento",
+    "card2Title": "Propuesta estandarizada",
+    "card2Text": "Calidad consistente en cada propiedad",
+    "card3Title": "Ubicaciones estratégicas",
+    "card3Text": "Edificios completos en zonas clave"
   },
   "featured": {
-    "title": "Propiedades Destacadas"
+    "title": "Propiedades",
+    "linkLabel": "Ver todas →",
+    "linkHref": "/propiedades"
   },
   "buildings": {
     "title": "Nuestros edificios, por adentro.",
@@ -61,8 +74,8 @@
     "bullet3": "Tarifas corporativas negociadas",
     "ctaLabel": "Cotizar alojamiento corporativo →",
     "ctaHref": "/corporate",
-    "imageSrc": "",
-    "imagePlaceholder": "[ Imagen Corporate ]"
+    "imageSrc": "/images/corporate/corporate-teaser.png",
+    "imagePlaceholder": ""
   },
   "directBenefits": {
     "title": "Beneficios de reservar directo con nosotros",

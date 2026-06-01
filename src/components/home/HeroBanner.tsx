@@ -281,15 +281,15 @@ export function HeroBanner({ hero, slides }: Props) {
             </Link>
           </div>
         </div>
-
-        <a
-          href="#buscador"
-          className="absolute bottom-10 right-6 flex items-center gap-1.5 text-[12px] font-normal text-white/60 transition hover:text-white lg:right-12"
-        >
-          <IconChevronDown />
-          <span>{hero.exploreLabel}</span>
-        </a>
       </div>
+
+      <a
+        href="#buscador"
+        className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 text-[12px] font-normal text-white/60 transition hover:text-white"
+      >
+        <IconChevronDown />
+        <span>{hero.exploreLabel}</span>
+      </a>
 
       {hasVideo || slideCount > 1 ? (
         <HeroProgressBar

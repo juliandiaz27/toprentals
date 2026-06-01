@@ -11,6 +11,7 @@ const footerHover = "hover:text-white";
 export function SiteFooter({ footer }: Props) {
   return (
     <footer
+      data-reveal
       className={`mt-auto bg-[#111111] px-6 py-12 sm:px-8 lg:px-16 lg:py-14 ${footerText}`}
     >
       <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">

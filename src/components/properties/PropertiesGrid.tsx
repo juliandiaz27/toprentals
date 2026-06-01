@@ -3,11 +3,8 @@
 import { useMemo, useState } from "react";
 import type { PropiedadesFiltersContent } from "@/lib/pageContent/propiedadesTypes";
 import { PROPERTY_LISTINGS } from "@/lib/properties/catalog";
-import {
-  PropertiesFilters,
-  filterMatchesCity,
-  type PropertyFilterId,
-} from "./PropertiesFilters";
+import { PropertiesFiltersBar } from "./PropertiesFiltersBar";
+import { filterMatchesCity, type PropertyFilterId } from "./PropertiesFilters";
 import { PropertyCard } from "./PropertyCard";
 
 type Props = {
@@ -27,14 +24,24 @@ export function PropertiesGrid({ filterLabels }: Props) {
 
   return (
     <>
-      <PropertiesFilters labels={filterLabels} active={filter} onChange={setFilter} />
-      <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {visible.map((property) => (
-          <li key={property.slug}>
-            <PropertyCard property={property} />
-          </li>
-        ))}
-      </ul>
+      <PropertiesFiltersBar
+        labels={filterLabels}
+        active={filter}
+        onChange={setFilter}
+      />
+
+      <div
+        data-reveal
+        className="mx-auto w-full max-w-[1440px] px-6 pb-10 pt-10 lg:px-12 lg:pt-12"
+      >
+        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          {visible.map((property) => (
+            <li key={property.slug}>
+              <PropertyCard property={property} />
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 }

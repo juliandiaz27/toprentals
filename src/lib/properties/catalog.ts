@@ -12,7 +12,20 @@ export type PropertyListing = {
   comingSoon?: boolean;
 };
 
-export const PROPERTY_LISTINGS: PropertyListing[] = [
+/** Placeholders hasta recibir fotos oficiales por edificio. */
+export const PROPERTY_PLACEHOLDER_IMAGES = [
+  "/images/properties/placeholder-lobby.png",
+  "/images/properties/placeholder-facade.png",
+  "/images/properties/placeholder-building.png",
+] as const;
+
+export function propertyPlaceholderImage(index: number): string {
+  return PROPERTY_PLACEHOLDER_IMAGES[
+    index % PROPERTY_PLACEHOLDER_IMAGES.length
+  ]!;
+}
+
+const LISTINGS_BASE: Omit<PropertyListing, "imageSrc">[] = [
   {
     slug: "downtown-torre-bellini",
     gnahsId: 10,
@@ -20,7 +33,6 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     city: "Buenos Aires",
     neighborhood: "Microcentro",
     address: "Av. Corrientes 1234",
-    imageSrc: "",
   },
   {
     slug: "huergo-475",
@@ -29,7 +41,6 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     city: "Buenos Aires",
     neighborhood: "San Telmo",
     address: "Huergo 475",
-    imageSrc: "",
   },
   {
     slug: "palermo-soho",
@@ -38,7 +49,6 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     city: "Buenos Aires",
     neighborhood: "Palermo",
     address: "Honduras 4567",
-    imageSrc: "",
   },
   {
     slug: "dorrego",
@@ -47,7 +57,6 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     city: "Buenos Aires",
     neighborhood: "Palermo",
     address: "Dorrego 2345",
-    imageSrc: "",
   },
   {
     slug: "wow-nunez",
@@ -56,7 +65,6 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     city: "Buenos Aires",
     neighborhood: "Nuñez",
     address: "Av. del Libertador 7200",
-    imageSrc: "",
   },
   {
     slug: "qorner",
@@ -65,7 +73,6 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     city: "Buenos Aires",
     neighborhood: "Palermo",
     address: "Costa Rica 5545",
-    imageSrc: "",
   },
   {
     slug: "montaneses",
@@ -74,7 +81,6 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     city: "Buenos Aires",
     neighborhood: "Belgrano",
     address: "Montañeses 3456",
-    imageSrc: "",
   },
   {
     slug: "palermo-chico",
@@ -83,7 +89,6 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     city: "Buenos Aires",
     neighborhood: "Palermo Chico",
     address: "Av. Libertador 4500",
-    imageSrc: "",
   },
   {
     slug: "palermo-hollywood",
@@ -92,7 +97,6 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     city: "Buenos Aires",
     neighborhood: "Palermo Hollywood",
     address: "El Salvador 5678",
-    imageSrc: "",
   },
   {
     slug: "belgrano",
@@ -101,7 +105,6 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     city: "Buenos Aires",
     neighborhood: "Belgrano",
     address: "Cabildo 2100",
-    imageSrc: "",
   },
   {
     slug: "torre-nunez",
@@ -110,7 +113,6 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     city: "Buenos Aires",
     neighborhood: "Nuñez",
     address: "Av. del Libertador 6800",
-    imageSrc: "",
   },
   {
     slug: "ecuador-proximamente",
@@ -119,10 +121,18 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     city: "Quito",
     neighborhood: "",
     address: "",
-    imageSrc: "",
     comingSoon: true,
   },
 ];
+
+export const PROPERTY_LISTINGS: PropertyListing[] = LISTINGS_BASE.map(
+  (item, index) => ({
+    ...item,
+    imageSrc: item.comingSoon
+      ? ""
+      : propertyPlaceholderImage(index),
+  }),
+);
 
 export function getPropertyBySlug(slug: string): PropertyListing | undefined {
   return PROPERTY_LISTINGS.find((p) => p.slug === slug && !p.comingSoon);

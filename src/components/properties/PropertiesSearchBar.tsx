@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { getGnahsWidgetConfig } from "@/lib/gnahs/config";
 import { BookingWidget } from "@/components/gnahs/BookingWidgetDynamic";
 
@@ -10,25 +9,20 @@ type Props = {
 
 export function PropertiesSearchBar({ config }: Props) {
   return (
-    <div className="relative z-40 overflow-visible rounded-lg border border-neutral-200 bg-white shadow-sm">
-      <div className="properties-search-widget relative overflow-visible border-b border-neutral-100 px-3 py-3 md:px-4 md:py-4">
+    <section className="relative z-30 bg-white">
+      <div className="properties-search-widget relative z-40 mx-auto w-full max-w-[1440px] overflow-visible px-5 py-5 md:px-10 md:py-6">
         <BookingWidget config={config} />
-      </div>
-      <div className="flex justify-end border-t border-neutral-100 px-4 py-3 md:hidden">
-        <Link
-          href={config.bookingRoute}
-          className="inline-flex h-10 items-center justify-center rounded-lg bg-neutral-950 px-5 text-[14px] font-medium text-white"
-        >
-          Buscar →
-        </Link>
       </div>
       <style
         dangerouslySetInnerHTML={{
           __html: `
             .properties-search-widget,
+            .properties-search-widget .gnahs-booking-widget,
             .properties-search-widget .c-booking-widget,
             .properties-search-widget .c-booking-widget__body,
             .properties-search-widget .c-booking-widget__container {
+              width: 100% !important;
+              max-width: none !important;
               overflow: visible !important;
             }
             .properties-search-widget .c-booking-widget__container {
@@ -57,6 +51,6 @@ export function PropertiesSearchBar({ config }: Props) {
           `,
         }}
       />
-    </div>
+    </section>
   );
 }

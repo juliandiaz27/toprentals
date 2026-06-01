@@ -31,7 +31,7 @@ function BookingParamsScript({ region }: { region: GnahsEngineRegion }) {
 
 export function ReservasEnginePage({ region, title, description }: Props) {
   return (
-    <main className="mx-auto w-full max-w-7xl px-4 py-8 lg:px-8">
+    <main data-reveal className="mx-auto w-full max-w-7xl px-4 py-8 lg:px-8">
       <header className="mb-6">
         <h1 className="text-2xl font-semibold text-neutral-950">{title}</h1>
         <p className="mt-2 text-sm text-neutral-600">{description}</p>
