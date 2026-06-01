@@ -1,12 +1,14 @@
-import DOMPurify from "isomorphic-dompurify";
+import sanitizeHtml from "sanitize-html";
 
-const PURIFY_OPTIONS = {
-  ALLOWED_TAGS: ["p", "br", "strong", "b", "em", "i", "u", "ul", "ol", "li", "a"],
-  ALLOWED_ATTR: ["href", "target", "rel"],
+const SANITIZE_OPTIONS: sanitizeHtml.IOptions = {
+  allowedTags: ["p", "br", "strong", "b", "em", "i", "u", "ul", "ol", "li", "a"],
+  allowedAttributes: {
+    a: ["href", "target", "rel"],
+  },
 };
 
 export function sanitizeRichHtml(html: string): string {
-  return DOMPurify.sanitize(html, PURIFY_OPTIONS);
+  return sanitizeHtml(html, SANITIZE_OPTIONS);
 }
 
 function escapeHtml(text: string): string {
@@ -17,7 +19,7 @@ function escapeHtml(text: string): string {
     .replace(/"/g, "&quot;");
 }
 
-/** Convierte texto plano (con \\n) al HTML que espera el editor. */
+/** Convierte texto plano (con \n) al HTML que espera el editor. */
 export function plainToEditorHtml(value: string): string {
   if (!value) return "";
   if (/<[a-z][\s\S]*>/i.test(value)) return value;
