@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AdminNav } from "./AdminNav";
 import { AdminPageNav } from "./AdminPageNav";
 import { LogoutButton } from "./LogoutButton";
 
@@ -17,6 +16,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           </p>
         </div>
         <div className="flex items-center gap-2">
+          <Link href="/admin/imagenes" className="admin-btn-secondary">
+            Imágenes
+          </Link>
           <Link
             href="/"
             target="_blank"
@@ -29,9 +31,6 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <div className="admin-tabs-wrap">
-        <AdminNav />
-      </div>
       <AdminPageNav />
 
       <main className="admin-main">

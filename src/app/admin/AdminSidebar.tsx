@@ -4,15 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ADMIN_NAV_ITEMS } from "@/lib/pageContent/adminNav";
 
-const LEGACY_CATALOG = [
-  { href: "/admin/profesores", label: "Profesores" },
-  { href: "/admin/egresados", label: "Egresados" },
-  { href: "/admin/carreras", label: "Carreras" },
-  { href: "/admin/postitulos", label: "Postítulos" },
-  { href: "/admin/cursos", label: "Cursos" },
-  { href: "/admin/beneficios", label: "Beneficios" },
-] as const;
-
 function NavItem({ href, label }: { href: string; label: string }) {
   const pathname = usePathname() ?? "";
   const active = pathname === href || pathname.startsWith(`${href}/`);
@@ -24,6 +15,7 @@ function NavItem({ href, label }: { href: string; label: string }) {
   );
 }
 
+/** Sidebar alternativo (no usado en el shell actual). */
 export function AdminSidebar() {
   return (
     <aside className="admin-sidebar flex w-[260px] shrink-0 flex-col bg-[#0f1114]">
@@ -54,22 +46,6 @@ export function AdminSidebar() {
           </p>
           <NavItem href="/admin/imagenes" label="Imágenes globales" />
         </div>
-
-        <details className="group px-1">
-          <summary className="cursor-pointer list-none px-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-600 marker:content-none [&::-webkit-details-marker]:hidden">
-            <span className="flex items-center justify-between">
-              Catálogo heredado
-              <span className="text-zinc-600 transition group-open:rotate-180">▾</span>
-            </span>
-          </summary>
-          <ul className="mt-2 space-y-0.5">
-            {LEGACY_CATALOG.map((item) => (
-              <li key={item.href}>
-                <NavItem href={item.href} label={item.label} />
-              </li>
-            ))}
-          </ul>
-        </details>
       </nav>
 
       <div className="border-t border-white/10 px-5 py-4">
