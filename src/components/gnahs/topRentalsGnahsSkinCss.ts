@@ -76,10 +76,11 @@ export function gnahsWidgetTopRentalsSkinCss(scope = GNAHS_WIDGET_SKIN_CLASS): s
       }
     }
 
-    .${scope} .c-booking-widget__label,
-    .${scope} .c-booking-widget__item > label,
-    .${scope} .c-booking-widget__item label:first-child,
-    .${scope} [class*="label"] {
+  /* Labels de campos (GNAHS); no aplicar al botón de reserva */
+    .${scope} .destination-component__name,
+    .${scope} .dates-component-wrapper .check-name,
+    .${scope} .occupancy-component-container .occupancy-name,
+    .${scope} .promo-code__name {
       display: block !important;
       margin: 0 0 0.5rem !important;
       font-size: 11px !important;
@@ -88,6 +89,10 @@ export function gnahsWidgetTopRentalsSkinCss(scope = GNAHS_WIDGET_SKIN_CLASS): s
       letter-spacing: 0.08em !important;
       text-transform: uppercase !important;
       color: #121212 !important;
+    }
+
+    .${scope} .c-booking-widget__resume {
+      display: none !important;
     }
 
     .${scope} .c-booking-widget__input,
@@ -116,9 +121,8 @@ export function gnahsWidgetTopRentalsSkinCss(scope = GNAHS_WIDGET_SKIN_CLASS): s
       padding-right: 1rem !important;
     }
 
-    .${scope} .c-booking-widget__item.booking-button button,
-    .${scope} .c-booking-widget__item.booking-button [role="button"],
-    .${scope} .c-booking-widget__item.booking-button a {
+    .${scope} .c-booking-widget__container > .c-booking-widget__item.booking-button button,
+    .${scope} .c-booking-widget__container > .c-booking-widget__item.booking-button .c-button {
       min-height: 48px !important;
       min-width: 220px !important;
       padding: 0 1.5rem !important;
@@ -128,12 +132,20 @@ export function gnahsWidgetTopRentalsSkinCss(scope = GNAHS_WIDGET_SKIN_CLASS): s
       color: #fff !important;
       font-size: 14px !important;
       font-weight: 600 !important;
+      line-height: 1.25 !important;
+      letter-spacing: 0.01em !important;
+      text-transform: none !important;
+      white-space: nowrap !important;
       justify-content: center !important;
-      gap: 0.5rem !important;
+      gap: 0 !important;
     }
 
-    .${scope} .c-booking-widget__item.booking-button button:hover,
-    .${scope} .c-booking-widget__item.booking-button [role="button"]:hover {
+    .${scope} .c-booking-widget__container > .c-booking-widget__item.booking-button button ~ button {
+      display: none !important;
+    }
+
+    .${scope} .c-booking-widget__container > .c-booking-widget__item.booking-button button:hover,
+    .${scope} .c-booking-widget__container > .c-booking-widget__item.booking-button .c-button:hover {
       background-color: #2a2a2a !important;
     }
 

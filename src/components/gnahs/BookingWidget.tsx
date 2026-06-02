@@ -275,13 +275,7 @@ function WidgetMarkup({
                 {...{ "widget-label-promocode": "Código promo" }}
               />
             )}
-            <div
-              className="c-booking-widget__item booking-button"
-              {...{
-                "widget-label-booking":
-                  labels.booking ?? "Buscar disponibilidad",
-              }}
-            />
+            <div className="c-booking-widget__item booking-button" />
           </div>
         </div>
       </div>

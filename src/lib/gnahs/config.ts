@@ -91,7 +91,8 @@ export function getGnahsWidgetConfig() {
     bookingRoute:
       process.env.NEXT_PUBLIC_GNAHS_BOOKING_ROUTE ?? "/reservas",
     saveLastSeach: false,
-    appearance: { gap: 0 },
+    bookingButtonLabel: "Buscar disponibilidad",
+    appearance: { gap: 0, scrollHide: true },
   };
 }
 
