@@ -6,6 +6,10 @@ export type HomeHeaderContent = {
   link2Href: string;
   link3Label: string;
   link3Href: string;
+  link4Label: string;
+  link4Href: string;
+  link5Label: string;
+  link5Href: string;
   ctaLabel: string;
   ctaHref: string;
 };
@@ -37,6 +41,10 @@ export function pickHomeHeader(raw: Record<string, unknown>): HomeHeaderContent 
     link2Href: h.link2Href ?? "/corporate",
     link3Label: h.link3Label ?? "Club Top Rentals",
     link3Href: h.link3Href ?? "#",
+    link4Label: h.link4Label ?? "Quiénes somos",
+    link4Href: h.link4Href ?? "/nosotros",
+    link5Label: h.link5Label ?? "Trabajá con nosotros",
+    link5Href: h.link5Href ?? "/trabaja-con-nosotros",
     ctaLabel: h.ctaLabel ?? "Reservar ahora",
     ctaHref: h.ctaHref ?? "/propiedades",
   };

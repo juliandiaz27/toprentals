@@ -13,6 +13,16 @@ const nextConfig: NextConfig = {
         destination: "/mis-reservas",
         permanent: true,
       },
+      {
+        source: "/quienes-somos",
+        destination: "/nosotros",
+        permanent: true,
+      },
+      {
+        source: "/trabaja",
+        destination: "/trabaja-con-nosotros",
+        permanent: true,
+      },
     ];
   },
 };

@@ -15,7 +15,7 @@ export function CorporateHowItWorks({ content }: Props) {
             {content.steps.map((step, index) => (
               <li key={step.title}>
                 <span
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-950 text-[15px] font-bold text-white"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-btn text-[15px] font-bold text-white"
                   aria-hidden
                 >
                   {index + 1}

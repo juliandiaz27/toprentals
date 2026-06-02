@@ -1,8 +1,11 @@
 import Link from "next/link";
 import type { PropertyDetail } from "@/lib/properties/details";
+import { reservasLinkProps } from "@/lib/reservasLink";
 import { getRelatedProperties } from "@/lib/properties/details";
 import { PropertyCard } from "@/components/properties/PropertyCard";
 import { PropertyDetailHero } from "@/components/properties/detail/PropertyDetailHero";
+import { PropertyMap } from "@/components/properties/detail/PropertyMap";
+import { PropertyNearbyPoiList } from "@/components/properties/detail/PropertyNearbyPoi";
 
 type Props = {
   property: PropertyDetail;
@@ -38,7 +41,8 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
           ))}
           <Link
             href="/reservas"
-            className="inline-flex h-11 items-center justify-center rounded-lg bg-neutral-950 px-8 text-[14px] font-medium text-white hover:bg-neutral-800 lg:h-[42px] lg:self-end"
+            {...reservasLinkProps("/reservas")}
+            className="inline-flex h-11 items-center justify-center rounded-lg bg-btn px-8 text-[14px] font-medium text-white hover:bg-btn-hover lg:h-[42px] lg:self-end"
           >
             Reservar
           </Link>
@@ -84,21 +88,22 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
           )}
         </div>
 
-        <section data-reveal className="mt-16 grid gap-10 lg:grid-cols-2 lg:gap-12">
+        <section
+          data-reveal
+          className="mt-16 grid gap-10 lg:grid-cols-[2fr_3fr] lg:items-start lg:gap-12"
+        >
           <div>
             <h2 className="text-xl font-bold text-neutral-950">Sobre el edificio</h2>
             <p className="mt-4 text-[15px] leading-relaxed text-neutral-600">
               {property.about}
             </p>
-            <ul className="mt-8 flex flex-wrap gap-x-4 gap-y-2 text-[14px] text-neutral-600">
-              {property.poi.map((place) => (
-                <li key={place}>{place}</li>
-              ))}
-            </ul>
+            <PropertyNearbyPoiList poi={property.poi} />
           </div>
-          <div className="flex min-h-[280px] items-center justify-center rounded-lg bg-neutral-200 lg:min-h-[320px]">
-            <span className="text-[13px] text-neutral-500">[ Mapa ]</span>
-          </div>
+          <PropertyMap
+            address={property.address}
+            neighborhood={property.neighborhood}
+            city={property.city}
+          />
         </section>
 
         <section data-reveal className="mt-16">
@@ -116,13 +121,14 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
                 <div className="mt-6 flex flex-col gap-2 sm:flex-row">
                   <Link
                     href="/reservas"
-                    className="inline-flex h-10 flex-1 items-center justify-center rounded-lg bg-neutral-950 text-[13px] font-medium text-white hover:bg-neutral-800"
+                    {...reservasLinkProps("/reservas")}
+                    className="inline-flex h-10 flex-1 items-center justify-center rounded-lg bg-btn text-[13px] font-medium text-white hover:bg-btn-hover"
                   >
                     Ver disponibilidad
                   </Link>
                   <button
                     type="button"
-                    className="inline-flex h-10 flex-1 items-center justify-center rounded-lg border border-neutral-950 text-[13px] font-medium text-neutral-950 hover:bg-neutral-50"
+                    className="inline-flex h-10 flex-1 items-center justify-center rounded-lg border border-btn text-[13px] font-medium text-btn hover:bg-neutral-50"
                   >
                     Tour 360°
                   </button>
@@ -168,16 +174,24 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
         </section>
       ) : null}
 
-      <section data-reveal className="bg-neutral-950 px-6 py-10 lg:px-12">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <p className="text-lg font-semibold text-white lg:text-xl">
-            {property.finalCtaTitle}
-          </p>
+      <section data-reveal className="bg-[#111111] px-6 py-12 text-white lg:px-12 lg:py-14">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+          <div className="max-w-2xl">
+            <h2 className="text-[clamp(1.5rem,2.8vw,2.25rem)] font-bold leading-tight tracking-tight text-white">
+              {property.finalCtaTitle}
+            </h2>
+            {property.finalCtaSubtitle ? (
+              <p className="mt-4 text-[15px] leading-relaxed text-[#AAAAAA] lg:text-base">
+                {property.finalCtaSubtitle}
+              </p>
+            ) : null}
+          </div>
           <Link
             href={property.finalCtaHref}
-            className="inline-flex h-11 shrink-0 items-center justify-center rounded-lg bg-white px-6 text-[14px] font-medium text-neutral-950 hover:bg-neutral-100"
+            {...reservasLinkProps(property.finalCtaHref)}
+            className="inline-flex h-11 shrink-0 items-center justify-center self-start rounded-lg bg-white px-6 text-[14px] font-semibold text-neutral-950 hover:bg-neutral-100 lg:self-center"
           >
-            Reservar ahora
+            Reservar ahora →
           </Link>
         </div>
       </section>

@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { FormattedText } from "@/components/content/FormattedText";
+import { reservasLinkProps } from "@/lib/reservasLink";
+import { smoothScrollToId } from "@/lib/smoothScroll";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { HomeHeroContent, HeroSlide } from "@/lib/pageContent/homeTypes";
 import { slideVideoSrc } from "@/lib/pageContent/homeTypes";
@@ -266,12 +268,14 @@ export function HeroBanner({ hero, slides }: Props) {
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link
               href={hero.ctaPrimaryHref}
+              {...reservasLinkProps(hero.ctaPrimaryHref)}
               className="inline-flex h-12 min-w-[140px] items-center justify-center rounded-lg bg-white px-7 text-[14px] font-medium text-neutral-950 transition hover:bg-neutral-100"
             >
               {hero.ctaPrimary}
             </Link>
             <Link
               href={hero.ctaSecondaryHref}
+              {...reservasLinkProps(hero.ctaSecondaryHref)}
               className="inline-flex h-12 items-center justify-center gap-1 rounded-lg border border-white/70 bg-transparent px-7 text-[14px] font-medium text-white transition hover:border-white hover:bg-white/5"
             >
               {hero.ctaSecondary}
@@ -285,9 +289,15 @@ export function HeroBanner({ hero, slides }: Props) {
 
       <a
         href="#buscador"
-        className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 text-[12px] font-normal text-white/60 transition hover:text-white"
+        onClick={(e) => {
+          e.preventDefault();
+          smoothScrollToId("buscador", { duration: 1000 });
+        }}
+        className="hero-explore-link absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1 text-[12px] font-normal text-white/60"
       >
-        <IconChevronDown />
+        <span className="hero-explore-chevron" aria-hidden>
+          <IconChevronDown />
+        </span>
         <span>{hero.exploreLabel}</span>
       </a>
 

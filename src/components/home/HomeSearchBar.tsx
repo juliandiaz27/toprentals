@@ -1,11 +1,15 @@
-import { HomeBookingSearch } from "./HomeBookingSearch";
+import type { getGnahsWidgetConfig } from "@/lib/gnahs/config";
+import { BookingWidget } from "@/components/gnahs/BookingWidgetDynamic";
+import { GnahsWidgetTopRentalsSkin } from "@/components/gnahs/GnahsWidgetTopRentalsSkin";
+
+type WidgetConfig = ReturnType<typeof getGnahsWidgetConfig>;
 
 type Props = {
-  bookingRoute?: string;
+  config: WidgetConfig;
 };
 
-/** Buscador home (Figma): ancho completo, pegado al hero. */
-export function HomeSearchBar({ bookingRoute = "/reservas" }: Props) {
+/** Buscador home: widget GNAHS v3 con skin Top Rentals (Figma). */
+export function HomeSearchBar({ config }: Props) {
   return (
     <section
       id="buscador"
@@ -13,7 +17,9 @@ export function HomeSearchBar({ bookingRoute = "/reservas" }: Props) {
       className="relative z-30 w-full border-b border-neutral-200 bg-white"
     >
       <div className="mx-auto w-full max-w-[1440px] px-5 py-5 md:px-10 md:py-6">
-        <HomeBookingSearch bookingRoute={bookingRoute} />
+        <GnahsWidgetTopRentalsSkin>
+          <BookingWidget config={config} hidePromo />
+        </GnahsWidgetTopRentalsSkin>
       </div>
     </section>
   );

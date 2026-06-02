@@ -3,6 +3,7 @@ export const ADMIN_NAV_ITEMS = [
   { slug: "home-header", title: "Header" },
   { slug: "home", title: "Home" },
   { slug: "nosotros", title: "Nosotros" },
+  { slug: "trabaja", title: "Trabajá con nosotros" },
   { slug: "corporate", title: "Corporate" },
   { slug: "propiedades", title: "Propiedades" },
   { slug: "propietarios", title: "Propietarios" },

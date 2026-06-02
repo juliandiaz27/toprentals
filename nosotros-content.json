@@ -1,12 +1,48 @@
 {
   "hero": {
-    "title": "Nosotros",
-    "subtitle": "",
-    "imageSrc": "/images/placeholders/page-hero.svg"
+    "title": "Quiénes somos",
+    "paragraphs": [
+      "Somos el mayor operador de departamentos temporarios de Argentina, con más de 10 años de experiencia en el sector hotelero y de hospitalidad urbana.",
+      "Ofrecemos departamentos totalmente equipados con estándar de hotel, en ubicaciones estratégicas de Buenos Aires y Quito."
+    ],
+    "ctaLabel": "Ver propiedades →",
+    "ctaHref": "/propiedades",
+    "stats": [
+      { "value": "+500", "label": "departamentos operados" },
+      { "value": "10 torres", "label": "Buenos Aires · Quito" },
+      { "value": "10 años", "label": "de trayectoria" },
+      { "value": "+150", "label": "empresas alojadas por año" }
+    ]
   },
-  "body": {
-    "intro": "",
-    "column1": "",
-    "column2": ""
+  "history": {
+    "title": "Nuestra historia",
+    "paragraphs": [
+      "Top Rentals nació en 2016 con la visión de profesionalizar el alquiler temporario en Argentina, llevando el estándar hotelero a departamentos urbanos.",
+      "Desde entonces crecimos hasta operar más de 500 unidades en 10 torres, atendiendo viajeros corporativos, relocations y turismo de negocios.",
+      "En 2025 seguimos expandiendo nuestra red con nuevos edificios y servicios pensados para estadías cortas, medias y prolongadas."
+    ],
+    "imageSrc": "/images/properties/placeholder-lobby.png",
+    "imageAlt": "Equipo Top Rentals"
+  },
+  "values": {
+    "title": "Nuestros valores",
+    "items": [
+      {
+        "title": "Profesionalismo",
+        "text": "Estándar consistente en todas las propiedades."
+      },
+      {
+        "title": "Transparencia",
+        "text": "Precios claros, sin costos ocultos."
+      },
+      {
+        "title": "Hospitalidad",
+        "text": "Atención humana y cercana 24/7."
+      },
+      {
+        "title": "Innovación",
+        "text": "Tecnología al servicio del huésped."
+      }
+    ]
   }
 }

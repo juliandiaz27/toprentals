@@ -9,8 +9,19 @@ import { BookingWidgetFallback } from "./BookingWidgetFallback";
 
 type WidgetConfig = ReturnType<typeof getGnahsWidgetConfig>;
 
+export type BookingWidgetLabels = {
+  destination?: string;
+  checkIn?: string;
+  checkOut?: string;
+  occupancy?: string;
+  booking?: string;
+};
+
 type Props = {
   config: WidgetConfig;
+  /** Oculta código promo (home / propiedades). */
+  hidePromo?: boolean;
+  labels?: BookingWidgetLabels;
 };
 
 const WIDGET_ROOT_SELECTOR = ".c-booking-widget";
@@ -37,7 +48,19 @@ function isGnahsWidgetFailure(reason: unknown): boolean {
  * Buscador GNAHS — solo cliente; markup `.c-booking-widget` (no #GNAHSEngine).
  * En local sin dominio autorizado muestra fallback sin romper la app.
  */
-export function BookingWidget({ config }: Props) {
+const TOP_RENTALS_LABELS: BookingWidgetLabels = {
+  destination: "Departamento",
+  checkIn: "Entrada",
+  checkOut: "Salida",
+  occupancy: "Huéspedes",
+  booking: "Buscar disponibilidad",
+};
+
+export function BookingWidget({
+  config,
+  hidePromo = false,
+  labels = TOP_RENTALS_LABELS,
+}: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
   const widgetInstance = useRef<unknown>(null);
@@ -179,9 +202,9 @@ export function BookingWidget({ config }: Props) {
   if (!mounted || loading) {
     return (
       <div ref={containerRef} className="gnahs-booking-widget w-full">
-        <WidgetMarkup />
+        <WidgetMarkup hidePromo={hidePromo} labels={labels} />
         <div
-          className="min-h-[52px] w-full animate-pulse rounded-md bg-neutral-100"
+          className="min-h-[52px] w-full animate-pulse rounded-lg bg-neutral-100"
           aria-hidden
         />
       </div>
@@ -191,27 +214,36 @@ export function BookingWidget({ config }: Props) {
   if (apiBlocked) {
     return (
       <div ref={containerRef} className="gnahs-booking-widget w-full">
-        <BookingWidgetFallback bookingRoute={config.bookingRoute} />
+        <BookingWidgetFallback
+          bookingRoute={config.bookingRoute}
+          useCustomSearch
+        />
       </div>
     );
   }
 
   return (
     <div ref={containerRef} className="gnahs-booking-widget w-full">
-      <WidgetMarkup />
+      <WidgetMarkup hidePromo={hidePromo} labels={labels} />
     </div>
   );
 }
 
-function WidgetMarkup() {
+function WidgetMarkup({
+  hidePromo,
+  labels,
+}: {
+  hidePromo: boolean;
+  labels: BookingWidgetLabels;
+}) {
   return (
     <>
       <style
         dangerouslySetInnerHTML={{
           __html: `
             :root {
-              --booking-color-primary: 42, 42, 42;
-              --booking-color-secondary: 217, 217, 217;
+              --booking-color-primary: 18, 18, 18;
+              --booking-color-secondary: 245, 245, 245;
             }
           `,
         }}
@@ -221,26 +253,34 @@ function WidgetMarkup() {
           <div className="c-booking-widget__container">
             <div
               className="c-booking-widget__item destination-component"
-              {...{ "widget-label-destination": "Destinos" }}
+              {...{
+                "widget-label-destination":
+                  labels.destination ?? "Departamento",
+              }}
             />
             <div
               className="c-booking-widget__item dates-component dates-component-wrapper"
               {...{
-                "widget-label-check-in": "Fecha de entrada",
-                "widget-label-check-out": "Fecha de salida",
+                "widget-label-check-in": labels.checkIn ?? "Entrada",
+                "widget-label-check-out": labels.checkOut ?? "Salida",
               }}
             />
             <div
               className="c-booking-widget__item occupancy-component occupancy-component-container"
-              {...{ "widget-label-occupancy": "Habitaciones y personas" }}
+              {...{ "widget-label-occupancy": labels.occupancy ?? "Huéspedes" }}
             />
-            <div
-              className="c-booking-widget__item promo-code"
-              {...{ "widget-label-promocode": "Código promo" }}
-            />
+            {hidePromo ? null : (
+              <div
+                className="c-booking-widget__item promo-code"
+                {...{ "widget-label-promocode": "Código promo" }}
+              />
+            )}
             <div
               className="c-booking-widget__item booking-button"
-              {...{ "widget-label-booking": "Reservar" }}
+              {...{
+                "widget-label-booking":
+                  labels.booking ?? "Buscar disponibilidad",
+              }}
             />
           </div>
         </div>

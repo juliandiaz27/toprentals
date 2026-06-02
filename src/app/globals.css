@@ -3,11 +3,15 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --btn: #121212;
+  --btn-hover: #2a2a2a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-btn: var(--btn);
+  --color-btn-hover: var(--btn-hover);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -77,6 +81,33 @@ body {
   }
 }
 
+/* Explorar — scroll hint en hero */
+.hero-explore-link {
+  transition: color 0.4s ease;
+}
+
+.hero-explore-link:hover,
+.hero-explore-link:focus-visible {
+  color: rgb(255 255 255 / 0.95);
+}
+
+.hero-explore-chevron {
+  display: flex;
+  animation: hero-explore-bob 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes hero-explore-bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(0, 5px, 0);
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {
     opacity: 1;
@@ -85,6 +116,10 @@ body {
   }
 
   .site-header {
+    animation: none;
+  }
+
+  .hero-explore-chevron {
     animation: none;
   }
 }

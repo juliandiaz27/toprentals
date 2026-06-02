@@ -1,20 +1,40 @@
 import Link from "next/link";
+import { HomeBookingSearch } from "@/components/home/HomeBookingSearch";
+import { reservasLinkProps } from "@/lib/reservasLink";
 
 type Props = {
   bookingRoute: string;
   message?: string;
+  /** Misma UI que Figma; redirige al motor con params GNAHS (sin API widget). */
+  useCustomSearch?: boolean;
 };
 
 export function BookingWidgetFallback({
   bookingRoute,
-  message = "Buscador no disponible en este entorno. Podés reservar desde el motor.",
+  message,
+  useCustomSearch = false,
 }: Props) {
+  if (useCustomSearch) {
+    return (
+      <div role="status">
+        {message ? (
+          <p className="mb-4 text-center text-[13px] text-neutral-500">{message}</p>
+        ) : null}
+        <HomeBookingSearch bookingRoute={bookingRoute} />
+      </div>
+    );
+  }
+
   return (
     <div className="py-2 text-center" role="status">
-      <p className="text-sm text-neutral-600">{message}</p>
+      <p className="text-sm text-neutral-600">
+        {message ??
+          "Buscador no disponible en este entorno. Podés reservar desde el motor."}
+      </p>
       <Link
         href={bookingRoute}
-        className="mt-3 inline-flex h-11 items-center justify-center rounded-lg bg-neutral-900 px-6 text-sm font-medium text-white transition hover:bg-neutral-800"
+        {...reservasLinkProps(bookingRoute)}
+        className="mt-3 inline-flex h-11 items-center justify-center rounded-lg bg-btn px-6 text-sm font-medium text-white transition hover:bg-btn-hover"
       >
         Ir al motor de reservas
       </Link>

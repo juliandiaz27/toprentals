@@ -1,0 +1,76 @@
+{
+  "hero": {
+    "title": "Trabajá con nosotros",
+    "subtitle": "Somos un equipo apasionado por la hospitalidad y la innovación.",
+    "metaLine": "Buenos Aires · Quito · Tiempo completo y part-time",
+    "ctaLabel": "Ver posiciones abiertas ↓",
+    "ctaHref": "#posiciones"
+  },
+  "why": {
+    "title": "¿Por qué trabajar en Top Rentals?",
+    "items": [
+      {
+        "icon": "🏢",
+        "title": "Empresa en crecimiento",
+        "text": "Presente en 2 países y expandiéndose"
+      },
+      {
+        "icon": "🤝",
+        "title": "Cultura colaborativa",
+        "text": "Equipo joven, diverso y apasionado"
+      },
+      {
+        "icon": "📈",
+        "title": "Desarrollo profesional",
+        "text": "Capacitación y crecimiento real"
+      },
+      {
+        "icon": "💼",
+        "title": "Entorno dinámico",
+        "text": "Ritmo ágil y desafíos constantes"
+      }
+    ]
+  },
+  "positions": {
+    "title": "Posiciones abiertas",
+    "applyLabel": "Postularme →",
+    "items": [
+      {
+        "title": "Recepcionista / Anfitrión de edificio",
+        "location": "Buenos Aires",
+        "type": "Full-time",
+        "applyHref": "mailto:rrhh@toprentals.com.ar?subject=Postulación%20-%20Recepcionista%20BA"
+      },
+      {
+        "title": "Asistente administrativo",
+        "location": "Buenos Aires",
+        "type": "Full-time",
+        "applyHref": "mailto:rrhh@toprentals.com.ar?subject=Postulación%20-%20Asistente%20administrativo"
+      },
+      {
+        "title": "Encargado de limpieza",
+        "location": "Buenos Aires",
+        "type": "Full-time",
+        "applyHref": "mailto:rrhh@toprentals.com.ar?subject=Postulación%20-%20Encargado%20de%20limpieza"
+      },
+      {
+        "title": "Recepcionista",
+        "location": "Quito",
+        "type": "Full-time",
+        "applyHref": "mailto:rrhh@toprentals.com.ar?subject=Postulación%20-%20Recepcionista%20Quito"
+      },
+      {
+        "title": "Housekeeping",
+        "location": "Quito",
+        "type": "Part-time",
+        "applyHref": "mailto:rrhh@toprentals.com.ar?subject=Postulación%20-%20Housekeeping%20Quito"
+      }
+    ]
+  },
+  "spontaneous": {
+    "title": "¿No encontrás tu posición?",
+    "subtitle": "Envianos tu CV y te tendremos en cuenta para futuras posiciones.",
+    "attachLabel": "Adjuntar CV",
+    "submitLabel": "Enviar postulación →"
+  }
+}

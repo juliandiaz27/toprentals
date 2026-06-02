@@ -198,7 +198,7 @@ export function HomeBookingSearch({ bookingRoute = "/reservas" }: Props) {
       <div className="sm:col-span-2 lg:col-span-1 lg:self-end">
         <button
           type="submit"
-          className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-neutral-950 px-6 text-[14px] font-semibold text-white transition hover:bg-neutral-800 lg:w-auto lg:min-w-[220px]"
+          className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-btn px-6 text-[14px] font-semibold text-white transition hover:bg-btn-hover lg:w-auto lg:min-w-[220px]"
         >
           <span>Buscar disponibilidad</span>
           <span aria-hidden>→</span>

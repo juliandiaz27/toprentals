@@ -7,6 +7,10 @@
     "link2Href": "/corporate",
     "link3Label": "Club Top Rentals",
     "link3Href": "/club-top-rentals",
+    "link4Label": "Quiénes somos",
+    "link4Href": "/nosotros",
+    "link5Label": "Trabajá con nosotros",
+    "link5Href": "/trabaja-con-nosotros",
     "ctaLabel": "Reservar ahora",
     "ctaHref": "/reservas"
   },

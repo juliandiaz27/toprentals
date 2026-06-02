@@ -63,7 +63,7 @@ export function PropertiesFilters({ labels, active, onChange }: Props) {
             aria-pressed={isActive}
             className={`shrink-0 rounded-full px-4 py-2.5 text-[13px] font-medium transition-colors ${
               isActive
-                ? "bg-neutral-950 text-white"
+                ? "bg-btn text-white"
                 : "bg-neutral-100 text-neutral-800 hover:bg-neutral-200"
             }`}
           >

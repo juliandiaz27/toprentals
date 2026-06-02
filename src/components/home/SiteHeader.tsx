@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { HomeHeaderContent } from "@/lib/pageContent/homeTypes";
+import { reservasLinkProps } from "@/lib/reservasLink";
 
 type Props = {
   header: HomeHeaderContent;
@@ -13,6 +14,8 @@ const NAV_KEYS = [
   { label: "link1Label", href: "link1Href" },
   { label: "link2Label", href: "link2Href" },
   { label: "link3Label", href: "link3Href" },
+  { label: "link4Label", href: "link4Href" },
+  { label: "link5Label", href: "link5Href" },
 ] as const;
 
 export function SiteHeader({
@@ -41,7 +44,7 @@ export function SiteHeader({
         </Link>
 
         <nav
-          className="hidden items-center justify-center gap-10 lg:flex"
+          className="hidden items-center justify-center gap-5 xl:gap-7 lg:flex"
           aria-label="Principal"
         >
           {links.map((item) => {
@@ -53,7 +56,7 @@ export function SiteHeader({
               <Link
                 key={item.href + item.label}
                 href={item.href}
-                className={`text-[14px] text-neutral-950 transition-colors hover:text-neutral-600 ${
+                className={`whitespace-nowrap text-[13px] text-neutral-950 transition-colors hover:text-neutral-600 xl:text-[14px] ${
                   isActive ? "font-semibold" : "font-normal"
                 }`}
                 aria-current={isActive ? "page" : undefined}
@@ -80,7 +83,8 @@ export function SiteHeader({
           </div>
           <Link
             href={header.ctaHref}
-            className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg bg-neutral-950 px-5 text-[14px] font-medium text-white transition-colors hover:bg-neutral-800"
+            {...reservasLinkProps(header.ctaHref)}
+            className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg bg-btn px-5 text-[14px] font-medium text-white transition-colors hover:bg-btn-hover"
           >
             {header.ctaLabel}
           </Link>

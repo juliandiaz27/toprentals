@@ -89,7 +89,7 @@ export function CorporateAccessForm({ content }: Props) {
           <div className="flex justify-end pt-2">
             <button
               type="submit"
-              className="inline-flex h-11 items-center justify-center rounded-md bg-neutral-950 px-6 text-[14px] font-medium text-white hover:bg-neutral-800"
+              className="inline-flex h-11 items-center justify-center rounded-md bg-btn px-6 text-[14px] font-medium text-white hover:bg-btn-hover"
             >
               {content.formSubmitLabel.replace(/\s*→\s*$/, "").trim()} →
             </button>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { reservasLinkProps } from "@/lib/reservasLink";
 import type { PropertyDetail } from "@/lib/properties/details";
 
 type Props = {
@@ -63,7 +64,8 @@ export function PropertyDetailHero({ property, whatsappUrl }: Props) {
           </p>
           <Link
             href="/reservas"
-            className="inline-flex h-11 shrink-0 items-center justify-center self-start rounded-md bg-neutral-950 px-5 text-[14px] font-medium text-white hover:bg-neutral-800 sm:self-center"
+            {...reservasLinkProps("/reservas")}
+            className="inline-flex h-11 shrink-0 items-center justify-center self-start rounded-md bg-btn px-5 text-[14px] font-medium text-white hover:bg-btn-hover sm:self-center"
           >
             Consultar disponibilidad →
           </Link>

@@ -16,19 +16,26 @@ export type PropertyStat = {
   label: string;
 };
 
+export type PropertyNearbyPoi = {
+  sectionTitle: string;
+  /** Cada columna: ítems de arriba a abajo (como en Figma). */
+  columns: string[][];
+};
+
 export type PropertyDetailExtra = {
   subtitle: string;
   tags: string[];
   pdfHref: string;
   pdfLabel?: string;
   about: string;
-  poi: string[];
+  poi: PropertyNearbyPoi;
   units: PropertyUnit[];
   groupsHeadline: string;
   groupsCtaLabel: string;
   groupsCtaHref: string;
   stats: PropertyStat[];
   finalCtaTitle: string;
+  finalCtaSubtitle: string;
   finalCtaHref: string;
   relatedSlugs: string[];
 };
@@ -63,6 +70,8 @@ const DEFAULT_UNITS: PropertyUnit[] = [
   },
 ];
 
+const DEFAULT_POI_SECTION_TITLE = "Puntos de interés cercanos";
+
 const DEFAULT_POI_BA = [
   "Transporte público",
   "Gastronomía",
@@ -70,6 +79,39 @@ const DEFAULT_POI_BA = [
   "Espacios verdes",
   "Zona corporativa",
 ];
+
+/** Reparte ítems en columnas (fila a fila, como el wireframe 4×2). */
+export function buildPoiColumns(items: string[], columnCount = 4): string[][] {
+  if (!items.length) return [];
+  const rows = Math.ceil(items.length / columnCount);
+  const columns: string[][] = [];
+  for (let c = 0; c < columnCount; c++) {
+    const col: string[] = [];
+    for (let r = 0; r < rows; r++) {
+      const item = items[r * columnCount + c];
+      if (item) col.push(item);
+    }
+    if (col.length) columns.push(col);
+  }
+  return columns;
+}
+
+function normalizePoi(
+  raw: PropertyNearbyPoi | string[] | undefined,
+  fallbackItems: string[],
+): PropertyNearbyPoi {
+  if (raw && typeof raw === "object" && "columns" in raw && Array.isArray(raw.columns)) {
+    return {
+      sectionTitle: raw.sectionTitle ?? DEFAULT_POI_SECTION_TITLE,
+      columns: raw.columns,
+    };
+  }
+  const flat = Array.isArray(raw) ? raw : fallbackItems;
+  return {
+    sectionTitle: DEFAULT_POI_SECTION_TITLE,
+    columns: buildPoiColumns(flat),
+  };
+}
 
 function pickRelatedSlugs(current: PropertyListing, count = 3): string[] {
   const sameCity = PROPERTY_LISTINGS.filter(
@@ -90,7 +132,10 @@ export function buildDefaultDetail(listing: PropertyListing): PropertyDetailExtr
     pdfHref: "#",
     pdfLabel: "Descargar PDF torre",
     about: `${listing.name} forma parte de la red Top Rentals en ${listing.city}. Departamentos totalmente equipados, atención 24 hs y la flexibilidad de un alquiler temporario con estándares de hotel.${listing.address ? ` Ubicación: ${listing.address}.` : ""}`,
-    poi: DEFAULT_POI_BA,
+    poi: {
+      sectionTitle: DEFAULT_POI_SECTION_TITLE,
+      columns: buildPoiColumns(DEFAULT_POI_BA),
+    },
     units: DEFAULT_UNITS,
     groupsHeadline: "Grupos y estadías corporativas · Consultanos disponibilidad",
     groupsCtaLabel: "Consultar grupos",
@@ -102,6 +147,8 @@ export function buildDefaultDetail(listing: PropertyListing): PropertyDetailExtr
       { value: String(DEFAULT_UNITS.length), label: "Tipologías" },
     ],
     finalCtaTitle: `Reservá en ${listing.name} con Top Rentals.`,
+    finalCtaSubtitle:
+      "Contactanos y te ayudamos a encontrar el departamento ideal.",
     finalCtaHref: "/reservas",
     relatedSlugs: pickRelatedSlugs(listing),
   };
@@ -115,14 +162,15 @@ const PROPERTY_OVERRIDES: Partial<Record<string, Partial<PropertyDetailExtra>>> 
     tags: ["+270 Huéspedes", "45 Pisos", "Microcentro"],
     about:
       "Torre Bellini es el edificio insignia de Top Rentals en el microcentro porteño. Departamentos totalmente equipados con servicios de hotel, amenities de primer nivel y una ubicación estratégica para viajes de negocios y estadías prolongadas.",
-    poi: [
-      "Puerto Madero",
-      "Plaza San Martín",
-      "9 de Julio | Obelisco",
-      "Teatro Colón",
-      "Café Tortoni",
-      "Retiro",
-    ],
+    poi: {
+      sectionTitle: "Puntos de interés cercanos",
+      columns: [
+        ["Puerto Madero", "CCK"],
+        ["Plaza San Martín", "Recoleta"],
+        ["9 de Julio / Obelisco", "San Telmo"],
+        ["Retiro", "Aeroparque"],
+      ],
+    },
     units: [
       ...DEFAULT_UNITS,
       {
@@ -140,6 +188,8 @@ const PROPERTY_OVERRIDES: Partial<Record<string, Partial<PropertyDetailExtra>>> 
       { value: "5", label: "Tipologías" },
     ],
     finalCtaTitle: "El edificio insignia de Top Rentals en Buenos Aires.",
+    finalCtaSubtitle:
+      "Contactanos y te ayudamos a encontrar el departamento ideal.",
     relatedSlugs: ["huergo-475", "palermo-soho", "belgrano"],
   },
 };
@@ -156,7 +206,13 @@ export function getPropertyDetail(slug: string): PropertyDetail | null {
     ...base,
     ...override,
     tags: override.tags ?? base.tags,
-    poi: override.poi ?? base.poi,
+    poi:
+      override.poi != null
+        ? normalizePoi(
+            override.poi as PropertyNearbyPoi | string[],
+            DEFAULT_POI_BA,
+          )
+        : base.poi,
     units: override.units ?? base.units,
     stats: override.stats ?? base.stats,
     relatedSlugs: override.relatedSlugs ?? base.relatedSlugs,

@@ -48,7 +48,7 @@ export default async function Home() {
       <main>
         <HeroBanner hero={hero} slides={slides} />
 
-        <HomeSearchBar bookingRoute={gnahsWidget.bookingRoute} />
+        <HomeSearchBar config={gnahsWidget} />
 
         <HomeAnimatedStats items={stats.items} />
 
