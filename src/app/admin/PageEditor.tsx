@@ -129,6 +129,8 @@ function FieldControl({
     );
   }
 
+  const isLinkField = field.type === "url";
+
   return (
     <label className={`flex flex-col ${fieldSpan(field)}`}>
       <span className="admin-field-label">
@@ -136,13 +138,21 @@ function FieldControl({
         {field.required ? " *" : ""}
       </span>
       {field.hint ? <span className="admin-field-hint">{field.hint}</span> : null}
+      {isLinkField ? (
+        <span className="admin-field-hint">
+          Ruta interna (/propiedades) o enlace con https://. Podés dejarlo como está si solo
+          cambiás textos.
+        </span>
+      ) : null}
       <input
-        type={field.type === "url" ? "url" : "text"}
+        type="text"
         name={field.key}
         required={field.required}
         defaultValue={strValue}
         className="admin-input"
         placeholder={field.fallback}
+        inputMode={isLinkField ? "url" : undefined}
+        autoComplete="off"
       />
     </label>
   );
@@ -207,7 +217,7 @@ export function PageEditor({ definition, content }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="page-editor w-full">
+    <form onSubmit={handleSubmit} noValidate className="page-editor w-full">
       <div className="admin-sticky-toolbar flex flex-wrap items-center justify-between gap-4">
         <div className="min-w-0">
           <h1>{definition.title}</h1>
