@@ -1,5 +1,13 @@
 import fs from "fs/promises";
 import path from "path";
+import {
+  blobKeyForUpload,
+  blobStorageRequiredMessage,
+  deleteBlobUrl,
+  isVercelDeploy,
+  useBlobStorage,
+  writeBlobFile,
+} from "@/lib/vercelBlob";
 
 const IMAGE_TYPES = new Set([
   "image/jpeg",
@@ -43,17 +51,32 @@ export async function saveUpload(
       "Tipo no permitido. Imágenes: JPEG, PNG, WebP, GIF, SVG. Video: MP4 o WebM.",
     );
   }
+
   const ext = extensionFromFile(file);
+  const filename = `${basename}.${ext}`;
+  const buffer = Buffer.from(await file.arrayBuffer());
+
+  if (useBlobStorage()) {
+    return writeBlobFile(blobKeyForUpload(filename), buffer, file.type || "application/octet-stream");
+  }
+
+  if (isVercelDeploy()) {
+    throw new Error(blobStorageRequiredMessage());
+  }
+
   const uploadsDir = path.join(process.cwd(), "public", "uploads");
   await fs.mkdir(uploadsDir, { recursive: true });
-  const filename = `${basename}.${ext}`;
   const diskPath = path.join(uploadsDir, filename);
-  const buffer = Buffer.from(await file.arrayBuffer());
   await fs.writeFile(diskPath, buffer);
   return `/uploads/${filename}`;
 }
 
 export async function deleteUploadByUrl(url: string): Promise<void> {
+  if (url.includes("blob.vercel-storage.com")) {
+    await deleteBlobUrl(url);
+    return;
+  }
+
   if (!url.startsWith("/uploads/")) return;
   const diskPath = path.join(process.cwd(), "public", url);
   try {
