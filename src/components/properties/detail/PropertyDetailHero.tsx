@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { PropertyHighlightBadges } from "@/components/properties/PropertyHighlightBadges";
 import { reservasLinkProps } from "@/lib/reservasLink";
 import type { PropertyDetail } from "@/lib/properties/details";
 
@@ -41,9 +42,15 @@ export function PropertyDetailHero({ property, whatsappUrl }: Props) {
           <span className="text-neutral-700">{property.name}</span>
         </nav>
 
-        <h1 className="mt-4 text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-neutral-950">
-          {property.name}
-        </h1>
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          <h1 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-neutral-950">
+            {property.name}
+          </h1>
+          <PropertyHighlightBadges
+            hasOffer={property.hasOffer}
+            isPopular={property.isPopular}
+          />
+        </div>
 
         <div className="mt-5 flex flex-wrap items-center justify-between gap-3 gap-y-3 pr-14 lg:pr-16">
           <ul className="flex flex-wrap gap-2">

@@ -1,15 +1,16 @@
+import {
+  HEADER_CTA_HREF,
+  type HeaderNavLink,
+  resolveHeaderNavStored,
+  headerNavLinksFromStored,
+} from "./headerNav";
+
+export type { HeaderNavLink };
+
 export type HomeHeaderContent = {
+  logoSrc: string;
   logoText: string;
-  link1Label: string;
-  link1Href: string;
-  link2Label: string;
-  link2Href: string;
-  link3Label: string;
-  link3Href: string;
-  link4Label: string;
-  link4Href: string;
-  link5Label: string;
-  link5Href: string;
+  navLinks: HeaderNavLink[];
   ctaLabel: string;
   ctaHref: string;
 };
@@ -32,21 +33,15 @@ export type HomeHeroContent = {
 };
 
 export function pickHomeHeader(raw: Record<string, unknown>): HomeHeaderContent {
-  const h = (raw.header ?? {}) as Record<string, string>;
+  const h = (raw.header ?? {}) as Record<string, unknown>;
+  const navStored = resolveHeaderNavStored(h);
+
   return {
-    logoText: h.logoText ?? "TOP RENTALS",
-    link1Label: h.link1Label ?? "Propiedades",
-    link1Href: h.link1Href ?? "/propiedades",
-    link2Label: h.link2Label ?? "Corporativo",
-    link2Href: h.link2Href ?? "/corporate",
-    link3Label: h.link3Label ?? "Club Top Rentals",
-    link3Href: h.link3Href ?? "#",
-    link4Label: h.link4Label ?? "Quiénes somos",
-    link4Href: h.link4Href ?? "/nosotros",
-    link5Label: h.link5Label ?? "Trabajá con nosotros",
-    link5Href: h.link5Href ?? "/trabaja-con-nosotros",
-    ctaLabel: h.ctaLabel ?? "Reservar ahora",
-    ctaHref: h.ctaHref ?? "/propiedades",
+    logoSrc: String(h.logoSrc ?? "").trim(),
+    logoText: String(h.logoText ?? "TOP RENTALS").trim() || "TOP RENTALS",
+    navLinks: headerNavLinksFromStored(navStored),
+    ctaLabel: String(h.ctaLabel ?? "Reservar ahora").trim() || "Reservar ahora",
+    ctaHref: HEADER_CTA_HREF,
   };
 }
 
@@ -148,6 +143,7 @@ export type HomeCorporateTeaserContent = {
 export type HomeStatItem = { value: string; label: string };
 
 export type HomeStatsContent = {
+  title: string;
   items: HomeStatItem[];
 };
 
@@ -170,17 +166,22 @@ export type HomeFeaturedContent = {
 export function pickHomeStats(raw: Record<string, unknown>): HomeStatsContent {
   const s = (raw.stats ?? {}) as Record<string, string>;
   return {
+    title: String(s.title ?? "Top Rentals en números"),
     items: [
-      { value: String(s.label1 ?? "+100"), label: String(s.text1 ?? "Personas en el equipo") },
       {
-        value: String(s.label2 ?? "+100"),
-        label: String(s.text2 ?? "Departamentos en operación"),
+        value: String(s.label1 ?? "+500"),
+        label: String(s.text1 ?? "departamentos operados"),
+      },
+      { value: String(s.label2 ?? "15"), label: String(s.text2 ?? "torres") },
+      {
+        value: String(s.label3 ?? "+100"),
+        label: String(s.text3 ?? "Personas en el equipo"),
       },
       {
-        value: String(s.label3 ?? "+600"),
-        label: String(s.text3 ?? "empresas alojadas por año"),
+        value: String(s.label4 ?? "+600"),
+        label: String(s.text4 ?? "empresas alojadas por año"),
       },
-      { value: String(s.label4 ?? "10"), label: String(s.text4 ?? "años de operación") },
+      { value: String(s.label5 ?? "10"), label: String(s.text5 ?? "años de operación") },
     ],
   };
 }
@@ -217,7 +218,7 @@ export function pickHomeDifferentials(
 export function pickHomeFeatured(raw: Record<string, unknown>): HomeFeaturedContent {
   const f = (raw.featured ?? {}) as Record<string, string>;
   return {
-    title: String(f.title ?? "Propiedades"),
+    title: String(f.title ?? "Propiedades destacadas"),
     linkLabel: String(f.linkLabel ?? "Ver todas →"),
     linkHref: String(f.linkHref ?? "/propiedades"),
   };
@@ -389,18 +390,20 @@ export function pickHomeFooter(raw: Record<string, unknown>): HomeFooterContent 
   const defaults: HomeFooterLink[] = [
     { label: "Propiedades", href: "/propiedades" },
     { label: "Corporativo", href: "/corporate" },
+    { label: "Blog", href: "/blog" },
     { label: "Club Top Rentals", href: "/club-top-rentals" },
     { label: "Propietarios", href: "/propietarios" },
     { label: "Real Estate", href: "/real-estate" },
+    { label: "Contacto", href: "/contacto" },
   ];
-  const links = [1, 2, 3, 4, 5].map((n, idx) => ({
+  const links = [1, 2, 3, 4, 5, 6, 7].map((n, idx) => ({
     label: String(f[`link${n}Label`] ?? defaults[idx]?.label ?? ""),
     href: String(f[`link${n}Href`] ?? defaults[idx]?.href ?? "#"),
   }));
   return {
     brand: String(f.brand ?? "TOP RENTALS"),
     tagline: String(f.tagline ?? "Temporary Apartments · Buenos Aires · Quito"),
-    siteUrl: String(f.siteUrl ?? "toprentals.com.ar"),
+    siteUrl: String(f.siteUrl ?? "thetoprentals.com"),
     copyright: String(f.copyright ?? "© 2025 Top Rentals. Todos los derechos reservados."),
     links,
     socialLabel: String(f.socialLabel ?? "Instagram · Facebook · WhatsApp"),

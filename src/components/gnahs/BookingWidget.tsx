@@ -214,10 +214,7 @@ export function BookingWidget({
   if (apiBlocked) {
     return (
       <div ref={containerRef} className="gnahs-booking-widget w-full">
-        <BookingWidgetFallback
-          bookingRoute={config.bookingRoute}
-          useCustomSearch
-        />
+        <BookingWidgetFallback bookingRoute={config.bookingRoute} />
       </div>
     );
   }

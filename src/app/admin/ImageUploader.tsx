@@ -1,6 +1,9 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import type { MediaUploadGuide } from "@/lib/mediaUploadGuide";
+import { validateFileAgainstGuide } from "@/lib/mediaUploadGuide";
+import { MediaUploadGuide as MediaUploadGuideBox } from "./MediaUploadGuide";
 import { uploadImage, removeImage } from "./actions";
 
 type Props = {
@@ -9,6 +12,7 @@ type Props = {
   hint?: string;
   currentUrl: string;
   fallback: string;
+  uploadGuide?: MediaUploadGuide;
 };
 
 export function ImageUploader({
@@ -17,6 +21,7 @@ export function ImageUploader({
   hint,
   currentUrl,
   fallback,
+  uploadGuide,
 }: Props) {
   const [preview, setPreview] = useState(currentUrl);
   const [error, setError] = useState<string | null>(null);
@@ -29,6 +34,12 @@ export function ImageUploader({
   function onFileChange() {
     const file = inputRef.current?.files?.[0];
     if (!file) return;
+    const sizeError = validateFileAgainstGuide(file, uploadGuide);
+    if (sizeError) {
+      setError(sizeError);
+      if (inputRef.current) inputRef.current.value = "";
+      return;
+    }
     setPreview(URL.createObjectURL(file));
     setError(null);
   }
@@ -79,6 +90,9 @@ export function ImageUploader({
         <h3 className="admin-image-card__title">{label}</h3>
         {hint ? (
           <p className="mt-0.5 text-xs text-[var(--admin-text-dim)]">{hint}</p>
+        ) : null}
+        {uploadGuide ? (
+          <MediaUploadGuideBox guide={uploadGuide} className="mt-2" />
         ) : null}
         <p className="admin-image-card__slug">{slotKey}</p>
         <input

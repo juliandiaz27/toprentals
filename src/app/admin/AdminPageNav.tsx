@@ -2,18 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ADMIN_NAV_ITEMS } from "@/lib/pageContent/adminNav";
+import { ADMIN_NAV_ITEMS, adminNavHref } from "@/lib/pageContent/adminNav";
 
 export function AdminPageNav() {
   const pathname = usePathname() ?? "";
 
   return (
-    <nav
-      className="admin-page-tabs border-b border-[var(--admin-border)] bg-[#000]"
-      aria-label="Páginas del sitio"
-    >
+    <nav className="admin-page-tabs" aria-label="Páginas del sitio">
       {ADMIN_NAV_ITEMS.map((page) => {
-        const href = `/admin/paginas/${page.slug}`;
+        const href = adminNavHref(page);
         const active =
           pathname === href || pathname.startsWith(`${href}/`);
         return (

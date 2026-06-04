@@ -255,14 +255,14 @@ export function HeroBanner({ hero, slides }: Props) {
           )}
         </div>
 
-        <div className="mt-auto max-w-[780px] pb-4 pt-12 lg:max-w-[min(780px,55%)]">
-          <h1 className="text-[clamp(2.5rem,4.5vw,4.25rem)] font-bold leading-[1] tracking-normal text-white">
+        <div className="mt-auto max-w-[820px] pb-4 pt-12 lg:max-w-[min(820px,58%)]">
+          <h1 className="text-[clamp(2.85rem,5.5vw,4.85rem)] font-bold leading-[1.02] tracking-[-0.02em] text-white">
             <FormattedText value={hero.title} as="inline" />
           </h1>
           {hero.subtitle ? (
             <FormattedText
               value={hero.subtitle}
-              className="mt-5 block max-w-md text-[15px] font-normal leading-[1.6] text-white/85 md:text-base"
+              className="mt-6 block max-w-lg text-[15px] font-normal leading-[1.65] text-white/65 md:mt-7 md:text-[17px] md:leading-[1.6]"
             />
           ) : null}
           <div className="mt-9 flex flex-wrap items-center gap-3">

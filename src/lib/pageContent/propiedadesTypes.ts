@@ -7,13 +7,8 @@ export type PropiedadesHeroContent = {
 };
 
 export type PropiedadesFiltersContent = {
-  all: string;
   buenosAires: string;
   ecuador: string;
-  disponibilidad: string;
-  grupos: string;
-  exclusivas: string;
-  barrio: string;
 };
 
 export type PropiedadesDevelopmentContent = {
@@ -37,13 +32,8 @@ export function pickPropiedadesHero(raw: PageContent): PropiedadesHeroContent {
 export function pickPropiedadesFilters(raw: PageContent): PropiedadesFiltersContent {
   const f = (raw.filters ?? {}) as Record<string, string>;
   return {
-    all: f.all ?? "Todos",
     buenosAires: f.buenosAires ?? "Buenos Aires",
     ecuador: f.ecuador ?? "Ecuador",
-    disponibilidad: f.disponibilidad ?? "Disponible ahora",
-    grupos: f.grupos ?? "Grupos",
-    exclusivas: f.exclusivas ?? "Unidades exclusivas",
-    barrio: f.barrio ?? "Barrio",
   };
 }
 

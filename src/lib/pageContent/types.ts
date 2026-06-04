@@ -1,3 +1,5 @@
+import type { MediaUploadGuide } from "@/lib/mediaUploadGuide";
+
 export type PageFieldType =
   | "text"
   | "textarea"
@@ -7,6 +9,8 @@ export type PageFieldType =
   | "url"
   | "boolean";
 
+export type RoutePickerPreset = "menu" | "destinations" | "investor";
+
 export type PageField = {
   key: string;
   label: string;
@@ -15,6 +19,12 @@ export type PageField = {
   hint?: string;
   fallback?: string;
   required?: boolean;
+  /** Ruta fija: el panel no permite cambiarla. */
+  lockedHref?: string;
+  /** Selector de página interna (sin escribir URL a mano). */
+  routePreset?: RoutePickerPreset;
+  /** Medidas y peso recomendados para campos image/video. */
+  uploadGuide?: MediaUploadGuide;
 };
 
 export type PageDefinition = {

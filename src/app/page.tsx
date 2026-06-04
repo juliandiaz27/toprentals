@@ -1,4 +1,5 @@
 import { readPageContent } from "@/lib/pageContent/storage";
+import { loadPropertyListings } from "@/lib/properties/catalog";
 import {
   pickHomeHeader,
   pickHomeHero,
@@ -28,7 +29,10 @@ import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const content = await readPageContent("home");
+  const [content, listings] = await Promise.all([
+    readPageContent("home"),
+    loadPropertyListings(),
+  ]);
   const header = pickHomeHeader(content);
   const hero = pickHomeHero(content);
   const slides = pickHomeHeroSlides(content, hero);
@@ -50,11 +54,12 @@ export default async function Home() {
 
         <HomeSearchBar config={gnahsWidget} />
 
-        <HomeAnimatedStats items={stats.items} />
+        <HomeAnimatedStats title={stats.title} items={stats.items} />
 
         <HomeBelowSearchSection
           differentials={differentials}
           featured={featured}
+          properties={listings}
         />
 
         <div className="bg-black">

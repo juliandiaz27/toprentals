@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FormattedText } from "@/components/content/FormattedText";
+import { CORPORATE_FORM_ANCHOR } from "@/lib/pageContent/corporateCtas";
 import type { CorporateAccessContent } from "@/lib/pageContent/corporateTypes";
 import { CorporateAccessForm } from "./CorporateAccessForm";
 
@@ -9,7 +10,10 @@ export function CorporateAccess({ content }: Props) {
   const loginCta = content.loginCtaLabel.replace(/\s*→\s*$/, "").trim();
 
   return (
-    <section className="bg-[#111111] px-6 py-16 text-white lg:px-12 lg:py-20">
+    <section
+      id="acceso-corporativo"
+      className="scroll-mt-24 bg-[#111111] px-6 py-16 text-white lg:px-12 lg:py-20"
+    >
       <div className="mx-auto w-full max-w-[1440px]">
         <h2
           data-reveal
@@ -31,7 +35,12 @@ export function CorporateAccess({ content }: Props) {
               {content.loginDescription}
             </p>
             <Link
-              href={content.loginCtaHref}
+              href={
+                content.loginCtaHref &&
+                !content.loginCtaHref.includes("/reservas")
+                  ? content.loginCtaHref
+                  : CORPORATE_FORM_ANCHOR
+              }
               className="mt-8 inline-flex h-11 w-fit items-center justify-center rounded-lg bg-white px-5 text-[14px] font-semibold text-neutral-950 hover:bg-neutral-100"
             >
               {loginCta} →

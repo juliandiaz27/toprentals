@@ -25,8 +25,8 @@ export function LoyaltyModule() {
   return (
     <div
       id="GNAHS-loyalty"
-      className="min-h-[480px] w-full"
-      aria-label="Programa de fidelización"
+      className="min-h-[520px] w-full"
+      aria-label="Programa de fidelización Club Top Rentals"
     />
   );
 }

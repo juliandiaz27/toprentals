@@ -37,6 +37,7 @@ export default async function AdminImagesPage() {
                 hint={slot.hint}
                 currentUrl={config[slot.key] ?? slot.fallback}
                 fallback={slot.fallback}
+                uploadGuide={slot.uploadGuide}
               />
             ))}
           </div>

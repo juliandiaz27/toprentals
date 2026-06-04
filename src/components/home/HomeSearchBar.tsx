@@ -8,7 +8,7 @@ type Props = {
   config: WidgetConfig;
 };
 
-/** Buscador home: widget GNAHS v3 con skin Top Rentals (Figma). */
+/** Buscador home: widget GNAHS v3 (el que entregó el proveedor), con skin Top Rentals. */
 export function HomeSearchBar({ config }: Props) {
   return (
     <section

@@ -1,7 +1,8 @@
 import path from "path";
-import { del, list, put } from "@vercel/blob";
+import { del, get, put } from "@vercel/blob";
 
 const PREFIX = "top-rentals";
+const BLOB_ACCESS = "private" as const;
 
 export function useBlobStorage(): boolean {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
@@ -21,22 +22,35 @@ export function blobKeyForUpload(filename: string): string {
   return `${PREFIX}/uploads/${filename}`;
 }
 
+/** URL servida por la app para blobs privados (imágenes/videos en el sitio). */
+export function mediaUrlFromBlobKey(key: string): string {
+  return `/api/media/${key.split("/").map(encodeURIComponent).join("/")}`;
+}
+
+export function blobKeyFromMediaUrl(url: string): string | null {
+  if (!url.startsWith("/api/media/")) return null;
+  const encoded = url.slice("/api/media/".length);
+  try {
+    return encoded.split("/").map(decodeURIComponent).join("/");
+  } catch {
+    return null;
+  }
+}
+
 export async function readBlobJson<T>(key: string): Promise<T | null> {
   if (!useBlobStorage()) return null;
 
-  const { blobs } = await list({ prefix: key, limit: 10 });
-  const match = blobs.find((b) => b.pathname === key);
-  if (!match) return null;
+  const result = await get(key, { access: BLOB_ACCESS });
+  if (!result || result.statusCode !== 200 || !result.stream) return null;
 
-  const res = await fetch(match.url, { cache: "no-store" });
-  if (!res.ok) return null;
-  return (await res.json()) as T;
+  const text = await new Response(result.stream).text();
+  return JSON.parse(text) as T;
 }
 
 export async function writeBlobJson(key: string, data: unknown): Promise<void> {
   const body = JSON.stringify(data, null, 2) + "\n";
   await put(key, body, {
-    access: "public",
+    access: BLOB_ACCESS,
     contentType: "application/json",
     addRandomSuffix: false,
     allowOverwrite: true,
@@ -48,16 +62,21 @@ export async function writeBlobFile(
   body: Buffer | ArrayBuffer,
   contentType: string,
 ): Promise<string> {
-  const blob = await put(key, body, {
-    access: "public",
+  await put(key, body, {
+    access: BLOB_ACCESS,
     contentType,
     addRandomSuffix: false,
     allowOverwrite: true,
   });
-  return blob.url;
+  return mediaUrlFromBlobKey(key);
 }
 
 export async function deleteBlobUrl(url: string): Promise<void> {
+  const fromMedia = blobKeyFromMediaUrl(url);
+  if (fromMedia) {
+    await del(fromMedia);
+    return;
+  }
   if (!url.includes("blob.vercel-storage.com")) return;
   await del(url);
 }

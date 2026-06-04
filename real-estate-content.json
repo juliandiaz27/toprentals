@@ -1,0 +1,117 @@
+{
+  "hero": {
+    "title": "Real estate pensado para generar renta",
+    "subtitle": "Desarrollamos y comercializamos proyectos inmobiliarios diseñados para operar bajo el modelo Top Rentals desde el día uno.",
+    "ctaPrimaryLabel": "Ver proyectos",
+    "ctaPrimaryHref": "#oportunidades",
+    "ctaSecondaryLabel": "Recibir información",
+    "ctaSecondaryHref": "#invertir"
+  },
+  "development": {
+    "title": "Desarrollo, comercialización y operación",
+    "paragraphs": [
+      "Top Rentals integra el desarrollo inmobiliario con un modelo de operación profesional de alquiler temporario.",
+      "Desde el diseño del proyecto hasta la gestión diaria, cada decisión se toma con foco en la renta, la eficiencia y el largo plazo."
+    ]
+  },
+  "rentIncluded": {
+    "title": "Unidades con renta incluida",
+    "paragraphs": [
+      "Los proyectos desarrollados por Top Rentals están concebidos para operar desde el primer día bajo nuestros estándares.",
+      "La renta no es una proyección teórica: es el resultado de una operación real, probada y escalable."
+    ]
+  },
+  "operationDiff": {
+    "title": "La diferencia está en la operación",
+    "items": [
+      "Diseño pensado para short-term rentals",
+      "Operación a cargo de Top Rentals",
+      "Estándares homogéneos en todas las unidades",
+      "Gestión profesional para el huésped",
+      "Optimización continua de la renta"
+    ],
+    "closing": "No vendemos metros cuadrados. Compras activos pensado para facturar."
+  },
+  "proven": {
+    "title": "Una operación probada",
+    "intro": "Top Rentals opera actualmente un amplio portfolio de unidades de alquiler temporario en distintos mercados.",
+    "stats": [
+      { "value": "+500", "label": "Departamentos en operación" },
+      { "value": "10", "label": "Edificios" },
+      { "value": "+100", "label": "Personas en el equipo" },
+      { "value": "BA + EC", "label": "Mercados activos" }
+    ]
+  },
+  "opportunitiesTitle": "Oportunidades",
+  "opportunitiesSubtitle": "Proyectos desarrollados para operar bajo el modelo Top Rentals desde el diseño hasta la operación diaria.",
+  "opportunitiesClosing": "Ambos proyectos fueron concebidos desde el inicio para maximizar la eficiencia operativa y la experiencia del huésped.",
+  "projects": [
+    {
+      "id": "canitas",
+      "name": "Top Rentals Cañitas",
+      "address": "Soldado de la Independencia & Teodoro García",
+      "barrio": "Belgrano - zona residencial de lujo",
+      "units": "55 departamentos",
+      "typologies": "Monoambientes · 2 amb. · 3 amb. · Penthouses",
+      "role": "",
+      "differentials": "",
+      "badge": "EN OBRA",
+      "badgeVariant": "obra",
+      "imageSrc": "/images/placeholders/page-hero.svg",
+      "brochureLabel": "DESCARGAR BROCHURE",
+      "brochureHref": "#"
+    },
+    {
+      "id": "maipu",
+      "name": "Top Rentals Maipú",
+      "address": "Centro de la ciudad",
+      "barrio": "",
+      "units": "90 departamentos",
+      "typologies": "",
+      "role": "Mother home de Top Rentals",
+      "differentials": "Amenities innovadores · Espacios corporativos · Diseño integral",
+      "badge": "EMBLEMÁTICO",
+      "badgeVariant": "emblematic",
+      "imageSrc": "/images/placeholders/page-hero.svg",
+      "brochureLabel": "",
+      "brochureHref": ""
+    }
+  ],
+  "commercialization": {
+    "title": "Comercialización de unidades en edificios operados",
+    "intro": "Además de desarrollar proyectos propios, Top Rentals comercializa unidades dentro de los edificios que opera, ofreciendo renta desde el primer día.",
+    "items": [
+      "Unidades a la venta de propietarios actuales",
+      "Oportunidades detectadas dentro de edificios en operación",
+      "Unidades con potencial de renta bajo el modelo Top Rentals"
+    ],
+    "closing": "Comercializamos solo unidades que conocemos en profundidad porque forman parte de nuestra operación diaria."
+  },
+  "integratedModel": {
+    "title": "Un modelo integrado de punta a punta",
+    "steps": [
+      {
+        "title": "Desarrollo",
+        "text": "Diseño arquitectónico pensado para la operación."
+      },
+      {
+        "title": "Comercialización",
+        "text": "Venta de unidades con lógica de renta."
+      },
+      {
+        "title": "Equipamiento",
+        "text": "Definición y puesta en marcha bajo estándares Top Rentals."
+      },
+      {
+        "title": "Operación",
+        "text": "Gestión diaria, huéspedes y performance."
+      }
+    ]
+  },
+  "finalCta": {
+    "title": "Invertir con Top Rentals",
+    "text": "Contactanos para conocer los proyectos en desarrollo y las oportunidades de inversión disponibles.",
+    "ctaLabel": "Recibir información de proyectos",
+    "ctaHref": "#invertir"
+  }
+}

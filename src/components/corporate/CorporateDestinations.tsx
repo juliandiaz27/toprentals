@@ -3,6 +3,7 @@ import type { CorporateDestinationsContent } from "@/lib/pageContent/corporateTy
 
 type Props = { content: CorporateDestinationsContent };
 
+/** Destinos informativos (sin botones al motor de reservas). */
 export function CorporateDestinations({ content }: Props) {
   return (
     <section

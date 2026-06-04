@@ -1,19 +1,30 @@
 import Link from "next/link";
 import type { PropertyDetail } from "@/lib/properties/details";
 import { reservasLinkProps } from "@/lib/reservasLink";
-import { getRelatedProperties } from "@/lib/properties/details";
+import type { PropertyListing } from "@/lib/properties/catalog";
 import { PropertyCard } from "@/components/properties/PropertyCard";
 import { PropertyDetailHero } from "@/components/properties/detail/PropertyDetailHero";
+import { PropertyDetailGallery } from "@/components/properties/detail/PropertyDetailGallery";
+import { galleryFromDetail } from "@/lib/properties/gallery";
 import { PropertyMap } from "@/components/properties/detail/PropertyMap";
 import { PropertyNearbyPoiList } from "@/components/properties/detail/PropertyNearbyPoi";
+import { PropertyReviewsSection } from "@/components/properties/detail/PropertyReviewsSection";
+import type { PropertyReview } from "@/lib/properties/reviewsTypes";
 
 type Props = {
   property: PropertyDetail;
+  related: PropertyListing[];
+  reviews: PropertyReview[];
   whatsappUrl?: string;
 };
 
-export function PropertyDetailView({ property, whatsappUrl }: Props) {
-  const related = getRelatedProperties(property.relatedSlugs, property.slug);
+export function PropertyDetailView({
+  property,
+  related,
+  reviews,
+  whatsappUrl,
+}: Props) {
+  const galleryImages = galleryFromDetail(property);
 
   return (
     <main className="bg-white">
@@ -48,44 +59,12 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
           </Link>
         </div>
 
-        <div
-          data-reveal
-          className="mt-10 grid gap-3 lg:grid-cols-[1.2fr_1fr] lg:grid-rows-2 lg:gap-4"
-        >
-          {property.imageSrc ? (
-            <>
-              <div className="relative min-h-[280px] overflow-hidden rounded-lg bg-neutral-200 lg:row-span-2 lg:min-h-[360px]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={property.imageSrc}
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              </div>
-              <div className="relative min-h-[160px] overflow-hidden rounded-lg bg-neutral-200">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={property.imageSrc}
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              </div>
-              <div className="relative min-h-[160px] overflow-hidden rounded-lg bg-neutral-200">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={property.imageSrc}
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="min-h-[280px] rounded-lg bg-neutral-200 lg:row-span-2 lg:min-h-[360px]" />
-              <div className="min-h-[160px] rounded-lg bg-neutral-200" />
-              <div className="min-h-[160px] rounded-lg bg-neutral-200" />
-            </>
-          )}
+        <div data-reveal>
+          <PropertyDetailGallery
+            images={galleryImages}
+            hasOffer={property.hasOffer}
+            isPopular={property.isPopular}
+          />
         </div>
 
         <section
@@ -107,7 +86,7 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
         </section>
 
         <section data-reveal className="mt-16">
-          <h2 className="text-xl font-bold text-neutral-950">Unidades disponibles</h2>
+          <h2 className="text-xl font-bold text-neutral-950">Unidades</h2>
           <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {property.units.map((unit) => (
               <li
@@ -118,17 +97,10 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
                 <p className="mt-1 text-[14px] text-neutral-500">{unit.sqm}</p>
                 <p className="mt-1 text-[14px] text-neutral-500">{unit.guests}</p>
                 <p className="mt-3 text-[13px] text-neutral-600">{unit.features}</p>
-                <div className="mt-6 flex flex-col gap-2 sm:flex-row">
-                  <Link
-                    href="/reservas"
-                    {...reservasLinkProps("/reservas")}
-                    className="inline-flex h-10 flex-1 items-center justify-center rounded-lg bg-btn text-[13px] font-medium text-white hover:bg-btn-hover"
-                  >
-                    Ver disponibilidad
-                  </Link>
+                <div className="mt-6">
                   <button
                     type="button"
-                    className="inline-flex h-10 flex-1 items-center justify-center rounded-lg border border-btn text-[13px] font-medium text-btn hover:bg-neutral-50"
+                    className="inline-flex h-10 w-full items-center justify-center rounded-lg border border-btn text-[13px] font-medium text-btn hover:bg-neutral-50 sm:w-auto sm:min-w-[140px]"
                   >
                     Tour 360°
                   </button>
@@ -137,6 +109,12 @@ export function PropertyDetailView({ property, whatsappUrl }: Props) {
             ))}
           </ul>
         </section>
+
+        <PropertyReviewsSection
+          propertySlug={property.slug}
+          propertyName={property.name}
+          reviews={reviews}
+        />
       </div>
 
       <section data-reveal className="bg-neutral-950 px-6 py-10 text-white lg:px-12">

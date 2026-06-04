@@ -5,7 +5,6 @@ import { pickTrabajaPage } from "@/lib/pageContent/trabajaTypes";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { CareersHero } from "@/components/trabaja/CareersHero";
 import { CareersWhy } from "@/components/trabaja/CareersWhy";
-import { CareersPositions } from "@/components/trabaja/CareersPositions";
 import { CareersSpontaneousForm } from "@/components/trabaja/CareersSpontaneousForm";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 
@@ -42,7 +41,6 @@ export default async function TrabajaConNosotrosPage() {
       <main className="bg-white">
         <CareersHero content={page.hero} />
         <CareersWhy content={page.why} />
-        <CareersPositions content={page.positions} />
         <CareersSpontaneousForm content={page.spontaneous} />
       </main>
       {whatsapp ? <WhatsAppFab url={whatsapp} /> : null}

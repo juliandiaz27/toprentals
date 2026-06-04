@@ -4,10 +4,6 @@ import type { CorporateHeroContent } from "@/lib/pageContent/corporateTypes";
 
 type Props = { content: CorporateHeroContent };
 
-function ctaLabel(label: string) {
-  return label.replace(/\s*→\s*$/, "").trim();
-}
-
 /** Hero corporativo: un solo bloque negro (texto, CTAs, divisor, barra de features). */
 export function CorporateHero({ content }: Props) {
   return (
@@ -24,18 +20,19 @@ export function CorporateHero({ content }: Props) {
           className="mt-6 block max-w-2xl text-base leading-relaxed text-[#AAAAAA] lg:text-[17px]"
         />
         <div className="mt-10 flex flex-wrap gap-3">
-          <Link
-            href={content.ctaPrimaryHref}
-            className="inline-flex h-11 items-center justify-center rounded-lg bg-white px-6 text-[14px] font-semibold text-neutral-950 hover:bg-neutral-100"
-          >
-            {ctaLabel(content.ctaPrimaryLabel)} →
-          </Link>
-          <Link
-            href={content.ctaSecondaryHref}
-            className="inline-flex h-11 items-center justify-center rounded-lg border border-white/50 bg-transparent px-6 text-[14px] font-medium text-white hover:border-white/70 hover:bg-white/5"
-          >
-            {ctaLabel(content.ctaSecondaryLabel)} →
-          </Link>
+          {content.ctas.map((cta) => (
+            <Link
+              key={`${cta.variant}-${cta.label}`}
+              href={cta.href}
+              className={
+                cta.variant === "primary"
+                  ? "inline-flex h-11 items-center justify-center rounded-lg bg-white px-6 text-[14px] font-semibold text-neutral-950 hover:bg-neutral-100"
+                  : "inline-flex h-11 items-center justify-center rounded-lg border border-white/50 bg-transparent px-6 text-[14px] font-medium text-white hover:border-white/70 hover:bg-white/5"
+              }
+            >
+              {cta.label} →
+            </Link>
+          ))}
         </div>
       </div>
 

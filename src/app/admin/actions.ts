@@ -8,12 +8,17 @@ import {
   isAuthed,
 } from "@/lib/auth";
 import { readImageConfig, writeImageConfig } from "@/lib/imageConfig";
+import { CONFIG_IMAGE_SLOTS } from "@/lib/adminImageSlots";
+import { validateFileAgainstGuide } from "@/lib/mediaUploadGuide";
 import { saveUpload, deleteUploadByUrl } from "@/lib/upload";
 import { revalidateConfigImages } from "@/lib/revalidate";
 
 export type ActionResult = {
   ok: boolean;
   error?: string;
+  /** Catálogo guardado (p. ej. tras subir galería). */
+  listings?: import("@/lib/properties/catalogTypes").PropertyListingStored[];
+  featuredSlugs?: string[];
 };
 
 async function requireAuth(): Promise<void> {
@@ -65,7 +70,13 @@ export async function uploadImage(
     if (!(file instanceof File) || file.size === 0) {
       return { ok: false, error: "Seleccioná una imagen." };
     }
-    const url = await saveUpload(file, key);
+    const slot = CONFIG_IMAGE_SLOTS.find((s) => s.key === key);
+    const guide = slot?.uploadGuide;
+    const sizeError = validateFileAgainstGuide(file, guide);
+    if (sizeError) {
+      return { ok: false, error: sizeError };
+    }
+    const url = await saveUpload(file, key, { maxSizeMb: guide?.maxSizeMb });
     const config = await readImageConfig();
     config[key] = url;
     await writeImageConfig(config);

@@ -2,24 +2,25 @@
 
 import { useMemo, useState } from "react";
 import type { PropiedadesFiltersContent } from "@/lib/pageContent/propiedadesTypes";
-import { PROPERTY_LISTINGS } from "@/lib/properties/catalog";
+import type { PropertyListing } from "@/lib/properties/catalog";
 import { PropertiesFiltersBar } from "./PropertiesFiltersBar";
 import { filterMatchesCity, type PropertyFilterId } from "./PropertiesFilters";
 import { PropertyCard } from "./PropertyCard";
 
 type Props = {
   filterLabels: PropiedadesFiltersContent;
+  listings: PropertyListing[];
 };
 
-export function PropertiesGrid({ filterLabels }: Props) {
-  const [filter, setFilter] = useState<PropertyFilterId>("all");
+export function PropertiesGrid({ filterLabels, listings }: Props) {
+  const [filter, setFilter] = useState<PropertyFilterId>("buenos-aires");
 
   const visible = useMemo(
     () =>
-      PROPERTY_LISTINGS.filter((p) =>
+      listings.filter((p) =>
         filterMatchesCity(filter, p.city, p.comingSoon),
       ),
-    [filter],
+    [filter, listings],
   );
 
   return (

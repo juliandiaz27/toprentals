@@ -20,7 +20,10 @@ export function CareersSpontaneousForm({ content }: Props) {
   const submit = content.submitLabel.replace(/\s*→\s*$/, "").trim();
 
   return (
-    <section className="bg-[#F8F8F8] px-6 py-14 lg:px-12 lg:py-20">
+    <section
+      id="postulacion"
+      className="scroll-mt-24 bg-[#F8F8F8] px-6 py-14 lg:px-12 lg:py-20"
+    >
       <div className="mx-auto w-full max-w-[1440px]">
         <div data-reveal>
           <h2 className="text-[clamp(1.5rem,3vw,2rem)] font-bold text-neutral-950">

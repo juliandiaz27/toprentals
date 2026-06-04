@@ -3,14 +3,7 @@
 import type { PropiedadesFiltersContent } from "@/lib/pageContent/propiedadesTypes";
 import type { PropertyCity } from "@/lib/properties/catalog";
 
-export type PropertyFilterId =
-  | "all"
-  | "buenos-aires"
-  | "ecuador"
-  | "disponibilidad"
-  | "grupos"
-  | "exclusivas"
-  | "barrio";
+export type PropertyFilterId = "buenos-aires" | "ecuador";
 
 type Props = {
   labels: PropiedadesFiltersContent;
@@ -18,37 +11,21 @@ type Props = {
   onChange: (id: PropertyFilterId) => void;
 };
 
-/** Orden alineado al wireframe: ciudades y disponibilidad primero. */
-const CHIP_ORDER: PropertyFilterId[] = [
-  "buenos-aires",
-  "ecuador",
-  "disponibilidad",
-  "all",
-  "grupos",
-  "exclusivas",
-  "barrio",
-];
+const CHIP_ORDER: PropertyFilterId[] = ["buenos-aires", "ecuador"];
 
 export function filterMatchesCity(
   filter: PropertyFilterId,
   city: PropertyCity,
   comingSoon?: boolean,
 ): boolean {
-  if (filter === "all") return true;
   if (filter === "buenos-aires") return city === "Buenos Aires" && !comingSoon;
-  if (filter === "ecuador") return city === "Quito" || comingSoon === true;
-  return true;
+  return city === "Quito" || comingSoon === true;
 }
 
 export function PropertiesFilters({ labels, active, onChange }: Props) {
   const labelMap: Record<PropertyFilterId, string> = {
-    all: labels.all,
     "buenos-aires": labels.buenosAires,
     ecuador: labels.ecuador,
-    disponibilidad: labels.disponibilidad,
-    grupos: labels.grupos,
-    exclusivas: labels.exclusivas,
-    barrio: labels.barrio,
   };
 
   return (

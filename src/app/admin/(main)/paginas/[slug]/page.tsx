@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { getPageDefinition } from "@/lib/pageContent/schemas";
 import { readPageContent } from "@/lib/pageContent/storage";
+import { buildHeaderEditorState } from "@/lib/pageContent/headerNav";
+import { HeaderPageEditor } from "../../../HeaderPageEditor";
 import { PageEditor } from "../../../PageEditor";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +17,10 @@ export default async function AdminEditPage({ params }: Props) {
   if (!definition) notFound();
 
   const content = await readPageContent(slug);
+
+  if (slug === "home-header") {
+    return <HeaderPageEditor initial={buildHeaderEditorState(content)} />;
+  }
 
   return <PageEditor definition={definition} content={content} />;
 }

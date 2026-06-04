@@ -37,9 +37,14 @@ export function extensionFromFile(file: File): string {
   return "jpg";
 }
 
+export type SaveUploadOptions = {
+  maxSizeMb?: number;
+};
+
 export async function saveUpload(
   file: File,
   basename: string,
+  options?: SaveUploadOptions,
 ): Promise<string> {
   const isImage =
     IMAGE_TYPES.has(file.type) || /\.(jpe?g|png|webp|gif|svg)$/i.test(file.name);
@@ -50,6 +55,15 @@ export async function saveUpload(
     throw new Error(
       "Tipo no permitido. Imágenes: JPEG, PNG, WebP, GIF, SVG. Video: MP4 o WebM.",
     );
+  }
+
+  if (options?.maxSizeMb != null) {
+    const maxBytes = Math.round(options.maxSizeMb * 1024 * 1024);
+    if (file.size > maxBytes) {
+      throw new Error(
+        `El archivo supera el máximo de ${options.maxSizeMb} MB (${(file.size / (1024 * 1024)).toFixed(1)} MB).`,
+      );
+    }
   }
 
   const ext = extensionFromFile(file);

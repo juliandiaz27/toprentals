@@ -1,0 +1,19 @@
+{
+  "stickyReserve": {
+    "enabled": true,
+    "label": "Reservar ahora",
+    "href": "/reservas"
+  },
+  "announcementBar": {
+    "enabled": false,
+    "message": "",
+    "linkLabel": "",
+    "href": "",
+    "backgroundColor": "#111111",
+    "textColor": "#ffffff",
+    "dismissible": true,
+    "audience": "b2c",
+    "startAt": "",
+    "endAt": ""
+  }
+}

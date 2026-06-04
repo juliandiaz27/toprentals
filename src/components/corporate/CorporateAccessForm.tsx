@@ -17,10 +17,7 @@ export function CorporateAccessForm({ content }: Props) {
   }
 
   return (
-    <div
-      id="acceso-corporativo"
-      className="scroll-mt-24 h-full rounded-lg bg-white p-6 text-neutral-950 lg:p-8"
-    >
+    <div className="h-full rounded-lg bg-white p-6 text-neutral-950 lg:p-8">
       <h3 className="text-lg font-bold">{content.formTitle}</h3>
       {sent ? (
         <p className="mt-6 text-[15px] text-neutral-600">

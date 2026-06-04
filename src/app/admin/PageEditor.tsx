@@ -2,10 +2,25 @@
 
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition, type ReactNode } from "react";
+import { MediaUploadGuide } from "./MediaUploadGuide";
+import type { MediaUploadGuide as MediaUploadGuideSpec } from "@/lib/mediaUploadGuide";
+import {
+  resolveUploadGuide,
+  validateFileAgainstGuide,
+} from "@/lib/mediaUploadGuide";
 import type { PageDefinition, PageField } from "@/lib/pageContent/types";
 import type { PageContent } from "@/lib/pageContent/types";
 import { getNested } from "@/lib/pageContent/nested";
+import {
+  fieldIsLockedRoute,
+  fieldUsesRoutePicker,
+} from "@/lib/pageContent/pageFieldValue";
 import { shouldUseRichEditor } from "@/lib/pageContent/richEditor";
+import {
+  isExternalUrlFieldKey,
+  normalizeInternalHref,
+  routesForPreset,
+} from "@/lib/pageContent/siteRoutes";
 import { savePageContent } from "./pageActions";
 import { WysiwygField } from "./WysiwygField";
 
@@ -28,6 +43,58 @@ function isPairableHref(field: PageField): boolean {
       field.key,
     ) &&
     (field.type === "text" || field.type === "url" || field.type === "textarea")
+  );
+}
+
+function MediaUploadField({
+  field,
+  src,
+  strValue,
+  uploadGuide,
+  fieldSpanClass,
+}: {
+  field: PageField;
+  src: string;
+  strValue: string;
+  uploadGuide?: MediaUploadGuideSpec;
+  fieldSpanClass: string;
+}) {
+  const [fileError, setFileError] = useState<string | null>(null);
+
+  return (
+    <div className={`flex flex-col gap-2 ${fieldSpanClass}`}>
+      <span className="admin-field-label">{field.label}</span>
+      {field.hint ? <span className="admin-field-hint">{field.hint}</span> : null}
+      {uploadGuide ? <MediaUploadGuide guide={uploadGuide} /> : null}
+      {field.type === "image" ? (
+        <div className="relative aspect-[21/9] max-w-xl overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-raised)]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={src} alt="" className="h-full w-full object-cover" />
+        </div>
+      ) : strValue ? (
+        <p className="font-mono text-xs text-[var(--admin-text-dim)]">{strValue}</p>
+      ) : null}
+      <input type="hidden" name={field.key} defaultValue={strValue} />
+      <input
+        type="file"
+        name={`__file__${field.key}`}
+        accept={field.type === "video" ? "video/mp4,video/webm" : "image/*"}
+        className="text-sm text-neutral-600 file:mr-3 file:rounded-md file:border-0 file:bg-neutral-100 file:px-3 file:py-1.5 file:text-sm file:font-medium"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (!file) {
+            setFileError(null);
+            return;
+          }
+          setFileError(validateFileAgainstGuide(file, uploadGuide));
+        }}
+      />
+      {fileError ? (
+        <p className="text-xs text-red-400" role="alert">
+          {fileError}
+        </p>
+      ) : null}
+    </div>
   );
 }
 
@@ -56,26 +123,15 @@ function FieldControl({
 
   if (field.type === "image" || field.type === "video") {
     const src = strValue || field.fallback || "/images/placeholders/home-hero.svg";
+    const uploadGuide = resolveUploadGuide(field);
     return (
-      <div className={`flex flex-col gap-2 ${fieldSpan(field)}`}>
-        <span className="admin-field-label">{field.label}</span>
-        {field.hint ? <span className="admin-field-hint">{field.hint}</span> : null}
-        {field.type === "image" ? (
-          <div className="relative aspect-[21/9] max-w-xl overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-raised)]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt="" className="h-full w-full object-cover" />
-          </div>
-        ) : strValue ? (
-          <p className="font-mono text-xs text-[var(--admin-text-dim)]">{strValue}</p>
-        ) : null}
-        <input type="hidden" name={field.key} defaultValue={strValue} />
-        <input
-          type="file"
-          name={`__file__${field.key}`}
-          accept={field.type === "video" ? "video/mp4,video/webm" : "image/*"}
-          className="text-sm text-neutral-600 file:mr-3 file:rounded-md file:border-0 file:bg-neutral-100 file:px-3 file:py-1.5 file:text-sm file:font-medium"
-        />
-      </div>
+      <MediaUploadField
+        field={field}
+        src={src}
+        strValue={strValue}
+        uploadGuide={uploadGuide}
+        fieldSpanClass={fieldSpan(field)}
+      />
     );
   }
 
@@ -129,7 +185,61 @@ function FieldControl({
     );
   }
 
-  const isLinkField = field.type === "url";
+  if (fieldIsLockedRoute(field)) {
+    const href = field.lockedHref ?? "";
+    return (
+      <div className={`flex flex-col gap-2 ${fieldSpan(field)}`}>
+        <span className="admin-field-label">{field.label}</span>
+        {field.hint ? <span className="admin-field-hint">{field.hint}</span> : null}
+        <p className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-raised)] px-3 py-2 font-mono text-sm text-[var(--admin-text-muted)]">
+          {href}
+        </p>
+        <span className="admin-field-hint">
+          La ruta está fija para evitar enlaces rotos. Solo podés editar el texto del botón.
+        </span>
+        <input type="hidden" name={field.key} value={href} />
+      </div>
+    );
+  }
+
+  if (fieldUsesRoutePicker(field)) {
+    const options = routesForPreset(field.routePreset);
+    const normalized = normalizeInternalHref(
+      strValue || field.fallback || options[0]?.href || "/",
+    );
+    const selected = options.some((o) => o.href === normalized)
+      ? normalized
+      : (options.find((o) => o.href === normalizeInternalHref(field.fallback ?? ""))
+          ?.href ?? options[0]?.href ?? "/");
+
+    return (
+      <label className={`flex flex-col gap-2 ${fieldSpan(field)}`}>
+        <span className="admin-field-label">
+          {field.label}
+          {field.required ? " *" : ""}
+        </span>
+        {field.hint ? <span className="admin-field-hint">{field.hint}</span> : null}
+        <span className="admin-field-hint">
+          Elegí la página de destino. No hace falta escribir la URL a mano.
+        </span>
+        <select
+          name={field.key}
+          required={field.required}
+          defaultValue={selected}
+          className="admin-input"
+        >
+          {options.map((opt) => (
+            <option key={opt.id} value={opt.href}>
+              {opt.label} ({opt.href})
+            </option>
+          ))}
+        </select>
+      </label>
+    );
+  }
+
+  const isExternalLink =
+    field.type === "url" && isExternalUrlFieldKey(field.key);
 
   return (
     <label className={`flex flex-col ${fieldSpan(field)}`}>
@@ -138,10 +248,9 @@ function FieldControl({
         {field.required ? " *" : ""}
       </span>
       {field.hint ? <span className="admin-field-hint">{field.hint}</span> : null}
-      {isLinkField ? (
+      {isExternalLink ? (
         <span className="admin-field-hint">
-          Ruta interna (/propiedades) o enlace con https://. Podés dejarlo como está si solo
-          cambiás textos.
+          Enlace externo (https://, mailto:, etc.).
         </span>
       ) : null}
       <input
@@ -151,7 +260,7 @@ function FieldControl({
         defaultValue={strValue}
         className="admin-input"
         placeholder={field.fallback}
-        inputMode={isLinkField ? "url" : undefined}
+        inputMode={isExternalLink ? "url" : undefined}
         autoComplete="off"
       />
     </label>

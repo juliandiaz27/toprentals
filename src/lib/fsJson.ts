@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import { deepMerge, isEmptyObject } from "@/lib/deepMerge";
 import {
   blobKeyFromFilePath,
   blobStorageRequiredMessage,
@@ -9,28 +10,47 @@ import {
   writeBlobJson,
 } from "@/lib/vercelBlob";
 
-export async function readJsonFile<T>(filePath: string, fallback: T): Promise<T> {
-  const blobKey = blobKeyFromFilePath(filePath);
-
-  if (useBlobStorage()) {
-    const fromBlob = await readBlobJson<T>(blobKey);
-    if (fromBlob !== null) return fromBlob;
-  }
-
+async function readJsonFromDisk<T>(filePath: string): Promise<T | null> {
   try {
     const raw = await fs.readFile(filePath, "utf-8");
     return JSON.parse(raw) as T;
   } catch (err) {
     const code = (err as NodeJS.ErrnoException).code;
-    if (code === "ENOENT") {
-      if (isVercelDeploy()) {
-        return fallback;
-      }
-      await writeJsonFile(filePath, fallback);
-      return fallback;
-    }
+    if (code === "ENOENT") return null;
     throw err;
   }
+}
+
+export async function readJsonFile<T>(filePath: string, fallback: T): Promise<T> {
+  const blobKey = blobKeyFromFilePath(filePath);
+  const fromDisk = await readJsonFromDisk<T>(filePath);
+
+  if (useBlobStorage()) {
+    const fromBlob = await readBlobJson<T>(blobKey);
+
+    if (fromBlob === null || isEmptyObject(fromBlob)) {
+      if (fromDisk !== null) return fromDisk;
+      return fallback;
+    }
+
+    if (fromDisk !== null) {
+      return deepMerge(
+        fromDisk as Record<string, unknown>,
+        fromBlob as Record<string, unknown>,
+      ) as T;
+    }
+
+    return fromBlob;
+  }
+
+  if (fromDisk !== null) return fromDisk;
+
+  if (isVercelDeploy()) {
+    return fallback;
+  }
+
+  await writeJsonFile(filePath, fallback);
+  return fallback;
 }
 
 export async function writeJsonFile<T>(filePath: string, data: T): Promise<void> {

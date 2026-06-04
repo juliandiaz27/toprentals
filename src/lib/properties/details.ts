@@ -1,8 +1,7 @@
-import {
-  getPropertyBySlug,
-  PROPERTY_LISTINGS,
-  type PropertyListing,
-} from "./catalog";
+import { loadPropertyListings } from "./catalog";
+import type { PropertyListing } from "./catalog";
+import type { PropertyDetailStored } from "./catalogTypes";
+import { resolvePropertyGalleryImages } from "./gallery";
 
 export type PropertyUnit = {
   name: string;
@@ -27,6 +26,8 @@ export type PropertyDetailExtra = {
   tags: string[];
   pdfHref: string;
   pdfLabel?: string;
+  /** Galería de la ficha; vacío = solo imageSrc del listado. */
+  galleryImages: string[];
   about: string;
   poi: PropertyNearbyPoi;
   units: PropertyUnit[];
@@ -113,24 +114,32 @@ function normalizePoi(
   };
 }
 
-function pickRelatedSlugs(current: PropertyListing, count = 3): string[] {
-  const sameCity = PROPERTY_LISTINGS.filter(
+function pickRelatedSlugs(
+  listings: PropertyListing[],
+  current: PropertyListing,
+  count = 3,
+): string[] {
+  const sameCity = listings.filter(
     (p) => !p.comingSoon && p.slug !== current.slug && p.city === current.city,
   );
-  const otherCity = PROPERTY_LISTINGS.filter(
+  const otherCity = listings.filter(
     (p) => !p.comingSoon && p.slug !== current.slug && p.city !== current.city,
   );
   return [...sameCity, ...otherCity].slice(0, count).map((p) => p.slug);
 }
 
 /** Contenido por defecto generado desde el listado (mismo diseño, textos distintos). */
-export function buildDefaultDetail(listing: PropertyListing): PropertyDetailExtra {
+export function buildDefaultDetail(
+  listing: PropertyListing,
+  allListings: PropertyListing[],
+): PropertyDetailExtra {
   const location = listing.neighborhood || listing.city;
   return {
     subtitle: `Departamentos con servicio de hotel en ${location}, ${listing.city}.`,
     tags: [listing.neighborhood, listing.city, "Servicio de hotel"].filter(Boolean),
     pdfHref: "#",
     pdfLabel: "Descargar PDF torre",
+    galleryImages: resolvePropertyGalleryImages(listing.imageSrc, listing.detail?.galleryImages),
     about: `${listing.name} forma parte de la red Top Rentals en ${listing.city}. Departamentos totalmente equipados, atención 24 hs y la flexibilidad de un alquiler temporario con estándares de hotel.${listing.address ? ` Ubicación: ${listing.address}.` : ""}`,
     poi: {
       sectionTitle: DEFAULT_POI_SECTION_TITLE,
@@ -150,77 +159,103 @@ export function buildDefaultDetail(listing: PropertyListing): PropertyDetailExtr
     finalCtaSubtitle:
       "Contactanos y te ayudamos a encontrar el departamento ideal.",
     finalCtaHref: "/reservas",
-    relatedSlugs: pickRelatedSlugs(listing),
+    relatedSlugs: pickRelatedSlugs(allListings, listing),
   };
 }
 
-/** Overrides opcionales por slug (textos reales cuando el cliente los pase). */
-const PROPERTY_OVERRIDES: Partial<Record<string, Partial<PropertyDetailExtra>>> = {
-  "downtown-torre-bellini": {
-    subtitle:
-      "Escala y confort en el corazón financiero de Buenos Aires.",
-    tags: ["+270 Huéspedes", "45 Pisos", "Microcentro"],
-    about:
-      "Torre Bellini es el edificio insignia de Top Rentals en el microcentro porteño. Departamentos totalmente equipados con servicios de hotel, amenities de primer nivel y una ubicación estratégica para viajes de negocios y estadías prolongadas.",
-    poi: {
-      sectionTitle: "Puntos de interés cercanos",
-      columns: [
-        ["Puerto Madero", "CCK"],
-        ["Plaza San Martín", "Recoleta"],
-        ["9 de Julio / Obelisco", "San Telmo"],
-        ["Retiro", "Aeroparque"],
-      ],
-    },
-    units: [
-      ...DEFAULT_UNITS,
-      {
-        name: "Dúplex Piso 45",
-        sqm: "120 m²",
-        guests: "Hasta 6 huéspedes",
-        features: "Terraza · Vista 360° · Exclusivo",
-      },
-    ],
-    groupsHeadline: "134 unidades · Grupos de más de 270 personas",
-    stats: [
-      { value: "134", label: "Unidades" },
-      { value: "+270", label: "Huéspedes" },
-      { value: "45", label: "Pisos" },
-      { value: "5", label: "Tipologías" },
-    ],
-    finalCtaTitle: "El edificio insignia de Top Rentals en Buenos Aires.",
-    finalCtaSubtitle:
-      "Contactanos y te ayudamos a encontrar el departamento ideal.",
-    relatedSlugs: ["huergo-475", "palermo-soho", "belgrano"],
-  },
-};
+function detailOverrideFromStored(
+  stored: PropertyDetailStored | undefined,
+): Partial<PropertyDetailExtra> {
+  if (!stored) return {};
 
-export function getPropertyDetail(slug: string): PropertyDetail | null {
-  const listing = getPropertyBySlug(slug);
+  const poiItems = (stored.poiLines ?? []).map((line) => line.trim()).filter(Boolean);
+  const poi =
+    poiItems.length > 0
+      ? {
+          sectionTitle: DEFAULT_POI_SECTION_TITLE,
+          columns: buildPoiColumns(poiItems),
+        }
+      : undefined;
+
+  const stats =
+    stored.stats && stored.stats.length > 0
+      ? stored.stats
+          .filter((s) => s.label.trim())
+          .map((s) => ({
+            value: s.value.trim() || "—",
+            label: s.label.trim(),
+          }))
+      : undefined;
+
+  const units =
+    stored.units && stored.units.length > 0
+      ? stored.units
+          .filter((u) => u.name.trim())
+          .map((u) => ({
+            name: u.name.trim(),
+            sqm: u.sqm.trim(),
+            guests: u.guests.trim(),
+            features: u.features.trim(),
+          }))
+      : undefined;
+
+  const galleryImages =
+    stored.galleryImages && stored.galleryImages.length > 0
+      ? stored.galleryImages.map((s) => s.trim()).filter(Boolean)
+      : undefined;
+
+  return {
+    ...(stored.subtitle ? { subtitle: stored.subtitle } : {}),
+    ...(galleryImages ? { galleryImages } : {}),
+    ...(stored.about ? { about: stored.about } : {}),
+    ...(stored.tags?.length ? { tags: stored.tags } : {}),
+    ...(poi ? { poi } : {}),
+    ...(stored.groupsHeadline ? { groupsHeadline: stored.groupsHeadline } : {}),
+    ...(stored.groupsCtaLabel ? { groupsCtaLabel: stored.groupsCtaLabel } : {}),
+    ...(stored.groupsCtaHref ? { groupsCtaHref: stored.groupsCtaHref } : {}),
+    ...(stats ? { stats } : {}),
+    ...(units ? { units } : {}),
+    ...(stored.relatedSlugs?.length ? { relatedSlugs: stored.relatedSlugs } : {}),
+  };
+}
+
+export async function getPropertyDetail(slug: string): Promise<PropertyDetail | null> {
+  const listings = await loadPropertyListings({ includeHidden: true });
+  const listing = listings.find(
+    (p) => p.slug === slug && !p.comingSoon && !p.hidden,
+  );
   if (!listing) return null;
 
-  const base = buildDefaultDetail(listing);
-  const override = PROPERTY_OVERRIDES[slug] ?? {};
+  const base = buildDefaultDetail(listing, listings.filter((p) => !p.hidden));
+  const override = detailOverrideFromStored(listing.detail);
+
+  const galleryImages = resolvePropertyGalleryImages(
+    listing.imageSrc,
+    override.galleryImages ?? listing.detail?.galleryImages,
+  );
 
   return {
     ...listing,
     ...base,
     ...override,
+    galleryImages,
     tags: override.tags ?? base.tags,
-    poi:
-      override.poi != null
-        ? normalizePoi(
-            override.poi as PropertyNearbyPoi | string[],
-            DEFAULT_POI_BA,
-          )
-        : base.poi,
+    poi: override.poi ?? base.poi,
     units: override.units ?? base.units,
     stats: override.stats ?? base.stats,
+    groupsHeadline: override.groupsHeadline ?? base.groupsHeadline,
+    groupsCtaLabel: override.groupsCtaLabel ?? base.groupsCtaLabel,
+    groupsCtaHref: override.groupsCtaHref ?? base.groupsCtaHref,
     relatedSlugs: override.relatedSlugs ?? base.relatedSlugs,
   };
 }
 
-export function getRelatedProperties(slugs: string[], excludeSlug: string) {
+export function getRelatedProperties(
+  listings: PropertyListing[],
+  slugs: string[],
+  excludeSlug: string,
+) {
   return slugs
-    .map((s) => PROPERTY_LISTINGS.find((p) => p.slug === s && !p.comingSoon))
+    .map((s) => listings.find((p) => p.slug === s && !p.comingSoon))
     .filter((p): p is PropertyListing => p != null && p.slug !== excludeSlug);
 }

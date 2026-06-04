@@ -1,0 +1,44 @@
+{
+  "settings": {
+    "title": "Blog",
+    "subtitle": "Novedades, consejos y tendencias sobre alquileres temporarios y hospitalidad."
+  },
+  "posts": [
+    {
+      "id": "post-3",
+      "slug": "alquileres-corporativos-mas-alla-del-hotel",
+      "title": "Alquileres corporativos: más allá del hotel",
+      "excerpt": "Por qué las empresas eligen departamentos con servicio para estadías prolongadas.",
+      "body": "<p>Para estadías de varias semanas o meses, un departamento con servicio combina el espacio de un hogar con la operación de un hotel.</p><h2>Ventajas para RRHH y viajeros</h2><ul><li>Más metros cuadrados y cocina equipada</li><li>Costos predecibles por contrato</li><li>Ubicaciones cercanas a oficinas y aeropuertos</li></ul><p>Conocé nuestras <a href=\"/corporate\">soluciones corporativas</a> y solicitá acceso al portal de reservas.</p>",
+      "coverImageSrc": "/images/placeholders/page-hero.svg",
+      "author": "Top Rentals",
+      "publishedAt": "2025-05-10T12:00:00.000Z",
+      "status": "published",
+      "seoDescription": "Ventajas de los alquileres corporativos frente a hoteles tradicionales."
+    },
+    {
+      "id": "post-2",
+      "slug": "buenos-aires-y-quito-dos-destinos-un-mismo-estandar",
+      "title": "Buenos Aires y Quito: dos destinos, un mismo estándar",
+      "excerpt": "Cómo mantenemos la misma experiencia de hospitalidad en Argentina y Ecuador.",
+      "body": "<p>En Top Rentals operamos torres en <strong>Buenos Aires</strong> y <strong>Quito</strong> con un estándar unificado: departamentos equipados, procesos de check-in claros y equipos locales de soporte.</p><blockquote>La consistencia entre ciudades facilita viajes de negocios y relocations regionales.</blockquote><p>Si tu empresa rota colaboradores entre países, contar con el mismo proveedor reduce fricción operativa y mejora la satisfacción del equipo.</p>",
+      "coverImageSrc": "/images/placeholders/page-hero.svg",
+      "author": "Top Rentals",
+      "publishedAt": "2025-04-02T12:00:00.000Z",
+      "status": "published",
+      "seoDescription": "Hospitalidad consistente en alquileres temporarios en Buenos Aires y Quito."
+    },
+    {
+      "id": "post-1",
+      "slug": "que-buscar-en-un-alquiler-temporario",
+      "title": "Qué buscar en un alquiler temporario",
+      "excerpt": "Ubicación, servicios incluidos y flexibilidad: una guía rápida para elegir tu próximo departamento.",
+      "body": "<p>Elegir un alquiler temporario va más allá del precio por noche. Pensá en la <strong>ubicación</strong> respecto a tu trabajo o reuniones, la <strong>conectividad</strong> y si el edificio ofrece servicios tipo hotel.</p><h2>Servicios que marcan la diferencia</h2><p>Limpieza, recepción 24 h, Wi‑Fi de calidad y espacios comunes bien mantenidos suelen definir la experiencia tanto como el departamento en sí.</p><h2>Flexibilidad</h2><p>Para estadías corporativas o familias, la posibilidad de extender la reserva sin mudanzas intermedias ahorra tiempo y costos.</p>",
+      "coverImageSrc": "/images/placeholders/page-hero.svg",
+      "author": "Top Rentals",
+      "publishedAt": "2025-03-15T12:00:00.000Z",
+      "status": "published",
+      "seoDescription": "Guía para elegir un alquiler temporario: ubicación, servicios y flexibilidad."
+    }
+  ]
+}

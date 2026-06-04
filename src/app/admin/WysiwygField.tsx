@@ -14,6 +14,9 @@ type Props = {
   defaultValue: string;
   placeholder?: string;
   className?: string;
+  /** Habilita títulos y citas para entradas del blog. */
+  variant?: "default" | "blog";
+  onHtmlChange?: (html: string) => void;
 };
 
 function ToolbarButton({
@@ -47,7 +50,10 @@ export function WysiwygField({
   defaultValue,
   placeholder,
   className = "",
+  variant = "default",
+  onHtmlChange,
 }: Props) {
+  const isBlog = variant === "blog";
   const hiddenRef = useRef<HTMLInputElement>(null);
   const initialHtml = plainToEditorHtml(defaultValue);
 
@@ -55,10 +61,10 @@ export function WysiwygField({
     immediatelyRender: false,
     extensions: [
       StarterKit.configure({
-        heading: false,
+        heading: isBlog ? { levels: [2, 3] } : false,
         codeBlock: false,
         code: false,
-        blockquote: false,
+        blockquote: isBlog ? {} : false,
         horizontalRule: false,
       }),
       Placeholder.configure({
@@ -72,9 +78,11 @@ export function WysiwygField({
       },
     },
     onUpdate: ({ editor: ed }) => {
+      const html = ed.isEmpty ? "" : ed.getHTML();
       if (hiddenRef.current) {
-        hiddenRef.current.value = ed.isEmpty ? "" : ed.getHTML();
+        hiddenRef.current.value = html;
       }
+      onHtmlChange?.(html);
     },
   });
 
@@ -135,6 +143,36 @@ export function WysiwygField({
           >
             1. Lista
           </ToolbarButton>
+          {isBlog ? (
+            <>
+              <span className="admin-wysiwyg-toolbar__sep" aria-hidden />
+              <ToolbarButton
+                title="Subtítulo"
+                active={editor.isActive("heading", { level: 2 })}
+                onClick={() =>
+                  editor.chain().focus().toggleHeading({ level: 2 }).run()
+                }
+              >
+                H2
+              </ToolbarButton>
+              <ToolbarButton
+                title="Subtítulo menor"
+                active={editor.isActive("heading", { level: 3 })}
+                onClick={() =>
+                  editor.chain().focus().toggleHeading({ level: 3 }).run()
+                }
+              >
+                H3
+              </ToolbarButton>
+              <ToolbarButton
+                title="Cita"
+                active={editor.isActive("blockquote")}
+                onClick={() => editor.chain().focus().toggleBlockquote().run()}
+              >
+                “
+              </ToolbarButton>
+            </>
+          ) : null}
         </div>
         <EditorContent editor={editor} />
       </div>

@@ -3,8 +3,8 @@
     "title": "Trabajá con nosotros",
     "subtitle": "Somos un equipo apasionado por la hospitalidad y la innovación.",
     "metaLine": "Buenos Aires · Quito · Tiempo completo y part-time",
-    "ctaLabel": "Ver posiciones abiertas ↓",
-    "ctaHref": "#posiciones"
+    "ctaLabel": "Enviá tu CV ↓",
+    "ctaHref": "#postulacion"
   },
   "why": {
     "title": "¿Por qué trabajar en Top Rentals?",
@@ -31,45 +31,9 @@
       }
     ]
   },
-  "positions": {
-    "title": "Posiciones abiertas",
-    "applyLabel": "Postularme →",
-    "items": [
-      {
-        "title": "Recepcionista / Anfitrión de edificio",
-        "location": "Buenos Aires",
-        "type": "Full-time",
-        "applyHref": "mailto:rrhh@toprentals.com.ar?subject=Postulación%20-%20Recepcionista%20BA"
-      },
-      {
-        "title": "Asistente administrativo",
-        "location": "Buenos Aires",
-        "type": "Full-time",
-        "applyHref": "mailto:rrhh@toprentals.com.ar?subject=Postulación%20-%20Asistente%20administrativo"
-      },
-      {
-        "title": "Encargado de limpieza",
-        "location": "Buenos Aires",
-        "type": "Full-time",
-        "applyHref": "mailto:rrhh@toprentals.com.ar?subject=Postulación%20-%20Encargado%20de%20limpieza"
-      },
-      {
-        "title": "Recepcionista",
-        "location": "Quito",
-        "type": "Full-time",
-        "applyHref": "mailto:rrhh@toprentals.com.ar?subject=Postulación%20-%20Recepcionista%20Quito"
-      },
-      {
-        "title": "Housekeeping",
-        "location": "Quito",
-        "type": "Part-time",
-        "applyHref": "mailto:rrhh@toprentals.com.ar?subject=Postulación%20-%20Housekeeping%20Quito"
-      }
-    ]
-  },
   "spontaneous": {
-    "title": "¿No encontrás tu posición?",
-    "subtitle": "Envianos tu CV y te tendremos en cuenta para futuras posiciones.",
+    "title": "Dejanos tu CV",
+    "subtitle": "Completá el formulario y adjuntá tu currículum. Nuestro equipo de RRHH lo tendrá en cuenta para futuras búsquedas.",
     "attachLabel": "Adjuntar CV",
     "submitLabel": "Enviar postulación →"
   }

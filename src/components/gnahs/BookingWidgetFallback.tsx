@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { HomeBookingSearch } from "@/components/home/HomeBookingSearch";
+import type { PropertyListing } from "@/lib/properties/catalog";
 import { reservasLinkProps } from "@/lib/reservasLink";
 
 type Props = {
   bookingRoute: string;
   message?: string;
+  listings?: PropertyListing[];
   /** Misma UI que Figma; redirige al motor con params GNAHS (sin API widget). */
   useCustomSearch?: boolean;
 };
@@ -12,6 +14,7 @@ type Props = {
 export function BookingWidgetFallback({
   bookingRoute,
   message,
+  listings = [],
   useCustomSearch = false,
 }: Props) {
   if (useCustomSearch) {
@@ -20,7 +23,7 @@ export function BookingWidgetFallback({
         {message ? (
           <p className="mb-4 text-center text-[13px] text-neutral-500">{message}</p>
         ) : null}
-        <HomeBookingSearch bookingRoute={bookingRoute} />
+        <HomeBookingSearch listings={listings} bookingRoute={bookingRoute} />
       </div>
     );
   }

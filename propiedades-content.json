@@ -5,13 +5,8 @@
     "imageSrc": "/images/placeholders/page-hero.svg"
   },
   "filters": {
-    "all": "Todos",
     "buenosAires": "Buenos Aires",
-    "ecuador": "Ecuador",
-    "disponibilidad": "Disponible ahora",
-    "grupos": "Grupos",
-    "exclusivas": "Unidades exclusivas",
-    "barrio": "Barrio"
+    "ecuador": "Ecuador"
   },
   "development": {
     "label": "En desarrollo",

@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { GnahsMetasearchTracker } from "@/components/gnahs/GnahsMetasearchTracker";
 import { SiteFooter } from "@/components/home/SiteFooter";
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
+import { MarketingChrome } from "@/components/marketing/MarketingChrome";
+import { loadMarketingConfig } from "@/lib/marketing/load";
 import { readPageContent } from "@/lib/pageContent/storage";
 import { pickHomeFooter } from "@/lib/pageContent/homeTypes";
 import "./globals.css";
@@ -25,7 +27,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const content = await readPageContent("home");
+  const [content, marketing] = await Promise.all([
+    readPageContent("home"),
+    loadMarketingConfig(),
+  ]);
   const footer = pickHomeFooter(content);
 
   return (
@@ -33,6 +38,7 @@ export default async function RootLayout({
       <body className="flex min-h-full flex-col font-sans">
         <GnahsMetasearchTracker />
         <RevealOnScroll />
+        <MarketingChrome config={marketing} />
         {children}
         <SiteFooter footer={footer} />
       </body>

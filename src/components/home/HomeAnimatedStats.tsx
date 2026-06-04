@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { HomeStatItem } from "@/lib/pageContent/homeTypes";
 
 type Props = {
+  title: string;
   items: HomeStatItem[];
 };
 
@@ -21,9 +22,11 @@ function easeOutCubic(t: number): number {
 function AnimatedStatBlock({
   item,
   active,
+  showDivider,
 }: {
   item: HomeStatItem;
   active: boolean;
+  showDivider: boolean;
 }) {
   const { prefix, target } = parseStatDisplay(item.value);
   const [current, setCurrent] = useState(0);
@@ -52,9 +55,13 @@ function AnimatedStatBlock({
   const shown = active ? current : 0;
 
   return (
-    <li className="flex flex-col items-center text-center sm:items-start sm:text-left">
+    <li
+      className={`flex flex-col items-center px-3 text-center sm:px-4 lg:px-6 ${
+        showDivider ? "lg:border-l lg:border-neutral-200" : ""
+      }`}
+    >
       <p
-        className="text-[clamp(2.25rem,5vw,3.25rem)] font-bold leading-none tracking-tight text-neutral-950 tabular-nums"
+        className="text-[clamp(2rem,4.5vw,3rem)] font-bold leading-none tracking-tight text-neutral-950 tabular-nums"
         aria-label={`${prefix}${target} ${item.label}`}
       >
         <span aria-hidden>
@@ -62,14 +69,14 @@ function AnimatedStatBlock({
           {shown}
         </span>
       </p>
-      <p className="mt-3 max-w-[11rem] text-[14px] leading-snug text-neutral-600">
+      <p className="mt-3 max-w-[9.5rem] text-[13px] leading-snug text-neutral-500">
         {item.label}
       </p>
     </li>
   );
 }
 
-export function HomeAnimatedStats({ items }: Props) {
+export function HomeAnimatedStats({ title, items }: Props) {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -95,13 +102,24 @@ export function HomeAnimatedStats({ items }: Props) {
     <section
       ref={ref}
       data-reveal
-      className="border-b border-neutral-200 bg-white"
-      aria-label="Cifras Top Rentals"
+      className="border-b border-neutral-200 bg-[#F8F8F8]"
+      aria-labelledby="home-stats-heading"
     >
-      <div className="mx-auto w-full max-w-[1440px] px-5 py-12 md:px-10 md:py-14">
-        <ul className="grid grid-cols-2 gap-10 lg:grid-cols-4 lg:gap-8">
-          {items.map((item) => (
-            <AnimatedStatBlock key={item.label} item={item} active={visible} />
+      <div className="mx-auto w-full max-w-[1440px] px-5 py-10 md:px-10 md:py-12">
+        <h2
+          id="home-stats-heading"
+          className="text-[15px] font-bold text-neutral-500"
+        >
+          {title}
+        </h2>
+        <ul className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:mt-10 lg:grid-cols-5 lg:gap-y-0">
+          {items.map((item, index) => (
+            <AnimatedStatBlock
+              key={`${item.label}-${index}`}
+              item={item}
+              active={visible}
+              showDivider={index > 0}
+            />
           ))}
         </ul>
       </div>

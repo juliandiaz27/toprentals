@@ -7,8 +7,34 @@ const SANITIZE_OPTIONS: sanitizeHtml.IOptions = {
   },
 };
 
+const BLOG_SANITIZE_OPTIONS: sanitizeHtml.IOptions = {
+  allowedTags: [
+    "p",
+    "br",
+    "strong",
+    "b",
+    "em",
+    "i",
+    "u",
+    "ul",
+    "ol",
+    "li",
+    "a",
+    "h2",
+    "h3",
+    "blockquote",
+  ],
+  allowedAttributes: {
+    a: ["href", "target", "rel"],
+  },
+};
+
 export function sanitizeRichHtml(html: string): string {
   return sanitizeHtml(html, SANITIZE_OPTIONS);
+}
+
+export function sanitizeBlogHtml(html: string): string {
+  return sanitizeHtml(html, BLOG_SANITIZE_OPTIONS);
 }
 
 function escapeHtml(text: string): string {

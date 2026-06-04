@@ -1,4 +1,10 @@
 import type { PageContent } from "./types";
+import {
+  buildCorporateHeroCtas,
+  type CorporateCta,
+} from "./corporateCtas";
+
+export type { CorporateCta };
 
 export type CorporateHeroContent = {
   label: string;
@@ -8,6 +14,8 @@ export type CorporateHeroContent = {
   ctaPrimaryHref: string;
   ctaSecondaryLabel: string;
   ctaSecondaryHref: string;
+  /** CTAs listos para render (sin Buenos Aires / Ecuador al motor). */
+  ctas: CorporateCta[];
   imageSrc: string;
   features: string[];
 };
@@ -80,8 +88,8 @@ function asBlocks(value: unknown, fallback: CorporateTextBlock[]): CorporateText
   return value.map((item, i) => {
     const o = (item ?? {}) as Record<string, string>;
     return {
-      title: o.title ?? fallback[i]?.title ?? "",
-      text: o.text ?? fallback[i]?.text ?? "",
+      title: String(o.title ?? fallback[i]?.title ?? "").trim(),
+      text: String(o.text ?? fallback[i]?.text ?? "").trim(),
     };
   });
 }
@@ -178,6 +186,12 @@ export function pickCorporatePage(raw: PageContent): CorporatePageContent {
       ctaPrimaryHref: String(hero.ctaPrimaryHref ?? "#acceso-corporativo"),
       ctaSecondaryLabel: String(hero.ctaSecondaryLabel ?? "Cotizar alojamiento →"),
       ctaSecondaryHref: String(hero.ctaSecondaryHref ?? "#acceso-corporativo"),
+      ctas: buildCorporateHeroCtas({
+        ctaPrimaryLabel: String(hero.ctaPrimaryLabel ?? "Acceso corporativo →"),
+        ctaPrimaryHref: String(hero.ctaPrimaryHref ?? "#acceso-corporativo"),
+        ctaSecondaryLabel: String(hero.ctaSecondaryLabel ?? "Cotizar alojamiento →"),
+        ctaSecondaryHref: String(hero.ctaSecondaryHref ?? "#acceso-corporativo"),
+      }),
       imageSrc: String(
         hero.imageSrc ?? "/images/corporate/corporate-teaser.png",
       ),

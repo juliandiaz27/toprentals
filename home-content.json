@@ -1,18 +1,20 @@
 {
   "header": {
+    "logoSrc": "",
     "logoText": "TOP RENTALS",
-    "link1Label": "Propiedades",
-    "link1Href": "/propiedades",
-    "link2Label": "Corporativo",
-    "link2Href": "/corporate",
-    "link3Label": "Club Top Rentals",
-    "link3Href": "/club-top-rentals",
-    "link4Label": "Quiénes somos",
-    "link4Href": "/nosotros",
-    "link5Label": "Trabajá con nosotros",
-    "link5Href": "/trabaja-con-nosotros",
     "ctaLabel": "Reservar ahora",
-    "ctaHref": "/reservas"
+    "nav": [
+      { "id": "home", "label": "Home", "visible": true },
+      { "id": "propiedades", "label": "Propiedades", "visible": true },
+      { "id": "corporate", "label": "Corporativo", "visible": true },
+      { "id": "propietarios", "label": "Propietarios", "visible": true },
+      { "id": "real-estate", "label": "Real Estate", "visible": true },
+      { "id": "club-top-rentals", "label": "Club Top Rentals", "visible": true },
+      { "id": "nosotros", "label": "Quiénes somos", "visible": true },
+      { "id": "trabaja-con-nosotros", "label": "Trabajá con nosotros", "visible": true },
+      { "id": "blog", "label": "Blog", "visible": true },
+      { "id": "contacto", "label": "Contacto", "visible": true }
+    ]
   },
   "hero": {
     "title": "Departamentos con servicio de hotel.",
@@ -38,14 +40,17 @@
     }
   ],
   "stats": {
-    "label1": "+100",
-    "text1": "Personas en el equipo",
-    "label2": "+100",
-    "text2": "Departamentos en operación",
-    "label3": "+600",
-    "text3": "empresas alojadas por año",
-    "label4": "10",
-    "text4": "años de operación"
+    "title": "Top Rentals en números",
+    "label1": "+500",
+    "text1": "departamentos operados",
+    "label2": "15",
+    "text2": "torres",
+    "label3": "+100",
+    "text3": "Personas en el equipo",
+    "label4": "+600",
+    "text4": "empresas alojadas por año",
+    "label5": "10",
+    "text5": "años de operación"
   },
   "differentials": {
     "title": "Nuestros diferenciales",
@@ -57,7 +62,7 @@
     "card3Text": "Edificios completos en zonas clave"
   },
   "featured": {
-    "title": "Propiedades",
+    "title": "Propiedades destacadas",
     "linkLabel": "Ver todas →",
     "linkHref": "/propiedades"
   },
@@ -113,7 +118,7 @@
   "footer": {
     "brand": "TOP RENTALS",
     "tagline": "Temporary Apartments · Buenos Aires · Quito",
-    "siteUrl": "toprentals.com.ar",
+    "siteUrl": "thetoprentals.com",
     "copyright": "© 2025 Top Rentals. Todos los derechos reservados.",
     "link1Label": "Propiedades",
     "link1Href": "/propiedades",
