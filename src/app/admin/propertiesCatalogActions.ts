@@ -17,15 +17,25 @@ import type {
 } from "@/lib/properties/catalogTypes";
 import { linesFromText } from "@/lib/properties/catalogText";
 import { detailHasContent, ensureStats } from "@/lib/properties/detailForm";
+import { pickPropiedadesFilters } from "@/lib/pageContent/propiedadesTypes";
+import { propertyCityOptionsFromFilters } from "@/lib/pageContent/propertyCityFilters";
+import { readPageContent } from "@/lib/pageContent/storage";
 import {
   readPropertiesCatalog,
   writePropertiesCatalog,
 } from "@/lib/properties/catalogStorage";
 import type { ActionResult } from "./actions";
 
-const VALID_CITIES = new Set(["Buenos Aires", "Quito"]);
+async function allowedPropertyCities(): Promise<Set<string>> {
+  const content = await readPageContent("propiedades");
+  const options = propertyCityOptionsFromFilters(pickPropiedadesFilters(content));
+  return new Set(options.length > 0 ? options : ["Buenos Aires", "Quito"]);
+}
 
-function parseListingsPayload(raw: string): PropertyListingStored[] | null {
+function parseListingsPayload(
+  raw: string,
+  validCities: Set<string>,
+): PropertyListingStored[] | null {
   try {
     const parsed = JSON.parse(raw) as unknown;
     if (!Array.isArray(parsed)) return null;
@@ -39,8 +49,8 @@ function parseListingsPayload(raw: string): PropertyListingStored[] | null {
       if (!name) continue;
       if (!slug) slug = slugifyPropertyName(name);
 
-      const city = String(row.city ?? "Buenos Aires");
-      if (!VALID_CITIES.has(city)) continue;
+      const city = String(row.city ?? "").trim();
+      if (!city || !validCities.has(city)) continue;
 
       const gnahsId = Number(row.gnahsId);
       if (Number.isNaN(gnahsId)) continue;
@@ -117,7 +127,7 @@ function parseListingsPayload(raw: string): PropertyListingStored[] | null {
         slug,
         gnahsId,
         name,
-        city: city as PropertyListingStored["city"],
+        city,
         neighborhood: String(row.neighborhood ?? "").trim(),
         address: String(row.address ?? "").trim(),
         imageSrc: String(row.imageSrc ?? "").trim(),
@@ -153,9 +163,17 @@ export async function savePropertiesCatalog(
       return { ok: false, error: "No autorizado" };
     }
 
-    const listings = parseListingsPayload(String(formData.get("catalog.listings") ?? ""));
+    const validCities = await allowedPropertyCities();
+    const listings = parseListingsPayload(
+      String(formData.get("catalog.listings") ?? ""),
+      validCities,
+    );
     if (!listings || listings.length === 0) {
-      return { ok: false, error: "Agregá al menos una propiedad." };
+      return {
+        ok: false,
+        error:
+          "Agregá al menos una propiedad con ciudad válida (definida en Páginas → Propiedades → Filtros).",
+      };
     }
 
     const slugs = new Set<string>();

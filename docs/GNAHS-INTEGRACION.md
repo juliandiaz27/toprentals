@@ -125,7 +125,7 @@ Snippet HTML: `docs/gnahs-snippets/my-booking.html`.
 | Motor Buenos Aires | `engine-buenos-aires.html` | `/reservas/buenos-aires` — ids `1,2,3,5,6,7,8,9,10,11` | ✅ |
 | Motor Quito | `engine-quito.html` | `/reservas/quito` — ids `4,12` | ✅ |
 | Mis reservas | `my-booking.html` | `/mis-reservas` → `MyBooking` | ✅ |
-| Loyalty | `loyalty.html` | `/club-top-rentals` → `LoyaltyModule` | ✅ |
+| Loyalty | `loyalty.html` | `/loyalty` → `LoyaltyModule` (alias `/acceso`) | ✅ |
 | Agencias | `agencies.html` | `/agencias` → `AgenciesModule` | ✅ |
 | Tracking motor | [docs tracking](https://docs.gnahs.com/2.0/tracking/booking-engine-tracking) | `/reservas` → `pushGnahsStepLoaded` | ✅ |
 | Metasearch (sitio) | paso 1 guía básica | `layout.tsx` → `GnahsMetasearchTracker` | ✅ |
@@ -138,7 +138,8 @@ Snippet HTML: `docs/gnahs-snippets/my-booking.html`.
 |------|------------|------|
 | `/` (buscador) | `BookingWidget` | **`docs/GNAHS-WIDGET.md`** |
 | `/agencias` | `AgenciesModule` | **`docs/GNAHS-AGENCIES.md`** |
-| `/club-top-rentals` | `LoyaltyModule` | loyalty |
+| `/club-top-rentals` | Landing Club (marketing) | — |
+| `/loyalty` | `LoyaltyModule` | loyalty |
 | `/reservar` | redirect 301 | → `/reservas` |
 | `/misreservas` | redirect 301 | → `/mis-reservas` |
 

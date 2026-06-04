@@ -107,10 +107,10 @@
   },
   "access": {
     "title": "Acceso Corporativo",
-    "loginQuestion": "¿Sos agencia o tenés cuenta corporativa?",
-    "loginDescription": "Ingresá con tu usuario de agencia para reservar con tarifas corporativas.",
+    "loginQuestion": "¿Ya sos cliente corporate?",
+    "loginDescription": "Ingresá a tu cuenta y reservá con tarifas corporativas.",
     "loginCtaLabel": "Acceso corporativo →",
-    "loginCtaHref": "#acceso-agencias",
+    "loginCtaHref": "/agencias",
     "formTitle": "Solicitar acceso corporate",
     "formSubmitLabel": "Solicitar información →"
   }

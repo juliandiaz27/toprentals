@@ -11,6 +11,7 @@ type WidgetConfig = ReturnType<typeof getGnahsWidgetConfig>;
 type Props = {
   config: WidgetConfig;
   hidePromo?: boolean;
+  hideDestination?: boolean;
   labels?: BookingWidgetLabels;
 };
 

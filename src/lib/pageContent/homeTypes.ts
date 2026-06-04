@@ -1,9 +1,12 @@
+import { parseDifferentialCards } from "./differentialCards";
 import {
   HEADER_CTA_HREF,
   type HeaderNavLink,
   resolveHeaderNavStored,
   headerNavLinksFromStored,
 } from "./headerNav";
+
+export { parseDifferentialCards };
 
 export type { HeaderNavLink };
 
@@ -189,29 +192,10 @@ export function pickHomeStats(raw: Record<string, unknown>): HomeStatsContent {
 export function pickHomeDifferentials(
   raw: Record<string, unknown>,
 ): HomeDifferentialsContent {
-  const d = (raw.differentials ?? {}) as Record<string, string>;
+  const d = (raw.differentials ?? {}) as Record<string, unknown>;
   return {
     title: String(d.title ?? "Nuestros diferenciales"),
-    cards: [
-      {
-        title: String(d.card1Title ?? "Limpieza profesional"),
-        text: String(
-          d.card1Text ?? "Estándares de hotel en cada departamento",
-        ),
-      },
-      {
-        title: String(d.card2Title ?? "Propuesta estandarizada"),
-        text: String(
-          d.card2Text ?? "Calidad consistente en cada propiedad",
-        ),
-      },
-      {
-        title: String(d.card3Title ?? "Ubicaciones estratégicas"),
-        text: String(
-          d.card3Text ?? "Edificios completos en zonas clave",
-        ),
-      },
-    ],
+    cards: parseDifferentialCards(d),
   };
 }
 

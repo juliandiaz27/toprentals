@@ -1,0 +1,148 @@
+{
+  "hero": {
+    "label": "TOP RENTALS CLUB",
+    "title": "Cada estadía suma.\nCada punto vale.",
+    "subtitle": "Un programa de rewards diseñado para quienes eligen Top Rentals una y otra vez.",
+    "ctaJoinLabel": "Unirme al Club",
+    "ctaJoinHref": "/loyalty",
+    "ctaMemberLabel": "Ya soy miembro",
+    "ctaMemberHref": "/loyalty"
+  },
+  "intro": {
+    "title": "¿Qué es Top Rentals Club?",
+    "text": "Es nuestro programa de fidelización. Cada vez que te alojás en Top Rentals, acumulás puntos que podés canjear por descuentos, upgrades y beneficios exclusivos en tus próximas estadías."
+  },
+  "howItWorks": {
+    "title": "Cómo funciona",
+    "steps": [
+      {
+        "title": "Reservá en Top Rentals",
+        "text": "Cada estadía confirmada suma puntos automáticamente."
+      },
+      {
+        "title": "Acumulá puntos",
+        "text": "Tus puntos se acreditan al finalizar cada reserva."
+      },
+      {
+        "title": "Subí de nivel",
+        "text": "A más noches por año, más beneficios desbloqueás."
+      },
+      {
+        "title": "Canjeá",
+        "text": "Usá tus puntos para descuentos y upgrades en futuras estadías."
+      }
+    ]
+  },
+  "levels": {
+    "title": "Niveles del Club",
+    "subtitle": "Cuanto más volvés, más beneficios desbloqueás.",
+    "tiers": [
+      {
+        "id": "silver",
+        "name": "Silver",
+        "requirement": "0–9 noches al año",
+        "variant": "silver",
+        "benefits": [
+          "Acumulación de puntos",
+          "Check-in prioritario",
+          "WiFi premium"
+        ]
+      },
+      {
+        "id": "gold",
+        "name": "Gold",
+        "requirement": "10–24 noches al año",
+        "variant": "gold",
+        "benefits": [
+          "Todo Silver +",
+          "Upgrade de categoría (sujeto a disponibilidad)",
+          "Late check-out hasta 14hs",
+          "Welcome amenity"
+        ]
+      },
+      {
+        "id": "platinum",
+        "name": "Platinum",
+        "requirement": "25+ noches al año",
+        "variant": "platinum",
+        "benefits": [
+          "Todo Gold +",
+          "Upgrade garantizado",
+          "Late check-out hasta 18hs",
+          "Early check-in",
+          "Concierge dedicado"
+        ]
+      }
+    ]
+  },
+  "benefits": {
+    "title": "Beneficios del Club",
+    "columns": [
+      {
+        "title": "Descuentos y precios",
+        "items": [
+          "Tarifas exclusivas para miembros",
+          "Descuento progresivo según nivel",
+          "Acceso a deals anticipados"
+        ]
+      },
+      {
+        "title": "Upgrades y estadía",
+        "items": [
+          "Mejora de tipología disponible",
+          "Check-in temprano / late check-out",
+          "Habitaciones en pisos altos (sujeto a disponibilidad)"
+        ]
+      },
+      {
+        "title": "Experiencia y servicio",
+        "items": [
+          "Línea de soporte prioritaria",
+          "Concierge personal (Platinum)",
+          "Bienvenida especial en cada estadía"
+        ]
+      },
+      {
+        "title": "Acumulación y canje",
+        "items": [
+          "Puntos por cada noche reservada",
+          "Canje por noches gratis",
+          "Puntos no vencen mientras mantengas actividad"
+        ]
+      }
+    ]
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "items": [
+      {
+        "question": "¿Cómo me uno al Club?",
+        "answer": "Registrate gratis con tu email. Tu membresía se activa automáticamente con tu primera reserva."
+      },
+      {
+        "question": "¿Los puntos vencen?",
+        "answer": "No. Tus puntos se acumulan sin fecha de vencimiento mientras tu cuenta esté activa."
+      },
+      {
+        "question": "¿Cómo subo de nivel?",
+        "answer": "Tu nivel se calcula por las noches acumuladas en un año calendario. A más noches, más beneficios."
+      },
+      {
+        "question": "¿Puedo canjear puntos en cualquier propiedad?",
+        "answer": "Sí, en todas las propiedades de Top Rentals en Buenos Aires y Quito."
+      }
+    ]
+  },
+  "featured": {
+    "title": "Reservá y empezá a sumar puntos",
+    "linkLabel": "Ver todas las propiedades",
+    "linkHref": "/propiedades"
+  },
+  "bottomCta": {
+    "text": "Tu próxima reserva ya suma puntos. Unirte es gratis y automático.",
+    "ctaPropertiesLabel": "Ver propiedades",
+    "ctaPropertiesHref": "/propiedades",
+    "ctaMemberLabel": "Ya soy miembro",
+    "ctaMemberHref": "/loyalty"
+  }
+}

@@ -7,7 +7,9 @@ export type PageFieldType =
   | "image"
   | "video"
   | "url"
-  | "boolean";
+  | "boolean"
+  | "cardList"
+  | "cityFilterList";
 
 export type RoutePickerPreset = "menu" | "destinations" | "investor";
 
@@ -25,6 +27,9 @@ export type PageField = {
   routePreset?: RoutePickerPreset;
   /** Medidas y peso recomendados para campos image/video. */
   uploadGuide?: MediaUploadGuide;
+  /** Mínimo / máximo de ítems para type cardList. */
+  listMin?: number;
+  listMax?: number;
 };
 
 export type PageDefinition = {

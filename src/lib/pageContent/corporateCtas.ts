@@ -4,7 +4,7 @@ export const CORPORATE_FORM_ANCHOR = "#acceso-corporativo";
 /** Ruta dedicada al módulo GNAHS de agencias */
 export const CORPORATE_AGENCIES_PATH = "/agencias";
 
-/** Ancla del módulo de agencias embebido en /corporate */
+/** Ancla de la tarjeta de login corporativo (columna derecha en /corporate) */
 export const CORPORATE_AGENCIES_ANCHOR = "#acceso-agencias";
 
 export type CorporateCta = {
@@ -33,7 +33,7 @@ export function isCorporateAccessCtaLabel(label: string): boolean {
   return /acceso/.test(t) && !/cotizar/.test(t);
 }
 
-/** CTA «Acceso corporativo» → módulo de agencias (ancla en /corporate o /agencias). */
+/** CTA hero «Acceso corporativo» → tarjeta de login en /corporate. */
 export function sanitizeCorporateAccessHref(href: string): string {
   const h = href.trim();
   if (
@@ -45,6 +45,22 @@ export function sanitizeCorporateAccessHref(href: string): string {
     /\/reservas/i.test(h)
   ) {
     return CORPORATE_AGENCIES_ANCHOR;
+  }
+  return h;
+}
+
+/** Botón de login en tarjeta derecha → módulo GNAHS en /agencias. */
+export function sanitizeCorporateLoginHref(href: string): string {
+  const h = href.trim();
+  if (
+    !h ||
+    h === "#" ||
+    h === CORPORATE_FORM_ANCHOR ||
+    h === CORPORATE_AGENCIES_ANCHOR ||
+    /acceso-corporativo/i.test(h) ||
+    /\/reservas/i.test(h)
+  ) {
+    return CORPORATE_AGENCIES_PATH;
   }
   return h;
 }

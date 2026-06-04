@@ -2,6 +2,7 @@ import type { PageContent } from "./types";
 import {
   buildCorporateHeroCtas,
   sanitizeCorporateAccessHref,
+  sanitizeCorporateLoginHref,
   type CorporateCta,
 } from "./corporateCtas";
 
@@ -286,16 +287,14 @@ export function pickCorporatePage(raw: PageContent): CorporatePageContent {
     },
     access: {
       title: String(access.title ?? "Acceso Corporativo"),
-      loginQuestion: String(
-        access.loginQuestion ?? "¿Sos agencia o tenés cuenta corporativa?",
-      ),
+      loginQuestion: String(access.loginQuestion ?? "¿Ya sos cliente corporate?"),
       loginDescription: String(
         access.loginDescription ??
-          "Ingresá con tu usuario de agencia para reservar con tarifas corporativas.",
+          "Ingresá a tu cuenta y reservá con tarifas corporativas.",
       ),
       loginCtaLabel: String(access.loginCtaLabel ?? "Acceso corporativo →"),
-      loginCtaHref: sanitizeCorporateAccessHref(
-        String(access.loginCtaHref ?? "#acceso-agencias"),
+      loginCtaHref: sanitizeCorporateLoginHref(
+        String(access.loginCtaHref ?? "/agencias"),
       ),
       formTitle: String(access.formTitle ?? "Solicitar acceso corporate"),
       formSubmitLabel: String(

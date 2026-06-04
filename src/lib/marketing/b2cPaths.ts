@@ -13,7 +13,14 @@ const NON_B2C_PREFIXES = [
 ] as const;
 
 /** Rutas exactas B2C (funnel de reserva directa). */
-const B2C_EXACT = ["/", "/club-top-rentals", "/nosotros", "/contacto"] as const;
+const B2C_EXACT = [
+  "/",
+  "/club-top-rentals",
+  "/loyalty",
+  "/acceso",
+  "/nosotros",
+  "/contacto",
+] as const;
 
 /** Prefijos B2C (edificios, blog, etc.). */
 const B2C_PREFIXES = ["/propiedades", "/blog"] as const;

@@ -12,6 +12,7 @@ export const MENU_SITE_ROUTES: SiteRouteOption[] = [
   { id: "propietarios", label: "Propietarios", href: "/propietarios" },
   { id: "real-estate", label: "Real Estate", href: "/real-estate" },
   { id: "club", label: "Club Top Rentals", href: "/club-top-rentals" },
+  { id: "loyalty", label: "Club — acceso / loyalty", href: "/loyalty" },
   { id: "nosotros", label: "Quiénes somos", href: "/nosotros" },
   { id: "trabaja", label: "Trabajá con nosotros", href: "/trabaja-con-nosotros" },
   { id: "blog", label: "Blog", href: "/blog" },

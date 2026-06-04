@@ -1,15 +1,19 @@
 import type { PageContent } from "./types";
 import { getNested } from "./nested";
+import {
+  parsePropertyCityFilters,
+  type PropertyCityFilterItem,
+} from "./propertyCityFilters";
+
+export type { PropertyCityFilterItem };
 
 export type PropiedadesHeroContent = {
   title: string;
   subtitle: string;
 };
 
-export type PropiedadesFiltersContent = {
-  buenosAires: string;
-  ecuador: string;
-};
+/** Filtros por ciudad / región en el listado público. */
+export type PropiedadesFiltersContent = PropertyCityFilterItem[];
 
 export type PropiedadesDevelopmentContent = {
   label: string;
@@ -30,11 +34,8 @@ export function pickPropiedadesHero(raw: PageContent): PropiedadesHeroContent {
 }
 
 export function pickPropiedadesFilters(raw: PageContent): PropiedadesFiltersContent {
-  const f = (raw.filters ?? {}) as Record<string, string>;
-  return {
-    buenosAires: f.buenosAires ?? "Buenos Aires",
-    ecuador: f.ecuador ?? "Ecuador",
-  };
+  const f = (raw.filters ?? {}) as Record<string, unknown>;
+  return parsePropertyCityFilters(f);
 }
 
 export function pickPropiedadesDevelopment(

@@ -1,4 +1,5 @@
 import { FormattedText } from "@/components/content/FormattedText";
+import { differentialCardsGridClass } from "@/lib/pageContent/differentialCards";
 import type {
   HomeDifferentialsContent,
   HomeFeaturedContent,
@@ -27,10 +28,12 @@ export function HomeBelowSearchSection({
           <h2 className="text-[clamp(1.35rem,2.5vw,1.75rem)] font-bold leading-tight text-neutral-950">
             <FormattedText value={differentials.title} as="inline" />
           </h2>
-          <ul className="mt-8 grid gap-4 sm:grid-cols-3 sm:gap-5">
-            {differentials.cards.map((card) => (
+          <ul
+            className={`mt-8 grid gap-4 sm:gap-5 ${differentialCardsGridClass(differentials.cards.length)}`}
+          >
+            {differentials.cards.map((card, index) => (
               <li
-                key={card.title}
+                key={`${card.title}-${index}`}
                 className="rounded-xl border border-neutral-200 bg-white px-5 py-6"
               >
                 <span

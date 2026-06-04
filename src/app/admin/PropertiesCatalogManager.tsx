@@ -23,12 +23,12 @@ type View =
   | { mode: "edit"; index: number }
   | { mode: "new" };
 
-function emptyListing(): PropertyListingStored {
+function emptyListing(defaultCity: string): PropertyListingStored {
   return {
     slug: "",
     gnahsId: 1,
     name: "",
-    city: "Buenos Aires",
+    city: defaultCity,
     neighborhood: "",
     address: "",
     imageSrc: "",
@@ -79,6 +79,7 @@ function IconEye({ off }: { off?: boolean }) {
 }
 
 export function PropertiesCatalogManager({ initial }: Props) {
+  const defaultCity = initial.cityOptions[0] ?? "Buenos Aires";
   const router = useRouter();
   const [view, setView] = useState<View>({ mode: "list" });
   const [error, setError] = useState<string | null>(null);
@@ -86,7 +87,7 @@ export function PropertiesCatalogManager({ initial }: Props) {
   const [pending, startTransition] = useTransition();
   const [listings, setListings] = useState(initial.listings);
   const [featuredSlugs, setFeaturedSlugs] = useState(initial.featuredSlugs);
-  const [draft, setDraft] = useState<PropertyListingStored>(emptyListing());
+  const [draft, setDraft] = useState<PropertyListingStored>(emptyListing(defaultCity));
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
 
@@ -135,7 +136,7 @@ export function PropertiesCatalogManager({ initial }: Props) {
   );
 
   function openNew() {
-    setDraft({ ...emptyListing(), detail: normalizeDetailForForm() });
+    setDraft({ ...emptyListing(defaultCity), detail: normalizeDetailForForm() });
     setImageFile(null);
     setGalleryFiles([]);
     setError(null);
@@ -406,16 +407,19 @@ export function PropertiesCatalogManager({ initial }: Props) {
               <label className="flex flex-col">
                 <span className="admin-field-label">Ciudad</span>
                 <select
-                  value={draft.city}
-                  onChange={(e) =>
-                    updateDraft({
-                      city: e.target.value as PropertyListingStored["city"],
-                    })
+                  value={
+                    initial.cityOptions.includes(draft.city)
+                      ? draft.city
+                      : defaultCity
                   }
+                  onChange={(e) => updateDraft({ city: e.target.value })}
                   className="admin-input"
                 >
-                  <option value="Buenos Aires">Buenos Aires</option>
-                  <option value="Quito">Quito</option>
+                  {initial.cityOptions.map((city) => (
+                    <option key={city} value={city}>
+                      {city}
+                    </option>
+                  ))}
                 </select>
               </label>
               <label className="flex flex-col">

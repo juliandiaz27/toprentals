@@ -1,7 +1,20 @@
 /** Overrides para alinear el widget GNAHS v3 con el buscador Top Rentals (Figma). */
 export const GNAHS_WIDGET_SKIN_CLASS = "top-rentals-gnahs-search";
 
-export function gnahsWidgetTopRentalsSkinCss(scope = GNAHS_WIDGET_SKIN_CLASS): string {
+export const GNAHS_WIDGET_SKIN_PROPERTY_CLASS = `${GNAHS_WIDGET_SKIN_CLASS}--property`;
+
+export type GnahsWidgetSkinVariant = "default" | "property";
+
+export function gnahsWidgetSkinClass(variant: GnahsWidgetSkinVariant = "default"): string {
+  return variant === "property"
+    ? `${GNAHS_WIDGET_SKIN_CLASS} ${GNAHS_WIDGET_SKIN_PROPERTY_CLASS}`
+    : GNAHS_WIDGET_SKIN_CLASS;
+}
+
+export function gnahsWidgetTopRentalsSkinCss(
+  scope = GNAHS_WIDGET_SKIN_CLASS,
+  variant: GnahsWidgetSkinVariant = "default",
+): string {
   return `
     .${scope},
     .${scope} .gnahs-booking-widget,
@@ -74,6 +87,24 @@ export function gnahsWidgetTopRentalsSkinCss(scope = GNAHS_WIDGET_SKIN_CLASS): s
       .${scope} .c-booking-widget__item.booking-button {
         justify-self: end;
       }
+    }
+
+    ${
+      variant === "property"
+        ? `
+    @media (min-width: 1024px) {
+      .${GNAHS_WIDGET_SKIN_PROPERTY_CLASS} .c-booking-widget__container {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) auto !important;
+      }
+      .${GNAHS_WIDGET_SKIN_PROPERTY_CLASS} .c-booking-widget__item.dates-component {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 1rem !important;
+        grid-column: span 2;
+      }
+    }
+    `
+        : ""
     }
 
   /* Labels de campos (GNAHS); no aplicar al botón de reserva */

@@ -5,8 +5,10 @@ import {
   normalizeInternalHref,
   resolveRoutePickerValue,
 } from "./siteRoutes";
+import { sanitizeClubLoyaltyHref } from "./clubCtas";
 import {
   sanitizeCorporateAccessHref,
+  sanitizeCorporateLoginHref,
   sanitizeCorporateQuoteHref,
 } from "./corporateCtas";
 
@@ -32,10 +34,16 @@ export function resolveAdminFieldValue(
 
   if (field.type === "url") {
     const normalized = normalizeInternalHref(trimmed);
+    if (pageSlug === "club" && /Href$/i.test(field.key)) {
+      return sanitizeClubLoyaltyHref(normalized || fallback);
+    }
     if (pageSlug === "corporate" && /cta.*Href$/i.test(field.key)) {
       const rawHref = normalized || fallback;
-      if (/Primary/i.test(field.key) || /loginCtaHref/i.test(field.key)) {
+      if (/Primary/i.test(field.key)) {
         return sanitizeCorporateAccessHref(rawHref);
+      }
+      if (/loginCtaHref/i.test(field.key)) {
+        return sanitizeCorporateLoginHref(rawHref);
       }
       return sanitizeCorporateQuoteHref(rawHref);
     }

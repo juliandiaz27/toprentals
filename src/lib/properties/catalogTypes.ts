@@ -1,4 +1,5 @@
-export type PropertyCity = "Buenos Aires" | "Quito";
+/** Valor guardado en cada propiedad; opciones definidas en admin → Propiedades → Filtros. */
+export type PropertyCity = string;
 
 export type PropertyStatStored = {
   value: string;

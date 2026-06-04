@@ -11,6 +11,7 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
   { slug: "home", title: "Home" },
   { slug: "propiedades", title: "Propiedades" },
   { slug: "corporate", title: "Corporate" },
+  { slug: "club", title: "Club Top Rentals" },
   { slug: "propietarios", title: "Propietarios" },
   { slug: "real-estate", title: "Real Estate" },
   { slug: "nosotros", title: "Quiénes somos" },

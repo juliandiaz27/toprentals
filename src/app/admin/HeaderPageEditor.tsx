@@ -5,6 +5,7 @@ import { useState, useTransition, type ReactNode } from "react";
 import type { HeaderEditorNavRow } from "@/lib/pageContent/headerNav";
 import { MEDIA_UPLOAD_GUIDES } from "@/lib/mediaUploadGuide";
 import { MediaUploadGuide } from "./MediaUploadGuide";
+import { AdminStickyAlerts } from "./AdminStickyAlerts";
 import { saveHeaderContent } from "./headerActions";
 
 type Props = {
@@ -61,37 +62,31 @@ export function HeaderPageEditor({ initial }: Props) {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="page-editor w-full">
-      <div className="admin-sticky-toolbar flex flex-wrap items-center justify-between gap-4">
-        <div className="min-w-0">
-          <h1>Header</h1>
-          <p className="mt-1 text-sm">
-            Logo, orden del menú y visibilidad de páginas. Las rutas del menú son fijas.
-          </p>
-          <p className="mt-1 text-xs text-[var(--admin-text-dim)]">
-            Vista previa:{" "}
-            <a
-              href="/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium underline-offset-2 hover:underline"
-            >
-              /
-            </a>
-          </p>
+      <div className="admin-sticky-toolbar">
+        <div className="admin-sticky-toolbar__head">
+          <div className="min-w-0">
+            <h1>Header</h1>
+            <p className="mt-1 text-sm">
+              Logo, orden del menú y visibilidad de páginas. Las rutas del menú son fijas.
+            </p>
+            <p className="mt-1 text-xs text-[var(--admin-text-dim)]">
+              Vista previa:{" "}
+              <a
+                href="/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline-offset-2 hover:underline"
+              >
+                /
+              </a>
+            </p>
+          </div>
+          <button type="submit" disabled={pending} className="admin-btn-primary shrink-0">
+            {pending ? "Guardando…" : "Guardar cambios"}
+          </button>
         </div>
-        <button type="submit" disabled={pending} className="admin-btn-primary shrink-0">
-          {pending ? "Guardando…" : "Guardar cambios"}
-        </button>
+        <AdminStickyAlerts error={error} success={success} />
       </div>
-
-      {error ? (
-        <p className="admin-alert-error mb-6" role="alert">
-          {error}
-        </p>
-      ) : null}
-      {success ? (
-        <p className="admin-alert-success mb-6">Cambios guardados correctamente.</p>
-      ) : null}
 
       <div className="grid gap-6">
         <section className="admin-section-card">

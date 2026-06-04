@@ -1,12 +1,16 @@
 import Link from "next/link";
+import type { PropiedadesFiltersContent } from "@/lib/pageContent/propiedadesTypes";
+import { cityDisplayLabel } from "@/lib/pageContent/propertyCityFilters";
 import type { PropertyListing } from "@/lib/properties/catalog";
 import { PropertyHighlightBadges } from "@/components/properties/PropertyHighlightBadges";
 
 type Props = {
   property: PropertyListing;
+  cityFilters?: PropiedadesFiltersContent;
 };
 
-export function PropertyCard({ property }: Props) {
+export function PropertyCard({ property, cityFilters = [] }: Props) {
+  const cityBadge = cityDisplayLabel(property.city, cityFilters);
   if (property.comingSoon) {
     return (
       <article className="flex min-h-[280px] flex-col overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
@@ -42,7 +46,7 @@ export function PropertyCard({ property }: Props) {
           />
         </div>
         <span className="absolute right-3 top-3 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-neutral-800 shadow-sm">
-          {property.city === "Quito" ? "Ecuador" : property.city}
+          {cityBadge}
         </span>
       </div>
       <div className="px-4 py-4 md:px-5 md:py-5">

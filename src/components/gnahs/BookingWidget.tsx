@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { getGnahsWidgetConfig } from "@/lib/gnahs/config";
+import type { GnahsWidgetConfig } from "@/lib/gnahs/config";
 import { GNAHS_WIDGET_CSS, GNAHS_WIDGET_JS } from "@/lib/gnahs/config";
 import { loadScript } from "@/lib/gnahs/scripts";
 import { isLocalDevHost, probeWidgetApi } from "@/lib/gnahs/widgetProbe";
 import { BookingWidgetFallback } from "./BookingWidgetFallback";
 
-type WidgetConfig = ReturnType<typeof getGnahsWidgetConfig>;
+type WidgetConfig = GnahsWidgetConfig;
 
 export type BookingWidgetLabels = {
   destination?: string;
@@ -21,6 +21,8 @@ type Props = {
   config: WidgetConfig;
   /** Oculta código promo (home / propiedades). */
   hidePromo?: boolean;
+  /** Ficha de propiedad: sin selector de torre (ya va fijada en `establishments`). */
+  hideDestination?: boolean;
   labels?: BookingWidgetLabels;
 };
 
@@ -56,11 +58,20 @@ const TOP_RENTALS_LABELS: BookingWidgetLabels = {
   booking: "Buscar disponibilidad",
 };
 
+const PROPERTY_LABELS: BookingWidgetLabels = {
+  checkIn: "Entrada",
+  checkOut: "Salida",
+  occupancy: "Huéspedes",
+  booking: "Reservar",
+};
+
 export function BookingWidget({
   config,
   hidePromo = false,
+  hideDestination = false,
   labels = TOP_RENTALS_LABELS,
 }: Props) {
+  const resolvedLabels = hideDestination ? { ...PROPERTY_LABELS, ...labels } : labels;
   const containerRef = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
   const widgetInstance = useRef<unknown>(null);
@@ -202,7 +213,11 @@ export function BookingWidget({
   if (!mounted || loading) {
     return (
       <div ref={containerRef} className="gnahs-booking-widget w-full">
-        <WidgetMarkup hidePromo={hidePromo} labels={labels} />
+        <WidgetMarkup
+          hidePromo={hidePromo}
+          hideDestination={hideDestination}
+          labels={resolvedLabels}
+        />
         <div
           className="min-h-[52px] w-full animate-pulse rounded-lg bg-neutral-100"
           aria-hidden
@@ -221,16 +236,22 @@ export function BookingWidget({
 
   return (
     <div ref={containerRef} className="gnahs-booking-widget w-full">
-      <WidgetMarkup hidePromo={hidePromo} labels={labels} />
+      <WidgetMarkup
+        hidePromo={hidePromo}
+        hideDestination={hideDestination}
+        labels={resolvedLabels}
+      />
     </div>
   );
 }
 
 function WidgetMarkup({
   hidePromo,
+  hideDestination,
   labels,
 }: {
   hidePromo: boolean;
+  hideDestination: boolean;
   labels: BookingWidgetLabels;
 }) {
   return (
@@ -248,13 +269,15 @@ function WidgetMarkup({
       <div className="c-booking-widget">
         <div className="c-booking-widget__body">
           <div className="c-booking-widget__container">
-            <div
-              className="c-booking-widget__item destination-component"
-              {...{
-                "widget-label-destination":
-                  labels.destination ?? "Departamento",
-              }}
-            />
+            {hideDestination ? null : (
+              <div
+                className="c-booking-widget__item destination-component"
+                {...{
+                  "widget-label-destination":
+                    labels.destination ?? "Departamento",
+                }}
+              />
+            )}
             <div
               className="c-booking-widget__item dates-component dates-component-wrapper"
               {...{

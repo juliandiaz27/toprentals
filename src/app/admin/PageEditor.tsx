@@ -21,6 +21,17 @@ import {
   normalizeInternalHref,
   routesForPreset,
 } from "@/lib/pageContent/siteRoutes";
+import { CardListField } from "./CardListField";
+import { CityFiltersField } from "./CityFiltersField";
+import { parseClubHowItWorksSteps } from "@/lib/pageContent/clubTypes";
+import { parseDifferentialCards } from "@/lib/pageContent/differentialCards";
+import { cardListFieldBounds } from "@/lib/pageContent/cardListField";
+import {
+  PROPERTY_CITY_FILTERS_MAX,
+  PROPERTY_CITY_FILTERS_MIN,
+  parsePropertyCityFilters,
+} from "@/lib/pageContent/propertyCityFilters";
+import { AdminStickyAlerts } from "./AdminStickyAlerts";
 import { savePageContent } from "./pageActions";
 import { WysiwygField } from "./WysiwygField";
 
@@ -102,6 +113,8 @@ function fieldSpan(field: PageField): string {
   if (
     field.type === "textarea" ||
     field.type === "rich" ||
+    field.type === "cardList" ||
+    field.type === "cityFilterList" ||
     shouldUseRichEditor(field) ||
     field.type === "image" ||
     field.type === "video"
@@ -120,6 +133,49 @@ function FieldControl({
 }) {
   const value = getNested(content, field.key);
   const strValue = value === undefined || value === null ? "" : String(value);
+
+  if (field.type === "cityFilterList") {
+    const parentKey = field.key.split(".").slice(0, -1).join(".");
+    const parent = parentKey
+      ? (getNested(content, parentKey) as Record<string, unknown> | undefined)
+      : undefined;
+    const initialItems = parsePropertyCityFilters(
+      parent && typeof parent === "object" ? parent : {},
+    );
+    return (
+      <CityFiltersField
+        name={field.key}
+        label={field.label}
+        hint={field.hint}
+        min={field.listMin ?? PROPERTY_CITY_FILTERS_MIN}
+        max={field.listMax ?? PROPERTY_CITY_FILTERS_MAX}
+        initialItems={initialItems}
+      />
+    );
+  }
+
+  if (field.type === "cardList") {
+    const { min, max } = cardListFieldBounds(field);
+    const parentKey = field.key.split(".").slice(0, -1).join(".");
+    const parent = parentKey
+      ? (getNested(content, parentKey) as Record<string, unknown> | undefined)
+      : undefined;
+    const parentObj = parent && typeof parent === "object" ? parent : {};
+    const initialCards =
+      field.key === "howItWorks.steps"
+        ? parseClubHowItWorksSteps(parentObj)
+        : parseDifferentialCards(parentObj);
+    return (
+      <CardListField
+        name={field.key}
+        label={field.label}
+        hint={field.hint}
+        min={min}
+        max={max}
+        initialCards={initialCards}
+      />
+    );
+  }
 
   if (field.type === "image" || field.type === "video") {
     const src = strValue || field.fallback || "/images/placeholders/home-hero.svg";
@@ -327,42 +383,31 @@ export function PageEditor({ definition, content }: Props) {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="page-editor w-full">
-      <div className="admin-sticky-toolbar flex flex-wrap items-center justify-between gap-4">
-        <div className="min-w-0">
-          <h1>{definition.title}</h1>
-          {definition.description ? (
-            <p className="mt-1 text-sm">{definition.description}</p>
-          ) : null}
-          <p className="mt-1 text-xs text-[var(--admin-text-dim)]">
-            Ruta:{" "}
-            <a
-              href={definition.publicPath}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium underline-offset-2 hover:underline"
-            >
-              {definition.publicPath}
-            </a>
-          </p>
+      <div className="admin-sticky-toolbar">
+        <div className="admin-sticky-toolbar__head">
+          <div className="min-w-0">
+            <h1>{definition.title}</h1>
+            {definition.description ? (
+              <p className="mt-1 text-sm">{definition.description}</p>
+            ) : null}
+            <p className="mt-1 text-xs text-[var(--admin-text-dim)]">
+              Ruta:{" "}
+              <a
+                href={definition.publicPath}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline-offset-2 hover:underline"
+              >
+                {definition.publicPath}
+              </a>
+            </p>
+          </div>
+          <button type="submit" disabled={pending} className="admin-btn-primary shrink-0">
+            {pending ? "Guardando…" : "Guardar cambios"}
+          </button>
         </div>
-        <button type="submit" disabled={pending} className="admin-btn-primary shrink-0">
-          {pending ? "Guardando…" : "Guardar cambios"}
-        </button>
+        <AdminStickyAlerts error={error} success={success} />
       </div>
-
-      {error ? (
-        <p
-          className="admin-alert-error mb-6"
-          role="alert"
-        >
-          {error}
-        </p>
-      ) : null}
-      {success ? (
-        <p className="admin-alert-success mb-6">
-          Cambios guardados correctamente.
-        </p>
-      ) : null}
 
       <div className="grid gap-6 xl:grid-cols-2">
         {sections.map(([sectionTitle, fields]) => (

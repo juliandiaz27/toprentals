@@ -1,4 +1,6 @@
 import type { PropertyCity, PropertyListing } from "./catalogTypes";
+import { cityDisplayLabel } from "@/lib/pageContent/propertyCityFilters";
+import type { PropertyCityFilterItem } from "@/lib/pageContent/propertyCityFilters";
 
 function isPropertyPublic(item: PropertyListing): boolean {
   return !item.hidden;
@@ -16,13 +18,6 @@ export type SearchEstablishmentGroup = {
   city: PropertyCity;
   items: SearchEstablishmentOption[];
 };
-
-const REGION_LABEL: Record<PropertyCity, string> = {
-  "Buenos Aires": "Buenos Aires",
-  Quito: "Ecuador",
-};
-
-const CITY_ORDER: PropertyCity[] = ["Buenos Aires", "Quito"];
 
 export function listingsForSearch(
   listings: PropertyListing[],
@@ -44,12 +39,17 @@ export function listingsForSearch(
 
 export function groupSearchEstablishments(
   items: SearchEstablishmentOption[],
+  cityFilters: PropertyCityFilterItem[] = [],
 ): SearchEstablishmentGroup[] {
-  return CITY_ORDER.map((city) => ({
-    regionLabel: REGION_LABEL[city],
+  const cities = [...new Set(items.map((p) => p.city))].sort((a, b) =>
+    a.localeCompare(b, "es"),
+  );
+
+  return cities.map((city) => ({
+    regionLabel: cityDisplayLabel(city, cityFilters),
     city,
     items: items.filter((p) => p.city === city),
-  })).filter((g) => g.items.length > 0);
+  }));
 }
 
 export function filterSearchEstablishments(

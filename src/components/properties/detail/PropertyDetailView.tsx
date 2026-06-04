@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { PropertyDetail } from "@/lib/properties/details";
 import { reservasLinkProps } from "@/lib/reservasLink";
 import type { PropertyListing } from "@/lib/properties/catalog";
+import { PropertyDetailSearchBar } from "@/components/properties/detail/PropertyDetailSearchBar";
 import { PropertyCard } from "@/components/properties/PropertyCard";
 import { PropertyDetailHero } from "@/components/properties/detail/PropertyDetailHero";
 import { PropertyDetailGallery } from "@/components/properties/detail/PropertyDetailGallery";
@@ -31,33 +32,7 @@ export function PropertyDetailView({
       <PropertyDetailHero property={property} whatsappUrl={whatsappUrl} />
 
       <div className="mx-auto max-w-[1440px] px-6 pb-16 pt-10 lg:px-12 lg:pt-12">
-        <div
-          data-reveal
-          className="grid gap-3 rounded-lg border border-neutral-200 bg-white p-4 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-end lg:gap-4"
-        >
-          {[
-            { label: "ENTRADA", placeholder: "Fecha" },
-            { label: "SALIDA", placeholder: "Fecha" },
-            { label: "HUÉSPEDES", placeholder: "2 adultos" },
-            { label: "TIPO", placeholder: "Unidad" },
-          ].map((field) => (
-            <div key={field.label}>
-              <label className="text-[11px] font-semibold tracking-wide text-neutral-500">
-                {field.label}
-              </label>
-              <div className="mt-1 rounded border border-neutral-200 px-3 py-2.5 text-[14px] text-neutral-400">
-                {field.placeholder}
-              </div>
-            </div>
-          ))}
-          <Link
-            href="/reservas"
-            {...reservasLinkProps("/reservas")}
-            className="inline-flex h-11 items-center justify-center rounded-lg bg-btn px-8 text-[14px] font-medium text-white hover:bg-btn-hover lg:h-[42px] lg:self-end"
-          >
-            Reservar
-          </Link>
-        </div>
+        <PropertyDetailSearchBar gnahsId={property.gnahsId} />
 
         <div data-reveal>
           <PropertyDetailGallery

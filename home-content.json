@@ -54,12 +54,20 @@
   },
   "differentials": {
     "title": "Nuestros diferenciales",
-    "card1Title": "Limpieza profesional",
-    "card1Text": "Estándares de hotel en cada departamento",
-    "card2Title": "Propuesta estandarizada",
-    "card2Text": "Calidad consistente en cada propiedad",
-    "card3Title": "Ubicaciones estratégicas",
-    "card3Text": "Edificios completos en zonas clave"
+    "cards": [
+      {
+        "title": "Limpieza profesional",
+        "text": "Estándares de hotel en cada departamento"
+      },
+      {
+        "title": "Propuesta estandarizada",
+        "text": "Calidad consistente en cada propiedad"
+      },
+      {
+        "title": "Ubicaciones estratégicas",
+        "text": "Edificios completos en zonas clave"
+      }
+    ]
   },
   "featured": {
     "title": "Propiedades destacadas",

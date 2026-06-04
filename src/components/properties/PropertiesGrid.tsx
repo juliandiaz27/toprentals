@@ -2,31 +2,34 @@
 
 import { useMemo, useState } from "react";
 import type { PropiedadesFiltersContent } from "@/lib/pageContent/propiedadesTypes";
+import { listingMatchesCityFilter } from "@/lib/pageContent/propertyCityFilters";
 import type { PropertyListing } from "@/lib/properties/catalog";
 import { PropertiesFiltersBar } from "./PropertiesFiltersBar";
-import { filterMatchesCity, type PropertyFilterId } from "./PropertiesFilters";
+import type { PropertyFilterId } from "./PropertiesFilters";
 import { PropertyCard } from "./PropertyCard";
 
 type Props = {
-  filterLabels: PropiedadesFiltersContent;
+  filters: PropiedadesFiltersContent;
   listings: PropertyListing[];
 };
 
-export function PropertiesGrid({ filterLabels, listings }: Props) {
-  const [filter, setFilter] = useState<PropertyFilterId>("buenos-aires");
+export function PropertiesGrid({ filters, listings }: Props) {
+  const defaultFilterId = filters[0]?.id ?? "";
+  const [filter, setFilter] = useState<PropertyFilterId>(defaultFilterId);
 
-  const visible = useMemo(
-    () =>
-      listings.filter((p) =>
-        filterMatchesCity(filter, p.city, p.comingSoon),
-      ),
-    [filter, listings],
-  );
+  const activeFilter = filters.find((f) => f.id === filter) ?? filters[0];
+
+  const visible = useMemo(() => {
+    if (!activeFilter) return listings;
+    return listings.filter((p) =>
+      listingMatchesCityFilter(activeFilter, p.city, p.comingSoon),
+    );
+  }, [activeFilter, listings]);
 
   return (
     <>
       <PropertiesFiltersBar
-        labels={filterLabels}
+        filters={filters}
         active={filter}
         onChange={setFilter}
       />
@@ -38,7 +41,7 @@ export function PropertiesGrid({ filterLabels, listings }: Props) {
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {visible.map((property) => (
             <li key={property.slug}>
-              <PropertyCard property={property} />
+              <PropertyCard property={property} cityFilters={filters} />
             </li>
           ))}
         </ul>

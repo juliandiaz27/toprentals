@@ -6,7 +6,10 @@ export function buildPropertyMapQuery(
   neighborhood: string,
   city: PropertyCity,
 ): string {
-  const country = city === "Quito" ? "Ecuador" : "Argentina";
+  const country =
+    city === "Quito" || city.toLowerCase().includes("ecuador")
+      ? "Ecuador"
+      : "Argentina";
   const parts = [address, neighborhood, city, country].filter(Boolean);
   return parts.join(", ");
 }

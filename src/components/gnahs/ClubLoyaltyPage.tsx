@@ -1,17 +1,31 @@
 import type { Metadata } from "next";
-import { readPageContent } from "@/lib/pageContent/storage";
-import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
+import { ClubBenefits } from "@/components/club/ClubBenefits";
+import { ClubFaq } from "@/components/club/ClubFaq";
+import { ClubHero } from "@/components/club/ClubHero";
+import { ClubHowItWorks } from "@/components/club/ClubHowItWorks";
+import { ClubIntro } from "@/components/club/ClubIntro";
+import { ClubLevels } from "@/components/club/ClubLevels";
+import { ClubPropertiesStrip } from "@/components/club/ClubPropertiesStrip";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
-import { LoyaltyModule } from "@/components/gnahs/LoyaltyModule";
+import { loadPropertyListings } from "@/lib/properties/catalog";
+import { pickClubPage } from "@/lib/pageContent/clubTypes";
+import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
+import { readPageContent } from "@/lib/pageContent/storage";
 
 export const CLUB_LOYALTY_METADATA: Metadata = {
   title: "Club Top Rentals | Top Rentals",
-  description: "Programa de fidelización Club Top Rentals",
+  description:
+    "Programa de fidelización Club Top Rentals: puntos, niveles y beneficios en cada estadía.",
 };
 
 export async function ClubLoyaltyPage() {
-  const homeContent = await readPageContent("home");
+  const [clubContent, homeContent, listings] = await Promise.all([
+    readPageContent("club"),
+    readPageContent("home"),
+    loadPropertyListings(),
+  ]);
+  const page = pickClubPage(clubContent);
   const header = pickHomeHeader(homeContent);
   const homeHero = pickHomeHero(homeContent);
   const whatsapp =
@@ -22,21 +36,22 @@ export async function ClubLoyaltyPage() {
   return (
     <>
       <SiteHeader header={header} activeHref="/club-top-rentals" />
-      <main className="flex-1 bg-white">
-        <div className="mx-auto w-full max-w-[1440px] px-6 py-10 lg:px-12 lg:py-12">
-          <header className="mb-8 max-w-3xl" data-reveal>
-            <h1 className="text-[clamp(1.75rem,3vw,2.25rem)] font-bold leading-tight text-neutral-950">
-              Club Top Rentals
-            </h1>
-            <p className="mt-3 text-[15px] leading-relaxed text-neutral-600">
-              Sumate al programa de fidelización: beneficios, puntos y ventajas
-              exclusivas en tus estadías.
-            </p>
-          </header>
-          <div data-reveal data-reveal-delay="80">
-            <LoyaltyModule />
-          </div>
-        </div>
+      <main className="bg-white">
+        <ClubHero content={page.hero} />
+        <ClubIntro content={page.intro} />
+        <ClubHowItWorks title={page.howItWorks.title} steps={page.howItWorks.steps} />
+        <ClubLevels
+          title={page.levels.title}
+          subtitle={page.levels.subtitle}
+          tiers={page.levels.tiers}
+        />
+        <ClubBenefits title={page.benefits.title} columns={page.benefits.columns} />
+        <ClubFaq title={page.faq.title} items={page.faq.items} />
+        <ClubPropertiesStrip
+          content={page.featured}
+          bottomCta={page.bottomCta}
+          properties={listings}
+        />
       </main>
       {whatsapp ? <WhatsAppFab url={whatsapp} /> : null}
     </>

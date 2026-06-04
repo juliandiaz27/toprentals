@@ -59,7 +59,7 @@ export default async function PropiedadesPage() {
           <PropertiesSearchBar config={gnahsWidget} />
         </div>
 
-        <PropertiesGrid filterLabels={filters} listings={listings} />
+        <PropertiesGrid filters={filters} listings={listings} />
 
         <PropertiesDevelopment content={development} />
       </main>

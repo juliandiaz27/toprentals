@@ -1,11 +1,11 @@
 /**
  * Parámetros oficiales Top Rentals — PDF GNAHS dic. 2025.
- * Establishment IDs del motor: 1–11 (no usar códigos PMS).
+ * Establishment IDs del motor: 1–12 (no usar códigos PMS 1294+).
  */
 
 /** IDs de establecimiento para widget y motor general (`establishment_id` del PDF). */
 export const GNAHS_ESTABLISHMENT_IDS = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
 ] as const;
 
 /** Motor solo Buenos Aires — `engine-buenos-aires.html` de GNAHS. */
@@ -93,6 +93,27 @@ export function getGnahsWidgetConfig() {
     saveLastSeach: false,
     bookingButtonLabel: "Buscar disponibilidad",
     appearance: { gap: 0, scrollHide: true },
+  };
+}
+
+export type GnahsWidgetConfig = ReturnType<typeof getGnahsWidgetConfig>;
+
+/**
+ * Buscador embebido en la ficha de una propiedad: una sola torre (`establishments: [id]`).
+ * Usa los IDs 1–12 del motor GNAHS (no los códigos PMS 1294–1304 del otro mail).
+ */
+export function getGnahsWidgetConfigForProperty(
+  gnahsId: number,
+): GnahsWidgetConfig {
+  const base = getGnahsWidgetConfig();
+  const id = Math.floor(Number(gnahsId));
+  if (!Number.isFinite(id) || id < 1) {
+    return { ...base, bookingButtonLabel: "Reservar" };
+  }
+  return {
+    ...base,
+    establishments: [id] as GnahsWidgetConfig["establishments"],
+    bookingButtonLabel: "Reservar",
   };
 }
 
