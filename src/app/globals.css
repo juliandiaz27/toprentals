@@ -102,6 +102,7 @@ body {
   margin: 0;
 }
 
+/* Solo opacity: un transform en .site-header rompe position:fixed del menú lateral */
 .site-header {
   animation: site-header-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -109,11 +110,9 @@ body {
 @keyframes site-header-in {
   from {
     opacity: 0;
-    transform: translate3d(0, -10px, 0);
   }
   to {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
   }
 }
 

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useState } from "react";
+import { createPortal } from "react-dom";
 import type { HomeHeaderContent } from "@/lib/pageContent/homeTypes";
 import { reservasLinkProps } from "@/lib/reservasLink";
 
@@ -60,7 +61,12 @@ export function SiteHeader({
   const pathname = usePathname() ?? "";
   const menuId = useId();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const links = header.navLinks;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const headerBg =
     variant === "muted"
@@ -87,8 +93,72 @@ export function SiteHeader({
     };
   }, [menuOpen, closeMenu]);
 
+  const menuPortal =
+    mounted &&
+    createPortal(
+      <>
+        {menuOpen ? (
+          <button
+            type="button"
+            className="fixed inset-0 top-[72px] z-[90] bg-black/40"
+            aria-label="Cerrar menú"
+            onClick={closeMenu}
+          />
+        ) : null}
+
+        <nav
+          id={menuId}
+          aria-label="Principal"
+          className={`fixed right-0 top-[72px] z-[100] flex h-[calc(100dvh-72px)] w-full max-w-sm flex-col border-l border-neutral-200 bg-white shadow-xl transition-transform duration-300 ease-out sm:max-w-md ${
+            menuOpen ? "translate-x-0" : "pointer-events-none translate-x-full"
+          }`}
+          aria-hidden={!menuOpen}
+        >
+          <div className="flex-1 overflow-y-auto px-6 py-6">
+            <ul className="flex flex-col gap-1">
+              {links.map((item) => {
+                const active = isLinkActive(item.href, pathname, activeHref);
+                return (
+                  <li key={item.href + item.label}>
+                    <Link
+                      href={item.href}
+                      onClick={closeMenu}
+                      className={`block rounded-lg px-4 py-3.5 text-[16px] transition ${
+                        active
+                          ? "bg-neutral-100 font-semibold text-neutral-950"
+                          : "font-normal text-neutral-800 hover:bg-neutral-50"
+                      }`}
+                      aria-current={active ? "page" : undefined}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div className="mt-8 flex items-center gap-2 border-t border-neutral-100 pt-6 text-[14px] text-neutral-950 md:hidden">
+              <span className="font-medium">ES</span>
+              <span className="font-light text-neutral-300">|</span>
+              <Link
+                href="?lang=en"
+                onClick={closeMenu}
+                className="font-normal text-neutral-500 hover:text-neutral-950"
+              >
+                EN
+              </Link>
+            </div>
+          </div>
+        </nav>
+      </>,
+      document.body,
+    );
+
   return (
-    <header className={`site-header relative z-50 border-b ${headerBg}`}>
+    <>
+      <header
+        className={`site-header sticky top-0 z-[110] border-b ${headerBg}`}
+      >
       <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-4 px-6 lg:px-12">
         <Link href="/" className="shrink-0" onClick={closeMenu}>
           {header.logoSrc ? (
@@ -140,60 +210,8 @@ export function SiteHeader({
           </button>
         </div>
       </div>
-
-      {menuOpen ? (
-        <button
-          type="button"
-          className="fixed inset-0 top-[72px] z-40 bg-black/40"
-          aria-label="Cerrar menú"
-          onClick={closeMenu}
-        />
-      ) : null}
-
-      <nav
-        id={menuId}
-        aria-label="Principal"
-        className={`fixed right-0 top-[72px] z-50 flex h-[calc(100dvh-72px)] w-full max-w-sm flex-col border-l border-neutral-200 bg-white shadow-xl transition-transform duration-300 ease-out sm:max-w-md ${
-          menuOpen ? "translate-x-0" : "pointer-events-none translate-x-full"
-        }`}
-        aria-hidden={!menuOpen}
-      >
-        <div className="flex-1 overflow-y-auto px-6 py-6">
-          <ul className="flex flex-col gap-1">
-            {links.map((item) => {
-              const active = isLinkActive(item.href, pathname, activeHref);
-              return (
-                <li key={item.href + item.label}>
-                  <Link
-                    href={item.href}
-                    onClick={closeMenu}
-                    className={`block rounded-lg px-4 py-3.5 text-[16px] transition ${
-                      active
-                        ? "bg-neutral-100 font-semibold text-neutral-950"
-                        : "font-normal text-neutral-800 hover:bg-neutral-50"
-                    }`}
-                    aria-current={active ? "page" : undefined}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-
-          <div className="mt-8 flex items-center gap-2 border-t border-neutral-100 pt-6 text-[14px] text-neutral-950 md:hidden">
-            <span className="font-medium">ES</span>
-            <span className="font-light text-neutral-300">|</span>
-            <Link
-              href="?lang=en"
-              onClick={closeMenu}
-              className="font-normal text-neutral-500 hover:text-neutral-950"
-            >
-              EN
-            </Link>
-          </div>
-        </div>
-      </nav>
-    </header>
+      </header>
+      {menuPortal}
+    </>
   );
 }

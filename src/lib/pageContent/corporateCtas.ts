@@ -1,5 +1,11 @@
-/** Ancla del formulario de acceso / cotización en /corporate */
+/** Formulario de cotización / solicitud en /corporate */
 export const CORPORATE_FORM_ANCHOR = "#acceso-corporativo";
+
+/** Ruta dedicada al módulo GNAHS de agencias */
+export const CORPORATE_AGENCIES_PATH = "/agencias";
+
+/** Ancla del módulo de agencias embebido en /corporate */
+export const CORPORATE_AGENCIES_ANCHOR = "#acceso-agencias";
 
 export type CorporateCta = {
   label: string;
@@ -22,14 +28,40 @@ export function isMotorDestinationCta(label: string): boolean {
   );
 }
 
-export function sanitizeCorporateHref(href: string): string {
+export function isCorporateAccessCtaLabel(label: string): boolean {
+  const t = stripArrow(label).toLowerCase();
+  return /acceso/.test(t) && !/cotizar/.test(t);
+}
+
+/** CTA «Acceso corporativo» → módulo de agencias (ancla en /corporate o /agencias). */
+export function sanitizeCorporateAccessHref(href: string): string {
   const h = href.trim();
-  if (!h || h === "#") return CORPORATE_FORM_ANCHOR;
-  if (/\/reservas/i.test(h)) return CORPORATE_FORM_ANCHOR;
+  if (
+    !h ||
+    h === "#" ||
+    h === CORPORATE_FORM_ANCHOR ||
+    h === CORPORATE_AGENCIES_PATH ||
+    /acceso-corporativo/i.test(h) ||
+    /\/reservas/i.test(h)
+  ) {
+    return CORPORATE_AGENCIES_ANCHOR;
+  }
   return h;
 }
 
-/** CTAs del hero: Acceso + Cotizar al formulario; sin enlaces al motor por ciudad. */
+/** CTA «Cotizar» → formulario en /corporate. */
+export function sanitizeCorporateQuoteHref(href: string): string {
+  const h = href.trim();
+  if (!h || h === "#" || /\/reservas/i.test(h)) return CORPORATE_FORM_ANCHOR;
+  return h;
+}
+
+/** @deprecated Use sanitizeCorporateAccessHref / sanitizeCorporateQuoteHref */
+export function sanitizeCorporateHref(href: string): string {
+  return sanitizeCorporateQuoteHref(href);
+}
+
+/** CTAs del hero: Acceso → /agencias; Cotizar → formulario corporativo. */
 export function buildCorporateHeroCtas(input: {
   ctaPrimaryLabel: string;
   ctaPrimaryHref: string;
@@ -39,12 +71,12 @@ export function buildCorporateHeroCtas(input: {
   const candidates: CorporateCta[] = [
     {
       label: stripArrow(input.ctaPrimaryLabel),
-      href: sanitizeCorporateHref(input.ctaPrimaryHref),
+      href: sanitizeCorporateAccessHref(input.ctaPrimaryHref),
       variant: "primary",
     },
     {
       label: stripArrow(input.ctaSecondaryLabel),
-      href: sanitizeCorporateHref(input.ctaSecondaryHref),
+      href: sanitizeCorporateQuoteHref(input.ctaSecondaryHref),
       variant: "secondary",
     },
   ];
@@ -52,12 +84,12 @@ export function buildCorporateHeroCtas(input: {
   const ctas = candidates.filter((c) => c.label && !isMotorDestinationCta(c.label));
 
   const hasCotizar = ctas.some((c) => /cotizar/i.test(c.label));
-  const hasAcceso = ctas.some((c) => /acceso/i.test(c.label));
+  const hasAcceso = ctas.some((c) => isCorporateAccessCtaLabel(c.label));
 
   if (!hasAcceso) {
     ctas.unshift({
       label: "Acceso corporativo",
-      href: CORPORATE_FORM_ANCHOR,
+      href: CORPORATE_AGENCIES_ANCHOR,
       variant: "primary",
     });
   }
@@ -71,7 +103,9 @@ export function buildCorporateHeroCtas(input: {
   }
 
   for (const cta of ctas) {
-    if (/cotizar/i.test(cta.label)) {
+    if (isCorporateAccessCtaLabel(cta.label)) {
+      cta.href = sanitizeCorporateAccessHref(cta.href);
+    } else if (/cotizar/i.test(cta.label)) {
       cta.href = CORPORATE_FORM_ANCHOR;
     }
   }

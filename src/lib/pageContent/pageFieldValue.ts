@@ -5,7 +5,10 @@ import {
   normalizeInternalHref,
   resolveRoutePickerValue,
 } from "./siteRoutes";
-import { sanitizeCorporateHref } from "./corporateCtas";
+import {
+  sanitizeCorporateAccessHref,
+  sanitizeCorporateQuoteHref,
+} from "./corporateCtas";
 
 export function resolveAdminFieldValue(
   field: PageField,
@@ -30,7 +33,11 @@ export function resolveAdminFieldValue(
   if (field.type === "url") {
     const normalized = normalizeInternalHref(trimmed);
     if (pageSlug === "corporate" && /cta.*Href$/i.test(field.key)) {
-      return sanitizeCorporateHref(normalized || fallback);
+      const rawHref = normalized || fallback;
+      if (/Primary/i.test(field.key) || /loginCtaHref/i.test(field.key)) {
+        return sanitizeCorporateAccessHref(rawHref);
+      }
+      return sanitizeCorporateQuoteHref(rawHref);
     }
     if (isAllowedInternalHref(normalized, "menu")) return normalized;
     return resolveRoutePickerValue(fallback, "menu", "/");

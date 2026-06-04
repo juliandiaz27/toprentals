@@ -1,6 +1,7 @@
 import type { PageContent } from "./types";
 import {
   buildCorporateHeroCtas,
+  sanitizeCorporateAccessHref,
   type CorporateCta,
 } from "./corporateCtas";
 
@@ -183,12 +184,16 @@ export function pickCorporatePage(raw: PageContent): CorporatePageContent {
           "Soluciones de alojamiento profesional para empresas, equipos en movimiento y proyectos flexibles.",
       ),
       ctaPrimaryLabel: String(hero.ctaPrimaryLabel ?? "Acceso corporativo →"),
-      ctaPrimaryHref: String(hero.ctaPrimaryHref ?? "#acceso-corporativo"),
+      ctaPrimaryHref: sanitizeCorporateAccessHref(
+        String(hero.ctaPrimaryHref ?? "#acceso-agencias"),
+      ),
       ctaSecondaryLabel: String(hero.ctaSecondaryLabel ?? "Cotizar alojamiento →"),
       ctaSecondaryHref: String(hero.ctaSecondaryHref ?? "#acceso-corporativo"),
       ctas: buildCorporateHeroCtas({
         ctaPrimaryLabel: String(hero.ctaPrimaryLabel ?? "Acceso corporativo →"),
-        ctaPrimaryHref: String(hero.ctaPrimaryHref ?? "#acceso-corporativo"),
+        ctaPrimaryHref: sanitizeCorporateAccessHref(
+          String(hero.ctaPrimaryHref ?? "#acceso-agencias"),
+        ),
         ctaSecondaryLabel: String(hero.ctaSecondaryLabel ?? "Cotizar alojamiento →"),
         ctaSecondaryHref: String(hero.ctaSecondaryHref ?? "#acceso-corporativo"),
       }),
@@ -281,13 +286,17 @@ export function pickCorporatePage(raw: PageContent): CorporatePageContent {
     },
     access: {
       title: String(access.title ?? "Acceso Corporativo"),
-      loginQuestion: String(access.loginQuestion ?? "¿Ya sos cliente corporate?"),
+      loginQuestion: String(
+        access.loginQuestion ?? "¿Sos agencia o tenés cuenta corporativa?",
+      ),
       loginDescription: String(
         access.loginDescription ??
-          "Ingresá a tu cuenta y reservá con tarifas corporativas.",
+          "Ingresá con tu usuario de agencia para reservar con tarifas corporativas.",
       ),
       loginCtaLabel: String(access.loginCtaLabel ?? "Acceso corporativo →"),
-      loginCtaHref: String(access.loginCtaHref ?? "#"),
+      loginCtaHref: sanitizeCorporateAccessHref(
+        String(access.loginCtaHref ?? "#acceso-agencias"),
+      ),
       formTitle: String(access.formTitle ?? "Solicitar acceso corporate"),
       formSubmitLabel: String(
         access.formSubmitLabel ?? "Solicitar información →",

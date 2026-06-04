@@ -4,7 +4,7 @@
     "title": "Alojamiento corporativo sin complicaciones.",
     "subtitle": "Soluciones de alojamiento profesional para empresas, equipos en movimiento y proyectos flexibles.",
     "ctaPrimaryLabel": "Acceso corporativo →",
-    "ctaPrimaryHref": "#acceso-corporativo",
+    "ctaPrimaryHref": "#acceso-agencias",
     "ctaSecondaryLabel": "Cotizar →",
     "ctaSecondaryHref": "#acceso-corporativo",
     "imageSrc": "/images/corporate/corporate-teaser.png",
@@ -107,10 +107,10 @@
   },
   "access": {
     "title": "Acceso Corporativo",
-    "loginQuestion": "¿Ya sos cliente corporate?",
-    "loginDescription": "Ingresá a tu cuenta y reservá con tarifas corporativas.",
+    "loginQuestion": "¿Sos agencia o tenés cuenta corporativa?",
+    "loginDescription": "Ingresá con tu usuario de agencia para reservar con tarifas corporativas.",
     "loginCtaLabel": "Acceso corporativo →",
-    "loginCtaHref": "#",
+    "loginCtaHref": "#acceso-agencias",
     "formTitle": "Solicitar acceso corporate",
     "formSubmitLabel": "Solicitar información →"
   }
