@@ -6,7 +6,7 @@ import { useCallback, useEffect, useId, useState } from "react";
 import type { HomeHeaderContent } from "@/lib/pageContent/homeTypes";
 import { reservasLinkProps } from "@/lib/reservasLink";
 import { MobileBottomNav } from "@/components/home/MobileBottomNav";
-import { MobileMenuDrawer } from "@/components/home/MobileMenuDrawer";
+import { SiteMenuDrawer } from "@/components/home/SiteMenuDrawer";
 
 type Props = {
   header: HomeHeaderContent;
@@ -168,7 +168,7 @@ export function SiteHeader({
       </div>
       </header>
       {mounted ? (
-        <MobileMenuDrawer
+        <SiteMenuDrawer
           open={menuOpen}
           menuId={menuId}
           header={header}

@@ -39,7 +39,10 @@ type Props = {
   isLinkActive: (href: string) => boolean;
 };
 
-export function MobileMenuDrawer({
+/**
+ * Menú off-canvas: mobile sube desde abajo (fullscreen); desktop entra desde la derecha.
+ */
+export function SiteMenuDrawer({
   open,
   menuId,
   header,
@@ -48,11 +51,15 @@ export function MobileMenuDrawer({
 }: Props) {
   if (typeof document === "undefined") return null;
 
+  const panelMotion = open
+    ? "translate-y-0 lg:translate-x-0"
+    : "pointer-events-none translate-y-full lg:translate-y-0 lg:translate-x-full";
+
   return createPortal(
     <>
       <button
         type="button"
-        className={`fixed inset-0 z-[125] bg-black/45 transition-opacity duration-300 ease-out lg:hidden ${
+        className={`fixed inset-0 z-[125] bg-black/45 transition-opacity duration-300 ease-out lg:top-[72px] ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         aria-label="Cerrar menú"
@@ -65,19 +72,13 @@ export function MobileMenuDrawer({
         id={menuId}
         aria-label="Menú principal"
         aria-hidden={!open}
-        className={`fixed inset-0 z-[130] flex flex-col bg-white transition-transform duration-[350ms] ease-[cubic-bezier(0.32,0.72,0,1)] lg:hidden ${
-          open ? "translate-y-0" : "pointer-events-none translate-y-full"
-        }`}
+        className={`fixed inset-0 z-[130] flex flex-col bg-white transition-transform duration-[350ms] ease-[cubic-bezier(0.32,0.72,0,1)] lg:inset-y-auto lg:left-auto lg:right-0 lg:top-[72px] lg:h-[calc(100dvh-72px)] lg:w-full lg:max-w-md lg:border-l lg:border-neutral-200 lg:shadow-xl ${panelMotion}`}
         style={{
           paddingBottom: "env(safe-area-inset-bottom, 0px)",
         }}
       >
-        <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-neutral-200 px-5">
-          <Link
-            href="/"
-            onClick={onClose}
-            className="min-w-0 shrink pr-4"
-          >
+        <div className="flex h-[72px] w-full shrink-0 items-center justify-between border-b border-neutral-200 px-5 lg:h-16">
+          <Link href="/" onClick={onClose} className="min-w-0 shrink pr-4 lg:hidden">
             {header.logoSrc ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -91,6 +92,9 @@ export function MobileMenuDrawer({
               </span>
             )}
           </Link>
+          <p className="hidden text-[15px] font-semibold text-neutral-950 lg:block">
+            Menú
+          </p>
           <button
             type="button"
             className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-neutral-950 transition hover:bg-neutral-100"
@@ -127,8 +131,8 @@ export function MobileMenuDrawer({
           })}
         </ul>
 
-        <div className="shrink-0 border-t border-neutral-200 px-5 pb-5 pt-4">
-          <div className="mb-4 flex items-center gap-2 text-[14px] text-neutral-950">
+        <div className="shrink-0 border-t border-neutral-200 px-5 pb-5 pt-4 lg:pb-6">
+          <div className="mb-4 flex items-center gap-2 text-[14px] text-neutral-950 lg:mb-0">
             <span className="font-medium">ES</span>
             <span className="font-light text-neutral-300">|</span>
             <Link
@@ -143,7 +147,7 @@ export function MobileMenuDrawer({
             href={header.ctaHref}
             {...reservasLinkProps(header.ctaHref)}
             onClick={onClose}
-            className="flex h-12 w-full items-center justify-center rounded-full bg-btn text-[15px] font-semibold text-white transition-colors hover:bg-btn-hover"
+            className="mt-4 flex h-12 w-full items-center justify-center rounded-full bg-btn text-[15px] font-semibold text-white transition-colors hover:bg-btn-hover lg:mt-4"
           >
             {header.ctaLabel}
           </Link>
