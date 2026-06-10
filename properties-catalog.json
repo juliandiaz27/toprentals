@@ -63,7 +63,59 @@
       "comingSoon": false,
       "hidden": false,
       "hasOffer": false,
-      "isPopular": false
+      "isPopular": false,
+      "detail": {
+        "units": [
+          {
+            "name": "Studio",
+            "sqm": "",
+            "guests": "",
+            "features": "Tour pendiente"
+          },
+          {
+            "name": "Monoambiente",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=F6pjmeBmFZX"
+          },
+          {
+            "name": "2 Ambientes A",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=oa6BN3SY72g"
+          },
+          {
+            "name": "2 Ambientes B",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=RbHyWQEVv94"
+          },
+          {
+            "name": "2 Ambientes Plus",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=XN9Xe5GUMvw"
+          },
+          {
+            "name": "3 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=DaMr6jLW1oh"
+          },
+          {
+            "name": "3 Ambientes Plus",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=68ky9fa3Bmh"
+          }
+        ]
+      }
     },
     {
       "slug": "palermo-soho",
