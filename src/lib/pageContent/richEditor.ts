@@ -7,6 +7,7 @@ export function shouldUseRichEditor(field: PageField): boolean {
 
   const key = field.key.toLowerCase();
   if (
+    /^stats\.(title|label\d+|text\d+)$/.test(key) ||
     /\.(href|url|slug|brand|copyright|siteurl|logotext|ctalabel|invlabel|devlabel|link\d+label|bullet\d+)$/.test(
       key,
     )

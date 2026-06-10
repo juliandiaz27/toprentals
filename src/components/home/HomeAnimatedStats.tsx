@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { FormattedText } from "@/components/content/FormattedText";
 import type { HomeStatItem } from "@/lib/pageContent/homeTypes";
 
 type Props = {
@@ -70,7 +71,7 @@ function AnimatedStatBlock({
         </span>
       </p>
       <p className="mt-3 max-w-[9.5rem] text-[13px] leading-snug text-neutral-500">
-        {item.label}
+        <FormattedText value={item.label} as="inline" />
       </p>
     </li>
   );
@@ -110,7 +111,7 @@ export function HomeAnimatedStats({ title, items }: Props) {
           id="home-stats-heading"
           className="text-[15px] font-bold text-neutral-500"
         >
-          {title}
+          <FormattedText value={title} as="inline" />
         </h2>
         <ul className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:mt-10 lg:grid-cols-5 lg:gap-y-0">
           {items.map((item, index) => (

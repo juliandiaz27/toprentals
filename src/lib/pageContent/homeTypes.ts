@@ -1,3 +1,4 @@
+import { plainTextFromRichHtml } from "@/lib/richText/sanitize";
 import { parseDifferentialCards } from "./differentialCards";
 import {
   HEADER_CTA_HREF,
@@ -166,25 +167,37 @@ export type HomeFeaturedContent = {
   linkHref: string;
 };
 
+function statField(
+  raw: Record<string, string>,
+  key: string,
+  fallback: string,
+): string {
+  const value = String(raw[key] ?? fallback);
+  return plainTextFromRichHtml(value) || fallback;
+}
+
 export function pickHomeStats(raw: Record<string, unknown>): HomeStatsContent {
   const s = (raw.stats ?? {}) as Record<string, string>;
   return {
-    title: String(s.title ?? "Top Rentals en números"),
+    title: statField(s, "title", "Top Rentals en números"),
     items: [
       {
-        value: String(s.label1 ?? "+500"),
-        label: String(s.text1 ?? "departamentos operados"),
+        value: statField(s, "label1", "+500"),
+        label: statField(s, "text1", "departamentos operados"),
       },
-      { value: String(s.label2 ?? "15"), label: String(s.text2 ?? "torres") },
+      { value: statField(s, "label2", "15"), label: statField(s, "text2", "torres") },
       {
-        value: String(s.label3 ?? "+100"),
-        label: String(s.text3 ?? "Personas en el equipo"),
+        value: statField(s, "label3", "+100"),
+        label: statField(s, "text3", "Personas en el equipo"),
       },
       {
-        value: String(s.label4 ?? "+600"),
-        label: String(s.text4 ?? "empresas alojadas por año"),
+        value: statField(s, "label4", "+600"),
+        label: statField(s, "text4", "empresas alojadas por año"),
       },
-      { value: String(s.label5 ?? "10"), label: String(s.text5 ?? "años de operación") },
+      {
+        value: statField(s, "label5", "10"),
+        label: statField(s, "text5", "años de operación"),
+      },
     ],
   };
 }

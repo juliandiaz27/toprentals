@@ -40,9 +40,11 @@ export function HomeBelowSearchSection({
                   className="mb-4 inline-block h-10 w-10 rounded-md bg-neutral-100"
                   aria-hidden
                 />
-                <h3 className="text-[15px] font-bold text-neutral-950">{card.title}</h3>
+                <h3 className="text-[15px] font-bold text-neutral-950">
+                  <FormattedText value={card.title} as="inline" />
+                </h3>
                 <p className="mt-2 text-[14px] leading-relaxed text-neutral-600">
-                  {card.text}
+                  <FormattedText value={card.text} as="inline" />
                 </p>
               </li>
             ))}
