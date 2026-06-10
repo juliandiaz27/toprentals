@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { dataFilePath } from "@/lib/repoRoot";
 import { readJsonFile, writeJsonFile } from "@/lib/fsJson";
 import { buildDefaultsFromFields, getNested, setNested } from "./nested";
@@ -9,7 +10,7 @@ function filePath(slug: string): string {
   return dataFilePath(`${resolveStorageSlug(slug)}-content.json`);
 }
 
-export async function readPageContent(slug: string): Promise<PageContent> {
+async function readPageContentUncached(slug: string): Promise<PageContent> {
   const def = getPageDefinition(slug);
   if (!def) throw new Error(`Página desconocida: ${slug}`);
 
@@ -29,6 +30,9 @@ export async function readPageContent(slug: string): Promise<PageContent> {
 
   return content;
 }
+
+/** Una lectura por request (layout + páginas que comparten el mismo slug). */
+export const readPageContent = cache(readPageContentUncached);
 
 export async function writePageContent(
   slug: string,

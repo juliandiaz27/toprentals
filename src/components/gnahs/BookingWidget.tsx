@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { GnahsWidgetConfig } from "@/lib/gnahs/config";
 import { GNAHS_WIDGET_CSS, GNAHS_WIDGET_JS } from "@/lib/gnahs/config";
 import { loadScript } from "@/lib/gnahs/scripts";
@@ -92,7 +92,7 @@ export function BookingWidget({
     }
   }, [mounted]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!mounted || apiBlocked) return;
 
     let cancelled = false;
@@ -214,10 +214,16 @@ export function BookingWidget({
           hideDestination={hideDestination}
           labels={resolvedLabels}
         />
-        <div
-          className="min-h-[52px] w-full animate-pulse rounded-lg bg-neutral-100"
-          aria-hidden
-        />
+        <p
+          className="mt-3 flex min-h-[52px] items-center gap-2 text-[13px] text-neutral-500"
+          role="status"
+        >
+          <span
+            className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-800"
+            aria-hidden
+          />
+          Cargando buscador…
+        </p>
       </div>
     );
   }

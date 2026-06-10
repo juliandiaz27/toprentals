@@ -3,7 +3,7 @@ import { readPageContent } from "@/lib/pageContent/storage";
 import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
-import { BookingEngine } from "@/components/gnahs/BookingEngine";
+import { GnahsBookingEngine } from "@/components/gnahs/GnahsBookingEngine";
 import {
   getGnahsEngineConfig,
   type GnahsEngineRegion,
@@ -61,12 +61,7 @@ export async function ReservasEnginePage({
           </header>
           <BookingParamsScript region={region} />
           <div data-reveal data-reveal-delay="80">
-            <div
-              id="GNAHSEngine"
-              className="min-h-[520px] w-full"
-              aria-label="Motor de reservas"
-            />
-            <BookingEngine region={region} />
+            <GnahsBookingEngine region={region} />
           </div>
         </div>
       </main>

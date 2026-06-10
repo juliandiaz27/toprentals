@@ -35,6 +35,12 @@ export default async function RootLayout({
 
   return (
     <html lang="es" className={`${inter.variable} h-full antialiased`}>
+      <head>
+        <link rel="preconnect" href="https://assets.gnahs.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://hostalric.gnahs.app" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://assets.gnahs.com" />
+        <link rel="dns-prefetch" href="https://hostalric.gnahs.app" />
+      </head>
       <body className="flex min-h-full flex-col font-sans">
         <GnahsMetasearchTracker />
         <RevealOnScroll />

@@ -3,8 +3,6 @@ import {
   ReservasEnginePage,
 } from "@/components/gnahs/ReservasEnginePage";
 
-export const dynamic = "force-dynamic";
-
 export const metadata = buildReservasMetadata({
   title: "Reservas | Top Rentals",
   description: "Reservá en todas nuestras torres — Buenos Aires y Quito.",
