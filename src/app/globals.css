@@ -168,6 +168,19 @@ body {
   backface-visibility: hidden;
 }
 
+/* Ficha propiedad: popovers del buscador GNAHS por encima de la galería */
+.property-detail-gnahs-search .gnahs-booking-widget,
+.property-detail-gnahs-search .c-booking-widget,
+.property-detail-gnahs-search .c-booking-widget__body,
+.property-detail-gnahs-search .c-booking-widget__container {
+  overflow: visible;
+}
+
+.property-detail-gnahs-search .c-booking-widget__item.is-open,
+.property-detail-gnahs-search .c-booking-widget__item:focus-within {
+  z-index: 40;
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {
     opacity: 1;

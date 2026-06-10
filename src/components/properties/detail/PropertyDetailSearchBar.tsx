@@ -18,7 +18,7 @@ export function PropertyDetailSearchBar({ gnahsId }: Props) {
   return (
     <div
       data-reveal
-      className="rounded-lg border border-neutral-200 bg-white p-4"
+      className="property-detail-gnahs-search relative z-30 overflow-visible rounded-lg border border-neutral-200 bg-white p-4"
     >
       <BookingWidget config={config} hideDestination />
     </div>

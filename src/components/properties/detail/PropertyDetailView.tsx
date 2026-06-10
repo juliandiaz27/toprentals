@@ -34,7 +34,7 @@ export function PropertyDetailView({
       <div className="mx-auto max-w-[1440px] px-6 pb-16 pt-10 lg:px-12 lg:pt-12">
         <PropertyDetailSearchBar gnahsId={property.gnahsId} />
 
-        <div data-reveal>
+        <div data-reveal className="relative z-0">
           <PropertyDetailGallery
             images={galleryImages}
             hasOffer={property.hasOffer}
