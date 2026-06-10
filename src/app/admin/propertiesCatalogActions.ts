@@ -80,11 +80,13 @@ function parseListingsPayload(
           units = unitsRaw
             .map((u) => {
               const row = u as Record<string, unknown>;
+              const tourUrl = String(row.tourUrl ?? "").trim();
               return {
                 name: String(row.name ?? "").trim(),
                 sqm: String(row.sqm ?? "").trim(),
                 guests: String(row.guests ?? "").trim(),
                 features: String(row.features ?? "").trim(),
+                ...(tourUrl ? { tourUrl } : {}),
               };
             })
             .filter((u) => u.name);

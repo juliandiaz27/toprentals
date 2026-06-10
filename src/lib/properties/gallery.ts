@@ -1,4 +1,4 @@
-import type { PropertyDetail } from "./details";
+import type { PropertyDetail } from "./propertyDetailTypes";
 
 /** Imágenes de la galería de ficha; si no hay, usa la imagen de listado. */
 export function resolvePropertyGalleryImages(

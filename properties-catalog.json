@@ -3,35 +3,98 @@
     {
       "slug": "downtown-torre-bellini",
       "gnahsId": 10,
-      "name": "Downtown — Torre Bellini",
+      "name": "Top Rentals Downtown",
       "city": "Buenos Aires",
       "neighborhood": "Microcentro",
-      "address": "Av. Corrientes 1234",
+      "address": "Esmeralda 920",
       "imageSrc": "",
       "comingSoon": false,
-      "hidden": false
+      "hidden": false,
+      "hasOffer": false,
+      "isPopular": false,
+      "detail": {
+        "units": [
+          {
+            "name": "Studio",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=Mq7ekmXSUae"
+          },
+          {
+            "name": "2 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=Yz3AcrV8SUW"
+          },
+          {
+            "name": "2 Ambientes Superior",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=3SSeJVvaTLr"
+          },
+          {
+            "name": "3 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=rr3WzUCaBMJ"
+          },
+          {
+            "name": "Lounge",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=WEbKzZsDVZq"
+          }
+        ]
+      }
     },
     {
       "slug": "huergo-475",
       "gnahsId": 8,
-      "name": "Huergo 475",
+      "name": "Top Rentals Huergo",
       "city": "Buenos Aires",
       "neighborhood": "San Telmo",
       "address": "Huergo 475",
       "imageSrc": "",
       "comingSoon": false,
-      "hidden": false
+      "hidden": false,
+      "hasOffer": false,
+      "isPopular": false
     },
     {
       "slug": "palermo-soho",
       "gnahsId": 3,
-      "name": "Palermo Soho",
+      "name": "Top Rentals Palermo Soho",
       "city": "Buenos Aires",
       "neighborhood": "Palermo",
       "address": "Honduras 4567",
       "imageSrc": "",
       "comingSoon": false,
-      "hidden": false
+      "hidden": false,
+      "hasOffer": false,
+      "isPopular": false,
+      "detail": {
+        "units": [
+          {
+            "name": "Studio",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=x1A2znhtkeQ"
+          },
+          {
+            "name": "2 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=dwj1maoeiFw"
+          }
+        ]
+      }
     },
     {
       "slug": "dorrego",
@@ -39,87 +102,303 @@
       "name": "Top Rentals Dorrego",
       "city": "Buenos Aires",
       "neighborhood": "Palermo",
-      "address": "Dorrego 2345",
+      "address": "Amenábar 80",
       "imageSrc": "",
       "comingSoon": false,
-      "hidden": false
+      "hidden": false,
+      "hasOffer": false,
+      "isPopular": false,
+      "detail": {
+        "units": [
+          {
+            "name": "Studio",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=YRjNF2vCqUp"
+          },
+          {
+            "name": "2 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/models/2drALy1gQ6d"
+          }
+        ]
+      }
     },
     {
       "slug": "wow-nunez",
       "gnahsId": 2,
-      "name": "WOW Nuñez",
+      "name": "Hub Núñez",
       "city": "Buenos Aires",
       "neighborhood": "Nuñez",
       "address": "Av. del Libertador 7200",
       "imageSrc": "",
       "comingSoon": false,
-      "hidden": false
+      "hidden": false,
+      "hasOffer": false,
+      "isPopular": false,
+      "detail": {
+        "units": [
+          {
+            "name": "Studio",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=5mdjUzPxyhs"
+          },
+          {
+            "name": "One Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=wgXHZg5QvEc"
+          },
+          {
+            "name": "Two Bedroom Opción 1",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=Xqc4VPeKFEv"
+          },
+          {
+            "name": "Two Bedroom Opción 2",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=G9bFxpCMr1h"
+          }
+        ]
+      }
     },
     {
       "slug": "qorner",
       "gnahsId": 4,
-      "name": "Qorner",
+      "name": "Top Rentals Qorner",
       "city": "Buenos Aires",
       "neighborhood": "Palermo",
       "address": "Costa Rica 5545",
       "imageSrc": "",
       "comingSoon": false,
-      "hidden": false
+      "hidden": false,
+      "hasOffer": false,
+      "isPopular": false,
+      "detail": {
+        "units": [
+          {
+            "name": "2 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=e7WB7hXP8kj"
+          },
+          {
+            "name": "2 Ambientes Plus",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=67ToSWBVEc5"
+          },
+          {
+            "name": "3 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=hJMF2vndC13"
+          },
+          {
+            "name": "4 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=DMUea78o9bv"
+          }
+        ]
+      }
     },
     {
       "slug": "montaneses",
       "gnahsId": 5,
-      "name": "Montañeses",
+      "name": "Top Rentals Montañeses",
       "city": "Buenos Aires",
       "neighborhood": "Belgrano",
-      "address": "Montañeses 3456",
+      "address": "Montañeses 2599",
       "imageSrc": "",
       "comingSoon": false,
-      "hidden": false
+      "hidden": false,
+      "hasOffer": false,
+      "isPopular": false,
+      "detail": {
+        "units": [
+          {
+            "name": "Habitación",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=YMTY5s16CPR"
+          },
+          {
+            "name": "Studio",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=e7bEYCrBecp"
+          },
+          {
+            "name": "2 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=kuNMRKGkS52"
+          }
+        ]
+      }
     },
     {
       "slug": "palermo-chico",
       "gnahsId": 6,
-      "name": "Palermo Chico",
+      "name": "Top Rentals Palermo Chico",
       "city": "Buenos Aires",
       "neighborhood": "Palermo Chico",
-      "address": "Av. Libertador 4500",
+      "address": "Cabello 3620",
       "imageSrc": "",
       "comingSoon": false,
-      "hidden": false
+      "hidden": false,
+      "hasOffer": false,
+      "isPopular": false,
+      "detail": {
+        "units": [
+          {
+            "name": "Studio",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=4GopdQSiPAF"
+          },
+          {
+            "name": "2 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=u6n5zX9mwoS"
+          },
+          {
+            "name": "3 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=C9nLXHiA8GE"
+          }
+        ]
+      }
     },
     {
       "slug": "palermo-hollywood",
       "gnahsId": 7,
-      "name": "Palermo Hollywood",
+      "name": "Top Rentals Palermo Hollywood",
       "city": "Buenos Aires",
       "neighborhood": "Palermo Hollywood",
-      "address": "El Salvador 5678",
+      "address": "Gorriti 6066",
       "imageSrc": "",
       "comingSoon": false,
-      "hidden": false
+      "hidden": false,
+      "hasOffer": false,
+      "isPopular": false,
+      "detail": {
+        "units": [
+          {
+            "name": "Studio",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=oZxy1BUsNZ5"
+          },
+          {
+            "name": "2 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=3utFbDWgM9q"
+          },
+          {
+            "name": "3 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=LaDoMbJKvQm"
+          }
+        ]
+      }
     },
     {
       "slug": "belgrano",
       "gnahsId": 9,
-      "name": "Belgrano",
+      "name": "Top Rentals Belgrano",
       "city": "Buenos Aires",
       "neighborhood": "Belgrano",
-      "address": "Cabildo 2100",
+      "address": "Av. Libertador 6299",
       "imageSrc": "",
       "comingSoon": false,
-      "hidden": false
+      "hidden": false,
+      "hasOffer": false,
+      "isPopular": false,
+      "detail": {
+        "units": [
+          {
+            "name": "Studio",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=XS3jXVkMVFK"
+          },
+          {
+            "name": "2 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=hRT8FqoYvu7"
+          }
+        ]
+      }
     },
     {
       "slug": "torre-nunez",
       "gnahsId": 11,
-      "name": "Torre Nuñez",
+      "name": "Top Rentals Nuñez",
       "city": "Buenos Aires",
       "neighborhood": "Nuñez",
-      "address": "Av. del Libertador 6800",
+      "address": "Nuñez 2422",
       "imageSrc": "",
       "comingSoon": false,
-      "hidden": false
+      "hidden": false,
+      "hasOffer": false,
+      "isPopular": false,
+      "detail": {
+        "units": [
+          {
+            "name": "Studio",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=Azokk7QYCUh"
+          },
+          {
+            "name": "2 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=ypryC2enX6P&play=1&ts=3&hl=0&guides=0&lp=1"
+          },
+          {
+            "name": "3 Ambientes",
+            "sqm": "",
+            "guests": "",
+            "features": "",
+            "tourUrl": "https://my.matterport.com/show/?m=sTzsheQ5wdP&utm_source=4"
+          }
+        ]
+      }
     },
     {
       "slug": "ecuador-proximamente",
@@ -130,7 +409,9 @@
       "address": "",
       "imageSrc": "",
       "comingSoon": true,
-      "hidden": false
+      "hidden": false,
+      "hasOffer": false,
+      "isPopular": false
     }
   ],
   "featuredSlugs": [

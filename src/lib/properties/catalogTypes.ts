@@ -11,6 +11,8 @@ export type PropertyUnitStored = {
   sqm: string;
   guests: string;
   features: string;
+  /** Tour Matterport u otro 360° (botón «Tour 360°»). */
+  tourUrl?: string;
 };
 
 /** Textos de la ficha pública (/propiedades/[slug]). */

@@ -7,6 +7,7 @@ import type { PropertiesCatalogEditorState } from "@/lib/properties/catalogEdito
 import type { PropertyListingStored } from "@/lib/properties/catalogTypes";
 import { slugifyPropertyName } from "@/lib/properties/slugify";
 import {
+  detailForAdminForm,
   emptyUnit,
   normalizeDetailForForm,
 } from "@/lib/properties/detailForm";
@@ -146,7 +147,10 @@ export function PropertiesCatalogManager({ initial }: Props) {
 
   function openEdit(index: number) {
     const item = listings[index]!;
-    setDraft({ ...item, detail: normalizeDetailForForm(item.detail) });
+    setDraft({
+      ...item,
+      detail: normalizeDetailForForm(detailForAdminForm(item, listings)),
+    });
     setImageFile(null);
     setGalleryFiles([]);
     setError(null);
@@ -642,8 +646,7 @@ export function PropertiesCatalogManager({ initial }: Props) {
             </div>
             {units.length === 0 ? (
               <p className="text-sm text-[var(--admin-text-dim)]">
-                Sin unidades personalizadas — se muestra la plantilla por defecto
-                (Studio, Dos Ambientes, etc.).
+                Sin unidades — agregá tipologías y el link del tour 360° si aplica.
               </p>
             ) : (
               <ul className="flex flex-col gap-4">
@@ -726,6 +729,23 @@ export function PropertiesCatalogManager({ initial }: Props) {
                           }}
                           className="admin-input"
                           placeholder="Ideal familias · Dos baños"
+                        />
+                      </label>
+                      <label className="flex flex-col sm:col-span-2">
+                        <span className="admin-field-label">Tour 360° (URL Matterport)</span>
+                        <input
+                          type="url"
+                          value={unit.tourUrl ?? ""}
+                          onChange={(e) => {
+                            const next = units.map((u, i) =>
+                              i === unitIndex
+                                ? { ...u, tourUrl: e.target.value }
+                                : u,
+                            );
+                            updateDetail({ units: next });
+                          }}
+                          className="admin-input font-mono text-xs"
+                          placeholder="https://my.matterport.com/show/?m=..."
                         />
                       </label>
                     </div>

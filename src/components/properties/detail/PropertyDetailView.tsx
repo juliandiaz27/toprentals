@@ -72,14 +72,18 @@ export function PropertyDetailView({
                 <p className="mt-1 text-[14px] text-neutral-500">{unit.sqm}</p>
                 <p className="mt-1 text-[14px] text-neutral-500">{unit.guests}</p>
                 <p className="mt-3 text-[13px] text-neutral-600">{unit.features}</p>
-                <div className="mt-6">
-                  <button
-                    type="button"
-                    className="inline-flex h-10 w-full items-center justify-center rounded-lg border border-btn text-[13px] font-medium text-btn hover:bg-neutral-50 sm:w-auto sm:min-w-[140px]"
-                  >
-                    Tour 360°
-                  </button>
-                </div>
+                {unit.tourUrl ? (
+                  <div className="mt-6">
+                    <a
+                      href={unit.tourUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-10 w-full items-center justify-center rounded-lg border border-btn text-[13px] font-medium text-btn hover:bg-neutral-50 sm:w-auto sm:min-w-[140px]"
+                    >
+                      Tour 360°
+                    </a>
+                  </div>
+                ) : null}
               </li>
             ))}
           </ul>
