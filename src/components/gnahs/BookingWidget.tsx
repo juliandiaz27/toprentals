@@ -14,6 +14,7 @@ export type BookingWidgetLabels = {
   checkIn?: string;
   checkOut?: string;
   occupancy?: string;
+  promoCode?: string;
   booking?: string;
 };
 
@@ -50,18 +51,13 @@ function isGnahsWidgetFailure(reason: unknown): boolean {
  * Buscador GNAHS — solo cliente; markup `.c-booking-widget` (no #GNAHSEngine).
  * En local sin dominio autorizado muestra fallback sin romper la app.
  */
-const TOP_RENTALS_LABELS: BookingWidgetLabels = {
-  destination: "Departamento",
-  checkIn: "Entrada",
-  checkOut: "Salida",
-  occupancy: "Huéspedes",
-  booking: "Buscar disponibilidad",
-};
-
-const PROPERTY_LABELS: BookingWidgetLabels = {
-  checkIn: "Entrada",
-  checkOut: "Salida",
-  occupancy: "Huéspedes",
+/** Etiquetas del snippet oficial `docs/gnahs-snippets/widget.html`. */
+const GNAHS_WIDGET_LABELS: BookingWidgetLabels = {
+  destination: "Destinos",
+  checkIn: "Fecha de entrada",
+  checkOut: "Fecha de salida",
+  occupancy: "Habitaciones y personas",
+  promoCode: "Código promocional",
   booking: "Reservar",
 };
 
@@ -69,9 +65,9 @@ export function BookingWidget({
   config,
   hidePromo = false,
   hideDestination = false,
-  labels = TOP_RENTALS_LABELS,
+  labels = GNAHS_WIDGET_LABELS,
 }: Props) {
-  const resolvedLabels = hideDestination ? { ...PROPERTY_LABELS, ...labels } : labels;
+  const resolvedLabels = labels;
   const containerRef = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
   const widgetInstance = useRef<unknown>(null);
@@ -260,8 +256,8 @@ function WidgetMarkup({
         dangerouslySetInnerHTML={{
           __html: `
             :root {
-              --booking-color-primary: 18, 18, 18;
-              --booking-color-secondary: 245, 245, 245;
+              --booking-color-primary: 42, 42, 42;
+              --booking-color-secondary: 217, 217, 217;
             }
           `,
         }}
@@ -274,28 +270,39 @@ function WidgetMarkup({
                 className="c-booking-widget__item destination-component"
                 {...{
                   "widget-label-destination":
-                    labels.destination ?? "Departamento",
+                    labels.destination ?? "Destinos",
                 }}
               />
             )}
             <div
               className="c-booking-widget__item dates-component dates-component-wrapper"
               {...{
-                "widget-label-check-in": labels.checkIn ?? "Entrada",
-                "widget-label-check-out": labels.checkOut ?? "Salida",
+                "widget-label-check-in": labels.checkIn ?? "Fecha de entrada",
+                "widget-label-check-out": labels.checkOut ?? "Fecha de salida",
               }}
             />
             <div
               className="c-booking-widget__item occupancy-component occupancy-component-container"
-              {...{ "widget-label-occupancy": labels.occupancy ?? "Huéspedes" }}
+              {...{
+                "widget-label-occupancy":
+                  labels.occupancy ?? "Habitaciones y personas",
+              }}
             />
             {hidePromo ? null : (
               <div
                 className="c-booking-widget__item promo-code"
-                {...{ "widget-label-promocode": "Código promo" }}
+                {...{
+                  "widget-label-promocode":
+                    labels.promoCode ?? "Código promocional",
+                }}
               />
             )}
-            <div className="c-booking-widget__item booking-button" />
+            <div
+              className="c-booking-widget__item booking-button"
+              {...{
+                "widget-label-booking": labels.booking ?? "Reservar",
+              }}
+            />
           </div>
         </div>
       </div>

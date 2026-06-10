@@ -3,7 +3,6 @@
 import { useMemo } from "react";
 import { getGnahsWidgetConfigForProperty } from "@/lib/gnahs/config";
 import { BookingWidget } from "@/components/gnahs/BookingWidgetDynamic";
-import { GnahsWidgetTopRentalsSkin } from "@/components/gnahs/GnahsWidgetTopRentalsSkin";
 
 type Props = {
   gnahsId: number;
@@ -21,9 +20,7 @@ export function PropertyDetailSearchBar({ gnahsId }: Props) {
       data-reveal
       className="rounded-lg border border-neutral-200 bg-white p-4"
     >
-      <GnahsWidgetTopRentalsSkin variant="property">
-        <BookingWidget config={config} hidePromo hideDestination />
-      </GnahsWidgetTopRentalsSkin>
+      <BookingWidget config={config} hideDestination />
     </div>
   );
 }

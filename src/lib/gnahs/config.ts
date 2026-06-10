@@ -91,8 +91,7 @@ export function getGnahsWidgetConfig() {
     bookingRoute:
       process.env.NEXT_PUBLIC_GNAHS_BOOKING_ROUTE ?? "/reservas",
     saveLastSeach: false,
-    bookingButtonLabel: "Buscar disponibilidad",
-    appearance: { gap: 0, scrollHide: true },
+    appearance: { gap: 0 },
   };
 }
 
@@ -108,12 +107,11 @@ export function getGnahsWidgetConfigForProperty(
   const base = getGnahsWidgetConfig();
   const id = Math.floor(Number(gnahsId));
   if (!Number.isFinite(id) || id < 1) {
-    return { ...base, bookingButtonLabel: "Reservar" };
+    return base;
   }
   return {
     ...base,
     establishments: [id] as GnahsWidgetConfig["establishments"],
-    bookingButtonLabel: "Reservar",
   };
 }
 
