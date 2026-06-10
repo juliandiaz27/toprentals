@@ -18,7 +18,6 @@ export type CorporateHeroContent = {
   ctaSecondaryHref: string;
   /** CTAs listos para render (sin Buenos Aires / Ecuador al motor). */
   ctas: CorporateCta[];
-  imageSrc: string;
   features: string[];
 };
 
@@ -198,9 +197,6 @@ export function pickCorporatePage(raw: PageContent): CorporatePageContent {
         ctaSecondaryLabel: String(hero.ctaSecondaryLabel ?? "Cotizar alojamiento →"),
         ctaSecondaryHref: String(hero.ctaSecondaryHref ?? "#acceso-corporativo"),
       }),
-      imageSrc: String(
-        hero.imageSrc ?? "/images/corporate/corporate-teaser.png",
-      ),
       features: asStringArray(hero.features ?? raw.heroFeatures, DEFAULT_HERO_FEATURES),
     },
     designedFor: {

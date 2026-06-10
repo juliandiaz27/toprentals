@@ -1,13 +1,12 @@
 {
   "hero": {
     "label": "CORPORATIVO",
-    "title": "Alojamiento corporativo sin complicaciones.",
-    "subtitle": "Soluciones de alojamiento profesional para empresas, equipos en movimiento y proyectos flexibles.",
+    "title": "<p>Alojamiento corporativo sin complicaciones.</p>",
+    "subtitle": "<p>Soluciones de alojamiento profesional para empresas, equipos en movimiento y proyectos flexibles.</p>",
     "ctaPrimaryLabel": "Acceso corporativo →",
     "ctaPrimaryHref": "#acceso-agencias",
     "ctaSecondaryLabel": "Cotizar →",
     "ctaSecondaryHref": "#acceso-corporativo",
-    "imageSrc": "/images/corporate/corporate-teaser.png",
     "features": [
       "Múltiples depts. en una misma torre",
       "Contratos flexibles y estadías largas",
@@ -16,7 +15,7 @@
     ]
   },
   "designedFor": {
-    "title": "Diseñado para equipos que viajan",
+    "title": "<p>Diseñado para equipos que viajan</p>",
     "intro": "Top Rentals Corporate está pensado para:",
     "items": [
       "Empresas con equipos en movimiento",
@@ -27,7 +26,7 @@
     "closing": "Todo con un estándar consistente y sin la fricción de alquileres informales."
   },
   "features": {
-    "title": "Más que un departamento",
+    "title": "<p>Más que un departamento</p>",
     "items": [
       {
         "title": "Departamentos totalmente equipados",
@@ -48,7 +47,7 @@
     ]
   },
   "benefits": {
-    "title": "Beneficios exclusivos para empresas",
+    "title": "<p>Beneficios exclusivos para empresas</p>",
     "leftColumn": [
       "Tarifas corporativas preferenciales",
       "Condiciones flexibles según volumen y duración.",
@@ -63,7 +62,7 @@
     "closing": "Todo gestionado desde una cuenta corporativa única."
   },
   "howItWorks": {
-    "title": "Cómo funciona Top Rentals Corporate",
+    "title": "<p>Cómo funciona Top Rentals Corporate</p>",
     "steps": [
       {
         "title": "Solicitud de cuenta",
@@ -84,8 +83,8 @@
     ]
   },
   "spaces": {
-    "title": "Espacios para reuniones y eventos corporativos",
-    "subtitle": "Soluciones flexibles para encuentros profesionales, reuniones privadas y eventos empresariales.",
+    "title": "<p>Espacios para reuniones y eventos corporativos</p>",
+    "subtitle": "<p>Soluciones flexibles para encuentros profesionales, reuniones privadas y eventos empresariales.</p>",
     "cards": [
       "Espacios de cowork",
       "Salas de reuniones privadas premium",
@@ -93,7 +92,7 @@
     ]
   },
   "destinations": {
-    "title": "Destinos disponibles",
+    "title": "<p>Destinos disponibles</p>",
     "items": [
       {
         "title": "Buenos Aires",
@@ -106,12 +105,12 @@
     ]
   },
   "access": {
-    "title": "Acceso Corporativo",
+    "title": "<p>Acceso Corporativo</p>",
     "loginQuestion": "¿Ya sos cliente corporate?",
     "loginDescription": "Ingresá a tu cuenta y reservá con tarifas corporativas.",
     "loginCtaLabel": "Acceso corporativo →",
     "loginCtaHref": "/agencias",
-    "formTitle": "Solicitar acceso corporate",
+    "formTitle": "<p>Solicitar acceso corporate</p>",
     "formSubmitLabel": "Solicitar información →"
   }
 }

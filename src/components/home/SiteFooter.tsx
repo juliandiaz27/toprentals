@@ -29,9 +29,9 @@ export function SiteFooter({ footer }: Props) {
             className="flex flex-wrap gap-x-6 gap-y-2 text-[14px] lg:justify-end"
             aria-label="Pie de página"
           >
-            {footer.links.map((item) => (
+            {footer.links.map((item, index) => (
               <Link
-                key={item.href + item.label}
+                key={`${item.href}-${index}`}
                 href={item.href}
                 className={`transition ${footerHover}`}
               >

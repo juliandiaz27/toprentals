@@ -35,6 +35,7 @@
     "title": "Dejanos tu CV",
     "subtitle": "Completá el formulario y adjuntá tu currículum. Nuestro equipo de RRHH lo tendrá en cuenta para futuras búsquedas.",
     "attachLabel": "Adjuntar CV",
-    "submitLabel": "Enviar postulación →"
+    "submitLabel": "Enviar postulación →",
+    "recipientEmail": "rrhh2tr@gmail.com"
   }
 }

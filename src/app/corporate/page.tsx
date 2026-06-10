@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { readPageContent } from "@/lib/pageContent/storage";
 import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
 import { pickCorporatePage } from "@/lib/pageContent/corporateTypes";
+import { pageMetadataTitle } from "@/lib/pageContent/metadata";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { CorporateHero } from "@/components/corporate/CorporateHero";
 import { CorporateDesignedFor } from "@/components/corporate/CorporateDesignedFor";
@@ -18,7 +19,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const content = await readPageContent("corporate");
   const page = pickCorporatePage(content);
-  return { title: `${page.hero.title} | Top Rentals` };
+  return { title: pageMetadataTitle(page.hero.title) };
 }
 
 export default async function CorporatePage() {

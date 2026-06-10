@@ -1,4 +1,5 @@
 import type { PageContent } from "./types";
+import { DEFAULT_CAREERS_RRHH_EMAIL } from "@/lib/careers/constants";
 
 export type TrabajaWhyItem = { icon: string; title: string; text: string };
 
@@ -19,6 +20,7 @@ export type TrabajaPageContent = {
     subtitle: string;
     attachLabel: string;
     submitLabel: string;
+    recipientEmail: string;
   };
 };
 
@@ -90,6 +92,9 @@ export function pickTrabajaPage(raw: PageContent): TrabajaPageContent {
       ),
       attachLabel: String(spontaneous.attachLabel ?? "Adjuntar CV"),
       submitLabel: String(spontaneous.submitLabel ?? "Enviar postulación →"),
+      recipientEmail:
+        String(spontaneous.recipientEmail ?? DEFAULT_CAREERS_RRHH_EMAIL).trim() ||
+        DEFAULT_CAREERS_RRHH_EMAIL,
     },
   };
 }

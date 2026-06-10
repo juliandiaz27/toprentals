@@ -16,11 +16,6 @@ export const HEADER_NAV_CATALOG = [
     defaultLabel: "Corporativo",
   },
   {
-    id: "propietarios",
-    href: "/propietarios",
-    defaultLabel: "Propietarios",
-  },
-  {
     id: "real-estate",
     href: "/real-estate",
     defaultLabel: "Real Estate",

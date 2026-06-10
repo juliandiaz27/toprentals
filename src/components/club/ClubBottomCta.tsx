@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FormattedText } from "@/components/content/FormattedText";
 import { CLUB_GOLD } from "@/lib/pageContent/clubTheme";
 import type { ClubBottomCtaContent } from "@/lib/pageContent/clubTypes";
 
@@ -7,9 +8,10 @@ type Props = { content: ClubBottomCtaContent };
 export function ClubBottomCta({ content }: Props) {
   return (
     <div data-reveal className="mt-10 max-w-3xl text-left">
-      <p className="text-[15px] leading-relaxed text-neutral-600 lg:text-base">
-        {content.text}
-      </p>
+      <FormattedText
+        value={content.text}
+        className="block text-[15px] leading-relaxed text-neutral-600 lg:text-base"
+      />
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
           href={content.ctaPropertiesHref}

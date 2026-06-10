@@ -1,3 +1,13 @@
 {
-  "reviews": []
+  "reviews": [
+    {
+      "id": "1aca9674-de2b-4630-b1b1-e2d2a7afa88c",
+      "propertySlug": "downtown-torre-bellini",
+      "authorName": "Julian",
+      "body": "Excelente servicio",
+      "rating": 5,
+      "createdAt": "2026-06-08T13:42:05.181Z",
+      "visible": true
+    }
+  ]
 }

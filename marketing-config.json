@@ -6,9 +6,9 @@
   },
   "announcementBar": {
     "enabled": false,
-    "message": "",
+    "message": "15%off",
     "linkLabel": "",
-    "href": "",
+    "href": "/reservas",
     "backgroundColor": "#111111",
     "textColor": "#ffffff",
     "dismissible": true,

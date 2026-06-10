@@ -618,14 +618,14 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         label: "Enlace 5 — texto",
         type: "text",
         section: "Enlaces",
-        fallback: "Propietarios",
+        fallback: "Real Estate",
       },
       {
         key: "footer.link5Href",
         label: "Enlace 5 — página",
         type: "url",
         section: "Enlaces",
-        fallback: "/propietarios",
+        fallback: "/real-estate",
         routePreset: "menu",
       },
       {
@@ -633,29 +633,29 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         label: "Enlace 6 — texto",
         type: "text",
         section: "Enlaces",
-        fallback: "Real Estate",
+        fallback: "Contacto",
       },
       {
         key: "footer.link6Href",
         label: "Enlace 6 — página",
         type: "url",
         section: "Enlaces",
-        fallback: "/real-estate",
+        fallback: "/contacto",
         routePreset: "menu",
       },
       {
         key: "footer.link7Label",
-        label: "Enlace 7 — texto",
+        label: "Enlace 7 — texto (opcional)",
         type: "text",
         section: "Enlaces",
-        fallback: "Contacto",
+        fallback: "",
       },
       {
         key: "footer.link7Href",
-        label: "Enlace 7 — página",
+        label: "Enlace 7 — página (opcional)",
         type: "url",
         section: "Enlaces",
-        fallback: "/contacto",
+        fallback: "",
         routePreset: "menu",
       },
       {
@@ -746,6 +746,13 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         fallback:
           "Completá el formulario y adjuntá tu currículum. Nuestro equipo de RRHH lo tendrá en cuenta para futuras búsquedas.",
       },
+      {
+        key: "spontaneous.recipientEmail",
+        label: "Email RRHH (destino de CVs)",
+        type: "text",
+        section: "Formulario",
+        fallback: "rrhh2tr@gmail.com",
+      },
     ],
   },
   {
@@ -796,7 +803,8 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
     slug: "corporate",
     title: "Corporate",
     publicPath: "/corporate",
-    description: "Landing corporativa: hero, beneficios, destinos y formulario de acceso.",
+    description:
+      "Landing corporativa: hero (fondo negro, sin imagen), beneficios, destinos y formulario de acceso.",
     fields: [
       {
         key: "hero.label",
@@ -851,14 +859,6 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         fallback: "#acceso-corporativo",
         lockedHref: "#acceso-corporativo",
         hint: "Siempre lleva al formulario corporativo.",
-      },
-      {
-        key: "hero.imageSrc",
-        label: "Imagen de fondo hero",
-        type: "image",
-        section: "Hero",
-        fallback: "/images/corporate/corporate-teaser.png",
-        uploadGuide: MEDIA_UPLOAD_GUIDES.corporateHero,
       },
       {
         key: "designedFor.title",

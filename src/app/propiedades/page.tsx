@@ -13,13 +13,15 @@ import { PropertiesSearchBar } from "@/components/properties/PropertiesSearchBar
 import { PropertiesGrid } from "@/components/properties/PropertiesGrid";
 import { PropertiesDevelopment } from "@/components/properties/PropertiesDevelopment";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
+import { FormattedText } from "@/components/content/FormattedText";
+import { pageMetadataTitle } from "@/lib/pageContent/metadata";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await readPageContent("propiedades");
   const hero = pickPropiedadesHero(content);
-  return { title: `${hero.title} | Top Rentals` };
+  return { title: pageMetadataTitle(hero.title) };
 }
 
 export default async function PropiedadesPage() {
@@ -45,12 +47,13 @@ export default async function PropiedadesPage() {
         >
           <header className="max-w-3xl">
             <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight tracking-tight text-neutral-950">
-              {hero.title}
+              <FormattedText value={hero.title} as="inline" />
             </h1>
             {hero.subtitle ? (
-              <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-600 lg:text-lg">
-                {hero.subtitle}
-              </p>
+              <FormattedText
+                value={hero.subtitle}
+                className="mt-4 block max-w-2xl text-base leading-relaxed text-neutral-600 lg:text-lg"
+              />
             ) : null}
           </header>
         </div>

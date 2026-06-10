@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ClubBottomCta } from "@/components/club/ClubBottomCta";
+import { FormattedText } from "@/components/content/FormattedText";
 import type { ClubBottomCtaContent, ClubFeaturedContent } from "@/lib/pageContent/clubTypes";
 import type { PropertyListing } from "@/lib/properties/catalog";
 
@@ -25,7 +26,7 @@ export function ClubPropertiesStrip({ content, bottomCta, properties }: Props) {
           className="flex flex-wrap items-end justify-between gap-4 text-left"
         >
           <h2 className="text-left text-[clamp(1.35rem,2.5vw,1.75rem)] font-bold text-neutral-950">
-            {content.title}
+            <FormattedText value={content.title} as="inline" />
           </h2>
           <Link
             href={content.linkHref}

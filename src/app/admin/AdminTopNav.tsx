@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const TOP_LINKS = [
-  { href: "/admin/imagenes", label: "Imágenes" },
   { href: "/admin/propiedades", label: "Propiedades" },
   { href: "/admin/propiedades/comentarios", label: "Comentarios" },
   { href: "/admin/marketing", label: "Marketing" },

@@ -1,3 +1,4 @@
+import { FormattedText } from "@/components/content/FormattedText";
 import type { NosotrosPageContent } from "@/lib/pageContent/nosotrosTypes";
 
 type Props = { content: NosotrosPageContent["history"] };
@@ -11,7 +12,7 @@ export function NosotrosHistory({ content }: Props) {
       <div className="mx-auto grid w-full max-w-[1440px] gap-10 lg:grid-cols-2 lg:items-start lg:gap-16">
         <div data-reveal>
           <h2 className="text-[clamp(1.75rem,3vw,2.25rem)] font-bold leading-tight text-neutral-950">
-            {content.title}
+            <FormattedText value={content.title} as="inline" />
           </h2>
           <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-neutral-700 lg:text-base">
             {content.paragraphs.map((p) => (

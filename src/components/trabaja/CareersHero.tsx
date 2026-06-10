@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FormattedText } from "@/components/content/FormattedText";
 import type { TrabajaPageContent } from "@/lib/pageContent/trabajaTypes";
 
 type Props = { content: TrabajaPageContent["hero"] };
@@ -17,11 +18,12 @@ export function CareersHero({ content }: Props) {
         className="mx-auto w-full max-w-[1440px] px-6 py-14 lg:px-12 lg:py-20"
       >
         <h1 className="max-w-3xl text-[clamp(2rem,4.5vw,3rem)] font-bold leading-[1.08] tracking-tight">
-          {content.title}
+          <FormattedText value={content.title} as="inline" />
         </h1>
-        <p className="mt-6 max-w-2xl text-base leading-relaxed text-white lg:text-[17px]">
-          {content.subtitle}
-        </p>
+        <FormattedText
+          value={content.subtitle}
+          className="mt-6 block max-w-2xl text-base leading-relaxed text-white lg:text-[17px]"
+        />
         <p className="mt-4 text-[14px] text-[#AAAAAA]">{content.metaLine}</p>
         <Link
           href={content.ctaHref}

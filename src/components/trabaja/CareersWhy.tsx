@@ -1,3 +1,4 @@
+import { FormattedText } from "@/components/content/FormattedText";
 import type { TrabajaPageContent } from "@/lib/pageContent/trabajaTypes";
 
 type Props = { content: TrabajaPageContent["why"] };
@@ -10,7 +11,7 @@ export function CareersWhy({ content }: Props) {
           data-reveal
           className="text-[clamp(1.5rem,3vw,2rem)] font-bold text-neutral-950"
         >
-          {content.title}
+          <FormattedText value={content.title} as="inline" />
         </h2>
         <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
           {content.items.map((item, i) => (

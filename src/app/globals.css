@@ -5,6 +5,7 @@
   --foreground: #171717;
   --btn: #121212;
   --btn-hover: #2a2a2a;
+  --mobile-bottom-nav-height: 3.75rem;
 }
 
 @theme inline {
@@ -19,6 +20,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+@media (max-width: 1023px) {
+  body.has-mobile-bottom-nav {
+    padding-bottom: calc(
+      var(--mobile-bottom-nav-height) + env(safe-area-inset-bottom, 0px)
+    );
+  }
 }
 
 /* Contenido enriquecido desde el panel (HTML sanitizado) */

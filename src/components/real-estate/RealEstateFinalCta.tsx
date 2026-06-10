@@ -19,9 +19,10 @@ export function RealEstateFinalCta({ content }: Props) {
             <FormattedText value={content.title} as="inline" />
           </h2>
           {content.text ? (
-            <p className="mt-4 text-[15px] leading-relaxed text-[#AAAAAA] lg:text-base">
-              {content.text}
-            </p>
+            <FormattedText
+              value={content.text}
+              className="mt-4 block text-[15px] leading-relaxed text-[#AAAAAA] lg:text-base"
+            />
           ) : null}
         </div>
         <Link

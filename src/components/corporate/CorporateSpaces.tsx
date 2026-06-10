@@ -10,9 +10,10 @@ export function CorporateSpaces({ content }: Props) {
         <h2 className="max-w-3xl text-[clamp(1.5rem,2.8vw,2rem)] font-bold leading-tight text-neutral-950">
           <FormattedText value={content.title} as="inline" />
         </h2>
-        <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-neutral-600">
-          {content.subtitle}
-        </p>
+        <FormattedText
+          value={content.subtitle}
+          className="mt-4 block max-w-2xl text-[15px] leading-relaxed text-neutral-600"
+        />
         <ul className="mt-10 grid gap-4 sm:grid-cols-3 lg:gap-6">
           {content.cards.map((card) => (
             <li

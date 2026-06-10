@@ -369,27 +369,37 @@ export function pickHomeInvestorCta(raw: Record<string, unknown>): HomeInvestorC
   };
 }
 
+const DEFAULT_FOOTER_LINKS: HomeFooterLink[] = [
+  { label: "Propiedades", href: "/propiedades" },
+  { label: "Corporativo", href: "/corporate" },
+  { label: "Blog", href: "/blog" },
+  { label: "Club Top Rentals", href: "/club-top-rentals" },
+  { label: "Real Estate", href: "/real-estate" },
+  { label: "Contacto", href: "/contacto" },
+];
+
 export function pickHomeFooter(raw: Record<string, unknown>): HomeFooterContent {
   const f = (raw.footer ?? {}) as Record<string, unknown>;
-  const defaults: HomeFooterLink[] = [
-    { label: "Propiedades", href: "/propiedades" },
-    { label: "Corporativo", href: "/corporate" },
-    { label: "Blog", href: "/blog" },
-    { label: "Club Top Rentals", href: "/club-top-rentals" },
-    { label: "Propietarios", href: "/propietarios" },
-    { label: "Real Estate", href: "/real-estate" },
-    { label: "Contacto", href: "/contacto" },
-  ];
-  const links = [1, 2, 3, 4, 5, 6, 7].map((n, idx) => ({
-    label: String(f[`link${n}Label`] ?? defaults[idx]?.label ?? ""),
-    href: String(f[`link${n}Href`] ?? defaults[idx]?.href ?? "#"),
-  }));
+  const seen = new Set<string>();
+  const links: HomeFooterLink[] = [];
+
+  for (let n = 1; n <= 7; n++) {
+    const label = String(f[`link${n}Label`] ?? "").trim();
+    const href = String(f[`link${n}Href`] ?? "").trim();
+    if (!label || !href || href === "#") continue;
+    const dedupeKey = `${href}::${label}`;
+    if (seen.has(dedupeKey)) continue;
+    seen.add(dedupeKey);
+    links.push({ label, href });
+  }
+
+  const resolvedLinks = links.length > 0 ? links : DEFAULT_FOOTER_LINKS;
   return {
     brand: String(f.brand ?? "TOP RENTALS"),
     tagline: String(f.tagline ?? "Temporary Apartments · Buenos Aires · Quito"),
     siteUrl: String(f.siteUrl ?? "thetoprentals.com"),
     copyright: String(f.copyright ?? "© 2025 Top Rentals. Todos los derechos reservados."),
-    links,
+    links: resolvedLinks,
     socialLabel: String(f.socialLabel ?? "Instagram · Facebook · WhatsApp"),
     instagramUrl: String(f.instagramUrl ?? "#"),
     facebookUrl: String(f.facebookUrl ?? "#"),

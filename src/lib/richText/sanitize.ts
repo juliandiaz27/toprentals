@@ -63,6 +63,25 @@ export function looksLikeHtml(value: string): boolean {
   return /<[a-z][\s\S]*>/i.test(value);
 }
 
+/** Texto plano para `<title>`, SEO y lugares sin HTML. */
+export function plainTextFromRichHtml(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  if (!looksLikeHtml(trimmed)) return trimmed;
+
+  const withBreaks = trimmed
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/p>/gi, "\n")
+    .replace(/<\/li>/gi, "\n");
+
+  return sanitizeHtml(withBreaks, { allowedTags: [], allowedAttributes: {} })
+    .replace(/\u00a0/g, " ")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .replace(/[ \t]{2,}/g, " ")
+    .trim();
+}
+
 /** Vacía párrafos vacíos del editor antes de guardar. */
 export function normalizeStoredRichHtml(html: string): string {
   const trimmed = html.trim();

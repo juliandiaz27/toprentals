@@ -13,7 +13,7 @@ export function StickyReserveFab({ config }: Props) {
     <Link
       href={config.href}
       {...reservasLinkProps(config.href)}
-      className="fixed bottom-24 right-6 z-40 inline-flex h-12 max-w-[min(100vw-3rem,280px)] items-center justify-center rounded-full bg-btn px-6 text-[14px] font-semibold text-white shadow-[0_4px_24px_rgba(0,0,0,0.22)] transition hover:bg-btn-hover hover:scale-[1.02] lg:right-10"
+      className="fixed right-6 z-40 inline-flex h-12 max-w-[min(100vw-3rem,280px)] items-center justify-center rounded-full bg-btn px-6 text-[14px] font-semibold text-white shadow-[0_4px_24px_rgba(0,0,0,0.22)] transition hover:bg-btn-hover hover:scale-[1.02] max-lg:bottom-[calc(var(--mobile-bottom-nav-height)+env(safe-area-inset-bottom,0px)+4.75rem)] lg:bottom-24 lg:right-10"
       aria-label={config.label}
     >
       <span className="truncate">{config.label}</span>

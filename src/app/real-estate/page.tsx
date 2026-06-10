@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { readPageContent } from "@/lib/pageContent/storage";
 import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
 import { pickRealEstatePage } from "@/lib/pageContent/realEstateTypes";
+import { pageMetadataTitle } from "@/lib/pageContent/metadata";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { RealEstateHero } from "@/components/real-estate/RealEstateHero";
 import { RealEstateCopySection } from "@/components/real-estate/RealEstateCopySection";
@@ -18,7 +19,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const content = await readPageContent("real-estate");
   const page = pickRealEstatePage(content);
-  return { title: `${page.hero.title} | Top Rentals` };
+  return { title: pageMetadataTitle(page.hero.title) };
 }
 
 export default async function RealEstatePage() {

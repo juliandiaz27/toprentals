@@ -21,9 +21,10 @@ export function ClubHero({ content }: Props) {
         <h1 className="mt-8 max-w-3xl whitespace-pre-line text-[clamp(2.125rem,4.5vw,3.25rem)] font-bold leading-[1.08] tracking-tight">
           <FormattedText value={content.title} as="inline" />
         </h1>
-        <p className="mt-6 max-w-2xl text-base leading-relaxed text-[#AAAAAA] lg:text-[17px]">
-          {content.subtitle}
-        </p>
+        <FormattedText
+          value={content.subtitle}
+          className="mt-6 block max-w-2xl text-base leading-relaxed text-[#AAAAAA] lg:text-[17px]"
+        />
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
             href={content.ctaJoinHref}

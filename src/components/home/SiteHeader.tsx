@@ -6,6 +6,7 @@ import { useCallback, useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 import type { HomeHeaderContent } from "@/lib/pageContent/homeTypes";
 import { reservasLinkProps } from "@/lib/reservasLink";
+import { MobileBottomNav } from "@/components/home/MobileBottomNav";
 
 type Props = {
   header: HomeHeaderContent;
@@ -68,6 +69,19 @@ export function SiteHeader({
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const sync = () => {
+      document.body.classList.toggle("has-mobile-bottom-nav", mq.matches);
+    };
+    sync();
+    mq.addEventListener("change", sync);
+    return () => {
+      mq.removeEventListener("change", sync);
+      document.body.classList.remove("has-mobile-bottom-nav");
+    };
+  }, []);
+
   const headerBg =
     variant === "muted"
       ? "border-neutral-200/80 bg-[#F8F8F8]"
@@ -109,7 +123,7 @@ export function SiteHeader({
         <nav
           id={menuId}
           aria-label="Principal"
-          className={`fixed right-0 top-[72px] z-[100] flex h-[calc(100dvh-72px)] w-full max-w-sm flex-col border-l border-neutral-200 bg-white shadow-xl transition-transform duration-300 ease-out sm:max-w-md ${
+          className={`fixed right-0 top-[72px] z-[100] flex h-[calc(100dvh-72px)] w-full max-w-sm flex-col border-l border-neutral-200 bg-white shadow-xl transition-transform duration-300 ease-out max-lg:h-[calc(100dvh-72px-var(--mobile-bottom-nav-height)-env(safe-area-inset-bottom,0px))] sm:max-w-md ${
             menuOpen ? "translate-x-0" : "pointer-events-none translate-x-full"
           }`}
           aria-hidden={!menuOpen}
@@ -200,7 +214,7 @@ export function SiteHeader({
 
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-200 text-neutral-950 transition hover:bg-neutral-50"
+            className="hidden h-10 w-10 items-center justify-center rounded-lg border border-neutral-200 text-neutral-950 transition hover:bg-neutral-50 lg:inline-flex"
             aria-expanded={menuOpen}
             aria-controls={menuId}
             aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
@@ -212,6 +226,12 @@ export function SiteHeader({
       </div>
       </header>
       {menuPortal}
+      <MobileBottomNav
+        pathname={pathname}
+        activeHref={activeHref}
+        menuOpen={menuOpen}
+        onToggleMenu={() => setMenuOpen((o) => !o)}
+      />
     </>
   );
 }

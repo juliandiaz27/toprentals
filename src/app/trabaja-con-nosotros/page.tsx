@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { readPageContent } from "@/lib/pageContent/storage";
 import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
 import { pickTrabajaPage } from "@/lib/pageContent/trabajaTypes";
+import {
+  pageMetadataDescription,
+  pageMetadataTitle,
+} from "@/lib/pageContent/metadata";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { CareersHero } from "@/components/trabaja/CareersHero";
 import { CareersWhy } from "@/components/trabaja/CareersWhy";
@@ -14,8 +18,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const content = await readPageContent("trabaja");
   const page = pickTrabajaPage(content);
   return {
-    title: `${page.hero.title} | Top Rentals`,
-    description: page.hero.subtitle,
+    title: pageMetadataTitle(page.hero.title),
+    description: pageMetadataDescription(page.hero.subtitle),
   };
 }
 

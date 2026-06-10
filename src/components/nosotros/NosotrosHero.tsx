@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FormattedText } from "@/components/content/FormattedText";
 import type { NosotrosPageContent } from "@/lib/pageContent/nosotrosTypes";
 
 type Props = { content: NosotrosPageContent["hero"] };
@@ -13,7 +14,7 @@ export function NosotrosHero({ content }: Props) {
       <div className="mx-auto grid w-full max-w-[1440px] gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
         <div data-reveal>
           <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight tracking-tight text-neutral-950">
-            {content.title}
+            <FormattedText value={content.title} as="inline" />
           </h1>
           <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-neutral-700 lg:text-base">
             {content.paragraphs.map((p) => (

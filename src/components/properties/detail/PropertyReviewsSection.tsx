@@ -1,7 +1,11 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useCallback, useState, useTransition } from "react";
 import { submitPropertyReview } from "@/app/property-reviews/actions";
+import {
+  isTurnstileRequired,
+  TurnstileField,
+} from "@/components/spam/TurnstileField";
 import type { PropertyReview } from "@/lib/properties/reviewsTypes";
 import { formatReviewDate } from "@/lib/properties/reviewsFormat";
 
@@ -31,11 +35,24 @@ export function PropertyReviewsSection({
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRequired = isTurnstileRequired();
+
+  const onTurnstileToken = useCallback((token: string) => {
+    setTurnstileToken(token);
+  }, []);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
+    if (turnstileRequired && !turnstileToken) {
+      setError("Completá la verificación anti-spam.");
+      return;
+    }
     const fd = new FormData(e.currentTarget);
+    if (turnstileToken) {
+      fd.set("cf-turnstile-response", turnstileToken);
+    }
 
     startTransition(async () => {
       const res = await submitPropertyReview(fd);
@@ -154,6 +171,8 @@ export function PropertyReviewsSection({
                 placeholder="¿Qué te pareció el edificio, la ubicación, el servicio?"
               />
             </label>
+
+            <TurnstileField onTokenChange={onTurnstileToken} />
 
             {error ? (
               <p className="text-[14px] text-red-600" role="alert">

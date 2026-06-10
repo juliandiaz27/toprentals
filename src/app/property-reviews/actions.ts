@@ -3,6 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { appendPropertyReview } from "@/lib/properties/reviews";
 import { loadPropertyListings } from "@/lib/properties/catalog";
+import { assertPropertyReviewRateLimit } from "@/lib/spam/reviewRateLimit";
+import {
+  isTurnstileEnabled,
+  verifyTurnstileToken,
+} from "@/lib/spam/turnstile";
 
 export type SubmitReviewResult =
   | { ok: true }
@@ -13,6 +18,17 @@ export async function submitPropertyReview(
 ): Promise<SubmitReviewResult> {
   const honeypot = String(formData.get("website") ?? "").trim();
   if (honeypot) return { ok: true };
+
+  if (isTurnstileEnabled()) {
+    const token = String(formData.get("cf-turnstile-response") ?? "").trim();
+    const valid = await verifyTurnstileToken(token);
+    if (!valid) {
+      return {
+        ok: false,
+        error: "Completá la verificación anti-spam e intentá de nuevo.",
+      };
+    }
+  }
 
   const propertySlug = String(formData.get("propertySlug") ?? "").trim();
   const authorName = String(formData.get("authorName") ?? "").trim();
@@ -44,6 +60,11 @@ export async function submitPropertyReview(
   if (ratingRaw) {
     const n = Number(ratingRaw);
     if (n >= 1 && n <= 5) rating = Math.round(n);
+  }
+
+  const rateLimitError = await assertPropertyReviewRateLimit(propertySlug);
+  if (rateLimitError) {
+    return { ok: false, error: rateLimitError };
   }
 
   try {
