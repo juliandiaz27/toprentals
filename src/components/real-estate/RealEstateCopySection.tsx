@@ -24,7 +24,7 @@ export function RealEstateCopySection({ content, variant }: Props) {
         </h2>
         <div className="mt-6 max-w-3xl space-y-4 text-[15px] leading-relaxed text-neutral-700 lg:text-base">
           {content.paragraphs.map((p) => (
-            <p key={p.slice(0, 48)}>{p}</p>
+            <FormattedText key={p.slice(0, 48)} value={p} className="block" />
           ))}
         </div>
       </div>

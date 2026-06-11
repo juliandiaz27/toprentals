@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { readPageContent } from "@/lib/pageContent/storage";
 import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
 import { loadBlogSettings, loadPublishedBlogPosts } from "@/lib/blog/load";
+import { FormattedText } from "@/components/content/FormattedText";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
@@ -38,12 +39,13 @@ export default async function BlogIndexPage() {
         >
           <header className="max-w-3xl">
             <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight tracking-tight text-neutral-950">
-              {settings.title}
+              <FormattedText value={settings.title} as="inline" />
             </h1>
             {settings.subtitle ? (
-              <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-600 lg:text-lg">
-                {settings.subtitle}
-              </p>
+              <FormattedText
+                value={settings.subtitle}
+                className="mt-4 block max-w-2xl text-base leading-relaxed text-neutral-600 lg:text-lg"
+              />
             ) : null}
           </header>
 

@@ -10,17 +10,21 @@ export function CorporateDesignedFor({ content }: Props) {
         <h2 className="text-[clamp(1.75rem,3vw,2.25rem)] font-bold leading-tight text-neutral-950">
           <FormattedText value={content.title} as="inline" />
         </h2>
-        <p className="mt-5 text-[15px] text-[#AAAAAA] lg:mt-6">{content.intro}</p>
+        <FormattedText
+          value={content.intro}
+          className="mt-5 block text-[15px] text-[#AAAAAA] lg:mt-6"
+        />
         <ul className="mt-4 list-disc space-y-2 pl-5 text-[15px] text-neutral-900 marker:text-neutral-950 lg:mt-5">
           {content.items.map((item) => (
             <li key={item} className="pl-1 leading-relaxed">
-              {item}
+              <FormattedText value={item} as="inline" />
             </li>
           ))}
         </ul>
-        <p className="mt-10 max-w-3xl text-[15px] leading-relaxed text-[#AAAAAA] lg:mt-12">
-          {content.closing}
-        </p>
+        <FormattedText
+          value={content.closing}
+          className="mt-10 block max-w-3xl text-[15px] leading-relaxed text-[#AAAAAA] lg:mt-12"
+        />
       </div>
     </section>
   );

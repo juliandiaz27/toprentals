@@ -13,6 +13,16 @@
       "hasOffer": false,
       "isPopular": false,
       "detail": {
+        "groupsHeadline": "134 unidades · Grupos de más de 270 personas",
+        "groupsDescription": "Downtown forma parte del portfolio de Top Rentals con capacidad para alojar grandes grupos en un mismo edificio, ya sean corporativos o turísticos, con una experiencia ágil y coordinada.",
+        "groupsCtaLabel": "Consultar grupos",
+        "groupsCtaHref": "/corporate",
+        "stats": [
+          { "value": "134", "label": "Unidades" },
+          { "value": "+270", "label": "Huéspedes" },
+          { "value": "45", "label": "Pisos" },
+          { "value": "5", "label": "Tipologías" }
+        ],
         "units": [
           {
             "name": "Studio",

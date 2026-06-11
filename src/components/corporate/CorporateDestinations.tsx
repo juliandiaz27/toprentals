@@ -20,10 +20,13 @@ export function CorporateDestinations({ content }: Props) {
               key={item.title}
               className="rounded-lg border border-neutral-200 bg-white px-6 py-8 lg:px-8 lg:py-10"
             >
-              <h3 className="text-xl font-bold text-neutral-950">{item.title}</h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-neutral-600">
-                {item.text}
-              </p>
+              <h3 className="text-xl font-bold text-neutral-950">
+                <FormattedText value={item.title} as="inline" />
+              </h3>
+              <FormattedText
+                value={item.text}
+                className="mt-3 block text-[15px] leading-relaxed text-neutral-600"
+              />
             </li>
           ))}
         </ul>

@@ -21,7 +21,25 @@ export type AnnouncementBarConfig = {
   endAt: string;
 };
 
+export type ScrollPopupConfig = {
+  enabled: boolean;
+  title: string;
+  description: string;
+  /** URL interna (/images/…, /api/media/…) o absoluta. Vacío = imagen por defecto. */
+  imageUrl: string;
+  /** Dato destacado bajo la descripción (ej. «Más de 45 edificios»). */
+  highlight: string;
+  ctaLabel: string;
+  ctaHref: string;
+  audience: MarketingAudience;
+  /** Píxeles de scroll vertical antes de mostrar el popup. */
+  scrollThreshold: number;
+  startAt: string;
+  endAt: string;
+};
+
 export type MarketingConfigFile = {
   stickyReserve: StickyReserveConfig;
   announcementBar: AnnouncementBarConfig;
+  scrollPopup: ScrollPopupConfig;
 };

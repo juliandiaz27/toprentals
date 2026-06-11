@@ -1,3 +1,4 @@
+import { FormattedText } from "@/components/content/FormattedText";
 import { CLUB_GOLD } from "@/lib/pageContent/clubTheme";
 import type { ClubLevelTier } from "@/lib/pageContent/clubTypes";
 
@@ -30,8 +31,13 @@ export function ClubLevels({ title, subtitle, tiers }: Props) {
     <section className="bg-[#111111] px-6 py-14 text-white lg:px-12 lg:py-16">
       <div className="mx-auto w-full max-w-[1440px]">
         <div data-reveal className="text-left">
-          <h2 className="text-[clamp(1.35rem,2.5vw,1.75rem)] font-bold">{title}</h2>
-          <p className="mt-3 text-[15px] text-[#AAAAAA]">{subtitle}</p>
+          <h2 className="text-[clamp(1.35rem,2.5vw,1.75rem)] font-bold">
+            <FormattedText value={title} as="inline" />
+          </h2>
+          <FormattedText
+            value={subtitle}
+            className="mt-3 block text-[15px] text-[#AAAAAA]"
+          />
         </div>
         <ul className="mt-10 grid gap-5 lg:grid-cols-3 lg:gap-6">
           {tiers.map((tier, index) => {
@@ -52,16 +58,19 @@ export function ClubLevels({ title, subtitle, tiers }: Props) {
                   className={`inline-flex w-fit rounded-full px-3 py-1 text-[12px] font-bold uppercase tracking-wide ${style.tag}`}
                   style={goldTag}
                 >
-                  {tier.name}
+                  <FormattedText value={tier.name} as="inline" />
                 </span>
-                <p className="mt-4 text-[14px] text-[#AAAAAA]">{tier.requirement}</p>
+                <FormattedText
+                  value={tier.requirement}
+                  className="mt-4 block text-[14px] text-[#AAAAAA]"
+                />
                 <ul className="mt-6 flex flex-1 flex-col gap-2.5 text-[14px] leading-snug">
                   {tier.benefits.map((item) => (
                     <li key={item} className="flex gap-2">
                       <span style={{ color: CLUB_GOLD }} aria-hidden>
                         •
                       </span>
-                      <span>{item}</span>
+                      <FormattedText value={item} as="inline" />
                     </li>
                   ))}
                 </ul>

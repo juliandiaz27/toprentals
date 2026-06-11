@@ -37,6 +37,7 @@ function defaultDetailStored(
     tags: defaults.tags,
     poiLines: defaults.poi.columns.flat(),
     groupsHeadline: defaults.groupsHeadline,
+    groupsDescription: defaults.groupsDescription,
     groupsCtaLabel: defaults.groupsCtaLabel,
     groupsCtaHref: defaults.groupsCtaHref,
     stats: defaults.stats,
@@ -66,6 +67,7 @@ export function detailForAdminForm(
     tags: tags.length ? tags : base.tags ?? [],
     poiLines: poiLines.length ? poiLines : base.poiLines ?? [],
     groupsHeadline: stored.groupsHeadline?.trim() || base.groupsHeadline,
+    groupsDescription: stored.groupsDescription?.trim() || base.groupsDescription,
     groupsCtaLabel: stored.groupsCtaLabel?.trim() || base.groupsCtaLabel,
     groupsCtaHref: stored.groupsCtaHref?.trim() || base.groupsCtaHref,
     stats: hasCustomStats ? stats : base.stats ?? ensureStats(),
@@ -88,6 +90,7 @@ export function normalizeDetailForForm(
     tags: detail?.tags ?? [],
     poiLines: detail?.poiLines ?? [],
     groupsHeadline: detail?.groupsHeadline ?? DEFAULT_GROUPS.groupsHeadline,
+    groupsDescription: detail?.groupsDescription ?? "",
     groupsCtaLabel: detail?.groupsCtaLabel ?? DEFAULT_GROUPS.groupsCtaLabel,
     groupsCtaHref: detail?.groupsCtaHref ?? DEFAULT_GROUPS.groupsCtaHref,
     stats: ensureStats(detail?.stats),
@@ -104,6 +107,7 @@ export function detailHasContent(d: PropertyDetailStored): boolean {
       d.tags?.length ||
       d.poiLines?.length ||
       d.groupsHeadline?.trim() ||
+      d.groupsDescription?.trim() ||
       d.groupsCtaLabel?.trim() ||
       d.stats?.some((s) => s.value.trim() && s.value !== "—") ||
       d.units?.length ||

@@ -56,6 +56,21 @@ export function buildPoiColumns(items: string[], columnCount = 4): string[][] {
   return columns;
 }
 
+function propertyShortName(name: string): string {
+  return name.replace(/^Top Rentals\s*/i, "").trim() || name;
+}
+
+function defaultGroupsCopy(listing: PropertyListing): {
+  groupsHeadline: string;
+  groupsDescription: string;
+} {
+  const shortName = propertyShortName(listing.name);
+  return {
+    groupsHeadline: `Grupos y estadías corporativas en ${shortName}`,
+    groupsDescription: `${shortName} forma parte del portfolio de Top Rentals con capacidad para alojar grandes grupos en un mismo edificio, ya sean corporativos o turísticos, con una experiencia ágil y coordinada.`,
+  };
+}
+
 function pickRelatedSlugs(
   listings: PropertyListing[],
   current: PropertyListing,
@@ -91,7 +106,7 @@ export function buildDefaultDetail(
       columns: buildPoiColumns(DEFAULT_POI_BA),
     },
     units: DEFAULT_PROPERTY_UNITS,
-    groupsHeadline: "Grupos y estadías corporativas · Consultanos disponibilidad",
+    ...defaultGroupsCopy(listing),
     groupsCtaLabel: "Consultar grupos",
     groupsCtaHref: "/corporate",
     stats: [

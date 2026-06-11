@@ -22,11 +22,12 @@ export function NosotrosValues({ content }: Props) {
               className="rounded-lg bg-white px-5 py-6 lg:px-6 lg:py-7"
             >
               <h3 className="text-[15px] font-bold text-neutral-950 lg:text-base">
-                {item.title}
+                <FormattedText value={item.title} as="inline" />
               </h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-neutral-600 lg:text-[15px]">
-                {item.text}
-              </p>
+              <FormattedText
+                value={item.text}
+                className="mt-2 block text-[14px] leading-relaxed text-neutral-600 lg:text-[15px]"
+              />
             </li>
           ))}
         </ul>

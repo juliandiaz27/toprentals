@@ -21,11 +21,12 @@ export function CorporateHowItWorks({ content }: Props) {
                   {index + 1}
                 </span>
                 <h3 className="mt-4 text-[15px] font-bold text-neutral-950">
-                  {step.title}
+                  <FormattedText value={step.title} as="inline" />
                 </h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-neutral-600">
-                  {step.text}
-                </p>
+                <FormattedText
+                  value={step.text}
+                  className="mt-2 block text-[14px] leading-relaxed text-neutral-600"
+                />
               </li>
             ))}
           </ol>

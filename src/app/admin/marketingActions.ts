@@ -10,6 +10,7 @@ import {
 import type {
   AnnouncementBarConfig,
   MarketingConfigFile,
+  ScrollPopupConfig,
   StickyReserveConfig,
 } from "@/lib/marketing/types";
 import type { ActionResult } from "./actions";
@@ -45,6 +46,34 @@ function parseAnnouncement(formData: FormData): AnnouncementBarConfig {
   };
 }
 
+function parseScrollPopup(formData: FormData): ScrollPopupConfig {
+  const audience = formData.get("popup.audience");
+  const thresholdRaw = Number(formData.get("popup.scrollThreshold"));
+  const scrollThreshold =
+    Number.isFinite(thresholdRaw) && thresholdRaw >= 0
+      ? Math.round(thresholdRaw)
+      : 480;
+
+  return {
+    enabled: formData.get("popup.enabled") === "on",
+    title: String(formData.get("popup.title") ?? "").trim(),
+    description: String(formData.get("popup.description") ?? "").trim(),
+    imageUrl: String(formData.get("popup.imageUrl") ?? "").trim(),
+    highlight: String(formData.get("popup.highlight") ?? "").trim(),
+    ctaLabel:
+      String(formData.get("popup.ctaLabel") ?? "").trim() || "Ver propiedades",
+    ctaHref: resolveRoutePickerValue(
+      String(formData.get("popup.ctaHref") ?? ""),
+      "menu",
+      "/propiedades",
+    ),
+    audience: audience === "all" ? "all" : "b2c",
+    scrollThreshold,
+    startAt: String(formData.get("popup.startAt") ?? "").trim(),
+    endAt: String(formData.get("popup.endAt") ?? "").trim(),
+  };
+}
+
 export async function saveMarketingConfig(
   formData: FormData,
 ): Promise<ActionResult> {
@@ -56,6 +85,7 @@ export async function saveMarketingConfig(
     const data: MarketingConfigFile = {
       stickyReserve: parseSticky(formData),
       announcementBar: parseAnnouncement(formData),
+      scrollPopup: parseScrollPopup(formData),
     };
 
     await writeMarketingConfig(data);

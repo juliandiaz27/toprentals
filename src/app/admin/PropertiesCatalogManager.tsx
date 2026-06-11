@@ -575,7 +575,7 @@ export function PropertiesCatalogManager({ initial }: Props) {
               Franja corporativa y estadísticas
             </h2>
             <p className="mb-4 text-sm text-[var(--admin-text-muted)]">
-              Bloque negro de la ficha: título, botón y las cuatro cifras.
+              Bloque negro de la ficha: título, párrafo, botón y las cuatro cifras.
             </p>
             <div className="grid gap-5 lg:grid-cols-2">
               <label className="flex flex-col lg:col-span-2">
@@ -585,6 +585,19 @@ export function PropertiesCatalogManager({ initial }: Props) {
                   value={draft.detail?.groupsHeadline ?? ""}
                   onChange={(e) => updateDetail({ groupsHeadline: e.target.value })}
                   className="admin-input"
+                  placeholder="134 unidades · Grupos de más de 270 personas"
+                />
+              </label>
+              <label className="flex flex-col lg:col-span-2">
+                <span className="admin-field-label">Párrafo descriptivo</span>
+                <textarea
+                  rows={3}
+                  value={draft.detail?.groupsDescription ?? ""}
+                  onChange={(e) =>
+                    updateDetail({ groupsDescription: e.target.value })
+                  }
+                  className="admin-textarea"
+                  placeholder="Downtown forma parte del portfolio de Top Rentals…"
                 />
               </label>
               <label className="flex flex-col">

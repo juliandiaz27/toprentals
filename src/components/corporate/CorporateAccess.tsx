@@ -37,11 +37,12 @@ export function CorporateAccess({ content }: Props) {
               <FormattedText value={content.title} as="inline" />
             </h3>
             <p className="mt-6 text-[15px] font-semibold text-white">
-              {content.loginQuestion}
+              <FormattedText value={content.loginQuestion} as="inline" />
             </p>
-            <p className="mt-3 text-[15px] leading-relaxed text-[#AAAAAA]">
-              {content.loginDescription}
-            </p>
+            <FormattedText
+              value={content.loginDescription}
+              className="mt-3 block text-[15px] leading-relaxed text-[#AAAAAA]"
+            />
             <Link
               href={sanitizeCorporateLoginHref(content.loginCtaHref)}
               className="mt-8 inline-flex h-11 w-fit items-center justify-center rounded-lg bg-white px-5 text-[14px] font-semibold text-neutral-950 hover:bg-neutral-100"

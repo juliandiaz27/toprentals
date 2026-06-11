@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FormattedText } from "@/components/content/FormattedText";
 import type { HomeFooterContent } from "@/lib/pageContent/homeTypes";
 
 type Props = {
@@ -19,7 +20,7 @@ export function SiteFooter({ footer }: Props) {
           <p className="text-[18px] font-bold uppercase tracking-[0.04em] text-white">
             {footer.brand}
           </p>
-          <p className="text-[14px]">{footer.tagline}</p>
+          <FormattedText value={footer.tagline} className="text-[14px]" />
           <p className="text-[14px]">{footer.siteUrl}</p>
           <p className="mt-8 text-[12px] lg:mt-12">{footer.copyright}</p>
         </div>

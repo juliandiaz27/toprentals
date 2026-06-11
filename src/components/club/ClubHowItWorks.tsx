@@ -1,3 +1,4 @@
+import { FormattedText } from "@/components/content/FormattedText";
 import { CLUB_GOLD } from "@/lib/pageContent/clubTheme";
 import { clubStepsGridClass } from "@/lib/pageContent/clubTypes";
 import type { ClubTextBlock } from "@/lib/pageContent/clubTypes";
@@ -15,7 +16,7 @@ export function ClubHowItWorks({ title, steps }: Props) {
           data-reveal
           className="text-left text-[clamp(1.35rem,2.5vw,1.75rem)] font-bold text-neutral-950"
         >
-          {title}
+          <FormattedText value={title} as="inline" />
         </h2>
         <ul className={`mt-10 grid gap-4 ${clubStepsGridClass(steps.length)}`}>
           {steps.map((step, index) => (
@@ -34,11 +35,12 @@ export function ClubHowItWorks({ title, steps }: Props) {
                 {index + 1}
               </span>
               <h3 className="mt-4 text-left text-[15px] font-bold text-neutral-950">
-                {step.title}
+                <FormattedText value={step.title} as="inline" />
               </h3>
-              <p className="mt-2 text-left text-[14px] leading-relaxed text-neutral-600">
-                {step.text}
-              </p>
+              <FormattedText
+                value={step.text}
+                className="mt-2 block text-left text-[14px] leading-relaxed text-neutral-600"
+              />
             </li>
           ))}
         </ul>

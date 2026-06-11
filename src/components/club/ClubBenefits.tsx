@@ -1,3 +1,4 @@
+import { FormattedText } from "@/components/content/FormattedText";
 import { CLUB_GOLD } from "@/lib/pageContent/clubTheme";
 import type { ClubBenefitsColumn } from "@/lib/pageContent/clubTypes";
 
@@ -21,7 +22,7 @@ export function ClubBenefits({ title, columns }: Props) {
           data-reveal
           className="text-left text-[clamp(1.35rem,2.5vw,1.75rem)] font-bold text-neutral-950"
         >
-          {title}
+          <FormattedText value={title} as="inline" />
         </h2>
         <ul className={`mt-10 grid gap-5 ${benefitsGridClass(columns.length)}`}>
           {columns.map((col, index) => (
@@ -35,7 +36,7 @@ export function ClubBenefits({ title, columns }: Props) {
               <div className="h-1.5 w-full" style={{ backgroundColor: CLUB_GOLD }} />
               <div className="px-5 py-6">
                 <h3 className="text-left text-[15px] font-bold text-neutral-950">
-                  {col.title}
+                  <FormattedText value={col.title} as="inline" />
                 </h3>
                 <ul className="mt-4 space-y-2.5 text-left text-[14px] leading-relaxed text-neutral-600">
                   {col.items.map((item) => (
@@ -45,7 +46,7 @@ export function ClubBenefits({ title, columns }: Props) {
                         style={{ backgroundColor: CLUB_GOLD }}
                         aria-hidden
                       />
-                      <span>{item}</span>
+                      <FormattedText value={item} as="inline" />
                     </li>
                   ))}
                 </ul>

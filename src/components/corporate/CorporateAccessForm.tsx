@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { FormattedText } from "@/components/content/FormattedText";
 import type { CorporateAccessContent } from "@/lib/pageContent/corporateTypes";
 
 type Props = { content: CorporateAccessContent };
@@ -18,7 +19,9 @@ export function CorporateAccessForm({ content }: Props) {
 
   return (
     <div className="h-full rounded-lg bg-white p-6 text-neutral-950 lg:p-8">
-      <h3 className="text-lg font-bold">{content.formTitle}</h3>
+      <h3 className="text-lg font-bold">
+        <FormattedText value={content.formTitle} as="inline" />
+      </h3>
       {sent ? (
         <p className="mt-6 text-[15px] text-neutral-600">
           Gracias. Recibimos tu solicitud y nos pondremos en contacto a la brevedad.

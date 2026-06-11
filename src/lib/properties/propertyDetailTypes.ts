@@ -29,6 +29,7 @@ export type PropertyDetailExtra = {
   poi: PropertyNearbyPoi;
   units: PropertyUnit[];
   groupsHeadline: string;
+  groupsDescription: string;
   groupsCtaLabel: string;
   groupsCtaHref: string;
   stats: PropertyStat[];

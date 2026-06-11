@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FormattedText } from "@/components/content/FormattedText";
 import type { PropertyDetail } from "@/lib/properties/details";
 import { reservasLinkProps } from "@/lib/reservasLink";
 import type { PropertyListing } from "@/lib/properties/catalog";
@@ -9,6 +10,7 @@ import { PropertyDetailGallery } from "@/components/properties/detail/PropertyDe
 import { galleryFromDetail } from "@/lib/properties/gallery";
 import { PropertyMap } from "@/components/properties/detail/PropertyMap";
 import { PropertyNearbyPoiList } from "@/components/properties/detail/PropertyNearbyPoi";
+import { PropertyDetailGroupsSection } from "@/components/properties/detail/PropertyDetailGroupsSection";
 import { PropertyReviewsSection } from "@/components/properties/detail/PropertyReviewsSection";
 import type { PropertyReview } from "@/lib/properties/reviewsTypes";
 
@@ -48,9 +50,10 @@ export function PropertyDetailView({
         >
           <div>
             <h2 className="text-xl font-bold text-neutral-950">Sobre el edificio</h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-neutral-600">
-              {property.about}
-            </p>
+            <FormattedText
+              value={property.about}
+              className="mt-4 text-[15px] leading-relaxed text-neutral-600"
+            />
             <PropertyNearbyPoiList poi={property.poi} />
           </div>
           <PropertyMap
@@ -96,27 +99,13 @@ export function PropertyDetailView({
         />
       </div>
 
-      <section data-reveal className="bg-neutral-950 px-6 py-10 text-white lg:px-12">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-          <p className="text-lg font-semibold lg:text-xl">{property.groupsHeadline}</p>
-          <Link
-            href={property.groupsCtaHref}
-            className="inline-flex h-11 shrink-0 items-center justify-center rounded-lg bg-white px-6 text-[14px] font-medium text-neutral-950 hover:bg-neutral-100"
-          >
-            {property.groupsCtaLabel}
-          </Link>
-        </div>
-        <ul className="mx-auto mt-10 grid max-w-[1440px] grid-cols-2 gap-8 lg:grid-cols-4">
-          {property.stats.map((stat) => (
-            <li key={stat.label}>
-              <p className="text-[clamp(2rem,4vw,3rem)] font-bold leading-none">
-                {stat.value}
-              </p>
-              <p className="mt-2 text-[14px] text-neutral-400">{stat.label}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <PropertyDetailGroupsSection
+        headline={property.groupsHeadline}
+        description={property.groupsDescription}
+        ctaLabel={property.groupsCtaLabel}
+        ctaHref={property.groupsCtaHref}
+        stats={property.stats}
+      />
 
       {related.length > 0 ? (
         <section data-reveal className="mx-auto max-w-[1440px] px-6 py-16 lg:px-12">

@@ -3,6 +3,7 @@ import type { MarketingConfigFile } from "./types";
 
 export {
   getActiveAnnouncement,
+  getActiveScrollPopup,
   getStickyReserveForPath,
   pathMatchesAudience,
 } from "./runtime";

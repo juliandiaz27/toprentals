@@ -18,7 +18,7 @@ export function NosotrosHero({ content }: Props) {
           </h1>
           <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-neutral-700 lg:text-base">
             {content.paragraphs.map((p) => (
-              <p key={p}>{p}</p>
+              <FormattedText key={p} value={p} className="block" />
             ))}
           </div>
           <Link
@@ -37,10 +37,10 @@ export function NosotrosHero({ content }: Props) {
           {content.stats.map((stat) => (
             <li key={stat.value + stat.label}>
               <p className="text-[clamp(1.75rem,3vw,2.5rem)] font-bold leading-none text-neutral-950">
-                {stat.value}
+                <FormattedText value={stat.value} as="inline" />
               </p>
               <p className="mt-2 text-[14px] leading-snug text-neutral-600 lg:text-[15px]">
-                {stat.label}
+                <FormattedText value={stat.label} as="inline" />
               </p>
             </li>
           ))}

@@ -1,5 +1,10 @@
 import { isB2cConsumerPath } from "./b2cPaths";
-import type { AnnouncementBarConfig, MarketingConfigFile, StickyReserveConfig } from "./types";
+import type {
+  AnnouncementBarConfig,
+  MarketingConfigFile,
+  ScrollPopupConfig,
+  StickyReserveConfig,
+} from "./types";
 
 function isWithinSchedule(startAt: string, endAt: string, now = new Date()): boolean {
   if (startAt) {
@@ -43,4 +48,16 @@ export function getStickyReserveForPath(
   if (!sticky.enabled || !sticky.label.trim()) return null;
   if (!isB2cConsumerPath(pathname)) return null;
   return sticky;
+}
+
+export function getActiveScrollPopup(
+  config: MarketingConfigFile,
+  pathname: string,
+  now = new Date(),
+): ScrollPopupConfig | null {
+  const popup = config.scrollPopup;
+  if (!popup.enabled || !popup.title.trim() || !popup.ctaLabel.trim()) return null;
+  if (!isWithinSchedule(popup.startAt, popup.endAt, now)) return null;
+  if (!pathMatchesAudience(pathname, popup.audience)) return null;
+  return popup;
 }

@@ -112,6 +112,7 @@ function parseListingsPayload(
             ? d.poiLines.map((t) => String(t).trim()).filter(Boolean)
             : linesFromText(String(d.poiLinesText ?? "")),
           groupsHeadline: String(d.groupsHeadline ?? "").trim() || undefined,
+          groupsDescription: String(d.groupsDescription ?? "").trim() || undefined,
           groupsCtaLabel: String(d.groupsCtaLabel ?? "").trim() || undefined,
           groupsCtaHref: String(d.groupsCtaHref ?? "").trim() || undefined,
           stats,

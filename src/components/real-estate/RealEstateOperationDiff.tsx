@@ -22,13 +22,14 @@ export function RealEstateOperationDiff({ content }: Props) {
               >
                 ✓
               </span>
-              <span>{item}</span>
+              <FormattedText value={item} as="inline" />
             </li>
           ))}
         </ul>
-        <p className="mt-10 max-w-2xl text-[15px] font-bold leading-relaxed text-neutral-950 lg:text-base">
-          {content.closing}
-        </p>
+        <FormattedText
+          value={content.closing}
+          className="mt-10 block max-w-2xl text-[15px] font-bold leading-relaxed text-neutral-950 lg:text-base"
+        />
       </div>
     </section>
   );

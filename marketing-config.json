@@ -5,14 +5,25 @@
     "href": "/reservas"
   },
   "announcementBar": {
-    "enabled": false,
+    "enabled": true,
     "message": "15%off",
-    "linkLabel": "",
+    "linkLabel": "SDF",
     "href": "/reservas",
     "backgroundColor": "#111111",
     "textColor": "#ffffff",
     "dismissible": true,
     "audience": "b2c",
+    "startAt": "",
+    "endAt": ""
+  },
+  "scrollPopup": {
+    "enabled": true,
+    "title": "Encontrá tu proximo apartamento",
+    "description": "Departamentos amoblados en Palermo, Recoleta y mas",
+    "ctaLabel": "Ver propiedades",
+    "ctaHref": "/propiedades",
+    "audience": "b2c",
+    "scrollThreshold": 450,
     "startAt": "",
     "endAt": ""
   }

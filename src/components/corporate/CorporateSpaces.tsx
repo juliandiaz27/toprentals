@@ -20,7 +20,7 @@ export function CorporateSpaces({ content }: Props) {
               key={card}
               className="flex min-h-16 items-center rounded-lg bg-white px-5 py-4 text-left text-[14px] font-semibold leading-snug text-neutral-950"
             >
-              {card}
+              <FormattedText value={card} as="inline" />
             </li>
           ))}
         </ul>

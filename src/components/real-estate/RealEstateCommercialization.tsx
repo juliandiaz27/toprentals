@@ -12,19 +12,23 @@ export function RealEstateCommercialization({ content }: Props) {
             <FormattedText value={content.title} as="inline" />
           </h2>
           {content.intro ? (
-            <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-neutral-700">
-              {content.intro}
-            </p>
+            <FormattedText
+              value={content.intro}
+              className="mt-4 block max-w-3xl text-[15px] leading-relaxed text-neutral-700"
+            />
           ) : null}
           <ul className="mt-6 list-disc space-y-2 pl-5 text-[15px] leading-relaxed text-neutral-800 marker:text-neutral-950">
             {content.items.map((item) => (
-              <li key={item}>{item}</li>
+              <li key={item}>
+                <FormattedText value={item} as="inline" />
+              </li>
             ))}
           </ul>
           {content.closing ? (
-            <p className="mt-8 text-[15px] font-bold leading-relaxed text-neutral-950">
-              {content.closing}
-            </p>
+            <FormattedText
+              value={content.closing}
+              className="mt-8 block text-[15px] font-bold leading-relaxed text-neutral-950"
+            />
           ) : null}
         </div>
       </div>

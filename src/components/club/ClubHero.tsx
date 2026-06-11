@@ -16,7 +16,7 @@ export function ClubHero({ content }: Props) {
           className="inline-flex rounded-full px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-neutral-950"
           style={{ backgroundColor: CLUB_GOLD }}
         >
-          {content.label}
+          <FormattedText value={content.label} as="inline" />
         </p>
         <h1 className="mt-8 max-w-3xl whitespace-pre-line text-[clamp(2.125rem,4.5vw,3.25rem)] font-bold leading-[1.08] tracking-tight">
           <FormattedText value={content.title} as="inline" />

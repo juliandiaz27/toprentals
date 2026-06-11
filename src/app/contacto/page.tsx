@@ -3,6 +3,7 @@ import Link from "next/link";
 import { readPageContent } from "@/lib/pageContent/storage";
 import { pickContactoPage } from "@/lib/pageContent/contactoTypes";
 import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
+import { FormattedText } from "@/components/content/FormattedText";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 
@@ -37,11 +38,12 @@ export default async function ContactoPage() {
         >
           <header className="max-w-2xl">
             <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight tracking-tight text-neutral-950">
-              {page.title}
+              <FormattedText value={page.title} as="inline" />
             </h1>
-            <p className="mt-4 text-base leading-relaxed text-neutral-600 lg:text-lg">
-              {page.subtitle}
-            </p>
+            <FormattedText
+              value={page.subtitle}
+              className="mt-4 text-base leading-relaxed text-neutral-600 lg:text-lg"
+            />
           </header>
 
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:max-w-3xl">

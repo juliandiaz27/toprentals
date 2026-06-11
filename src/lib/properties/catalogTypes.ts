@@ -25,6 +25,7 @@ export type PropertyDetailStored = {
   poiLines?: string[];
   /** Franja negra: grupos corporativos. */
   groupsHeadline?: string;
+  groupsDescription?: string;
   groupsCtaLabel?: string;
   groupsCtaHref?: string;
   /** Hasta 4 cifras (Unidades, Huéspedes, etc.). */

@@ -11,9 +11,10 @@ export function RealEstateProvenStats({ content }: Props) {
           <FormattedText value={content.title} as="inline" />
         </h2>
         {content.intro ? (
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[#AAAAAA]">
-            {content.intro}
-          </p>
+          <FormattedText
+            value={content.intro}
+            className="mt-4 block max-w-2xl text-[15px] leading-relaxed text-[#AAAAAA]"
+          />
         ) : null}
         <ul className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {content.stats.map((stat, index) => (
@@ -24,10 +25,10 @@ export function RealEstateProvenStats({ content }: Props) {
               }`}
             >
               <p className="text-[clamp(2rem,4vw,3rem)] font-bold leading-none tracking-tight">
-                {stat.value}
+                <FormattedText value={stat.value} as="inline" />
               </p>
               <p className="mt-3 text-[13px] leading-snug text-[#AAAAAA] lg:text-[14px]">
-                {stat.label}
+                <FormattedText value={stat.label} as="inline" />
               </p>
             </li>
           ))}

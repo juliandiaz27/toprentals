@@ -28,11 +28,12 @@ export function CareersWhy({ content }: Props) {
                 {item.icon}
               </span>
               <h3 className="mt-4 text-[15px] font-bold text-neutral-950">
-                {item.title}
+                <FormattedText value={item.title} as="inline" />
               </h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-neutral-600">
-                {item.text}
-              </p>
+              <FormattedText
+                value={item.text}
+                className="mt-2 block text-[14px] leading-relaxed text-neutral-600"
+              />
             </li>
           ))}
         </ul>

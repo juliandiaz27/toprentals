@@ -8,7 +8,7 @@ function BulletColumn({ items }: { items: string[] }) {
     <ul className="list-disc space-y-2 pl-5 text-[15px] text-neutral-900 marker:text-neutral-950">
       {items.map((item) => (
         <li key={item} className="pl-1 leading-relaxed">
-          {item}
+          <FormattedText value={item} as="inline" />
         </li>
       ))}
     </ul>
@@ -27,9 +27,10 @@ export function CorporateBenefits({ content }: Props) {
             <div>
               <BulletColumn items={content.leftColumn} />
               {content.closing ? (
-                <p className="mt-8 text-[15px] leading-relaxed text-[#AAAAAA] lg:mt-10">
-                  {content.closing}
-                </p>
+                <FormattedText
+                  value={content.closing}
+                  className="mt-8 block text-[15px] leading-relaxed text-[#AAAAAA] lg:mt-10"
+                />
               ) : null}
             </div>
             <BulletColumn items={content.rightColumn} />

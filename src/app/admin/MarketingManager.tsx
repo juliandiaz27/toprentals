@@ -144,6 +144,18 @@ export function MarketingManager({ initial }: Props) {
 
   );
 
+  const [popupStartLocal, setPopupStartLocal] = useState(
+
+    toDatetimeLocal(initial.scrollPopup.startAt),
+
+  );
+
+  const [popupEndLocal, setPopupEndLocal] = useState(
+
+    toDatetimeLocal(initial.scrollPopup.endAt),
+
+  );
+
   const [bgColor, setBgColor] = useState(
 
     initial.announcementBar.backgroundColor || "#111111",
@@ -155,6 +167,8 @@ export function MarketingManager({ initial }: Props) {
   const sticky = initial.stickyReserve;
 
   const bar = initial.announcementBar;
+
+  const popup = initial.scrollPopup;
 
 
 
@@ -171,6 +185,10 @@ export function MarketingManager({ initial }: Props) {
     fd.set("announcement.startAt", fromDatetimeLocal(startLocal));
 
     fd.set("announcement.endAt", fromDatetimeLocal(endLocal));
+
+    fd.set("popup.startAt", fromDatetimeLocal(popupStartLocal));
+
+    fd.set("popup.endAt", fromDatetimeLocal(popupEndLocal));
 
 
 
@@ -208,9 +226,9 @@ export function MarketingManager({ initial }: Props) {
 
           <p className="admin-page-desc">
 
-            Botón flotante de reserva en páginas B2C y barra de campañas con fechas
+            Botón flotante de reserva en páginas B2C, barra de campañas y popup al
 
-            de vigencia. No aplica en Corporativo ni landings B2B.
+            scrollear. No aplica en Corporativo ni landings B2B.
 
           </p>
 
@@ -606,6 +624,306 @@ export function MarketingManager({ initial }: Props) {
 
 
 
+        <section className="admin-section-card">
+
+          <div className="admin-section-card__head">
+
+            <h2 className="admin-section-title">Popup al scrollear</h2>
+
+          </div>
+
+          <div className="admin-section-card__body grid max-w-2xl gap-4 sm:grid-cols-2">
+
+            <label className="flex items-center gap-2 sm:col-span-2">
+
+              <input
+
+                type="checkbox"
+
+                name="popup.enabled"
+
+                defaultChecked={popup.enabled}
+
+              />
+
+              <span className="admin-field-label mb-0">Popup activo</span>
+
+            </label>
+
+
+
+            <div className="admin-callout sm:col-span-2" role="note">
+
+              <IconInfo />
+
+              <p>
+
+                Aparece cuando el visitante scrollea más allá del umbral configurado.
+
+                Si lo cierra, no vuelve a mostrarse hasta el día siguiente (por
+
+                navegador). Requiere título y texto del botón.
+
+              </p>
+
+            </div>
+
+
+
+            <label className="flex flex-col gap-1 sm:col-span-2">
+
+              <span className="admin-field-label">Título</span>
+
+              <input
+
+                className="admin-input"
+
+                name="popup.title"
+
+                defaultValue={popup.title}
+
+                placeholder="Ej: Encontrá tu próximo departamento"
+
+              />
+
+            </label>
+
+
+
+            <label className="flex flex-col gap-1 sm:col-span-2">
+
+              <span className="admin-field-label">Descripción</span>
+
+              <textarea
+
+                className="admin-textarea"
+
+                name="popup.description"
+
+                rows={3}
+
+                defaultValue={popup.description}
+
+                placeholder="Ej: Departamentos amoblados en Palermo, Recoleta y más."
+
+              />
+
+            </label>
+
+
+
+            <label className="flex flex-col gap-1 sm:col-span-2">
+
+              <span className="admin-field-label">Dato destacado (opcional)</span>
+
+              <input
+
+                className="admin-input"
+
+                name="popup.highlight"
+
+                defaultValue={popup.highlight}
+
+                placeholder="Ej: Más de 45 edificios en Buenos Aires"
+
+              />
+
+              <span className="admin-field-hint mb-0">
+
+                Aparece debajo de la descripción, antes de los botones.
+
+              </span>
+
+            </label>
+
+
+
+            <label className="flex flex-col gap-1 sm:col-span-2">
+
+              <span className="admin-field-label">Imagen (opcional)</span>
+
+              <input
+
+                className="admin-input font-mono text-sm"
+
+                name="popup.imageUrl"
+
+                defaultValue={popup.imageUrl}
+
+                placeholder="/images/properties/placeholder-lobby.png"
+
+              />
+
+              <span className="admin-field-hint mb-0">
+
+                Ruta del sitio o URL de /admin/imagenes. Si está vacío se usa una
+
+                imagen de departamento por defecto.
+
+              </span>
+
+            </label>
+
+
+
+            <label className="flex flex-col gap-1">
+
+              <span className="admin-field-label">Texto del botón</span>
+
+              <input
+
+                className="admin-input"
+
+                name="popup.ctaLabel"
+
+                defaultValue={popup.ctaLabel}
+
+              />
+
+            </label>
+
+            <label className="flex flex-col gap-1">
+
+              <span className="admin-field-label">Destino del botón</span>
+
+              <select
+
+                className="admin-input"
+
+                name="popup.ctaHref"
+
+                defaultValue={
+
+                  MENU_SITE_ROUTES.some(
+
+                    (r) =>
+
+                      r.href ===
+
+                      normalizeInternalHref(popup.ctaHref || "/propiedades"),
+
+                  )
+
+                    ? normalizeInternalHref(popup.ctaHref || "/propiedades")
+
+                    : "/propiedades"
+
+                }
+
+              >
+
+                {MENU_SITE_ROUTES.map((opt) => (
+
+                  <option key={opt.id} value={opt.href}>
+
+                    {opt.label} ({opt.href})
+
+                  </option>
+
+                ))}
+
+              </select>
+
+            </label>
+
+
+
+            <label className="flex flex-col gap-1">
+
+              <span className="admin-field-label">Umbral de scroll (px)</span>
+
+              <input
+
+                className="admin-input"
+
+                type="number"
+
+                name="popup.scrollThreshold"
+
+                min={0}
+
+                step={50}
+
+                defaultValue={popup.scrollThreshold}
+
+              />
+
+              <span className="admin-field-hint mb-0">
+
+                Píxeles verticales antes de mostrar el popup (ej. 480).
+
+              </span>
+
+            </label>
+
+
+
+            <label className="flex flex-col gap-1">
+
+              <span className="admin-field-label">Audiencia</span>
+
+              <select
+
+                className="admin-input"
+
+                name="popup.audience"
+
+                defaultValue={popup.audience}
+
+              >
+
+                <option value="b2c">Solo B2C (huéspedes)</option>
+
+                <option value="all">Todo el sitio público</option>
+
+              </select>
+
+            </label>
+
+
+
+            <label className="flex flex-col gap-1">
+
+              <span className="admin-field-label">Fecha inicio (opcional)</span>
+
+              <input
+
+                type="datetime-local"
+
+                className="admin-input"
+
+                value={popupStartLocal}
+
+                onChange={(e) => setPopupStartLocal(e.target.value)}
+
+              />
+
+            </label>
+
+            <label className="flex flex-col gap-1">
+
+              <span className="admin-field-label">Fecha fin (opcional)</span>
+
+              <input
+
+                type="datetime-local"
+
+                className="admin-input"
+
+                value={popupEndLocal}
+
+                onChange={(e) => setPopupEndLocal(e.target.value)}
+
+              />
+
+            </label>
+
+          </div>
+
+        </section>
+
+
+
         <div className="admin-stats-grid">
 
           <div className="admin-stat-card">
@@ -647,6 +965,8 @@ export function MarketingManager({ initial }: Props) {
               <li>Rutas bloqueadas en el panel</li>
 
               <li>Barra con fechas opcionales</li>
+
+              <li>Popup al scroll (1 vez por día si cierran)</li>
 
             </ul>
 

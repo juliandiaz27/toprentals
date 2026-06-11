@@ -49,7 +49,7 @@ export function CorporateTeaserSection({ content }: Props) {
                 >
                   ✓
                 </span>
-                <span>{item}</span>
+                <FormattedText value={item} as="inline" />
               </li>
             ))}
           </ul>

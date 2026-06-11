@@ -16,7 +16,7 @@ export function NosotrosHistory({ content }: Props) {
           </h2>
           <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-neutral-700 lg:text-base">
             {content.paragraphs.map((p) => (
-              <p key={p}>{p}</p>
+              <FormattedText key={p} value={p} className="block" />
             ))}
           </div>
         </div>

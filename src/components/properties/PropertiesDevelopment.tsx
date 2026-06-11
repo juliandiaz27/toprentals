@@ -17,7 +17,7 @@ export function PropertiesDevelopment({ content }: Props) {
     >
       <div className="mx-auto w-full max-w-[1440px] px-6 py-8 lg:px-12 lg:py-10">
         <p className="text-[13px] font-normal text-neutral-500">
-          {content.label}
+          <FormattedText value={content.label} as="inline" />
         </p>
         <h2
           id="properties-development-title"

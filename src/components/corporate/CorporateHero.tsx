@@ -10,7 +10,7 @@ export function CorporateHero({ content }: Props) {
     <section className="bg-[#111111] text-white">
       <div data-reveal className="mx-auto w-full max-w-[1440px] px-6 pt-14 lg:px-12 lg:pt-20">
         <p className="inline-flex rounded-full border border-white/30 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-white">
-          {content.label}
+          <FormattedText value={content.label} as="inline" />
         </p>
         <h1 className="mt-8 max-w-3xl text-[clamp(2.125rem,4.5vw,3.25rem)] font-bold leading-[1.08] tracking-tight">
           <FormattedText value={content.title} as="inline" />
@@ -56,7 +56,7 @@ export function CorporateHero({ content }: Props) {
               <span className="shrink-0 text-[15px] text-neutral-950" aria-hidden>
                 ✔
               </span>
-              <span>{feature}</span>
+              <FormattedText value={feature} as="inline" />
             </li>
           ))}
         </ul>

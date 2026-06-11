@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FormattedText } from "@/components/content/FormattedText";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PropertyHighlightBadges } from "@/components/properties/PropertyHighlightBadges";
 import { reservasLinkProps } from "@/lib/reservasLink";
@@ -66,9 +67,10 @@ export function PropertyDetailHero({ property, whatsappUrl }: Props) {
         </div>
 
         <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
-          <p className="max-w-xl text-[15px] font-normal leading-snug text-neutral-950 lg:text-base">
-            {property.subtitle}
-          </p>
+          <FormattedText
+            value={property.subtitle}
+            className="max-w-xl text-[15px] font-normal leading-snug text-neutral-950 lg:text-base"
+          />
           <Link
             href="/reservas"
             {...reservasLinkProps("/reservas")}

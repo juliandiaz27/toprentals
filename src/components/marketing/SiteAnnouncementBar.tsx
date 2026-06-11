@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
+import { FormattedText } from "@/components/content/FormattedText";
 import type { AnnouncementBarConfig } from "@/lib/marketing/types";
 
 type Props = {
@@ -10,25 +11,29 @@ type Props = {
   storageKey: string;
 };
 
-export function SiteAnnouncementBar({ config, storageKey }: Props) {
-  const [dismissed, setDismissed] = useState(true);
+function readDismissed(storageKey: string): boolean {
+  try {
+    return localStorage.getItem(storageKey) === "1";
+  } catch {
+    return false;
+  }
+}
 
-  useEffect(() => {
+export function SiteAnnouncementBar({ config, storageKey }: Props) {
+  const [visible, setVisible] = useState(true);
+
+  useLayoutEffect(() => {
     if (!config.dismissible) {
-      setDismissed(false);
+      setVisible(true);
       return;
     }
-    try {
-      setDismissed(localStorage.getItem(storageKey) === "1");
-    } catch {
-      setDismissed(false);
-    }
+    setVisible(!readDismissed(storageKey));
   }, [config.dismissible, storageKey]);
 
-  if (dismissed) return null;
+  if (!visible) return null;
 
   function dismiss() {
-    setDismissed(true);
+    setVisible(false);
     if (config.dismissible) {
       try {
         localStorage.setItem(storageKey, "1");
@@ -42,7 +47,7 @@ export function SiteAnnouncementBar({ config, storageKey }: Props) {
 
   return (
     <div
-      className="fixed inset-x-0 top-0 z-[60] px-4 py-2.5 text-center text-[13px] leading-snug sm:text-[14px]"
+      className="relative z-[120] w-full shrink-0 px-4 py-2.5 text-center text-[13px] leading-snug sm:text-[14px]"
       style={{
         backgroundColor: config.backgroundColor,
         color: config.textColor,
@@ -50,9 +55,9 @@ export function SiteAnnouncementBar({ config, storageKey }: Props) {
       role="region"
       aria-label="Anuncio"
     >
-      <div className="mx-auto flex max-w-[1440px] items-center justify-center gap-3 pr-8">
+      <div className="relative mx-auto flex max-w-[1440px] items-center justify-center gap-3 pr-8">
         <p className="min-w-0 flex-1">
-          <span>{config.message}</span>
+          <FormattedText value={config.message} as="inline" />
           {hasLink ? (
             <>
               {" "}
@@ -69,7 +74,7 @@ export function SiteAnnouncementBar({ config, storageKey }: Props) {
           <button
             type="button"
             onClick={dismiss}
-            className="absolute right-4 top-1/2 -translate-y-1/2 rounded p-1 opacity-80 transition hover:opacity-100"
+            className="absolute right-0 top-1/2 -translate-y-1/2 rounded p-1 opacity-80 transition hover:opacity-100"
             aria-label="Cerrar anuncio"
           >
             ×

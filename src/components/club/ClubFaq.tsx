@@ -1,3 +1,4 @@
+import { FormattedText } from "@/components/content/FormattedText";
 import type { ClubFaqItem } from "@/lib/pageContent/clubTypes";
 
 type Props = {
@@ -16,7 +17,7 @@ export function ClubFaq({ title, items }: Props) {
           data-reveal
           className="text-left text-[clamp(1.35rem,2.5vw,1.75rem)] font-bold text-neutral-950"
         >
-          {title}
+          <FormattedText value={title} as="inline" />
         </h2>
         <ul className="mt-10 grid gap-4 sm:grid-cols-2">
           {items.map((item, index) => (
@@ -28,11 +29,12 @@ export function ClubFaq({ title, items }: Props) {
               style={{ backgroundColor: "#E8E8E8" }}
             >
               <h3 className="text-left text-[15px] font-bold text-neutral-950">
-                {item.question}
+                <FormattedText value={item.question} as="inline" />
               </h3>
-              <p className="mt-2 text-left text-[14px] leading-relaxed text-neutral-600">
-                {item.answer}
-              </p>
+              <FormattedText
+                value={item.answer}
+                className="mt-2 block text-left text-[14px] leading-relaxed text-neutral-600"
+              />
             </li>
           ))}
         </ul>

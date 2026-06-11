@@ -59,6 +59,11 @@ body {
   font-weight: 600;
 }
 
+.formatted-text--inline p {
+  display: inline;
+  margin: 0;
+}
+
 .blog-body h2 {
   margin: 1.75em 0 0.5em;
   font-size: 1.35rem;

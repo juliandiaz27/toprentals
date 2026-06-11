@@ -1,6 +1,11 @@
 import { dataFilePath } from "@/lib/repoRoot";
 import { readJsonFile, writeJsonFile } from "@/lib/fsJson";
-import type { AnnouncementBarConfig, MarketingConfigFile, StickyReserveConfig } from "./types";
+import type {
+  AnnouncementBarConfig,
+  MarketingConfigFile,
+  ScrollPopupConfig,
+  StickyReserveConfig,
+} from "./types";
 
 const DEFAULT_STICKY: StickyReserveConfig = {
   enabled: true,
@@ -21,9 +26,24 @@ const DEFAULT_ANNOUNCEMENT: AnnouncementBarConfig = {
   endAt: "",
 };
 
+const DEFAULT_SCROLL_POPUP: ScrollPopupConfig = {
+  enabled: false,
+  title: "",
+  description: "",
+  imageUrl: "",
+  highlight: "",
+  ctaLabel: "Ver propiedades",
+  ctaHref: "/propiedades",
+  audience: "b2c",
+  scrollThreshold: 480,
+  startAt: "",
+  endAt: "",
+};
+
 const DEFAULT: MarketingConfigFile = {
   stickyReserve: DEFAULT_STICKY,
   announcementBar: DEFAULT_ANNOUNCEMENT,
+  scrollPopup: DEFAULT_SCROLL_POPUP,
 };
 
 const filePath = () => dataFilePath("marketing-config.json");
@@ -32,6 +52,11 @@ export async function readMarketingConfig(): Promise<MarketingConfigFile> {
   const raw = await readJsonFile<MarketingConfigFile>(filePath(), DEFAULT);
   const sticky = raw.stickyReserve ?? DEFAULT_STICKY;
   const bar = raw.announcementBar ?? DEFAULT_ANNOUNCEMENT;
+  const popup = raw.scrollPopup ?? DEFAULT_SCROLL_POPUP;
+
+  const threshold = Number(popup.scrollThreshold);
+  const scrollThreshold =
+    Number.isFinite(threshold) && threshold >= 0 ? Math.round(threshold) : 480;
 
   return {
     stickyReserve: {
@@ -54,6 +79,23 @@ export async function readMarketingConfig(): Promise<MarketingConfigFile> {
       audience: bar.audience === "all" ? "all" : "b2c",
       startAt: String(bar.startAt ?? "").trim(),
       endAt: String(bar.endAt ?? "").trim(),
+    },
+    scrollPopup: {
+      enabled: popup.enabled === true,
+      title: String(popup.title ?? "").trim(),
+      description: String(popup.description ?? "").trim(),
+      imageUrl: String(popup.imageUrl ?? "").trim(),
+      highlight: String(popup.highlight ?? "").trim(),
+      ctaLabel:
+        String(popup.ctaLabel ?? DEFAULT_SCROLL_POPUP.ctaLabel).trim() ||
+        DEFAULT_SCROLL_POPUP.ctaLabel,
+      ctaHref:
+        String(popup.ctaHref ?? DEFAULT_SCROLL_POPUP.ctaHref).trim() ||
+        DEFAULT_SCROLL_POPUP.ctaHref,
+      audience: popup.audience === "all" ? "all" : "b2c",
+      scrollThreshold,
+      startAt: String(popup.startAt ?? "").trim(),
+      endAt: String(popup.endAt ?? "").trim(),
     },
   };
 }
