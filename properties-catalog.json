@@ -10,18 +10,44 @@
       "imageSrc": "",
       "comingSoon": false,
       "hidden": false,
-      "hasOffer": false,
+      "hasOffer": true,
       "isPopular": false,
       "detail": {
+        "subtitle": "Departamentos con servicio de hotel en Microcentro, Buenos Aires.",
+        "about": "Top Rentals Downtown forma parte de la red Top Rentals en Buenos Aires. Departamentos totalmente equipados, atención 24 hs y la flexibilidad de un alquiler temporario con estándares de hotel. Ubicación: Esmeralda 920.",
+        "tags": [
+          "Microcentro",
+          "Buenos Aires",
+          "Servicio de hotel"
+        ],
+        "poiLines": [
+          "Transporte público",
+          "Zona corporativa",
+          "Gastronomía",
+          "Comercios",
+          "Espacios verdes"
+        ],
         "groupsHeadline": "134 unidades · Grupos de más de 270 personas",
         "groupsDescription": "Downtown forma parte del portfolio de Top Rentals con capacidad para alojar grandes grupos en un mismo edificio, ya sean corporativos o turísticos, con una experiencia ágil y coordinada.",
         "groupsCtaLabel": "Consultar grupos",
         "groupsCtaHref": "/corporate",
         "stats": [
-          { "value": "134", "label": "Unidades" },
-          { "value": "+270", "label": "Huéspedes" },
-          { "value": "45", "label": "Pisos" },
-          { "value": "5", "label": "Tipologías" }
+          {
+            "value": "134",
+            "label": "Unidades"
+          },
+          {
+            "value": "+270",
+            "label": "Huéspedes"
+          },
+          {
+            "value": "45",
+            "label": "Pisos"
+          },
+          {
+            "value": "5",
+            "label": "Tipologías"
+          }
         ],
         "units": [
           {
@@ -47,7 +73,7 @@
           },
           {
             "name": "3 Ambientes",
-            "sqm": "",
+            "sqm": "68-75",
             "guests": "",
             "features": "",
             "tourUrl": "https://my.matterport.com/show/?m=rr3WzUCaBMJ"
@@ -59,6 +85,11 @@
             "features": "",
             "tourUrl": "https://my.matterport.com/show/?m=WEbKzZsDVZq"
           }
+        ],
+        "relatedSlugs": [
+          "huergo-475",
+          "palermo-soho",
+          "dorrego"
         ]
       }
     },
@@ -75,6 +106,8 @@
       "hasOffer": false,
       "isPopular": false,
       "detail": {
+        "tags": [],
+        "poiLines": [],
         "units": [
           {
             "name": "Studio",
@@ -140,6 +173,8 @@
       "hasOffer": false,
       "isPopular": false,
       "detail": {
+        "tags": [],
+        "poiLines": [],
         "units": [
           {
             "name": "Studio",
@@ -171,6 +206,8 @@
       "hasOffer": false,
       "isPopular": false,
       "detail": {
+        "tags": [],
+        "poiLines": [],
         "units": [
           {
             "name": "Studio",
@@ -202,6 +239,8 @@
       "hasOffer": false,
       "isPopular": false,
       "detail": {
+        "tags": [],
+        "poiLines": [],
         "units": [
           {
             "name": "Studio",
@@ -247,6 +286,8 @@
       "hasOffer": false,
       "isPopular": false,
       "detail": {
+        "tags": [],
+        "poiLines": [],
         "units": [
           {
             "name": "2 Ambientes",
@@ -292,6 +333,8 @@
       "hasOffer": false,
       "isPopular": false,
       "detail": {
+        "tags": [],
+        "poiLines": [],
         "units": [
           {
             "name": "Habitación",
@@ -330,6 +373,8 @@
       "hasOffer": false,
       "isPopular": false,
       "detail": {
+        "tags": [],
+        "poiLines": [],
         "units": [
           {
             "name": "Studio",
@@ -368,6 +413,8 @@
       "hasOffer": false,
       "isPopular": false,
       "detail": {
+        "tags": [],
+        "poiLines": [],
         "units": [
           {
             "name": "Studio",
@@ -406,6 +453,8 @@
       "hasOffer": false,
       "isPopular": false,
       "detail": {
+        "tags": [],
+        "poiLines": [],
         "units": [
           {
             "name": "Studio",
@@ -437,6 +486,8 @@
       "hasOffer": false,
       "isPopular": false,
       "detail": {
+        "tags": [],
+        "poiLines": [],
         "units": [
           {
             "name": "Studio",
