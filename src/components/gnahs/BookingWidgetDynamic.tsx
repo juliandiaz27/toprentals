@@ -13,6 +13,7 @@ type Props = {
   hidePromo?: boolean;
   hideDestination?: boolean;
   establishmentId?: number;
+  establishmentLabel?: string;
   labels?: BookingWidgetLabels;
 };
 

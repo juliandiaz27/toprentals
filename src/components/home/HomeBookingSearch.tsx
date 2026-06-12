@@ -80,11 +80,17 @@ const fieldClass =
 type Props = {
   listings: PropertyListing[];
   bookingRoute?: string;
+  initialEstablishmentId?: number;
+  lockEstablishment?: boolean;
+  establishmentLabel?: string;
 };
 
 export function HomeBookingSearch({
   listings,
   bookingRoute = "/reservas",
+  initialEstablishmentId,
+  lockEstablishment = false,
+  establishmentLabel,
 }: Props) {
   const router = useRouter();
   const listId = useId();
@@ -94,7 +100,9 @@ export function HomeBookingSearch({
 
   const allOptions = useMemo(() => listingsForSearch(listings), [listings]);
 
-  const [establishmentId, setEstablishmentId] = useState<number | "">("");
+  const [establishmentId, setEstablishmentId] = useState<number | "">(
+    initialEstablishmentId ?? "",
+  );
   const [deptOpen, setDeptOpen] = useState(false);
   const [deptQuery, setDeptQuery] = useState("");
   const [checkin, setCheckin] = useState(defaults.checkin);
@@ -114,6 +122,11 @@ export function HomeBookingSearch({
     establishmentId === ""
       ? null
       : (allOptions.find((d) => d.gnahsId === establishmentId) ?? null);
+
+  const lockedLabel =
+    establishmentLabel?.trim() ||
+    selectedDept?.name ||
+    (lockEstablishment ? "Esta propiedad" : null);
 
   useEffect(() => {
     if (!deptOpen) return;
@@ -161,6 +174,14 @@ export function HomeBookingSearch({
       className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto] lg:items-end lg:gap-5"
     >
       <SearchField label="Departamento" className="sm:col-span-2 lg:col-span-1">
+        {lockEstablishment ? (
+          <div
+            className={`${fieldClass} cursor-default text-neutral-900`}
+            aria-readonly
+          >
+            {lockedLabel}
+          </div>
+        ) : (
         <div ref={deptRef} className="relative">
           <button
             type="button"
@@ -254,6 +275,7 @@ export function HomeBookingSearch({
             </div>
           ) : null}
         </div>
+        )}
       </SearchField>
 
       <SearchField label="Entrada">
