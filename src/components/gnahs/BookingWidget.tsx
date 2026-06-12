@@ -31,16 +31,8 @@ type Props = {
 };
 
 const WIDGET_ROOT_SELECTOR = ".c-booking-widget";
-const INIT_RETRIES = 40;
+const INIT_RETRIES = 60;
 const INIT_RETRY_MS = 50;
-
-function resetWidgetContainer(root: ParentNode | null | undefined): void {
-  root
-    ?.querySelectorAll(
-      `${WIDGET_ROOT_SELECTOR} .c-booking-widget__container > *`,
-    )
-    .forEach((node) => node.remove());
-}
 
 function isGnahsWidgetFailure(reason: unknown): boolean {
   if (reason && typeof reason === "object" && "status" in reason) {
@@ -53,15 +45,10 @@ function isGnahsWidgetFailure(reason: unknown): boolean {
       : String(reason ?? "");
   return (
     /cannot read properties of undefined/i.test(text) ||
-    /hasLevels/i.test(text) ||
-    /gnahs/i.test(text)
+    /hasLevels/i.test(text)
   );
 }
 
-/**
- * Buscador GNAHS — solo cliente; markup `.c-booking-widget` (no #GNAHSEngine).
- * En local sin dominio autorizado muestra fallback sin romper la app.
- */
 /** Etiquetas del snippet oficial `docs/gnahs-snippets/widget.html`. */
 const GNAHS_WIDGET_LABELS: BookingWidgetLabels = {
   destination: "Destinos",
@@ -72,6 +59,10 @@ const GNAHS_WIDGET_LABELS: BookingWidgetLabels = {
   booking: "Reservar",
 };
 
+/**
+ * Buscador GNAHS — markup `.c-booking-widget` (no #GNAHSEngine).
+ * El contenedor debe permanecer estable; GNAHS monta sobre los placeholders del markup.
+ */
 export function BookingWidget({
   config,
   hidePromo = false,
@@ -86,6 +77,8 @@ export function BookingWidget({
 
   const [apiBlocked, setApiBlocked] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const configKey = useMemo(() => JSON.stringify(config), [config]);
 
   const fallbackBookingRoute = useMemo(() => {
     if (!establishmentId) return config.bookingRoute;
@@ -123,34 +116,15 @@ export function BookingWidget({
       }
     };
 
-    const onRejection = (event: PromiseRejectionEvent) => {
-      if (isGnahsWidgetFailure(event.reason)) {
-        blockWidget();
-      }
-    };
-
-    const onWindowError = (event: ErrorEvent) => {
-      const src = event.filename ?? "";
-      const msg = event.message ?? "";
-      if (
-        src.includes("gnahs.com") ||
-        src.includes("booking-widget") ||
-        isGnahsWidgetFailure(msg) ||
-        isGnahsWidgetFailure(event.error)
-      ) {
-        blockWidget();
-      }
-    };
-
-    window.addEventListener("unhandledrejection", onRejection);
-    window.addEventListener("error", onWindowError);
-
     const tryInitWidget = (attempt = 0): void => {
-      if (cancelled || initialized.current || apiBlocked) return;
+      if (cancelled || initialized.current) return;
 
       const root = containerRef.current?.querySelector(WIDGET_ROOT_SELECTOR);
       const container = root?.querySelector(".c-booking-widget__container");
-      if (!root || !container) {
+      const hasPlaceholders =
+        (container?.querySelectorAll(".c-booking-widget__item").length ?? 0) > 0;
+
+      if (!root || !container || !hasPlaceholders) {
         if (attempt < INIT_RETRIES) {
           retryTimer = setTimeout(
             () => tryInitWidget(attempt + 1),
@@ -163,7 +137,14 @@ export function BookingWidget({
       }
 
       if (!window.GNAHS_BookingWidget) {
-        blockWidget();
+        if (attempt < INIT_RETRIES) {
+          retryTimer = setTimeout(
+            () => tryInitWidget(attempt + 1),
+            INIT_RETRY_MS,
+          );
+        } else {
+          blockWidget();
+        }
         return;
       }
 
@@ -176,8 +157,13 @@ export function BookingWidget({
       } catch (error) {
         initialized.current = false;
         widgetInstance.current = null;
-        if (isGnahsWidgetFailure(error)) {
+        if (isLocalDevHost() && isGnahsWidgetFailure(error)) {
           blockWidget();
+        } else if (attempt < INIT_RETRIES) {
+          retryTimer = setTimeout(
+            () => tryInitWidget(attempt + 1),
+            INIT_RETRY_MS,
+          );
         } else {
           console.error("[GNAHS] Error al inicializar el widget", error);
           blockWidget();
@@ -187,8 +173,9 @@ export function BookingWidget({
 
     const start = async () => {
       setLoading(true);
+      setApiBlocked(false);
       initialized.current = false;
-      resetWidgetContainer(containerRef.current);
+      widgetInstance.current = null;
 
       if (isLocalDevHost()) {
         const available = await probeWidgetApi(config.apiUrl, config.uuid);
@@ -216,14 +203,11 @@ export function BookingWidget({
     return () => {
       cancelled = true;
       if (retryTimer) clearTimeout(retryTimer);
-      window.removeEventListener("unhandledrejection", onRejection);
-      window.removeEventListener("error", onWindowError);
       cleanupScript?.();
-      resetWidgetContainer(containerRef.current);
       initialized.current = false;
       widgetInstance.current = null;
     };
-  }, [apiBlocked, config]);
+  }, [apiBlocked, config, configKey]);
 
   return (
     <div ref={containerRef} className="gnahs-booking-widget w-full">
