@@ -29,7 +29,11 @@ export function PropertyCard({ property, cityFilters = [] }: Props) {
 
   return (
     <article className="group overflow-hidden rounded-xl border border-neutral-200 bg-white transition-shadow hover:shadow-md">
-      <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
+      <Link
+        href={`/propiedades/${property.slug}`}
+        className="relative block aspect-[4/3] overflow-hidden bg-neutral-100"
+        aria-label={`Ver ${property.name}`}
+      >
         {property.imageSrc ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -38,17 +42,17 @@ export function PropertyCard({ property, cityFilters = [] }: Props) {
             className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
           />
         ) : null}
-        <div className="absolute left-3 top-3 z-[1]">
+        <div className="pointer-events-none absolute left-3 top-3 z-[1]">
           <PropertyHighlightBadges
             hasOffer={property.hasOffer}
             isPopular={property.isPopular}
             size="sm"
           />
         </div>
-        <span className="absolute right-3 top-3 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-neutral-800 shadow-sm">
+        <span className="pointer-events-none absolute right-3 top-3 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-neutral-800 shadow-sm">
           {cityBadge}
         </span>
-      </div>
+      </Link>
       <div className="px-4 py-4 md:px-5 md:py-5">
         <h3 className="text-[17px] font-bold leading-snug text-neutral-950">
           {property.name}

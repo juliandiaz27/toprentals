@@ -111,9 +111,9 @@ export function buildDefaultDetail(
     groupsCtaHref: "/corporate",
     stats: [
       { value: "—", label: "Unidades" },
-      { value: "—", label: "Huéspedes" },
       { value: "—", label: "Pisos" },
-      { value: String(DEFAULT_PROPERTY_UNITS.length), label: "Tipologías" },
+      { value: "—", label: "Huéspedes" },
+      { value: "24/7", label: "Seguridad 24/7" },
     ],
     finalCtaTitle: `Reservá en ${listing.name} con Top Rentals.`,
     finalCtaSubtitle:

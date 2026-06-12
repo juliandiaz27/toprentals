@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { GnahsWidgetConfig } from "@/lib/gnahs/config";
 import { GNAHS_WIDGET_CSS, GNAHS_WIDGET_JS } from "@/lib/gnahs/config";
 import { loadScript } from "@/lib/gnahs/scripts";
+import { buildGnahsBookingUrl, defaultCheckinCheckout } from "@/lib/gnahs/buildBookingUrl";
 import { isLocalDevHost, probeWidgetApi } from "@/lib/gnahs/widgetProbe";
 import { BookingWidgetFallback } from "./BookingWidgetFallback";
 
@@ -24,12 +25,22 @@ type Props = {
   hidePromo?: boolean;
   /** Ficha de propiedad: sin selector de torre (ya va fijada en `establishments`). */
   hideDestination?: boolean;
+  /** Torre fija para el enlace de fallback del motor. */
+  establishmentId?: number;
   labels?: BookingWidgetLabels;
 };
 
 const WIDGET_ROOT_SELECTOR = ".c-booking-widget";
-const INIT_RETRIES = 20;
+const INIT_RETRIES = 40;
 const INIT_RETRY_MS = 50;
+
+function resetWidgetContainer(root: ParentNode | null | undefined): void {
+  root
+    ?.querySelectorAll(
+      `${WIDGET_ROOT_SELECTOR} .c-booking-widget__container > *`,
+    )
+    .forEach((node) => node.remove());
+}
 
 function isGnahsWidgetFailure(reason: unknown): boolean {
   if (reason && typeof reason === "object" && "status" in reason) {
@@ -65,6 +76,7 @@ export function BookingWidget({
   config,
   hidePromo = false,
   hideDestination = false,
+  establishmentId,
   labels = GNAHS_WIDGET_LABELS,
 }: Props) {
   const resolvedLabels = labels;
@@ -72,17 +84,22 @@ export function BookingWidget({
   const initialized = useRef(false);
   const widgetInstance = useRef<unknown>(null);
 
-  const [mounted, setMounted] = useState(false);
   const [apiBlocked, setApiBlocked] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const fallbackBookingRoute = useMemo(() => {
+    if (!establishmentId) return config.bookingRoute;
+    const { checkin, checkout } = defaultCheckinCheckout();
+    return buildGnahsBookingUrl({
+      checkin,
+      checkout,
+      adults: 2,
+      establishmentId,
+      bookingRoute: config.bookingRoute,
+    });
+  }, [config.bookingRoute, establishmentId]);
 
   useEffect(() => {
-    if (!mounted) return;
-
     const href = GNAHS_WIDGET_CSS;
     if (!document.querySelector(`link[href="${href}"]`)) {
       const link = document.createElement("link");
@@ -90,10 +107,10 @@ export function BookingWidget({
       link.href = href;
       document.head.appendChild(link);
     }
-  }, [mounted]);
+  }, []);
 
   useLayoutEffect(() => {
-    if (!mounted || apiBlocked) return;
+    if (apiBlocked) return;
 
     let cancelled = false;
     let cleanupScript: (() => void) | undefined;
@@ -171,6 +188,7 @@ export function BookingWidget({
     const start = async () => {
       setLoading(true);
       initialized.current = false;
+      resetWidgetContainer(containerRef.current);
 
       if (isLocalDevHost()) {
         const available = await probeWidgetApi(config.apiUrl, config.uuid);
@@ -201,48 +219,37 @@ export function BookingWidget({
       window.removeEventListener("unhandledrejection", onRejection);
       window.removeEventListener("error", onWindowError);
       cleanupScript?.();
+      resetWidgetContainer(containerRef.current);
       initialized.current = false;
       widgetInstance.current = null;
     };
-  }, [mounted, apiBlocked, config]);
-
-  if (!mounted || loading) {
-    return (
-      <div ref={containerRef} className="gnahs-booking-widget w-full">
-        <WidgetMarkup
-          hidePromo={hidePromo}
-          hideDestination={hideDestination}
-          labels={resolvedLabels}
-        />
-        <p
-          className="mt-3 flex min-h-[52px] items-center gap-2 text-[13px] text-neutral-500"
-          role="status"
-        >
-          <span
-            className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-800"
-            aria-hidden
-          />
-          Cargando buscador…
-        </p>
-      </div>
-    );
-  }
-
-  if (apiBlocked) {
-    return (
-      <div ref={containerRef} className="gnahs-booking-widget w-full">
-        <BookingWidgetFallback bookingRoute={config.bookingRoute} />
-      </div>
-    );
-  }
+  }, [apiBlocked, config]);
 
   return (
     <div ref={containerRef} className="gnahs-booking-widget w-full">
-      <WidgetMarkup
-        hidePromo={hidePromo}
-        hideDestination={hideDestination}
-        labels={resolvedLabels}
-      />
+      {apiBlocked ? (
+        <BookingWidgetFallback bookingRoute={fallbackBookingRoute} />
+      ) : (
+        <>
+          <WidgetMarkup
+            hidePromo={hidePromo}
+            hideDestination={hideDestination}
+            labels={resolvedLabels}
+          />
+          {loading ? (
+            <p
+              className="mt-3 flex min-h-[52px] items-center gap-2 text-[13px] text-neutral-500"
+              role="status"
+            >
+              <span
+                className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-800"
+                aria-hidden
+              />
+              Cargando buscador…
+            </p>
+          ) : null}
+        </>
+      )}
     </div>
   );
 }

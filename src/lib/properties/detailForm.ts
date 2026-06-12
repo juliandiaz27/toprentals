@@ -20,9 +20,21 @@ export function emptyUnit(): PropertyUnitStored {
 export function ensureStats(stats?: PropertyStatStored[]): PropertyStatStored[] {
   const base = [...DEFAULT_PROPERTY_STATS];
   if (!stats?.length) return base;
-  return base.map((def, i) => ({
-    value: stats[i]?.value?.trim() ?? def.value,
-    label: stats[i]?.label?.trim() || def.label,
+
+  const valueByLabel = new Map<string, string>();
+  for (const s of stats) {
+    const label = s.label?.trim();
+    const value = s.value?.trim();
+    if (label) valueByLabel.set(label, value || "—");
+  }
+
+  if (!valueByLabel.has("Seguridad 24/7") && valueByLabel.has("Tipologías")) {
+    valueByLabel.set("Seguridad 24/7", "24/7");
+  }
+
+  return base.map((def) => ({
+    label: def.label,
+    value: valueByLabel.get(def.label) ?? def.value,
   }));
 }
 

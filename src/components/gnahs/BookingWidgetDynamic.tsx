@@ -12,6 +12,7 @@ type Props = {
   config: WidgetConfig;
   hidePromo?: boolean;
   hideDestination?: boolean;
+  establishmentId?: number;
   labels?: BookingWidgetLabels;
 };
 

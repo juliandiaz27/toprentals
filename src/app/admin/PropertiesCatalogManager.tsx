@@ -575,7 +575,8 @@ export function PropertiesCatalogManager({ initial }: Props) {
               Franja corporativa y estadísticas
             </h2>
             <p className="mb-4 text-sm text-[var(--admin-text-muted)]">
-              Bloque negro de la ficha: título, párrafo, botón y las cuatro cifras.
+              Bloque negro de la ficha: título, párrafo, botón y cuatro cifras
+              (Unidades, Pisos, Huéspedes, Seguridad 24/7).
             </p>
             <div className="grid gap-5 lg:grid-cols-2">
               <label className="flex flex-col lg:col-span-2">
@@ -637,7 +638,15 @@ export function PropertiesCatalogManager({ initial }: Props) {
                       updateDetail({ stats: next });
                     }}
                     className="admin-input mt-2"
-                    placeholder="134"
+                    placeholder={
+                      stat.label === "Seguridad 24/7"
+                        ? "24/7"
+                        : stat.label === "Huéspedes"
+                          ? "+270"
+                          : stat.label === "Pisos"
+                            ? "45"
+                            : "134"
+                    }
                   />
                 </div>
               ))}

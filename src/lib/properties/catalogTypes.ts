@@ -28,7 +28,7 @@ export type PropertyDetailStored = {
   groupsDescription?: string;
   groupsCtaLabel?: string;
   groupsCtaHref?: string;
-  /** Hasta 4 cifras (Unidades, Huéspedes, etc.). */
+  /** Hasta 4 cifras (Unidades, Pisos, Huéspedes, Seguridad 24/7). */
   stats?: PropertyStatStored[];
   /** Tarjetas «Unidades». */
   units?: PropertyUnitStored[];
@@ -40,9 +40,9 @@ export type PropertyDetailStored = {
 
 export const DEFAULT_PROPERTY_STATS: PropertyStatStored[] = [
   { value: "—", label: "Unidades" },
-  { value: "—", label: "Huéspedes" },
   { value: "—", label: "Pisos" },
-  { value: "4", label: "Tipologías" },
+  { value: "—", label: "Huéspedes" },
+  { value: "24/7", label: "Seguridad 24/7" },
 ];
 
 export type PropertyListingStored = {

@@ -37,16 +37,16 @@
             "label": "Unidades"
           },
           {
-            "value": "+270",
-            "label": "Huéspedes"
-          },
-          {
             "value": "45",
             "label": "Pisos"
           },
           {
-            "value": "5",
-            "label": "Tipologías"
+            "value": "+270",
+            "label": "Huéspedes"
+          },
+          {
+            "value": "24/7",
+            "label": "Seguridad 24/7"
           }
         ],
         "units": [
