@@ -6,11 +6,10 @@ import { BookingWidget } from "@/components/gnahs/BookingWidgetDynamic";
 
 type Props = {
   gnahsId: number;
-  propertyName?: string;
 };
 
 /** Buscador GNAHS de la ficha: fechas, huéspedes y reserva solo para esa torre. */
-export function PropertyDetailSearchBar({ gnahsId, propertyName }: Props) {
+export function PropertyDetailSearchBar({ gnahsId }: Props) {
   const config = useMemo(
     () => getGnahsWidgetConfigForProperty(gnahsId),
     [gnahsId],
@@ -25,7 +24,6 @@ export function PropertyDetailSearchBar({ gnahsId, propertyName }: Props) {
         config={config}
         hideDestination
         establishmentId={gnahsId}
-        establishmentLabel={propertyName}
       />
     </div>
   );

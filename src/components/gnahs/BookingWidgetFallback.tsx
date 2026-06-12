@@ -1,43 +1,15 @@
 import Link from "next/link";
-import { HomeBookingSearch } from "@/components/home/HomeBookingSearch";
-import type { PropertyListing } from "@/lib/properties/catalog";
 import { reservasLinkProps } from "@/lib/reservasLink";
 
 type Props = {
   bookingRoute: string;
   message?: string;
-  listings?: PropertyListing[];
-  /** Misma UI que Figma; redirige al motor con params GNAHS (sin API widget). */
-  useCustomSearch?: boolean;
-  initialEstablishmentId?: number;
-  establishmentLabel?: string;
 };
 
 export function BookingWidgetFallback({
   bookingRoute,
   message,
-  listings = [],
-  useCustomSearch = false,
-  initialEstablishmentId,
-  establishmentLabel,
 }: Props) {
-  if (useCustomSearch) {
-    return (
-      <div role="status">
-        {message ? (
-          <p className="mb-4 text-center text-[13px] text-neutral-500">{message}</p>
-        ) : null}
-        <HomeBookingSearch
-          listings={listings}
-          bookingRoute={bookingRoute}
-          initialEstablishmentId={initialEstablishmentId}
-          lockEstablishment={initialEstablishmentId != null}
-          establishmentLabel={establishmentLabel}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="py-2 text-center" role="status">
       <p className="text-sm text-neutral-600">

@@ -34,10 +34,7 @@ export function PropertyDetailView({
       <PropertyDetailHero property={property} whatsappUrl={whatsappUrl} />
 
       <div className="mx-auto max-w-[1440px] px-6 pb-16 pt-10 lg:px-12 lg:pt-12">
-        <PropertyDetailSearchBar
-          gnahsId={property.gnahsId}
-          propertyName={property.name}
-        />
+        <PropertyDetailSearchBar gnahsId={property.gnahsId} />
 
         <div data-reveal className="relative z-0">
           <PropertyDetailGallery

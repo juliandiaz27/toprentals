@@ -5,7 +5,6 @@ import type { GnahsWidgetConfig } from "@/lib/gnahs/config";
 import { GNAHS_WIDGET_CSS, GNAHS_WIDGET_JS } from "@/lib/gnahs/config";
 import { loadScript } from "@/lib/gnahs/scripts";
 import { buildGnahsBookingUrl, defaultCheckinCheckout } from "@/lib/gnahs/buildBookingUrl";
-import { isLocalDevHost } from "@/lib/gnahs/widgetProbe";
 import { BookingWidgetFallback } from "./BookingWidgetFallback";
 
 type WidgetConfig = GnahsWidgetConfig;
@@ -27,8 +26,6 @@ type Props = {
   hideDestination?: boolean;
   /** Torre fija para el enlace de fallback del motor. */
   establishmentId?: number;
-  /** Nombre visible en el buscador alternativo (local). */
-  establishmentLabel?: string;
   labels?: BookingWidgetLabels;
 };
 
@@ -70,7 +67,6 @@ export function BookingWidget({
   hidePromo = false,
   hideDestination = false,
   establishmentId,
-  establishmentLabel,
   labels = GNAHS_WIDGET_LABELS,
 }: Props) {
   const resolvedLabels = labels;
@@ -160,7 +156,7 @@ export function BookingWidget({
       } catch (error) {
         initialized.current = false;
         widgetInstance.current = null;
-        if (isLocalDevHost() && isGnahsWidgetFailure(error)) {
+        if (isGnahsWidgetFailure(error) && attempt >= INIT_RETRIES - 1) {
           blockWidget();
         } else if (attempt < INIT_RETRIES) {
           retryTimer = setTimeout(
@@ -179,11 +175,6 @@ export function BookingWidget({
       setApiBlocked(false);
       initialized.current = false;
       widgetInstance.current = null;
-
-      if (isLocalDevHost()) {
-        blockWidget();
-        return;
-      }
 
       cleanupScript = loadScript(GNAHS_WIDGET_JS, {
         id: "gnahs-booking-widget",
@@ -210,12 +201,7 @@ export function BookingWidget({
   return (
     <div ref={containerRef} className="gnahs-booking-widget w-full">
       {apiBlocked ? (
-        <BookingWidgetFallback
-          bookingRoute={fallbackBookingRoute}
-          useCustomSearch={isLocalDevHost()}
-          initialEstablishmentId={establishmentId}
-          establishmentLabel={establishmentLabel}
-        />
+        <BookingWidgetFallback bookingRoute={fallbackBookingRoute} />
       ) : (
         <>
           <WidgetMarkup
