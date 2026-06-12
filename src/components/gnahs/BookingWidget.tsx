@@ -33,6 +33,20 @@ const WIDGET_ROOT_SELECTOR = ".c-booking-widget";
 const INIT_RETRIES = 60;
 const INIT_RETRY_MS = 50;
 
+type GnahsWidgetInstance = {
+  $destination?: { setDestination: (destination: unknown) => void };
+  configuration?: { destinations?: unknown[] };
+};
+
+function preselectWidgetDestination(
+  widget: GnahsWidgetInstance | null | undefined,
+): void {
+  const destination = widget?.configuration?.destinations?.[0];
+  if (destination && widget?.$destination?.setDestination) {
+    widget.$destination.setDestination(destination);
+  }
+}
+
 function isGnahsWidgetFailure(reason: unknown): boolean {
   if (reason && typeof reason === "object" && "status" in reason) {
     const status = (reason as { status?: number }).status;
@@ -149,9 +163,18 @@ export function BookingWidget({
 
       try {
         initialized.current = true;
-        widgetInstance.current = new window.GNAHS_BookingWidget({
+        const widget = new window.GNAHS_BookingWidget!({
           settings: { ...config },
         });
+        widgetInstance.current = widget;
+
+        if (hideDestination && establishmentId) {
+          const rootEl = containerRef.current?.querySelector(WIDGET_ROOT_SELECTOR);
+          const onInitWidget = () => preselectWidgetDestination(widget);
+          rootEl?.addEventListener("initWidget", onInitWidget, { once: true });
+          onInitWidget();
+        }
+
         setLoading(false);
       } catch (error) {
         initialized.current = false;

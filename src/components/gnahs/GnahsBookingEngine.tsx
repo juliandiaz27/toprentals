@@ -2,7 +2,7 @@
 
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import {
-  getGnahsEngineConfig,
+  getGnahsEngineConfigForEstablishment,
   GNAHS_FETCH_SCRIPT,
   GNAHS_RHO_INIT_SCRIPT,
   type GnahsEngineRegion,
@@ -17,6 +17,7 @@ type EngineStatus = "loading" | "ready" | "error";
 
 type Props = {
   region?: GnahsEngineRegion;
+  establishmentId?: number;
 };
 
 function engineLooksReady(node: HTMLElement): boolean {
@@ -27,7 +28,10 @@ function engineLooksReady(node: HTMLElement): boolean {
  * Motor GNAHS en `/reservas`: carga scripts lo antes posible (layout effect),
  * skeleton hasta que el motor pinta contenido, y fallback si falla.
  */
-export function GnahsBookingEngine({ region = "all" }: Props) {
+export function GnahsBookingEngine({
+  region = "all",
+  establishmentId,
+}: Props) {
   const [status, setStatus] = useState<EngineStatus>("loading");
   const cleanupScripts = useRef<(() => void) | null>(null);
 
@@ -40,7 +44,10 @@ export function GnahsBookingEngine({ region = "all" }: Props) {
     cleanupScripts.current = null;
     setStatus("loading");
 
-    window.BookingParams = getGnahsEngineConfig(region);
+    window.BookingParams = getGnahsEngineConfigForEstablishment(
+      region,
+      establishmentId,
+    );
 
     const engine = document.getElementById("GNAHSEngine");
     if (engine) {
@@ -68,7 +75,7 @@ export function GnahsBookingEngine({ region = "all" }: Props) {
     });
 
     cleanupScripts.current = cleanupRho;
-  }, [region]);
+  }, [establishmentId, region]);
 
   useLayoutEffect(() => {
     bootEngine();

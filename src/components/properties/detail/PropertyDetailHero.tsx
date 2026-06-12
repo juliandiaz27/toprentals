@@ -2,6 +2,10 @@ import Link from "next/link";
 import { FormattedText } from "@/components/content/FormattedText";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PropertyHighlightBadges } from "@/components/properties/PropertyHighlightBadges";
+import {
+  buildGnahsBookingUrl,
+  defaultCheckinCheckout,
+} from "@/lib/gnahs/buildBookingUrl";
 import { reservasLinkProps } from "@/lib/reservasLink";
 import type { PropertyDetail } from "@/lib/properties/details";
 
@@ -15,6 +19,16 @@ const pillClass =
 
 export function PropertyDetailHero({ property, whatsappUrl }: Props) {
   const pdfLabel = property.pdfLabel ?? "Descargar PDF torre";
+  const { checkin, checkout } = defaultCheckinCheckout();
+  const bookingHref =
+    property.gnahsId > 0
+      ? buildGnahsBookingUrl({
+          checkin,
+          checkout,
+          adults: 2,
+          establishmentId: property.gnahsId,
+        })
+      : "/reservas";
 
   return (
     <header data-reveal className="relative border-y border-neutral-200 bg-[#F8F8F8]">
@@ -72,8 +86,8 @@ export function PropertyDetailHero({ property, whatsappUrl }: Props) {
             className="max-w-xl text-[15px] font-normal leading-snug text-neutral-950 lg:text-base"
           />
           <Link
-            href="/reservas"
-            {...reservasLinkProps("/reservas")}
+            href={bookingHref}
+            {...reservasLinkProps(bookingHref)}
             className="inline-flex h-11 shrink-0 items-center justify-center self-start rounded-md bg-btn px-5 text-[14px] font-medium text-white hover:bg-btn-hover sm:self-center"
           >
             Consultar disponibilidad →

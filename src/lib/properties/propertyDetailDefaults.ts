@@ -1,4 +1,8 @@
 import type { PropertyListing } from "./catalogTypes";
+import {
+  buildGnahsBookingUrl,
+  defaultCheckinCheckout,
+} from "@/lib/gnahs/buildBookingUrl";
 import { resolvePropertyGalleryImages } from "./gallery";
 import type { PropertyDetailExtra, PropertyUnit } from "./propertyDetailTypes";
 
@@ -91,6 +95,17 @@ export function buildDefaultDetail(
   allListings: PropertyListing[],
 ): PropertyDetailExtra {
   const location = listing.neighborhood || listing.city;
+  const { checkin, checkout } = defaultCheckinCheckout();
+  const bookingHref =
+    listing.gnahsId > 0
+      ? buildGnahsBookingUrl({
+          checkin,
+          checkout,
+          adults: 2,
+          establishmentId: listing.gnahsId,
+        })
+      : "/reservas";
+
   return {
     subtitle: `Departamentos con servicio de hotel en ${location}, ${listing.city}.`,
     tags: [listing.neighborhood, listing.city, "Servicio de hotel"].filter(Boolean),
@@ -118,7 +133,7 @@ export function buildDefaultDetail(
     finalCtaTitle: `Reservá en ${listing.name} con Top Rentals.`,
     finalCtaSubtitle:
       "Contactanos y te ayudamos a encontrar el departamento ideal.",
-    finalCtaHref: "/reservas",
+    finalCtaHref: bookingHref,
     relatedSlugs: pickRelatedSlugs(allListings, listing),
   };
 }

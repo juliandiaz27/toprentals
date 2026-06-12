@@ -8,7 +8,7 @@ export type BookingSearchParams = {
   bookingRoute?: string;
 };
 
-function routeForEstablishment(establishmentId?: number): string {
+export function routeForEstablishment(establishmentId?: number): string {
   if (
     establishmentId &&
     (GNAHS_ESTABLISHMENTS_QUITO as readonly number[]).includes(establishmentId)
@@ -41,6 +41,25 @@ export function buildGnahsBookingUrl({
     q.set("establishment_id", String(establishmentId));
   }
   return `${base}?${q.toString()}`;
+}
+
+/** Ruta del motor con `establishment_id` fijo (el widget añade fechas y ocupación). */
+export function getGnahsBookingRouteForEstablishment(
+  establishmentId: number,
+): string {
+  const id = Math.floor(Number(establishmentId));
+  if (!Number.isFinite(id) || id < 1) return "/reservas";
+  const q = new URLSearchParams();
+  q.set("establishment_id", String(id));
+  return `${routeForEstablishment(id)}?${q.toString()}`;
+}
+
+export function parseGnahsEstablishmentId(
+  raw: string | string[] | undefined,
+): number | undefined {
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  const id = Math.floor(Number(value));
+  return Number.isFinite(id) && id >= 1 ? id : undefined;
 }
 
 export function formatDateForInput(date: Date): string {

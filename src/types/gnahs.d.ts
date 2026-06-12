@@ -27,8 +27,13 @@ declare global {
     GNAHSGetRhoInitialSettings?: new () => void;
     GNAHS_BookingWidget?: new (options: {
       settings: Record<string, unknown>;
-    }) => void;
+    }) => GnahsWidgetInstance;
   }
+
+  type GnahsWidgetInstance = {
+    $destination?: { setDestination: (destination: unknown) => void };
+    configuration?: { destinations?: unknown[] };
+  };
 
   interface HTMLElementEventMap {
     "GNAHS:step-loaded": CustomEvent<Record<string, unknown>>;

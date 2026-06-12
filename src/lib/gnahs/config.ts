@@ -3,6 +3,8 @@
  * Establishment IDs del motor: 1–12 (no usar códigos PMS 1294+).
  */
 
+import { getGnahsBookingRouteForEstablishment } from "@/lib/gnahs/buildBookingUrl";
+
 /** IDs de establecimiento para widget y motor general (`establishment_id` del PDF). */
 export const GNAHS_ESTABLISHMENT_IDS = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
@@ -112,7 +114,20 @@ export function getGnahsWidgetConfigForProperty(
   return {
     ...base,
     establishments: [id] as GnahsWidgetConfig["establishments"],
+    bookingRoute: getGnahsBookingRouteForEstablishment(id),
   };
+}
+
+/** Motor con una sola torre cuando la URL trae `establishment_id`. */
+export function getGnahsEngineConfigForEstablishment(
+  region: GnahsEngineRegion = "all",
+  establishmentId?: number | null,
+) {
+  const base = getGnahsEngineConfig(region);
+  if (establishmentId == null) return base;
+  const id = Math.floor(Number(establishmentId));
+  if (!Number.isFinite(id) || id < 1) return base;
+  return { ...base, establishments: [id] };
 }
 
 /** My Booking (my-booking.html) — slug `top-rentals`. */

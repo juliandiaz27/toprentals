@@ -6,6 +6,7 @@ import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 import { GnahsBookingEngine } from "@/components/gnahs/GnahsBookingEngine";
 import {
   getGnahsEngineConfig,
+  getGnahsEngineConfigForEstablishment,
   type GnahsEngineRegion,
 } from "@/lib/gnahs/config";
 
@@ -13,6 +14,7 @@ type Props = {
   region: GnahsEngineRegion;
   title: string;
   description: string;
+  establishmentId?: number;
 };
 
 export function buildReservasMetadata({
@@ -22,8 +24,14 @@ export function buildReservasMetadata({
   return { title, description };
 }
 
-function BookingParamsScript({ region }: { region: GnahsEngineRegion }) {
-  const params = getGnahsEngineConfig(region);
+function BookingParamsScript({
+  region,
+  establishmentId,
+}: {
+  region: GnahsEngineRegion;
+  establishmentId?: number;
+}) {
+  const params = getGnahsEngineConfigForEstablishment(region, establishmentId);
   return (
     <script
       dangerouslySetInnerHTML={{
@@ -37,6 +45,7 @@ export async function ReservasEnginePage({
   region,
   title,
   description,
+  establishmentId,
 }: Props) {
   const homeContent = await readPageContent("home");
   const header = pickHomeHeader(homeContent);
@@ -59,9 +68,15 @@ export async function ReservasEnginePage({
               {description}
             </p>
           </header>
-          <BookingParamsScript region={region} />
+          <BookingParamsScript
+            region={region}
+            establishmentId={establishmentId}
+          />
           <div data-reveal data-reveal-delay="80">
-            <GnahsBookingEngine region={region} />
+            <GnahsBookingEngine
+              region={region}
+              establishmentId={establishmentId}
+            />
           </div>
         </div>
       </main>
