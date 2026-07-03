@@ -9,6 +9,7 @@ import {
 } from "@/lib/pageContent/headerNav";
 import { reservasLinkProps } from "@/lib/reservasLink";
 import { MobileMenuNavIcon } from "./MobileMenuNavIcons";
+import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 
 const NAV_ID_BY_HREF = new Map<string, HeaderNavId>(
   HEADER_NAV_CATALOG.map((item) => [item.href, item.id]),
@@ -136,17 +137,7 @@ export function SiteMenuDrawer({
           </ul>
 
           <div className="shrink-0 border-t border-neutral-100 px-5 py-5 pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)] lg:px-6 lg:py-6">
-            <div className="mb-4 flex items-center gap-2 text-[13px] text-neutral-950">
-              <span className="font-semibold">ES</span>
-              <span className="font-light text-neutral-300">|</span>
-              <Link
-                href="?lang=en"
-                onClick={onClose}
-                className="font-medium text-neutral-500 transition hover:text-neutral-950"
-              >
-                EN
-              </Link>
-            </div>
+            <LanguageSwitcher className="mb-4" onNavigate={onClose} />
             <Link
               href={header.ctaHref}
               {...reservasLinkProps(header.ctaHref)}

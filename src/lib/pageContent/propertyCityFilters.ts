@@ -11,8 +11,8 @@ export const PROPERTY_CITY_FILTERS_MAX = 12;
 
 export const DEFAULT_PROPERTY_CITY_FILTERS: PropertyCityFilterItem[] = [
   {
-    id: "buenos-aires",
-    label: "Buenos Aires",
+    id: "argentina",
+    label: "Argentina",
     matchCities: ["Buenos Aires"],
   },
   {
@@ -80,10 +80,12 @@ export function parsePropertyCityFilters(
     if (parsed.length > 0) return uniqueIds(parsed);
   }
 
-  const ba = String(filtersRaw.buenosAires ?? "Buenos Aires").trim() || "Buenos Aires";
+  const ar =
+    String(filtersRaw.argentina ?? filtersRaw.buenosAires ?? "Argentina").trim() ||
+    "Argentina";
   const ec = String(filtersRaw.ecuador ?? "Ecuador").trim() || "Ecuador";
   return DEFAULT_PROPERTY_CITY_FILTERS.map((d) =>
-    d.id === "buenos-aires" ? { ...d, label: ba } : { ...d, label: ec },
+    d.id === "argentina" ? { ...d, label: ar } : { ...d, label: ec },
   );
 }
 

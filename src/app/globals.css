@@ -64,6 +64,13 @@ body {
   margin: 0;
 }
 
+.propietarios-hero-accent {
+  text-decoration: underline;
+  text-decoration-color: #2563eb;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+
 .blog-body h2 {
   margin: 1.75em 0 0.5em;
   font-size: 1.35rem;

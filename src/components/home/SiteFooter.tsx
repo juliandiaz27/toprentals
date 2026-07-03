@@ -23,6 +23,17 @@ export function SiteFooter({ footer }: Props) {
           <FormattedText value={footer.tagline} className="text-[14px]" />
           <p className="text-[14px]">{footer.siteUrl}</p>
           <p className="mt-8 text-[12px] lg:mt-12">{footer.copyright}</p>
+          <p className="mt-2 text-[12px]">
+            Diseño y desarrollo web por{" "}
+            <a
+              href="https://magnamadigital.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`underline underline-offset-2 transition ${footerHover}`}
+            >
+              Magnama digital
+            </a>
+          </p>
         </div>
 
         <div className="flex flex-col gap-6 lg:items-end lg:text-right">

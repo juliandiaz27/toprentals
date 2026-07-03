@@ -74,9 +74,10 @@ export function CityFiltersField({
         <span className="admin-field-label">{label}</span>
         {hint ? <span className="admin-field-hint mt-1 block">{hint}</span> : null}
         <span className="admin-field-hint mt-1 block">
-          Etiqueta del chip en el listado. «Ciudad en propiedades» es el valor del desplegable al
-          crear/editar (varias separadas por coma). «Incluir próximamente» muestra también
-          propiedades en desarrollo en ese filtro.
+          Etiqueta del chip en el listado (usá el país, ej. Argentina). «Ciudad en
+          propiedades» es el valor del desplegable al crear/editar (varias ciudades
+          separadas por coma). «Incluir próximamente» muestra también propiedades en
+          desarrollo en ese filtro.
         </span>
       </div>
 
@@ -104,14 +105,14 @@ export function CityFiltersField({
             <div className="grid gap-4 lg:grid-cols-2">
               <label className="flex flex-col gap-1.5">
                 <span className="text-xs font-medium text-[var(--admin-text-dim)]">
-                  Etiqueta del filtro
+                  Etiqueta del filtro (país)
                 </span>
                 <input
                   type="text"
                   className="admin-input"
                   value={row.label}
                   onChange={(e) => updateRow(index, { label: e.target.value })}
-                  placeholder="Ej. Buenos Aires"
+                  placeholder="Ej. Argentina"
                 />
               </label>
               <label className="flex flex-col gap-1.5">
@@ -148,7 +149,7 @@ export function CityFiltersField({
         disabled={rows.length >= max}
         onClick={addRow}
       >
-        + Agregar filtro de ciudad
+        + Agregar filtro por país
       </button>
     </div>
   );

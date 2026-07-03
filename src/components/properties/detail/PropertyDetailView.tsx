@@ -13,12 +13,14 @@ import { PropertyNearbyPoiList } from "@/components/properties/detail/PropertyNe
 import { PropertyDetailGroupsSection } from "@/components/properties/detail/PropertyDetailGroupsSection";
 import { PropertyReviewsSection } from "@/components/properties/detail/PropertyReviewsSection";
 import type { PropertyReview } from "@/lib/properties/reviewsTypes";
+import { DEFAULT_SITE_LANGUAGE, type SiteLanguage } from "@/lib/i18n";
 
 type Props = {
   property: PropertyDetail;
   related: PropertyListing[];
   reviews: PropertyReview[];
   whatsappUrl?: string;
+  language?: SiteLanguage;
 };
 
 export function PropertyDetailView({
@@ -26,6 +28,7 @@ export function PropertyDetailView({
   related,
   reviews,
   whatsappUrl,
+  language = DEFAULT_SITE_LANGUAGE,
 }: Props) {
   const galleryImages = galleryFromDetail(property);
 
@@ -34,7 +37,10 @@ export function PropertyDetailView({
       <PropertyDetailHero property={property} whatsappUrl={whatsappUrl} />
 
       <div className="mx-auto max-w-[1440px] px-6 pb-16 pt-10 lg:px-12 lg:pt-12">
-        <PropertyDetailSearchBar gnahsId={property.gnahsId} />
+        <PropertyDetailSearchBar
+          gnahsId={property.gnahsId}
+          language={language}
+        />
 
         <div data-reveal className="relative z-0">
           <PropertyDetailGallery

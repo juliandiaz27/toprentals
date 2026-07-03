@@ -5,16 +5,17 @@ import { SiteHeader } from "@/components/home/SiteHeader";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 import { GnahsBookingEngine } from "@/components/gnahs/GnahsBookingEngine";
 import {
-  getGnahsEngineConfig,
   getGnahsEngineConfigForEstablishment,
   type GnahsEngineRegion,
 } from "@/lib/gnahs/config";
+import { DEFAULT_SITE_LANGUAGE, type SiteLanguage } from "@/lib/i18n";
 
 type Props = {
   region: GnahsEngineRegion;
   title: string;
   description: string;
   establishmentId?: number;
+  language?: SiteLanguage;
 };
 
 export function buildReservasMetadata({
@@ -27,11 +28,17 @@ export function buildReservasMetadata({
 function BookingParamsScript({
   region,
   establishmentId,
+  language,
 }: {
   region: GnahsEngineRegion;
   establishmentId?: number;
+  language: SiteLanguage;
 }) {
-  const params = getGnahsEngineConfigForEstablishment(region, establishmentId);
+  const params = getGnahsEngineConfigForEstablishment(
+    region,
+    establishmentId,
+    language,
+  );
   return (
     <script
       dangerouslySetInnerHTML={{
@@ -46,6 +53,7 @@ export async function ReservasEnginePage({
   title,
   description,
   establishmentId,
+  language = DEFAULT_SITE_LANGUAGE,
 }: Props) {
   const homeContent = await readPageContent("home");
   const header = pickHomeHeader(homeContent);
@@ -71,11 +79,13 @@ export async function ReservasEnginePage({
           <BookingParamsScript
             region={region}
             establishmentId={establishmentId}
+            language={language}
           />
           <div data-reveal data-reveal-delay="80">
             <GnahsBookingEngine
               region={region}
               establishmentId={establishmentId}
+              language={language}
             />
           </div>
         </div>

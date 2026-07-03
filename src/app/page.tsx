@@ -16,6 +16,7 @@ import {
 import { HomeAnimatedStats } from "@/components/home/HomeAnimatedStats";
 import { HomeBelowSearchSection } from "@/components/home/HomeBelowSearchSection";
 import { getGnahsWidgetConfig } from "@/lib/gnahs/config";
+import { getSiteLanguage } from "@/lib/i18nServer";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { HeroBanner } from "@/components/home/HeroBanner";
 import { BuildingsTourSection } from "@/components/home/BuildingsTourSection";
@@ -29,14 +30,15 @@ import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [content, listings] = await Promise.all([
+  const [content, listings, language] = await Promise.all([
     readPageContent("home"),
     loadPropertyListings(),
+    getSiteLanguage(),
   ]);
   const header = pickHomeHeader(content);
   const hero = pickHomeHero(content);
   const slides = pickHomeHeroSlides(content, hero);
-  const gnahsWidget = getGnahsWidgetConfig();
+  const gnahsWidget = getGnahsWidgetConfig(language);
   const buildings = pickHomeBuildings(content);
   const corporateTeaser = pickHomeCorporateTeaser(content);
   const directBenefits = pickHomeDirectBenefits(content);

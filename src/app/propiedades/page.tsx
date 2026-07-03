@@ -8,6 +8,7 @@ import {
 import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
 import { loadPropertyListings } from "@/lib/properties/catalog";
 import { getGnahsWidgetConfig } from "@/lib/gnahs/config";
+import { getSiteLanguage } from "@/lib/i18nServer";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { PropertiesSearchBar } from "@/components/properties/PropertiesSearchBar";
 import { PropertiesGrid } from "@/components/properties/PropertiesGrid";
@@ -25,17 +26,18 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PropiedadesPage() {
-  const [propContent, homeContent, listings] = await Promise.all([
+  const [propContent, homeContent, listings, language] = await Promise.all([
     readPageContent("propiedades"),
     readPageContent("home"),
     loadPropertyListings(),
+    getSiteLanguage(),
   ]);
   const header = pickHomeHeader(homeContent);
   const homeHero = pickHomeHero(homeContent);
   const hero = pickPropiedadesHero(propContent);
   const filters = pickPropiedadesFilters(propContent);
   const development = pickPropiedadesDevelopment(propContent);
-  const gnahsWidget = getGnahsWidgetConfig();
+  const gnahsWidget = getGnahsWidgetConfig(language);
 
   return (
     <>

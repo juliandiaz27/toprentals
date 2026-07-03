@@ -7,6 +7,7 @@ import { MarketingChrome } from "@/components/marketing/MarketingChrome";
 import { loadMarketingConfig } from "@/lib/marketing/load";
 import { readPageContent } from "@/lib/pageContent/storage";
 import { pickHomeFooter } from "@/lib/pageContent/homeTypes";
+import { getSiteLanguage } from "@/lib/i18nServer";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -27,14 +28,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [content, marketing] = await Promise.all([
+  const [content, marketing, language] = await Promise.all([
     readPageContent("home"),
     loadMarketingConfig(),
+    getSiteLanguage(),
   ]);
   const footer = pickHomeFooter(content);
 
   return (
-    <html lang="es" className={`${inter.variable} h-full antialiased`}>
+    <html lang={language} className={`${inter.variable} h-full antialiased`}>
       <head>
         <link rel="preconnect" href="https://assets.gnahs.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://hostalric.gnahs.app" crossOrigin="anonymous" />

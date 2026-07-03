@@ -354,14 +354,18 @@ export function pickHomeLocations(raw: Record<string, unknown>): HomeLocationsCo
     title: String(l.title ?? "Dónde operamos"),
     locations: [
       {
-        title: String(l.card1Title ?? "Buenos Aires"),
-        subtitle: String(l.card1Subtitle ?? "+400 departamentos · 7 zonas"),
+        title: String(l.card1Title ?? "Argentina"),
+        subtitle: String(
+          l.card1Subtitle ?? "Buenos Aires · +400 departamentos · 7 zonas",
+        ),
         linkLabel: String(l.card1LinkLabel ?? "Ver propiedades →"),
         href: String(l.card1Href ?? "/propiedades"),
       },
       {
-        title: String(l.card2Title ?? "Quito, Ecuador"),
-        subtitle: String(l.card2Subtitle ?? "+100 departamentos · La Carolina"),
+        title: String(l.card2Title ?? "Ecuador"),
+        subtitle: String(
+          l.card2Subtitle ?? "Quito · +100 departamentos · La Carolina",
+        ),
         linkLabel: String(l.card2LinkLabel ?? "Ver propiedades →"),
         href: String(l.card2Href ?? "/propiedades"),
       },
@@ -376,9 +380,9 @@ export function pickHomeInvestorCta(raw: Record<string, unknown>): HomeInvestorC
       i.title ?? "¿Sos un desarrollador o querés invertir en el sector?",
     ),
     devLabel: String(i.devLabel ?? "Desarrolladores →"),
-    devHref: String(i.devHref ?? "/desarrolladores"),
+    devHref: String(i.devHref ?? "/real-estate"),
     invLabel: String(i.invLabel ?? "Inversores →"),
-    invHref: String(i.invHref ?? "/inversores"),
+    invHref: String(i.invHref ?? "/propietarios"),
   };
 }
 

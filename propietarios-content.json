@@ -1,1 +1,91 @@
-{}
+{
+  "hero": {
+    "title": "<p>Operación profesional que <span class=\"propietarios-hero-accent\">maximiza la renta</span></p>",
+    "subtitle": "Más de 10 años gestionando departamentos en torres seleccionadas con estándares hoteleros, procesos claros y foco en resultados para propietarios."
+  },
+  "benefits": {
+    "title": "Beneficios para propietarios",
+    "leftColumn": [
+      "Comercialización y gestión de reservas",
+      "Atención al huésped 24/7",
+      "Limpieza y mantenimiento profesional",
+      "Optimización de renta",
+      "Pago de expensas y servicios"
+    ],
+    "rightColumn": [
+      "Control operativo y estándares de calidad",
+      "Reportes diarios y seguimiento de performance",
+      "Relación directa con la administración del edificio",
+      "Cuidado de la unidad y espacios comunes",
+      "Modelo profit share"
+    ]
+  },
+  "protectedRent": {
+    "title": "Sistema de renta protegida",
+    "text": "Nuestro modelo se basa en transparencia y resultados compartidos. Operamos con un esquema profit share que alinea nuestro desempeño con la rentabilidad de tu unidad."
+  },
+  "howItWorks": {
+    "title": "Cómo trabajamos",
+    "steps": [
+      {
+        "title": "Definición del modelo",
+        "text": "Alineamos expectativas, reglas de operación y estándares de servicio."
+      },
+      {
+        "title": "Puesta en marcha",
+        "text": "Implementamos equipamiento, canales de comercialización y procesos operativos."
+      },
+      {
+        "title": "Operación diaria",
+        "text": "Gestionamos reservas, check-ins, limpieza y mantenimiento de la unidad."
+      },
+      {
+        "title": "Seguimiento y control",
+        "text": "Revisamos la performance de la unidad con reportes transparentes y periódicos."
+      }
+    ]
+  },
+  "equipment": {
+    "title": "Equipamiento y diseño de las unidades",
+    "items": [
+      {
+        "title": "Mobiliario",
+        "text": "Selección funcional y estética acorde al estándar Top Rentals."
+      },
+      {
+        "title": "Equipamiento electrónico",
+        "text": "Electrodomésticos y tecnología listos para operar desde el primer día."
+      },
+      {
+        "title": "Decoración y textiles",
+        "text": "Detalles de ambientación, ropa blanca y acabados de calidad hotelera."
+      }
+    ]
+  },
+  "experience": {
+    "title": "Experiencia en torres residenciales",
+    "items": [
+      {
+        "title": "Convivencia ordenada",
+        "text": "Operación pensada para el día a día de edificios residenciales de alto nivel."
+      },
+      {
+        "title": "Operación estructurada",
+        "text": "Procesos claros, equipos dedicados y respuesta ágil ante cada necesidad."
+      },
+      {
+        "title": "Cuidado del edificio",
+        "text": "Respeto por las normas de convivencia y los espacios comunes."
+      },
+      {
+        "title": "Previsibilidad para el propietario",
+        "text": "Información clara, seguimiento constante y foco en resultados."
+      }
+    ]
+  },
+  "finalCta": {
+    "title": "¿Sos propietario y querés saber más?",
+    "ctaLabel": "Contactar a Top Rentals +",
+    "ctaHref": "/contacto"
+  }
+}

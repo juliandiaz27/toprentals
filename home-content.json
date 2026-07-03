@@ -8,6 +8,7 @@
       { "id": "propiedades", "label": "Propiedades", "visible": true },
       { "id": "corporate", "label": "Corporativo", "visible": true },
       { "id": "real-estate", "label": "Real Estate", "visible": true },
+      { "id": "propietarios", "label": "Propietarios", "visible": true },
       { "id": "club-top-rentals", "label": "Club Top Rentals", "visible": true },
       { "id": "nosotros", "label": "Quiénes somos", "visible": true },
       { "id": "trabaja-con-nosotros", "label": "Trabajá con nosotros", "visible": true },
@@ -106,21 +107,21 @@
   },
   "locations": {
     "title": "Dónde operamos",
-    "card1Title": "Buenos Aires",
-    "card1Subtitle": "+400 departamentos · 7 zonas",
+    "card1Title": "Argentina",
+    "card1Subtitle": "Buenos Aires · +400 departamentos · 7 zonas",
     "card1LinkLabel": "Ver propiedades →",
     "card1Href": "/propiedades",
-    "card2Title": "Quito, Ecuador",
-    "card2Subtitle": "+100 departamentos · La Carolina",
+    "card2Title": "Ecuador",
+    "card2Subtitle": "Quito · +100 departamentos · La Carolina",
     "card2LinkLabel": "Ver propiedades →",
     "card2Href": "/propiedades"
   },
   "investorCta": {
     "title": "¿Sos un desarrollador o querés invertir en el sector?",
     "devLabel": "Desarrolladores →",
-    "devHref": "/desarrolladores",
+    "devHref": "/real-estate",
     "invLabel": "Inversores →",
-    "invHref": "/inversores"
+    "invHref": "/propietarios"
   },
   "footer": {
     "brand": "TOP RENTALS",

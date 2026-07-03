@@ -7,6 +7,7 @@ import {
   GNAHS_RHO_INIT_SCRIPT,
   type GnahsEngineRegion,
 } from "@/lib/gnahs/config";
+import { DEFAULT_SITE_LANGUAGE, type SiteLanguage } from "@/lib/i18n";
 import { loadScript } from "@/lib/gnahs/scripts";
 import { pushGnahsStepLoaded } from "@/lib/gnahs/tracking";
 import { GnahsEngineLoadingSkeleton } from "./GnahsEngineLoadingSkeleton";
@@ -18,6 +19,7 @@ type EngineStatus = "loading" | "ready" | "error";
 type Props = {
   region?: GnahsEngineRegion;
   establishmentId?: number;
+  language?: SiteLanguage;
 };
 
 function engineLooksReady(node: HTMLElement): boolean {
@@ -31,6 +33,7 @@ function engineLooksReady(node: HTMLElement): boolean {
 export function GnahsBookingEngine({
   region = "all",
   establishmentId,
+  language = DEFAULT_SITE_LANGUAGE,
 }: Props) {
   const [status, setStatus] = useState<EngineStatus>("loading");
   const cleanupScripts = useRef<(() => void) | null>(null);
@@ -47,6 +50,7 @@ export function GnahsBookingEngine({
     window.BookingParams = getGnahsEngineConfigForEstablishment(
       region,
       establishmentId,
+      language,
     );
 
     const engine = document.getElementById("GNAHSEngine");
@@ -75,7 +79,7 @@ export function GnahsBookingEngine({
     });
 
     cleanupScripts.current = cleanupRho;
-  }, [establishmentId, region]);
+  }, [establishmentId, region, language]);
 
   useLayoutEffect(() => {
     bootEngine();

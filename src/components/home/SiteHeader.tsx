@@ -7,6 +7,7 @@ import type { HomeHeaderContent } from "@/lib/pageContent/homeTypes";
 import { reservasLinkProps } from "@/lib/reservasLink";
 import { MobileBottomNav } from "@/components/home/MobileBottomNav";
 import { SiteMenuDrawer } from "@/components/home/SiteMenuDrawer";
+import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 
 type Props = {
   header: HomeHeaderContent;
@@ -132,19 +133,7 @@ export function SiteHeader({
         </Link>
 
         <div className="flex items-center gap-3 sm:gap-4">
-          <div
-            className="hidden items-center gap-2 text-[14px] text-neutral-950 md:flex"
-            aria-label="Idioma"
-          >
-            <span className="font-medium">ES</span>
-            <span className="font-light text-neutral-300">|</span>
-            <Link
-              href="?lang=en"
-              className="font-normal text-neutral-500 transition-colors hover:text-neutral-950"
-            >
-              EN
-            </Link>
-          </div>
+          <LanguageSwitcher className="hidden md:flex" />
 
           <Link
             href={header.ctaHref}

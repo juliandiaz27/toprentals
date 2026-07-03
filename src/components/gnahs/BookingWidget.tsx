@@ -63,13 +63,22 @@ function isGnahsWidgetFailure(reason: unknown): boolean {
 }
 
 /** Etiquetas del snippet oficial `docs/gnahs-snippets/widget.html`. */
-const GNAHS_WIDGET_LABELS: BookingWidgetLabels = {
+const GNAHS_WIDGET_LABELS_ES: BookingWidgetLabels = {
   destination: "Destinos",
   checkIn: "Fecha de entrada",
   checkOut: "Fecha de salida",
   occupancy: "Habitaciones y personas",
   promoCode: "Código promocional",
   booking: "Reservar",
+};
+
+const GNAHS_WIDGET_LABELS_EN: BookingWidgetLabels = {
+  destination: "Destinations",
+  checkIn: "Check-in",
+  checkOut: "Check-out",
+  occupancy: "Rooms and guests",
+  promoCode: "Promo code",
+  booking: "Book now",
 };
 
 /**
@@ -81,9 +90,11 @@ export function BookingWidget({
   hidePromo = false,
   hideDestination = false,
   establishmentId,
-  labels = GNAHS_WIDGET_LABELS,
+  labels,
 }: Props) {
-  const resolvedLabels = labels;
+  const resolvedLabels =
+    labels ??
+    (config.language === "en" ? GNAHS_WIDGET_LABELS_EN : GNAHS_WIDGET_LABELS_ES);
   const containerRef = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
   const widgetInstance = useRef<unknown>(null);
@@ -241,7 +252,7 @@ export function BookingWidget({
                 className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-800"
                 aria-hidden
               />
-              Cargando buscador…
+              {config.language === "en" ? "Loading search…" : "Cargando buscador…"}
             </p>
           ) : null}
         </>

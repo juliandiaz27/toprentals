@@ -5,6 +5,7 @@ import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
 import { loadPropertyListings } from "@/lib/properties/catalog";
 import { getPropertyDetail, getRelatedProperties } from "@/lib/properties/details";
 import { getVisibleReviewsForProperty } from "@/lib/properties/reviews";
+import { getSiteLanguage } from "@/lib/i18nServer";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { PropertyDetailView } from "@/components/properties/detail/PropertyDetailView";
 
@@ -24,11 +25,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PropiedadDetallePage({ params }: Props) {
   const { slug } = await params;
-  const [property, listings, homeContent, reviews] = await Promise.all([
+  const [property, listings, homeContent, reviews, language] = await Promise.all([
     getPropertyDetail(slug),
     loadPropertyListings(),
     readPageContent("home"),
     getVisibleReviewsForProperty(slug),
+    getSiteLanguage(),
   ]);
   if (!property) notFound();
 
@@ -50,6 +52,7 @@ export default async function PropiedadDetallePage({ params }: Props) {
         related={related}
         reviews={reviews}
         whatsappUrl={whatsapp}
+        language={language}
       />
     </>
   );

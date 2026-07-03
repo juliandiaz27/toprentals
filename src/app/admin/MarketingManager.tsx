@@ -756,9 +756,15 @@ export function MarketingManager({ initial }: Props) {
 
               <span className="admin-field-hint mb-0">
 
-                Ruta del sitio o URL de /admin/imagenes. Si está vacío se usa una
+                Medida recomendada: 1000 × 800 px (4:3 aprox.), horizontal o
 
-                imagen de departamento por defecto.
+                cuadrada · JPG, PNG o WebP · máx. 1 MB. La imagen se recorta
+
+                centrada, dejá el motivo principal al centro. Ruta del sitio o
+
+                URL de /admin/imagenes. Si está vacío se usa una imagen por
+
+                defecto.
 
               </span>
 

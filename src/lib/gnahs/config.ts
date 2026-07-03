@@ -4,6 +4,7 @@
  */
 
 import { getGnahsBookingRouteForEstablishment } from "@/lib/gnahs/buildBookingUrl";
+import { DEFAULT_SITE_LANGUAGE, type SiteLanguage } from "@/lib/i18n";
 
 /** IDs de establecimiento para widget y motor general (`establishment_id` del PDF). */
 export const GNAHS_ESTABLISHMENT_IDS = [
@@ -73,23 +74,28 @@ export const GNAHS_WIDGET_JS =
   "https://assets.gnahs.com/modules/booking-widget/v3/app.js";
 
 /** `window.BookingParams` — motor #GNAHSEngine (engine.html por región). */
-export function getGnahsEngineConfig(region: GnahsEngineRegion = "all") {
+export function getGnahsEngineConfig(
+  region: GnahsEngineRegion = "all",
+  language: SiteLanguage = DEFAULT_SITE_LANGUAGE,
+) {
   return {
     uuid: GNAHS_UUID,
     establishments: getEstablishmentsForEngineRegion(region),
-    language: "es" as const,
+    language,
     api: GNAHS_API_URL,
     assets: GNAHS_ASSETS_URL,
   };
 }
 
 /** Widget / buscador (widget.html). */
-export function getGnahsWidgetConfig() {
+export function getGnahsWidgetConfig(
+  language: SiteLanguage = DEFAULT_SITE_LANGUAGE,
+) {
   return {
     uuid: GNAHS_UUID,
     apiUrl: GNAHS_API_URL,
     establishments: [...GNAHS_ESTABLISHMENT_IDS],
-    language: "es" as const,
+    language,
     bookingRoute:
       process.env.NEXT_PUBLIC_GNAHS_BOOKING_ROUTE ?? "/reservas",
     saveLastSeach: false,
@@ -105,8 +111,9 @@ export type GnahsWidgetConfig = ReturnType<typeof getGnahsWidgetConfig>;
  */
 export function getGnahsWidgetConfigForProperty(
   gnahsId: number,
+  language: SiteLanguage = DEFAULT_SITE_LANGUAGE,
 ): GnahsWidgetConfig {
-  const base = getGnahsWidgetConfig();
+  const base = getGnahsWidgetConfig(language);
   const id = Math.floor(Number(gnahsId));
   if (!Number.isFinite(id) || id < 1) {
     return base;
@@ -122,8 +129,9 @@ export function getGnahsWidgetConfigForProperty(
 export function getGnahsEngineConfigForEstablishment(
   region: GnahsEngineRegion = "all",
   establishmentId?: number | null,
+  language: SiteLanguage = DEFAULT_SITE_LANGUAGE,
 ) {
-  const base = getGnahsEngineConfig(region);
+  const base = getGnahsEngineConfig(region, language);
   if (establishmentId == null) return base;
   const id = Math.floor(Number(establishmentId));
   if (!Number.isFinite(id) || id < 1) return base;

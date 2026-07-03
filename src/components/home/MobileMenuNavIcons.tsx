@@ -55,6 +55,19 @@ export function MobileMenuNavIcon({ id }: Props) {
           />
         </svg>
       );
+    case "propietarios":
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <circle cx="8" cy="9" r="3" stroke={stroke} strokeWidth={sw} />
+          <path
+            d="m10.1 10.9 6.4 6.4M15 15.5l1.5 1.5M17 13.5l1.5 1.5"
+            stroke={stroke}
+            strokeWidth={sw}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
     case "club-top-rentals":
       return (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>

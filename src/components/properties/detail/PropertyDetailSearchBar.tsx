@@ -3,16 +3,21 @@
 import { useMemo } from "react";
 import { getGnahsWidgetConfigForProperty } from "@/lib/gnahs/config";
 import { BookingWidget } from "@/components/gnahs/BookingWidgetDynamic";
+import { DEFAULT_SITE_LANGUAGE, type SiteLanguage } from "@/lib/i18n";
 
 type Props = {
   gnahsId: number;
+  language?: SiteLanguage;
 };
 
 /** Buscador GNAHS de la ficha: fechas, huéspedes y reserva solo para esa torre. */
-export function PropertyDetailSearchBar({ gnahsId }: Props) {
+export function PropertyDetailSearchBar({
+  gnahsId,
+  language = DEFAULT_SITE_LANGUAGE,
+}: Props) {
   const config = useMemo(
-    () => getGnahsWidgetConfigForProperty(gnahsId),
-    [gnahsId],
+    () => getGnahsWidgetConfigForProperty(gnahsId, language),
+    [gnahsId, language],
   );
 
   return (
