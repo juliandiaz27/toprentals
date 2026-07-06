@@ -96,13 +96,17 @@ export function BookingWidget({
     labels ??
     (config.language === "en" ? GNAHS_WIDGET_LABELS_EN : GNAHS_WIDGET_LABELS_ES);
   const containerRef = useRef<HTMLDivElement>(null);
-  const initialized = useRef(false);
-  const widgetInstance = useRef<unknown>(null);
+  const bootId = useRef(0);
 
   const [apiBlocked, setApiBlocked] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const configKey = useMemo(() => JSON.stringify(config), [config]);
+
+  useEffect(() => {
+    setLoading(true);
+    setApiBlocked(false);
+  }, [configKey]);
 
   const fallbackBookingRoute = useMemo(() => {
     if (!establishmentId) return config.bookingRoute;
@@ -129,19 +133,22 @@ export function BookingWidget({
   useLayoutEffect(() => {
     if (apiBlocked) return;
 
+    const boot = ++bootId.current;
     let cancelled = false;
     let cleanupScript: (() => void) | undefined;
     let retryTimer: ReturnType<typeof setTimeout> | undefined;
 
+    const isStale = () => cancelled || boot !== bootId.current;
+
     const blockWidget = () => {
-      if (!cancelled) {
+      if (!isStale()) {
         setApiBlocked(true);
         setLoading(false);
       }
     };
 
     const tryInitWidget = (attempt = 0): void => {
-      if (cancelled || initialized.current) return;
+      if (isStale()) return;
 
       const root = containerRef.current?.querySelector(WIDGET_ROOT_SELECTOR);
       const container = root?.querySelector(".c-booking-widget__container");
@@ -173,11 +180,10 @@ export function BookingWidget({
       }
 
       try {
-        initialized.current = true;
+        if (isStale()) return;
         const widget = new window.GNAHS_BookingWidget!({
           settings: { ...config },
         });
-        widgetInstance.current = widget;
 
         if (hideDestination && establishmentId) {
           const rootEl = containerRef.current?.querySelector(WIDGET_ROOT_SELECTOR);
@@ -186,10 +192,8 @@ export function BookingWidget({
           onInitWidget();
         }
 
-        setLoading(false);
+        if (!isStale()) setLoading(false);
       } catch (error) {
-        initialized.current = false;
-        widgetInstance.current = null;
         if (isGnahsWidgetFailure(error) && attempt >= INIT_RETRIES - 1) {
           blockWidget();
         } else if (attempt < INIT_RETRIES) {
@@ -204,11 +208,9 @@ export function BookingWidget({
       }
     };
 
-    const start = async () => {
+    const start = () => {
       setLoading(true);
       setApiBlocked(false);
-      initialized.current = false;
-      widgetInstance.current = null;
 
       cleanupScript = loadScript(GNAHS_WIDGET_JS, {
         id: "gnahs-booking-widget",
@@ -227,17 +229,15 @@ export function BookingWidget({
       cancelled = true;
       if (retryTimer) clearTimeout(retryTimer);
       cleanupScript?.();
-      initialized.current = false;
-      widgetInstance.current = null;
     };
-  }, [apiBlocked, config, configKey]);
+  }, [apiBlocked, config, configKey, establishmentId, hideDestination]);
 
   return (
     <div ref={containerRef} className="gnahs-booking-widget w-full">
       {apiBlocked ? (
         <BookingWidgetFallback bookingRoute={fallbackBookingRoute} />
       ) : (
-        <>
+        <div key={configKey}>
           <WidgetMarkup
             hidePromo={hidePromo}
             hideDestination={hideDestination}
@@ -255,7 +255,7 @@ export function BookingWidget({
               {config.language === "en" ? "Loading search…" : "Cargando buscador…"}
             </p>
           ) : null}
-        </>
+        </div>
       )}
     </div>
   );

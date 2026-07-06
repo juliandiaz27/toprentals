@@ -26,6 +26,7 @@ export function PropertyDetailSearchBar({
       className="property-detail-gnahs-search relative z-30 overflow-visible rounded-lg border border-neutral-200 bg-white p-4"
     >
       <BookingWidget
+        key={language}
         config={config}
         hideDestination
         establishmentId={gnahsId}
