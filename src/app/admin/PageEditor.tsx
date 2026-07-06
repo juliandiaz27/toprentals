@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState, useTransition, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition, type ReactNode } from "react";
 import { MediaUploadGuide } from "./MediaUploadGuide";
 import type { MediaUploadGuide as MediaUploadGuideSpec } from "@/lib/mediaUploadGuide";
 import {
@@ -71,6 +71,21 @@ function MediaUploadField({
   fieldSpanClass: string;
 }) {
   const [fileError, setFileError] = useState<string | null>(null);
+  const [previewSrc, setPreviewSrc] = useState(src);
+  const objectUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    setPreviewSrc(src);
+  }, [src]);
+
+  useEffect(() => {
+    return () => {
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+        objectUrlRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <div className={`flex flex-col gap-2 ${fieldSpanClass}`}>
@@ -80,7 +95,7 @@ function MediaUploadField({
       {field.type === "image" ? (
         <div className="relative aspect-[21/9] max-w-xl overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-raised)]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt="" className="h-full w-full object-cover" />
+          <img src={previewSrc} alt="" className="h-full w-full object-cover" />
         </div>
       ) : strValue ? (
         <p className="font-mono text-xs text-[var(--admin-text-dim)]">{strValue}</p>
@@ -95,9 +110,25 @@ function MediaUploadField({
           const file = e.target.files?.[0];
           if (!file) {
             setFileError(null);
+            setPreviewSrc(src);
+            if (objectUrlRef.current) {
+              URL.revokeObjectURL(objectUrlRef.current);
+              objectUrlRef.current = null;
+            }
             return;
           }
-          setFileError(validateFileAgainstGuide(file, uploadGuide));
+          const validationError = validateFileAgainstGuide(file, uploadGuide);
+          setFileError(validationError);
+          if (validationError) return;
+
+          if (objectUrlRef.current) {
+            URL.revokeObjectURL(objectUrlRef.current);
+          }
+          const nextUrl = URL.createObjectURL(file);
+          objectUrlRef.current = nextUrl;
+          if (field.type === "image") {
+            setPreviewSrc(nextUrl);
+          }
         }}
       />
       {fileError ? (
