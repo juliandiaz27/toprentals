@@ -4,8 +4,64 @@ import {
   parsePropertyCityFilters,
   type PropertyCityFilterItem,
 } from "./propertyCityFilters";
+import {
+  differentialCardsGridClass,
+  type DifferentialCard,
+} from "./differentialCards";
 
 export type { PropertyCityFilterItem };
+
+export const DEFAULT_DEVELOPMENT_CARDS: DifferentialCard[] = [
+  {
+    title: "Top Rentals Maipú",
+    text: "90 unidades en el centro de la ciudad. Amenities de primer nivel. Próximamente.",
+  },
+];
+
+function normalizeDevelopmentCard(raw: unknown): DifferentialCard | null {
+  if (!raw || typeof raw !== "object") return null;
+  const item = raw as Record<string, unknown>;
+  const title = String(item.title ?? "").trim();
+  const text = String(item.text ?? "").trim();
+  if (!title && !text) return null;
+  return { title, text };
+}
+
+function stripHtml(value: unknown): string {
+  return String(value ?? "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .trim();
+}
+
+/** Lee `development.cards` o campos legacy `title` / `description`. */
+export function parseDevelopmentCards(
+  development: Record<string, unknown>,
+): DifferentialCard[] {
+  const cardsRaw = development.cards;
+  if (Array.isArray(cardsRaw) && cardsRaw.length > 0) {
+    const cards = cardsRaw
+      .map(normalizeDevelopmentCard)
+      .filter((c): c is DifferentialCard => c !== null)
+      .slice(0, 4);
+    if (cards.length > 0) return cards;
+  }
+
+  const title = stripHtml(development.title);
+  const text = stripHtml(development.description);
+  if (title || text) {
+    return [
+      {
+        title: title || DEFAULT_DEVELOPMENT_CARDS[0].title,
+        text: text || DEFAULT_DEVELOPMENT_CARDS[0].text,
+      },
+    ];
+  }
+
+  return DEFAULT_DEVELOPMENT_CARDS;
+}
+
+export { differentialCardsGridClass };
 
 export type PropiedadesHeroContent = {
   title: string;
@@ -17,8 +73,7 @@ export type PropiedadesFiltersContent = PropertyCityFilterItem[];
 
 export type PropiedadesDevelopmentContent = {
   label: string;
-  title: string;
-  description: string;
+  cards: DifferentialCard[];
   ctaLabel: string;
   ctaHref: string;
 };
@@ -41,14 +96,11 @@ export function pickPropiedadesFilters(raw: PageContent): PropiedadesFiltersCont
 export function pickPropiedadesDevelopment(
   raw: PageContent,
 ): PropiedadesDevelopmentContent {
-  const d = (raw.development ?? {}) as Record<string, string>;
+  const d = (raw.development ?? {}) as Record<string, unknown>;
   return {
-    label: d.label ?? "En desarrollo",
-    title: d.title ?? "Top Rentals Maipú",
-    description:
-      d.description ??
-      "90 unidades en el centro de la ciudad. Amenities de primer nivel. Próximamente.",
-    ctaLabel: d.ctaLabel ?? "Registrarme para recibir novedades →",
-    ctaHref: d.ctaHref ?? "#",
+    label: String(d.label ?? "En desarrollo"),
+    cards: parseDevelopmentCards(d),
+    ctaLabel: String(d.ctaLabel ?? "Quiero recibir novedades →"),
+    ctaHref: String(d.ctaHref ?? "#"),
   };
 }

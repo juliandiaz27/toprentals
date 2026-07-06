@@ -82,6 +82,12 @@ export async function savePageContent(
           }
           content.howItWorks = section;
         }
+        if (field.key === "development.cards") {
+          const dev = (content.development ?? {}) as Record<string, unknown>;
+          delete dev.title;
+          delete dev.description;
+          content.development = dev;
+        }
         continue;
       }
 

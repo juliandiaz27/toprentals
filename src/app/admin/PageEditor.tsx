@@ -31,6 +31,7 @@ import {
   PROPERTY_CITY_FILTERS_MIN,
   parsePropertyCityFilters,
 } from "@/lib/pageContent/propertyCityFilters";
+import { parseDevelopmentCards } from "@/lib/pageContent/propiedadesTypes";
 import { AdminStickyAlerts } from "./AdminStickyAlerts";
 import { savePageContent } from "./pageActions";
 import { WysiwygField } from "./WysiwygField";
@@ -195,7 +196,9 @@ function FieldControl({
     const initialCards =
       field.key === "howItWorks.steps"
         ? parseClubHowItWorksSteps(parentObj)
-        : parseDifferentialCards(parentObj);
+        : field.key === "development.cards"
+          ? parseDevelopmentCards(parentObj)
+          : parseDifferentialCards(parentObj);
     return (
       <CardListField
         name={field.key}

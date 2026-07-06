@@ -26,9 +26,13 @@
   },
   "development": {
     "label": "En desarrollo",
-    "title": "<p>Top Rentals Maipú</p>",
-    "description": "<p>90 unidades en el centro de la ciudad. Amenities de primer nivel. Próximamente.</p>",
-    "ctaLabel": "Registrarme para recibir novedades →",
+    "cards": [
+      {
+        "title": "Top Rentals Maipú",
+        "text": "90 unidades en el centro de la ciudad. Amenities de primer nivel. Próximamente."
+      }
+    ],
+    "ctaLabel": "Quiero recibir novedades →",
     "ctaHref": "/"
   }
 }

@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# user-submitted newsletter signups (runtime data)
+newsletter-signups.json
