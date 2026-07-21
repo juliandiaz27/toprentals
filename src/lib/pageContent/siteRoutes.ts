@@ -61,7 +61,9 @@ export function routesForPreset(
   if (preset === "destinations") return DESTINATION_ROUTES;
   if (preset === "investor") {
     return MENU_SITE_ROUTES.filter((r) =>
-      ["desarrolladores", "inversores", "real-estate"].includes(r.id),
+      ["real-estate", "propietarios", "desarrolladores", "inversores"].includes(
+        r.id,
+      ),
     );
   }
   return MENU_SITE_ROUTES;

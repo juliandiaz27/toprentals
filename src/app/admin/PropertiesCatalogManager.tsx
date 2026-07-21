@@ -655,7 +655,12 @@ export function PropertiesCatalogManager({ initial }: Props) {
 
           <section>
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-              <h2 className="admin-form-section-label mb-0">Unidades</h2>
+              <div>
+                <h2 className="admin-form-section-label mb-0">Unidades</h2>
+                <p className="admin-field-hint mt-1">
+                  Usá ↑ ↓ para cambiar el orden. Así se muestran en la ficha pública.
+                </p>
+              </div>
               <button
                 type="button"
                 className="admin-btn-secondary text-sm"
@@ -677,7 +682,46 @@ export function PropertiesCatalogManager({ initial }: Props) {
                     key={unitIndex}
                     className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-raised)] p-4"
                   >
-                    <div className="mb-3 flex justify-end">
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          className="admin-btn-ghost px-2 py-1 text-xs"
+                          disabled={unitIndex === 0}
+                          onClick={() => {
+                            if (unitIndex === 0) return;
+                            const next = [...units];
+                            const prev = next[unitIndex - 1]!;
+                            next[unitIndex - 1] = next[unitIndex]!;
+                            next[unitIndex] = prev;
+                            updateDetail({ units: next });
+                          }}
+                          aria-label={`Subir unidad ${unit.name || unitIndex + 1}`}
+                          title="Subir"
+                        >
+                          ↑
+                        </button>
+                        <button
+                          type="button"
+                          className="admin-btn-ghost px-2 py-1 text-xs"
+                          disabled={unitIndex >= units.length - 1}
+                          onClick={() => {
+                            if (unitIndex >= units.length - 1) return;
+                            const next = [...units];
+                            const curr = next[unitIndex]!;
+                            next[unitIndex] = next[unitIndex + 1]!;
+                            next[unitIndex + 1] = curr;
+                            updateDetail({ units: next });
+                          }}
+                          aria-label={`Bajar unidad ${unit.name || unitIndex + 1}`}
+                          title="Bajar"
+                        >
+                          ↓
+                        </button>
+                        <span className="ml-2 text-xs text-[var(--admin-text-dim)]">
+                          {unitIndex + 1} / {units.length}
+                        </span>
+                      </div>
                       <button
                         type="button"
                         className="admin-btn-danger text-sm"
