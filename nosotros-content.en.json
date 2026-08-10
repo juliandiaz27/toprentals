@@ -1,0 +1,48 @@
+{
+  "hero": {
+    "title": "About us",
+    "paragraphs": [
+      "We are Argentina's largest temporary apartment operator, with over 10 years of experience in hospitality and urban lodging.",
+      "We offer fully equipped hotel-standard apartments in strategic locations across Buenos Aires and Quito."
+    ],
+    "ctaLabel": "View properties →",
+    "ctaHref": "/propiedades",
+    "stats": [
+      { "value": "+500", "label": "apartments operated" },
+      { "value": "10 towers", "label": "Buenos Aires · Quito" },
+      { "value": "10 years", "label": "of experience" },
+      { "value": "+150", "label": "companies hosted per year" }
+    ]
+  },
+  "history": {
+    "title": "Our story",
+    "paragraphs": [
+      "Top Rentals was founded in 2016 with the vision of professionalizing short-term rentals in Argentina, bringing hotel standards to urban apartments.",
+      "Since then we have grown to operate more than 500 units across 10 towers, serving corporate travelers, relocations, and business tourism.",
+      "In 2025 we continue expanding our network with new buildings and services designed for short, medium, and extended stays."
+    ],
+    "imageSrc": "/images/properties/placeholder-lobby.png",
+    "imageAlt": "Top Rentals team"
+  },
+  "values": {
+    "title": "Our values",
+    "items": [
+      {
+        "title": "Professionalism",
+        "text": "A consistent standard across all properties."
+      },
+      {
+        "title": "Transparency",
+        "text": "Clear pricing, no hidden costs."
+      },
+      {
+        "title": "Hospitality",
+        "text": "Warm, human support 24/7."
+      },
+      {
+        "title": "Innovation",
+        "text": "Technology in service of the guest."
+      }
+    ]
+  }
+}

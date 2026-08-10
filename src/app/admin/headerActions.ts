@@ -13,6 +13,7 @@ import {
   headerNavItemById,
 } from "@/lib/pageContent/headerNav";
 import { readPageContent, writePageContent } from "@/lib/pageContent/storage";
+import { normalizeSiteLanguage } from "@/lib/i18n";
 import type { ActionResult } from "./actions";
 
 const LEGACY_LINK_KEYS = [
@@ -85,7 +86,8 @@ export async function saveHeaderContent(formData: FormData): Promise<ActionResul
       return { ok: false, error: "El texto del botón de reserva es obligatorio." };
     }
 
-    const content = await readPageContent("home-header");
+    const language = normalizeSiteLanguage(formData.get("language"));
+    const content = await readPageContent("home-header", language);
     const header = (content.header ?? {}) as Record<string, unknown>;
 
     let logoSrc = String(formData.get("header.logoSrc") ?? "").trim();
@@ -114,7 +116,7 @@ export async function saveHeaderContent(formData: FormData): Promise<ActionResul
 
     content.header = { ...header, ...nextHeader };
 
-    await writePageContent("home-header", content);
+    await writePageContent("home-header", content, language);
     revalidatePath("/");
     revalidatePath("/", "layout");
 

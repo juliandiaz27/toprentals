@@ -8,19 +8,22 @@ import { NosotrosHero } from "@/components/nosotros/NosotrosHero";
 import { NosotrosHistory } from "@/components/nosotros/NosotrosHistory";
 import { NosotrosValues } from "@/components/nosotros/NosotrosValues";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
+import { getSiteLanguage } from "@/lib/i18nServer";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await readPageContent("nosotros");
+  const language = await getSiteLanguage();
+  const content = await readPageContent("nosotros", language);
   const page = pickNosotrosPage(content);
   return { title: pageMetadataTitle(page.hero.title) };
 }
 
 export default async function NosotrosPage() {
+  const language = await getSiteLanguage();
   const [nosotrosContent, homeContent] = await Promise.all([
-    readPageContent("nosotros"),
-    readPageContent("home"),
+    readPageContent("nosotros", language),
+    readPageContent("home", language),
   ]);
   const header = pickHomeHeader(homeContent);
   const homeHero = pickHomeHero(homeContent);

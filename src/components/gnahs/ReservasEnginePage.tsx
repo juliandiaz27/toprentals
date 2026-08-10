@@ -55,7 +55,7 @@ export async function ReservasEnginePage({
   establishmentId,
   language = DEFAULT_SITE_LANGUAGE,
 }: Props) {
-  const homeContent = await readPageContent("home");
+  const homeContent = await readPageContent("home", language);
   const header = pickHomeHeader(homeContent);
   const homeHero = pickHomeHero(homeContent);
   const whatsapp =

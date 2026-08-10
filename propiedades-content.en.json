@@ -1,0 +1,38 @@
+{
+  "hero": {
+    "title": "<p>Our apartments</p>",
+    "subtitle": "<p>More than 500 apartments operated in strategically located buildings.</p>",
+    "imageSrc": "/images/placeholders/page-hero.svg"
+  },
+  "filters": {
+    "items": [
+      {
+        "id": "argentina",
+        "label": "Argentina",
+        "matchCities": [
+          "Buenos Aires"
+        ],
+        "includeComingSoon": false
+      },
+      {
+        "id": "ecuador",
+        "label": "Ecuador",
+        "matchCities": [
+          "Quito"
+        ],
+        "includeComingSoon": true
+      }
+    ]
+  },
+  "development": {
+    "label": "Under development",
+    "cards": [
+      {
+        "title": "Top Rentals Maipú",
+        "text": "90 units in the city center. Top-tier amenities. Coming soon."
+      }
+    ],
+    "ctaLabel": "I want to receive updates →",
+    "ctaHref": "/"
+  }
+}

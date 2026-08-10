@@ -33,6 +33,10 @@ const DEFAULT_SCROLL_POPUP: ScrollPopupConfig = {
   imageUrl: "",
   highlight: "",
   ctaLabel: "Ver propiedades",
+  titleEn: "",
+  descriptionEn: "",
+  highlightEn: "",
+  ctaLabelEn: "",
   ctaHref: "/propiedades",
   audience: "b2c",
   scrollThreshold: 480,
@@ -89,6 +93,10 @@ export async function readMarketingConfig(): Promise<MarketingConfigFile> {
       ctaLabel:
         String(popup.ctaLabel ?? DEFAULT_SCROLL_POPUP.ctaLabel).trim() ||
         DEFAULT_SCROLL_POPUP.ctaLabel,
+      titleEn: String(popup.titleEn ?? "").trim(),
+      descriptionEn: String(popup.descriptionEn ?? "").trim(),
+      highlightEn: String(popup.highlightEn ?? "").trim(),
+      ctaLabelEn: String(popup.ctaLabelEn ?? "").trim(),
       ctaHref:
         String(popup.ctaHref ?? DEFAULT_SCROLL_POPUP.ctaHref).trim() ||
         DEFAULT_SCROLL_POPUP.ctaHref,

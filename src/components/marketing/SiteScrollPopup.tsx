@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { FormattedText } from "@/components/content/FormattedText";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import {
   dismissScrollPopupForToday,
   isScrollPopupDismissedToday,
@@ -21,7 +22,26 @@ type Props = {
   storageKey: string;
 };
 
+function localizedPopupCopy(config: ScrollPopupConfig, lang: "es" | "en") {
+  if (lang !== "en") {
+    return {
+      title: config.title,
+      description: config.description,
+      highlight: config.highlight,
+      ctaLabel: config.ctaLabel,
+    };
+  }
+  return {
+    title: config.titleEn.trim() || config.title,
+    description: config.descriptionEn.trim() || config.description,
+    highlight: config.highlightEn.trim() || config.highlight,
+    ctaLabel: config.ctaLabelEn.trim() || config.ctaLabel,
+  };
+}
+
 export function SiteScrollPopup({ config, storageKey }: Props) {
+  const { lang, ui } = useLanguage();
+  const copy = localizedPopupCopy(config, lang);
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [triggered, setTriggered] = useState(false);
@@ -86,7 +106,7 @@ export function SiteScrollPopup({ config, storageKey }: Props) {
     >
       <button
         type="button"
-        aria-label="Cerrar"
+        aria-label={ui.common.close}
         className="absolute inset-0 bg-neutral-950/45 backdrop-blur-[3px]"
         onClick={dismiss}
       />
@@ -96,7 +116,7 @@ export function SiteScrollPopup({ config, storageKey }: Props) {
           type="button"
           onClick={dismiss}
           className="absolute right-3 top-3 z-[2] flex h-9 w-9 items-center justify-center rounded-full text-neutral-400 transition hover:bg-neutral-100 hover:text-neutral-800 sm:right-4 sm:top-4"
-          aria-label="Cerrar popup"
+          aria-label={ui.marketing.closePopup}
         >
           <span className="text-2xl leading-none" aria-hidden>
             ×
@@ -122,18 +142,18 @@ export function SiteScrollPopup({ config, storageKey }: Props) {
               id="scroll-popup-title"
               className="pr-8 text-[20px] font-semibold leading-snug tracking-[-0.02em] text-neutral-950 sm:text-[22px] lg:text-[24px]"
             >
-              <FormattedText value={config.title} as="inline" />
+              <FormattedText value={copy.title} as="inline" />
             </h2>
 
-            {config.description ? (
+            {copy.description ? (
               <p className="mt-3 text-[14px] leading-[1.65] text-neutral-500 sm:text-[15px]">
-                <FormattedText value={config.description} as="inline" />
+                <FormattedText value={copy.description} as="inline" />
               </p>
             ) : null}
 
-            {config.highlight ? (
+            {copy.highlight ? (
               <p className="mt-3 text-[13px] font-medium text-neutral-800 sm:text-[14px]">
-                <FormattedText value={config.highlight} as="inline" />
+                <FormattedText value={copy.highlight} as="inline" />
               </p>
             ) : null}
 
@@ -143,14 +163,14 @@ export function SiteScrollPopup({ config, storageKey }: Props) {
                 onClick={dismiss}
                 className={`${pillButtonClass} border border-neutral-300 bg-white text-neutral-900 shadow-[0_8px_20px_rgba(15,23,42,0.08)] hover:border-neutral-400 hover:bg-neutral-50`}
               >
-                Ahora no
+                {ui.marketing.notNow}
               </button>
               <Link
                 href={config.ctaHref}
                 onClick={dismiss}
                 className={`${pillButtonClass} bg-btn text-white shadow-[0_12px_32px_rgba(18,18,18,0.28)] hover:bg-btn-hover hover:shadow-[0_14px_36px_rgba(18,18,18,0.34)]`}
               >
-                {config.ctaLabel}
+                {copy.ctaLabel}
               </Link>
             </div>
           </div>

@@ -9,6 +9,14 @@ type Props = {
 
 export function PropertiesDevelopment({ content }: Props) {
   const ctaText = content.ctaLabel.replace(/\s*→\s*$/, "").trim();
+  const projects = content.cards
+    .map((card) =>
+      card.title
+        .replace(/<[^>]+>/g, "")
+        .replace(/&nbsp;/g, " ")
+        .trim(),
+    )
+    .filter(Boolean);
 
   return (
     <section
@@ -45,7 +53,9 @@ export function PropertiesDevelopment({ content }: Props) {
           ))}
         </ul>
 
-        {ctaText ? <DevelopmentNewsletterForm ctaLabel={ctaText} /> : null}
+        {ctaText ? (
+          <DevelopmentNewsletterForm ctaLabel={ctaText} projects={projects} />
+        ) : null}
       </div>
     </section>
   );

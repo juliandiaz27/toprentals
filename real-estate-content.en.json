@@ -1,0 +1,117 @@
+{
+  "hero": {
+    "title": "Real estate designed to generate income",
+    "subtitle": "We develop and market real estate projects designed to operate under the Top Rentals model from day one.",
+    "ctaPrimaryLabel": "View projects",
+    "ctaPrimaryHref": "#oportunidades",
+    "ctaSecondaryLabel": "Receive information",
+    "ctaSecondaryHref": "#invertir"
+  },
+  "development": {
+    "title": "Development, marketing, and operations",
+    "paragraphs": [
+      "Top Rentals integrates real estate development with a professional short-term rental operating model.",
+      "From project design to daily management, every decision is made with a focus on income, efficiency, and the long term."
+    ]
+  },
+  "rentIncluded": {
+    "title": "Units with income included",
+    "paragraphs": [
+      "Projects developed by Top Rentals are designed to operate from day one under our standards.",
+      "Income is not a theoretical projection: it is the result of a real, proven, and scalable operation."
+    ]
+  },
+  "operationDiff": {
+    "title": "The difference is in the operations",
+    "items": [
+      "Design built for short-term rentals",
+      "Operations run by Top Rentals",
+      "Consistent standards across all units",
+      "Professional guest management",
+      "Continuous income optimization"
+    ],
+    "closing": "We don't sell square meters. You buy assets designed to generate revenue."
+  },
+  "proven": {
+    "title": "A proven operation",
+    "intro": "Top Rentals currently operates a broad portfolio of short-term rental units across different markets.",
+    "stats": [
+      { "value": "+500", "label": "Apartments in operation" },
+      { "value": "10", "label": "Buildings" },
+      { "value": "+100", "label": "Team members" },
+      { "value": "BA + EC", "label": "Active markets" }
+    ]
+  },
+  "opportunitiesTitle": "Opportunities",
+  "opportunitiesSubtitle": "Projects developed to operate under the Top Rentals model from design through daily operations.",
+  "opportunitiesClosing": "Both projects were conceived from the start to maximize operational efficiency and the guest experience.",
+  "projects": [
+    {
+      "id": "canitas",
+      "name": "Top Rentals Cañitas",
+      "address": "Soldado de la Independencia & Teodoro García",
+      "barrio": "Belgrano - luxury residential area",
+      "units": "55 apartments",
+      "typologies": "Studios · 1-bed · 2-bed · Penthouses",
+      "role": "",
+      "differentials": "",
+      "badge": "UNDER CONSTRUCTION",
+      "badgeVariant": "obra",
+      "imageSrc": "/images/placeholders/page-hero.svg",
+      "brochureLabel": "DOWNLOAD BROCHURE",
+      "brochureHref": "#"
+    },
+    {
+      "id": "maipu",
+      "name": "Top Rentals Maipú",
+      "address": "City center",
+      "barrio": "",
+      "units": "90 apartments",
+      "typologies": "",
+      "role": "Top Rentals mother home",
+      "differentials": "Innovative amenities · Corporate spaces · Full design",
+      "badge": "LANDMARK",
+      "badgeVariant": "emblematic",
+      "imageSrc": "/images/placeholders/page-hero.svg",
+      "brochureLabel": "",
+      "brochureHref": ""
+    }
+  ],
+  "commercialization": {
+    "title": "Sale of units in operated buildings",
+    "intro": "In addition to developing our own projects, Top Rentals markets units within the buildings it operates, offering income from day one.",
+    "items": [
+      "Units for sale from current owners",
+      "Opportunities identified within buildings in operation",
+      "Units with income potential under the Top Rentals model"
+    ],
+    "closing": "We only market units we know in depth because they are part of our daily operations."
+  },
+  "integratedModel": {
+    "title": "An end-to-end integrated model",
+    "steps": [
+      {
+        "title": "Development",
+        "text": "Architectural design built for operations."
+      },
+      {
+        "title": "Marketing",
+        "text": "Sale of units with an income-driven approach."
+      },
+      {
+        "title": "Furnishing",
+        "text": "Definition and launch under Top Rentals standards."
+      },
+      {
+        "title": "Operations",
+        "text": "Daily management, guests, and performance."
+      }
+    ]
+  },
+  "finalCta": {
+    "title": "Invest with Top Rentals",
+    "text": "Contact us to learn about projects under development and available investment opportunities.",
+    "ctaLabel": "Receive project information",
+    "ctaHref": "#invertir"
+  }
+}

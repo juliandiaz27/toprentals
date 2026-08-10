@@ -15,22 +15,25 @@ import { PropietariosEquipment } from "@/components/propietarios/PropietariosEqu
 import { PropietariosExperience } from "@/components/propietarios/PropietariosExperience";
 import { PropietariosFinalCta } from "@/components/propietarios/PropietariosFinalCta";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
+import { getSiteLanguage } from "@/lib/i18nServer";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await readPageContent("propietarios");
+  const language = await getSiteLanguage();
+  const content = await readPageContent("propietarios", language);
   const page = pickPropietariosPage(content);
   return {
-    title: pageMetadataTitle("Propietarios"),
+    title: pageMetadataTitle(language === "en" ? "Owners" : "Propietarios"),
     description: pageMetadataDescription(page.hero.subtitle),
   };
 }
 
 export default async function PropietariosPage() {
+  const language = await getSiteLanguage();
   const [propietariosContent, homeContent] = await Promise.all([
-    readPageContent("propietarios"),
-    readPageContent("home"),
+    readPageContent("propietarios", language),
+    readPageContent("home", language),
   ]);
   const header = pickHomeHeader(homeContent);
   const homeHero = pickHomeHero(homeContent);

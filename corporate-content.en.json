@@ -1,0 +1,116 @@
+{
+  "hero": {
+    "label": "CORPORATE",
+    "title": "<p>Corporate lodging without the hassle.</p>",
+    "subtitle": "<p>Professional housing solutions for companies, teams on the move, and flexible projects.</p>",
+    "ctaPrimaryLabel": "Corporate access →",
+    "ctaPrimaryHref": "#acceso-agencias",
+    "ctaSecondaryLabel": "Get a quote →",
+    "ctaSecondaryHref": "#acceso-corporativo",
+    "features": [
+      "Multiple apts. in the same tower",
+      "Flexible contracts and long stays",
+      "Negotiated corporate rates",
+      "Dedicated 24/7 support"
+    ]
+  },
+  "designedFor": {
+    "title": "<p>Built for teams that travel</p>",
+    "intro": "Top Rentals Corporate is designed for:",
+    "items": [
+      "Companies with teams on the move",
+      "Short- and long-stay relocations",
+      "Wholesale travel agencies",
+      "Young professional programs and university groups"
+    ],
+    "closing": "All with a consistent standard and without the friction of informal rentals."
+  },
+  "features": {
+    "title": "<p>More than an apartment</p>",
+    "items": [
+      {
+        "title": "Fully equipped apartments",
+        "text": "Ready to live and work from day one."
+      },
+      {
+        "title": "Strategic locations",
+        "text": "Close to corporate hubs and key areas."
+      },
+      {
+        "title": "Hotel standard",
+        "text": "Professional cleaning, linens, and support."
+      },
+      {
+        "title": "Full flexibility",
+        "text": "Short, medium, or extended stays."
+      }
+    ]
+  },
+  "benefits": {
+    "title": "<p>Exclusive benefits for companies</p>",
+    "leftColumn": [
+      "Preferential corporate rates",
+      "Flexible terms based on volume and duration.",
+      "Clear, centralized billing"
+    ],
+    "rightColumn": [
+      "Simple management of multiple bookings",
+      "Personalized service.",
+      "Dedicated corporate account executive.",
+      "Tailored additional services."
+    ],
+    "closing": "All managed from a single corporate account."
+  },
+  "howItWorks": {
+    "title": "<p>How Top Rentals Corporate works</p>",
+    "steps": [
+      {
+        "title": "Account request",
+        "text": "Complete the corporate access form."
+      },
+      {
+        "title": "Personalized activation",
+        "text": "Our team validates the account, assigns special rates, and designates a dedicated corporate executive."
+      },
+      {
+        "title": "Simple bookings",
+        "text": "Access the full catalog with corporate pricing and direct support for every reservation."
+      },
+      {
+        "title": "Centralized management",
+        "text": "Control of bookings, stays, and billing with personalized support."
+      }
+    ]
+  },
+  "spaces": {
+    "title": "<p>Spaces for meetings and corporate events</p>",
+    "subtitle": "<p>Flexible solutions for professional gatherings, private meetings, and business events.</p>",
+    "cards": [
+      "Coworking spaces",
+      "Premium private meeting rooms",
+      "Auditoriums for events and presentations"
+    ]
+  },
+  "destinations": {
+    "title": "<p>Available destinations</p>",
+    "items": [
+      {
+        "title": "Buenos Aires",
+        "text": "Apartments in strategic business areas, with easy access to corporate hubs."
+      },
+      {
+        "title": "Ecuador",
+        "text": "Practical solutions for work stays, temporary projects, and teams on the move."
+      }
+    ]
+  },
+  "access": {
+    "title": "<p>Corporate Access</p>",
+    "loginQuestion": "Already a corporate client?",
+    "loginDescription": "Sign in to your account and book at corporate rates.",
+    "loginCtaLabel": "Corporate access →",
+    "loginCtaHref": "/agencias",
+    "formTitle": "<p>Request corporate access</p>",
+    "formSubmitLabel": "Request information →"
+  }
+}

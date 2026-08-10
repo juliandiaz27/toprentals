@@ -6,19 +6,22 @@ import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
 import { FormattedText } from "@/components/content/FormattedText";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
+import { getSiteLanguage } from "@/lib/i18nServer";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await readPageContent("contacto");
+  const language = await getSiteLanguage();
+  const content = await readPageContent("contacto", language);
   const page = pickContactoPage(content);
   return { title: `${page.title} | Top Rentals` };
 }
 
 export default async function ContactoPage() {
+  const language = await getSiteLanguage();
   const [contactoContent, homeContent] = await Promise.all([
-    readPageContent("contacto"),
-    readPageContent("home"),
+    readPageContent("contacto", language),
+    readPageContent("home", language),
   ]);
   const header = pickHomeHeader(homeContent);
   const homeHero = pickHomeHero(homeContent);

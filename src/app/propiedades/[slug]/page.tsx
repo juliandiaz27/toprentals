@@ -25,12 +25,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PropiedadDetallePage({ params }: Props) {
   const { slug } = await params;
-  const [property, listings, homeContent, reviews, language] = await Promise.all([
+  const language = await getSiteLanguage();
+  const [property, listings, homeContent, reviews] = await Promise.all([
     getPropertyDetail(slug),
     loadPropertyListings(),
-    readPageContent("home"),
+    readPageContent("home", language),
     getVisibleReviewsForProperty(slug),
-    getSiteLanguage(),
   ]);
   if (!property) notFound();
 

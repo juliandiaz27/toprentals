@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import type { PropiedadesFiltersContent } from "@/lib/pageContent/propiedadesTypes";
 import type { PropertyFilterOptionWithCount } from "@/lib/properties/propertyListingFilters";
 import {
@@ -142,13 +143,14 @@ export function PropertiesFilterPanel({
   onClearSecondaryFilters,
   className = "",
 }: PropertiesFilterPanelProps) {
+  const { ui } = useLanguage();
   const totalInCity = cityOptions.find((o) => o.id === cityActive)?.count ?? 0;
 
   return (
     <div
       className={`overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-[0_12px_40px_rgba(0,0,0,0.06)] ${className}`}
       role="region"
-      aria-label="Filtrar propiedades"
+      aria-label={ui.properties.filterAria}
     >
       <div className="flex items-center justify-between gap-3 border-b border-neutral-200 bg-neutral-950 px-5 py-4 text-white">
         <div className="flex items-center gap-2.5">
@@ -166,7 +168,7 @@ export function PropertiesFilterPanel({
             />
           </svg>
           <p className="text-[13px] font-bold uppercase tracking-[0.08em]">
-            Filtros
+            {ui.properties.filters}
           </p>
         </div>
         {hasSecondaryFilters ? (
@@ -175,13 +177,13 @@ export function PropertiesFilterPanel({
             onClick={onClearSecondaryFilters}
             className="text-[12px] font-medium text-white/80 underline decoration-white/30 underline-offset-2 transition-colors hover:text-white hover:decoration-white/60"
           >
-            Limpiar
+            {ui.common.clear}
           </button>
         ) : null}
       </div>
 
       <div className="space-y-5 p-5">
-        <FilterSection title="Ubicación" showDivider={false}>
+        <FilterSection title={ui.properties.location} showDivider={false}>
           <div className="flex flex-wrap gap-2">
             {(cityOptions.length > 0
               ? cityOptions
@@ -199,10 +201,10 @@ export function PropertiesFilterPanel({
         </FilterSection>
 
         {neighborhoodOptions.length > 0 ? (
-          <FilterSection title="Barrio">
+          <FilterSection title={ui.properties.neighborhood}>
             <div className="space-y-0.5">
               <FilterListOption
-                label="Todos los barrios"
+                label={ui.properties.allNeighborhoods}
                 count={totalInCity}
                 active={neighborhoodActive === PROPERTY_FILTER_ALL}
                 onClick={() => onNeighborhoodChange(PROPERTY_FILTER_ALL)}
@@ -221,10 +223,10 @@ export function PropertiesFilterPanel({
         ) : null}
 
         {categoryOptions.length > 0 ? (
-          <FilterSection title="Categoría">
+          <FilterSection title={ui.properties.category}>
             <div className="space-y-0.5">
               <FilterListOption
-                label="Todas las tipologías"
+                label={ui.properties.allTypologies}
                 count={totalInCity}
                 active={categoryActive === PROPERTY_FILTER_ALL}
                 onClick={() => onCategoryChange(PROPERTY_FILTER_ALL)}

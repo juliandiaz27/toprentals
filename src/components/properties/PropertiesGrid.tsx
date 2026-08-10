@@ -13,6 +13,7 @@ import {
   neighborhoodOptionsWithCounts,
   type PropertyFilterId,
 } from "@/lib/properties/propertyListingFilters";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { PropertiesFilterDrawer } from "./PropertiesFilterDrawer";
 import { PropertiesFilterPanel } from "./PropertiesFilterPanel";
 import { PropertyCard } from "./PropertyCard";
@@ -23,6 +24,7 @@ type Props = {
 };
 
 export function PropertiesGrid({ filters, listings }: Props) {
+  const { ui } = useLanguage();
   const defaultCityId = filters[0]?.id ?? "";
   const [cityFilterId, setCityFilterId] =
     useState<PropertyFilterId>(defaultCityId);
@@ -142,7 +144,7 @@ export function PropertiesGrid({ filters, listings }: Props) {
                   strokeLinecap="round"
                 />
               </svg>
-              Filtros
+              {ui.properties.filters}
               {secondaryFilterCount > 0 ? (
                 <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white/20 px-1.5 text-[11px] font-bold">
                   {secondaryFilterCount}
@@ -171,11 +173,10 @@ export function PropertiesGrid({ filters, listings }: Props) {
           ) : (
             <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-200 bg-neutral-50 px-6 py-16 text-center">
               <p className="text-[17px] font-semibold text-neutral-900">
-                No hay departamentos con estos filtros
+                {ui.properties.emptyTitle}
               </p>
               <p className="mt-2 max-w-md text-[14px] leading-relaxed text-neutral-500">
-                Probá con otro barrio o tipología, o restablecé los filtros para
-                ver todas las opciones.
+                {ui.properties.emptyHint}
               </p>
               {hasSecondaryFilters ? (
                 <button
@@ -183,7 +184,7 @@ export function PropertiesGrid({ filters, listings }: Props) {
                   onClick={clearSecondaryFilters}
                   className="mt-6 inline-flex h-11 items-center justify-center rounded-xl bg-neutral-950 px-5 text-[14px] font-medium text-white transition-colors hover:bg-neutral-800"
                 >
-                  Limpiar filtros
+                  {ui.properties.clearFilters}
                 </button>
               ) : null}
             </div>

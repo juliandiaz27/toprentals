@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { FormattedText } from "@/components/content/FormattedText";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PropertyHighlightBadges } from "@/components/properties/PropertyHighlightBadges";
 import {
@@ -18,6 +21,7 @@ const pillClass =
   "inline-flex shrink-0 items-center rounded-full bg-white px-4 py-2 text-[13px] font-medium text-neutral-800";
 
 export function PropertyDetailHero({ property, whatsappUrl }: Props) {
+  const { ui } = useLanguage();
   const pdfLabel = property.pdfLabel ?? "Descargar PDF torre";
   const { checkin, checkout } = defaultCheckinCheckout();
   const bookingHref =
@@ -45,13 +49,13 @@ export function PropertyDetailHero({ property, whatsappUrl }: Props) {
       ) : null}
 
       <div className="mx-auto w-full max-w-[1440px] px-6 py-8 pr-[4.5rem] lg:px-12 lg:py-10 lg:pr-[5.5rem]">
-        <nav className="text-[13px] text-neutral-500" aria-label="Miga de pan">
+        <nav className="text-[13px] text-neutral-500" aria-label={ui.blog.breadcrumb}>
           <Link href="/" className="hover:text-neutral-950">
-            Inicio
+            {ui.nav.home}
           </Link>
           <span className="mx-1.5">/</span>
           <Link href="/propiedades" className="hover:text-neutral-950">
-            Propiedades
+            {ui.nav.properties}
           </Link>
           <span className="mx-1.5">/</span>
           <span className="text-neutral-700">{property.name}</span>

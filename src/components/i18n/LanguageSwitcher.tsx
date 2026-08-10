@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import {
-  DEFAULT_SITE_LANGUAGE,
   SITE_LANGUAGE_COOKIE,
   SITE_LANGUAGE_COOKIE_MAX_AGE,
   type SiteLanguage,
@@ -15,15 +14,6 @@ type Props = {
   onNavigate?: () => void;
 };
 
-function readLanguageCookie(): SiteLanguage {
-  if (typeof document === "undefined") return DEFAULT_SITE_LANGUAGE;
-  const match = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith(`${SITE_LANGUAGE_COOKIE}=`));
-  const value = match?.split("=")[1];
-  return value === "en" ? "en" : DEFAULT_SITE_LANGUAGE;
-}
-
 const LANGUAGES: { id: SiteLanguage; label: string }[] = [
   { id: "es", label: "ES" },
   { id: "en", label: "EN" },
@@ -31,13 +21,7 @@ const LANGUAGES: { id: SiteLanguage; label: string }[] = [
 
 export function LanguageSwitcher({ className = "", onNavigate }: Props) {
   const router = useRouter();
-  // El primer render (SSR y cliente) usa el idioma por defecto para evitar
-  // desajustes de hidratación; luego se sincroniza con la cookie.
-  const [active, setActive] = useState<SiteLanguage>(DEFAULT_SITE_LANGUAGE);
-
-  useEffect(() => {
-    setActive(readLanguageCookie());
-  }, []);
+  const { lang: active } = useLanguage();
 
   function selectLanguage(lang: SiteLanguage) {
     if (lang === active) {
@@ -45,7 +29,6 @@ export function LanguageSwitcher({ className = "", onNavigate }: Props) {
       return;
     }
     document.cookie = `${SITE_LANGUAGE_COOKIE}=${lang}; path=/; max-age=${SITE_LANGUAGE_COOKIE_MAX_AGE}; samesite=lax`;
-    setActive(lang);
     onNavigate?.();
     router.refresh();
   }

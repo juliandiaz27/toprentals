@@ -8,6 +8,7 @@ import { reservasLinkProps } from "@/lib/reservasLink";
 import { MobileBottomNav } from "@/components/home/MobileBottomNav";
 import { SiteMenuDrawer } from "@/components/home/SiteMenuDrawer";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 type Props = {
   header: HomeHeaderContent;
@@ -61,6 +62,7 @@ export function SiteHeader({
   activeHref,
 }: Props) {
   const pathname = usePathname() ?? "";
+  const { ui } = useLanguage();
   const menuId = useId();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -148,7 +150,7 @@ export function SiteHeader({
             className="hidden h-10 w-10 items-center justify-center rounded-lg border border-neutral-200 text-neutral-950 transition hover:bg-neutral-50 lg:inline-flex"
             aria-expanded={menuOpen}
             aria-controls={menuId}
-            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-label={menuOpen ? ui.nav.closeMenu : ui.nav.openMenu}
             onClick={() => setMenuOpen((o) => !o)}
           >
             <MenuIcon open={menuOpen} />

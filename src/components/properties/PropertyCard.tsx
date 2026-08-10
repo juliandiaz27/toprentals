@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import type { PropiedadesFiltersContent } from "@/lib/pageContent/propiedadesTypes";
 import { cityDisplayLabel } from "@/lib/pageContent/propertyCityFilters";
 import type { PropertyListing } from "@/lib/properties/catalog";
@@ -10,6 +13,7 @@ type Props = {
 };
 
 export function PropertyCard({ property, cityFilters = [] }: Props) {
+  const { ui } = useLanguage();
   const cityBadge = cityDisplayLabel(property.city, cityFilters);
   if (property.comingSoon) {
     return (
@@ -32,7 +36,7 @@ export function PropertyCard({ property, cityFilters = [] }: Props) {
       <Link
         href={`/propiedades/${property.slug}`}
         className="relative block aspect-[4/3] overflow-hidden bg-neutral-100"
-        aria-label={`Ver ${property.name}`}
+        aria-label={`${ui.properties.viewProperty} ${property.name}`}
       >
         {property.imageSrc ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -64,7 +68,7 @@ export function PropertyCard({ property, cityFilters = [] }: Props) {
           href={`/propiedades/${property.slug}`}
           className="mt-4 inline-flex text-[14px] font-medium text-neutral-950 hover:underline"
         >
-          Ver detalles →
+          {ui.properties.viewDetails}
         </Link>
       </div>
     </article>

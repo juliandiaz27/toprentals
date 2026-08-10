@@ -1,0 +1,41 @@
+{
+  "hero": {
+    "title": "Careers",
+    "subtitle": "We are a team passionate about hospitality and innovation.",
+    "metaLine": "Buenos Aires · Quito · Full-time and part-time",
+    "ctaLabel": "Send your résumé ↓",
+    "ctaHref": "#postulacion"
+  },
+  "why": {
+    "title": "Why work at Top Rentals?",
+    "items": [
+      {
+        "icon": "🏢",
+        "title": "Growing company",
+        "text": "Present in 2 countries and expanding"
+      },
+      {
+        "icon": "🤝",
+        "title": "Collaborative culture",
+        "text": "A young, diverse, and passionate team"
+      },
+      {
+        "icon": "📈",
+        "title": "Professional development",
+        "text": "Training and real growth"
+      },
+      {
+        "icon": "💼",
+        "title": "Dynamic environment",
+        "text": "Agile pace and constant challenges"
+      }
+    ]
+  },
+  "spontaneous": {
+    "title": "Leave us your résumé",
+    "subtitle": "Complete the form and attach your résumé. Our HR team will keep it in mind for future openings.",
+    "attachLabel": "Attach résumé",
+    "submitLabel": "Submit application →",
+    "recipientEmail": "rrhh2tr@gmail.com"
+  }
+}

@@ -19,6 +19,7 @@ import {
 } from "@/lib/pageContent/propertyCityFilters";
 import { resolveAdminFieldValue } from "@/lib/pageContent/pageFieldValue";
 import { normalizeStoredRichHtml } from "@/lib/richText/sanitize";
+import { normalizeSiteLanguage } from "@/lib/i18n";
 import type { ActionResult } from "./actions";
 
 export async function savePageContent(
@@ -33,7 +34,8 @@ export async function savePageContent(
     const def = getPageDefinition(slug);
     if (!def) return { ok: false, error: "Página no encontrada" };
 
-    const content = await readPageContent(slug);
+    const language = normalizeSiteLanguage(formData.get("language"));
+    const content = await readPageContent(slug, language);
 
     for (const field of def.fields) {
       if (field.type === "cityFilterList") {
@@ -139,7 +141,7 @@ export async function savePageContent(
       setNested(content, field.key, value);
     }
 
-    await writePageContent(slug, content);
+    await writePageContent(slug, content, language);
     revalidatePath(def.publicPath);
     if (slug === "propiedades") {
       revalidatePath("/admin/propiedades");

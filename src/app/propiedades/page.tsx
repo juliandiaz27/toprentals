@@ -20,17 +20,18 @@ import { pageMetadataTitle } from "@/lib/pageContent/metadata";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await readPageContent("propiedades");
+  const language = await getSiteLanguage();
+  const content = await readPageContent("propiedades", language);
   const hero = pickPropiedadesHero(content);
   return { title: pageMetadataTitle(hero.title) };
 }
 
 export default async function PropiedadesPage() {
-  const [propContent, homeContent, listings, language] = await Promise.all([
-    readPageContent("propiedades"),
-    readPageContent("home"),
+  const language = await getSiteLanguage();
+  const [propContent, homeContent, listings] = await Promise.all([
+    readPageContent("propiedades", language),
+    readPageContent("home", language),
     loadPropertyListings(),
-    getSiteLanguage(),
   ]);
   const header = pickHomeHeader(homeContent);
   const homeHero = pickHomeHero(homeContent);

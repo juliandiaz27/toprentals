@@ -33,12 +33,18 @@ import {
 } from "@/lib/pageContent/propertyCityFilters";
 import { parseDevelopmentCards } from "@/lib/pageContent/propiedadesTypes";
 import { AdminStickyAlerts } from "./AdminStickyAlerts";
+import { AdminLanguageSwitcher } from "./AdminLanguageSwitcher";
 import { savePageContent } from "./pageActions";
 import { WysiwygField } from "./WysiwygField";
+import {
+  DEFAULT_SITE_LANGUAGE,
+  type SiteLanguage,
+} from "@/lib/i18n";
 
 type Props = {
   definition: PageDefinition;
   content: PageContent;
+  language?: SiteLanguage;
 };
 
 function isPairableLabel(field: PageField): boolean {
@@ -383,7 +389,11 @@ function renderSectionFields(fields: PageField[], content: PageContent) {
   return nodes;
 }
 
-export function PageEditor({ definition, content }: Props) {
+export function PageEditor({
+  definition,
+  content,
+  language = DEFAULT_SITE_LANGUAGE,
+}: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -417,6 +427,7 @@ export function PageEditor({ definition, content }: Props) {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="page-editor w-full">
+      <input type="hidden" name="language" value={language} />
       <div className="admin-sticky-toolbar">
         <div className="admin-sticky-toolbar__head">
           <div className="min-w-0">
@@ -434,11 +445,16 @@ export function PageEditor({ definition, content }: Props) {
               >
                 {definition.publicPath}
               </a>
+              {" · "}
+              Editando {language === "en" ? "inglés" : "español"}
             </p>
           </div>
-          <button type="submit" disabled={pending} className="admin-btn-primary shrink-0">
-            {pending ? "Guardando…" : "Guardar cambios"}
-          </button>
+          <div className="flex shrink-0 flex-wrap items-center gap-3">
+            <AdminLanguageSwitcher language={language} />
+            <button type="submit" disabled={pending} className="admin-btn-primary">
+              {pending ? "Guardando…" : "Guardar cambios"}
+            </button>
+          </div>
         </div>
         <AdminStickyAlerts error={error} success={success} />
       </div>

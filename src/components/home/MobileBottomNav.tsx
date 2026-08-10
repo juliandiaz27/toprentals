@@ -6,6 +6,7 @@ import {
   isMobileBottomTabActive,
 } from "@/lib/pageContent/mobileBottomNav";
 import { MobileBottomNavIconSvg } from "./MobileBottomNavIcons";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 type Props = {
   pathname: string;
@@ -20,10 +21,19 @@ export function MobileBottomNav({
   menuOpen,
   onToggleMenu,
 }: Props) {
+  const { ui } = useLanguage();
+  const labels: Record<string, string> = {
+    home: ui.nav.home,
+    propiedades: ui.nav.properties,
+    club: ui.nav.club,
+    nosotros: ui.nav.about,
+    more: ui.nav.more,
+  };
+
   return (
     <nav
       className="mobile-bottom-nav fixed inset-x-0 bottom-0 z-[105] border-t border-neutral-200 bg-white lg:hidden"
-      aria-label="Navegación principal"
+      aria-label={ui.nav.mainNav}
     >
       <ul className="mx-auto flex h-[3.75rem] max-w-lg items-stretch justify-around px-1 pb-[env(safe-area-inset-bottom,0px)]">
         {MOBILE_BOTTOM_NAV_TABS.map((tab) => {
@@ -36,11 +46,11 @@ export function MobileBottomNav({
                   onClick={onToggleMenu}
                   className="flex h-full w-full min-w-0 flex-col items-center justify-center gap-0.5 px-1 text-[10px] font-medium leading-tight transition-colors"
                   aria-expanded={menuOpen}
-                  aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+                  aria-label={menuOpen ? ui.nav.closeMenu : ui.nav.openMenu}
                 >
                   <MobileBottomNavIconSvg name="more" active={active} />
                   <span className={active ? "text-neutral-950" : "text-neutral-500"}>
-                    {tab.label}
+                    {labels.more}
                   </span>
                 </button>
               </li>
@@ -61,7 +71,7 @@ export function MobileBottomNav({
                     active ? "font-semibold text-neutral-950" : "text-neutral-500"
                   }`}
                 >
-                  {tab.label}
+                  {labels[tab.id] ?? tab.label}
                 </span>
               </Link>
             </li>

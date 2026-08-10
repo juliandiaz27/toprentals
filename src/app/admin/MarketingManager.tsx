@@ -692,6 +692,26 @@ export function MarketingManager({ initial }: Props) {
 
             <label className="flex flex-col gap-1 sm:col-span-2">
 
+              <span className="admin-field-label">Título (EN)</span>
+
+              <input
+
+                className="admin-input"
+
+                name="popup.titleEn"
+
+                defaultValue={popup.titleEn}
+
+                placeholder="E.g. Find your next apartment"
+
+              />
+
+            </label>
+
+
+
+            <label className="flex flex-col gap-1 sm:col-span-2">
+
               <span className="admin-field-label">Descripción</span>
 
               <textarea
@@ -705,6 +725,28 @@ export function MarketingManager({ initial }: Props) {
                 defaultValue={popup.description}
 
                 placeholder="Ej: Departamentos amoblados en Palermo, Recoleta y más."
+
+              />
+
+            </label>
+
+
+
+            <label className="flex flex-col gap-1 sm:col-span-2">
+
+              <span className="admin-field-label">Descripción (EN)</span>
+
+              <textarea
+
+                className="admin-textarea"
+
+                name="popup.descriptionEn"
+
+                rows={3}
+
+                defaultValue={popup.descriptionEn}
+
+                placeholder="E.g. Furnished apartments in Palermo, Recoleta and more."
 
               />
 
@@ -733,6 +775,26 @@ export function MarketingManager({ initial }: Props) {
                 Aparece debajo de la descripción, antes de los botones.
 
               </span>
+
+            </label>
+
+
+
+            <label className="flex flex-col gap-1 sm:col-span-2">
+
+              <span className="admin-field-label">Dato destacado (EN)</span>
+
+              <input
+
+                className="admin-input"
+
+                name="popup.highlightEn"
+
+                defaultValue={popup.highlightEn}
+
+                placeholder="E.g. More than 45 buildings in Buenos Aires"
+
+              />
 
             </label>
 
@@ -783,6 +845,24 @@ export function MarketingManager({ initial }: Props) {
                 name="popup.ctaLabel"
 
                 defaultValue={popup.ctaLabel}
+
+              />
+
+            </label>
+
+            <label className="flex flex-col gap-1">
+
+              <span className="admin-field-label">Texto del botón (EN)</span>
+
+              <input
+
+                className="admin-input"
+
+                name="popup.ctaLabelEn"
+
+                defaultValue={popup.ctaLabelEn}
+
+                placeholder="View properties"
 
               />
 

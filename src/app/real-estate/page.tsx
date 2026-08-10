@@ -13,19 +13,22 @@ import { RealEstateCommercialization } from "@/components/real-estate/RealEstate
 import { RealEstateIntegratedModel } from "@/components/real-estate/RealEstateIntegratedModel";
 import { RealEstateFinalCta } from "@/components/real-estate/RealEstateFinalCta";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
+import { getSiteLanguage } from "@/lib/i18nServer";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await readPageContent("real-estate");
+  const language = await getSiteLanguage();
+  const content = await readPageContent("real-estate", language);
   const page = pickRealEstatePage(content);
   return { title: pageMetadataTitle(page.hero.title) };
 }
 
 export default async function RealEstatePage() {
+  const language = await getSiteLanguage();
   const [reContent, homeContent] = await Promise.all([
-    readPageContent("real-estate"),
-    readPageContent("home"),
+    readPageContent("real-estate", language),
+    readPageContent("home", language),
   ]);
   const header = pickHomeHeader(homeContent);
   const homeHero = pickHomeHero(homeContent);

@@ -29,6 +29,37 @@ export function setNested(
   current[parts[parts.length - 1]] = value;
 }
 
+/** Quita una clave anidada y limpia objetos padre vacíos. */
+export function deleteNested(obj: Record<string, unknown>, path: string): void {
+  const parts = path.split(".");
+  const stack: { parent: Record<string, unknown>; key: string }[] = [];
+  let current = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    const part = parts[i]!;
+    const next = current[part];
+    if (next == null || typeof next !== "object" || Array.isArray(next)) {
+      return;
+    }
+    stack.push({ parent: current, key: part });
+    current = next as Record<string, unknown>;
+  }
+  delete current[parts[parts.length - 1]!];
+  for (let i = stack.length - 1; i >= 0; i--) {
+    const { parent, key } = stack[i]!;
+    const child = parent[key];
+    if (
+      child &&
+      typeof child === "object" &&
+      !Array.isArray(child) &&
+      Object.keys(child as object).length === 0
+    ) {
+      delete parent[key];
+    } else {
+      break;
+    }
+  }
+}
+
 import type { PageContent } from "./types";
 
 export function buildDefaultsFromFields(

@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/home/SiteHeader";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
 import { readPageContent } from "@/lib/pageContent/storage";
+import { getSiteLanguage } from "@/lib/i18nServer";
 
 export const LOYALTY_PAGE_METADATA: Metadata = {
   title: "Acceso Club Top Rentals | Top Rentals",
@@ -12,7 +13,8 @@ export const LOYALTY_PAGE_METADATA: Metadata = {
 };
 
 export async function LoyaltyAccessPage() {
-  const homeContent = await readPageContent("home");
+  const language = await getSiteLanguage();
+  const homeContent = await readPageContent("home", language);
   const header = pickHomeHeader(homeContent);
   const homeHero = pickHomeHero(homeContent);
   const whatsapp =

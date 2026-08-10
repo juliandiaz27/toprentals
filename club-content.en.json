@@ -1,0 +1,148 @@
+{
+  "hero": {
+    "label": "TOP RENTALS CLUB",
+    "title": "Every stay counts.\nEvery point matters.",
+    "subtitle": "A rewards program designed for those who choose Top Rentals again and again.",
+    "ctaJoinLabel": "Join the Club",
+    "ctaJoinHref": "/loyalty",
+    "ctaMemberLabel": "I'm already a member",
+    "ctaMemberHref": "/loyalty"
+  },
+  "intro": {
+    "title": "What is Top Rentals Club?",
+    "text": "It's our loyalty program. Every time you stay at Top Rentals, you earn points you can redeem for discounts, upgrades, and exclusive benefits on your next stays."
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "steps": [
+      {
+        "title": "Book with Top Rentals",
+        "text": "Every confirmed stay earns points automatically."
+      },
+      {
+        "title": "Earn points",
+        "text": "Your points are credited when each reservation ends."
+      },
+      {
+        "title": "Level up",
+        "text": "The more nights per year, the more benefits you unlock."
+      },
+      {
+        "title": "Redeem",
+        "text": "Use your points for discounts and upgrades on future stays."
+      }
+    ]
+  },
+  "levels": {
+    "title": "Club levels",
+    "subtitle": "The more you return, the more benefits you unlock.",
+    "tiers": [
+      {
+        "id": "silver",
+        "name": "Silver",
+        "requirement": "0–9 nights per year",
+        "variant": "silver",
+        "benefits": [
+          "Points accumulation",
+          "Priority check-in",
+          "Premium WiFi"
+        ]
+      },
+      {
+        "id": "gold",
+        "name": "Gold",
+        "requirement": "10–24 nights per year",
+        "variant": "gold",
+        "benefits": [
+          "Everything in Silver +",
+          "Category upgrade (subject to availability)",
+          "Late check-out until 2 PM",
+          "Welcome amenity"
+        ]
+      },
+      {
+        "id": "platinum",
+        "name": "Platinum",
+        "requirement": "25+ nights per year",
+        "variant": "platinum",
+        "benefits": [
+          "Everything in Gold +",
+          "Guaranteed upgrade",
+          "Late check-out until 6 PM",
+          "Early check-in",
+          "Dedicated concierge"
+        ]
+      }
+    ]
+  },
+  "benefits": {
+    "title": "Club benefits",
+    "columns": [
+      {
+        "title": "Discounts and pricing",
+        "items": [
+          "Exclusive member rates",
+          "Progressive discount by level",
+          "Access to early deals"
+        ]
+      },
+      {
+        "title": "Upgrades and stay",
+        "items": [
+          "Available typology upgrade",
+          "Early check-in / late check-out",
+          "Higher-floor rooms (subject to availability)"
+        ]
+      },
+      {
+        "title": "Experience and service",
+        "items": [
+          "Priority support line",
+          "Personal concierge (Platinum)",
+          "Special welcome on every stay"
+        ]
+      },
+      {
+        "title": "Earning and redemption",
+        "items": [
+          "Points for every night booked",
+          "Redeem for free nights",
+          "Points don't expire while you stay active"
+        ]
+      }
+    ]
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "items": [
+      {
+        "question": "How do I join the Club?",
+        "answer": "Sign up for free with your email. Your membership activates automatically with your first booking."
+      },
+      {
+        "question": "Do points expire?",
+        "answer": "No. Your points accumulate with no expiration date as long as your account is active."
+      },
+      {
+        "question": "How do I level up?",
+        "answer": "Your level is based on nights accumulated in a calendar year. More nights mean more benefits."
+      },
+      {
+        "question": "Can I redeem points at any property?",
+        "answer": "Yes, at all Top Rentals properties in Buenos Aires and Quito."
+      }
+    ]
+  },
+  "featured": {
+    "title": "Book and start earning points",
+    "linkLabel": "View all properties",
+    "linkHref": "/propiedades"
+  },
+  "bottomCta": {
+    "text": "Your next booking already earns points. Joining is free and automatic.",
+    "ctaPropertiesLabel": "View properties",
+    "ctaPropertiesHref": "/propiedades",
+    "ctaMemberLabel": "I'm already a member",
+    "ctaMemberHref": "/loyalty"
+  }
+}

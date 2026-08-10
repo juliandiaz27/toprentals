@@ -42,3 +42,6 @@ next-env.d.ts
 
 # user-submitted newsletter signups (runtime data)
 newsletter-signups.json
+
+# Zoho OAuth tokens (local fallback; production uses ZOHO_REFRESH_TOKEN)
+zoho-tokens.json

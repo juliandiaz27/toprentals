@@ -12,6 +12,7 @@ import { loadPropertyListings } from "@/lib/properties/catalog";
 import { pickClubPage } from "@/lib/pageContent/clubTypes";
 import { pickHomeHeader, pickHomeHero } from "@/lib/pageContent/homeTypes";
 import { readPageContent } from "@/lib/pageContent/storage";
+import { getSiteLanguage } from "@/lib/i18nServer";
 
 export const CLUB_LOYALTY_METADATA: Metadata = {
   title: "Club Top Rentals | Top Rentals",
@@ -20,9 +21,10 @@ export const CLUB_LOYALTY_METADATA: Metadata = {
 };
 
 export async function ClubLoyaltyPage() {
+  const language = await getSiteLanguage();
   const [clubContent, homeContent, listings] = await Promise.all([
-    readPageContent("club"),
-    readPageContent("home"),
+    readPageContent("club", language),
+    readPageContent("home", language),
     loadPropertyListings(),
   ]);
   const page = pickClubPage(clubContent);

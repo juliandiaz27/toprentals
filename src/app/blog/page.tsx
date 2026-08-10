@@ -7,6 +7,8 @@ import { FormattedText } from "@/components/content/FormattedText";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
+import { getUiMessages } from "@/lib/i18n/ui";
+import { getSiteLanguage } from "@/lib/i18nServer";
 
 export const dynamic = "force-dynamic";
 
@@ -19,8 +21,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogIndexPage() {
+  const language = await getSiteLanguage();
+  const ui = getUiMessages(language);
   const [homeContent, settings, posts] = await Promise.all([
-    readPageContent("home"),
+    readPageContent("home", language),
     loadBlogSettings(),
     loadPublishedBlogPosts(),
   ]);
@@ -60,9 +64,7 @@ export default async function BlogIndexPage() {
               ))}
             </div>
           ) : (
-            <p className="mt-12 text-neutral-600">
-              Próximamente publicaremos nuevas entradas.
-            </p>
+            <p className="mt-12 text-neutral-600">{ui.blog.empty}</p>
           )}
         </div>
       </main>

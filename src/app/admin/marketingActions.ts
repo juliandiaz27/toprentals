@@ -62,6 +62,10 @@ function parseScrollPopup(formData: FormData): ScrollPopupConfig {
     highlight: String(formData.get("popup.highlight") ?? "").trim(),
     ctaLabel:
       String(formData.get("popup.ctaLabel") ?? "").trim() || "Ver propiedades",
+    titleEn: String(formData.get("popup.titleEn") ?? "").trim(),
+    descriptionEn: String(formData.get("popup.descriptionEn") ?? "").trim(),
+    highlightEn: String(formData.get("popup.highlightEn") ?? "").trim(),
+    ctaLabelEn: String(formData.get("popup.ctaLabelEn") ?? "").trim(),
     ctaHref: resolveRoutePickerValue(
       String(formData.get("popup.ctaHref") ?? ""),
       "menu",

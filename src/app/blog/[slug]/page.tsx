@@ -14,6 +14,8 @@ import { SiteHeader } from "@/components/home/SiteHeader";
 import { BlogBody } from "@/components/blog/BlogBody";
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
+import { getUiMessages } from "@/lib/i18n/ui";
+import { getSiteLanguage } from "@/lib/i18nServer";
 
 export const dynamic = "force-dynamic";
 
@@ -36,8 +38,10 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await getBlogPostBySlug(slug);
   if (!post) notFound();
 
+  const language = await getSiteLanguage();
+  const ui = getUiMessages(language);
   const [homeContent, allPosts] = await Promise.all([
-    readPageContent("home"),
+    readPageContent("home", language),
     loadPublishedBlogPosts(),
   ]);
   const header = pickHomeHeader(homeContent);
@@ -57,7 +61,7 @@ export default async function BlogPostPage({ params }: Props) {
           <nav
             data-reveal
             className="mb-8 text-[14px] text-neutral-500"
-            aria-label="Miga de pan"
+            aria-label={ui.blog.breadcrumb}
           >
             <Link href="/blog" className="transition hover:text-neutral-950">
               Blog
@@ -82,7 +86,7 @@ export default async function BlogPostPage({ params }: Props) {
             </h1>
             {post.author ? (
               <p className="mt-3 text-[15px] text-neutral-600">
-                Por {post.author}
+                {ui.blog.byAuthor.replace("{name}", post.author)}
               </p>
             ) : null}
             {post.excerpt ? (
@@ -120,7 +124,7 @@ export default async function BlogPostPage({ params }: Props) {
           <section className="border-t border-neutral-200 bg-[#F8F8F8] px-6 py-14 lg:px-12 lg:py-20">
             <div className="mx-auto max-w-[1440px]">
               <h2 className="text-2xl font-bold text-neutral-950">
-                Más en el blog
+                {ui.blog.more}
               </h2>
               <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
                 {related.map((item) => (

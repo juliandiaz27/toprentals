@@ -11,11 +11,13 @@ import { CareersHero } from "@/components/trabaja/CareersHero";
 import { CareersWhy } from "@/components/trabaja/CareersWhy";
 import { CareersSpontaneousForm } from "@/components/trabaja/CareersSpontaneousForm";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
+import { getSiteLanguage } from "@/lib/i18nServer";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await readPageContent("trabaja");
+  const language = await getSiteLanguage();
+  const content = await readPageContent("trabaja", language);
   const page = pickTrabajaPage(content);
   return {
     title: pageMetadataTitle(page.hero.title),
@@ -24,9 +26,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function TrabajaConNosotrosPage() {
+  const language = await getSiteLanguage();
   const [trabajaContent, homeContent] = await Promise.all([
-    readPageContent("trabaja"),
-    readPageContent("home"),
+    readPageContent("trabaja", language),
+    readPageContent("home", language),
   ]);
   const header = pickHomeHeader(homeContent);
   const homeHero = pickHomeHero(homeContent);

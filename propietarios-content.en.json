@@ -1,0 +1,91 @@
+{
+  "hero": {
+    "title": "<p>Professional operations that <span class=\"propietarios-hero-accent\">maximize rental income</span></p>",
+    "subtitle": "Over 10 years managing apartments in selected towers with hotel standards, clear processes, and a focus on results for owners."
+  },
+  "benefits": {
+    "title": "Benefits for owners",
+    "leftColumn": [
+      "Marketing and reservation management",
+      "24/7 guest support",
+      "Professional cleaning and maintenance",
+      "Rental income optimization",
+      "Payment of building fees and utilities"
+    ],
+    "rightColumn": [
+      "Operational control and quality standards",
+      "Daily reports and performance tracking",
+      "Direct relationship with building management",
+      "Care of the unit and common areas",
+      "Profit share model"
+    ]
+  },
+  "protectedRent": {
+    "title": "Protected rent system",
+    "text": "Our model is based on transparency and shared results. We operate with a profit share scheme that aligns our performance with your unit's profitability."
+  },
+  "howItWorks": {
+    "title": "How we work",
+    "steps": [
+      {
+        "title": "Model definition",
+        "text": "We align expectations, operating rules, and service standards."
+      },
+      {
+        "title": "Launch",
+        "text": "We implement furnishings, marketing channels, and operational processes."
+      },
+      {
+        "title": "Day-to-day operations",
+        "text": "We manage reservations, check-ins, cleaning, and unit maintenance."
+      },
+      {
+        "title": "Monitoring and control",
+        "text": "We review unit performance with transparent, regular reports."
+      }
+    ]
+  },
+  "equipment": {
+    "title": "Unit furnishings and design",
+    "items": [
+      {
+        "title": "Furniture",
+        "text": "Functional and aesthetic selection aligned with the Top Rentals standard."
+      },
+      {
+        "title": "Electronics",
+        "text": "Appliances and technology ready to operate from day one."
+      },
+      {
+        "title": "Decor and textiles",
+        "text": "Styling details, linens, and hotel-quality finishes."
+      }
+    ]
+  },
+  "experience": {
+    "title": "Experience in residential towers",
+    "items": [
+      {
+        "title": "Orderly coexistence",
+        "text": "Operations designed for the day-to-day of high-end residential buildings."
+      },
+      {
+        "title": "Structured operations",
+        "text": "Clear processes, dedicated teams, and agile response to every need."
+      },
+      {
+        "title": "Building care",
+        "text": "Respect for coexistence rules and common areas."
+      },
+      {
+        "title": "Predictability for the owner",
+        "text": "Clear information, constant follow-up, and a focus on results."
+      }
+    ]
+  },
+  "finalCta": {
+    "title": "Are you an owner and want to learn more?",
+    "ctaLabel": "Contact Top Rentals +",
+    "ctaHref": "/contacto"
+  }
+}

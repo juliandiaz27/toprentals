@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLayoutEffect, useState } from "react";
 import { FormattedText } from "@/components/content/FormattedText";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import type { AnnouncementBarConfig } from "@/lib/marketing/types";
 
 type Props = {
@@ -20,6 +21,7 @@ function readDismissed(storageKey: string): boolean {
 }
 
 export function SiteAnnouncementBar({ config, storageKey }: Props) {
+  const { ui } = useLanguage();
   const [visible, setVisible] = useState(true);
 
   useLayoutEffect(() => {
@@ -53,7 +55,7 @@ export function SiteAnnouncementBar({ config, storageKey }: Props) {
         color: config.textColor,
       }}
       role="region"
-      aria-label="Anuncio"
+      aria-label={ui.marketing.announcementAria}
     >
       <div className="relative mx-auto flex max-w-[1440px] items-center justify-center gap-3 pr-8">
         <p className="min-w-0 flex-1">
@@ -75,7 +77,7 @@ export function SiteAnnouncementBar({ config, storageKey }: Props) {
             type="button"
             onClick={dismiss}
             className="absolute right-0 top-1/2 -translate-y-1/2 rounded p-1 opacity-80 transition hover:opacity-100"
-            aria-label="Cerrar anuncio"
+            aria-label={ui.marketing.closeAnnouncement}
           >
             ×
           </button>

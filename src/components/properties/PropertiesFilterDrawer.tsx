@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import {
   PropertiesFilterPanel,
   type PropertiesFilterPanelProps,
@@ -17,6 +18,7 @@ type Props = PropertiesFilterPanelProps & {
  * y z-index por encima del bottom nav (z-105) y header (z-110).
  */
 export function PropertiesFilterDrawer({ open, onClose, ...panel }: Props) {
+  const { ui } = useLanguage();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -47,7 +49,7 @@ export function PropertiesFilterDrawer({ open, onClose, ...panel }: Props) {
     <div className="fixed inset-0 z-[115] lg:hidden" role="dialog" aria-modal="true">
       <button
         type="button"
-        aria-label="Cerrar filtros"
+        aria-label={ui.properties.closeFilters}
         className="absolute inset-0 bg-neutral-950/50 backdrop-blur-[2px]"
         onClick={onClose}
       />

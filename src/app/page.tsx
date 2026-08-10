@@ -30,10 +30,10 @@ import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [content, listings, language] = await Promise.all([
-    readPageContent("home"),
+  const language = await getSiteLanguage();
+  const [content, listings] = await Promise.all([
+    readPageContent("home", language),
     loadPropertyListings(),
-    getSiteLanguage(),
   ]);
   const header = pickHomeHeader(content);
   const hero = pickHomeHero(content);

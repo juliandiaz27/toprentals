@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import {
+  createZohoLead,
+  ZOHO_LEAD_SOURCE_NEWSLETTER,
+} from "@/lib/zoho/leads";
+import { getStoredRefreshToken } from "@/lib/zoho/tokens";
 
 type SignupRecord = {
   email: string;
+  project?: string;
   source?: string;
   createdAt: string;
 };
@@ -34,8 +40,14 @@ export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
     const email = body.email;
-    const source = typeof body.source === "string" ? body.source.slice(0, 120) : undefined;
-    const honeypot = typeof body.website === "string" ? body.website.trim() : "";
+    const source =
+      typeof body.source === "string" ? body.source.slice(0, 120) : undefined;
+    const project =
+      typeof body.project === "string"
+        ? body.project.trim().slice(0, 160)
+        : undefined;
+    const honeypot =
+      typeof body.website === "string" ? body.website.trim() : "";
 
     if (!isValidEmail(email)) {
       return NextResponse.json(
@@ -44,22 +56,50 @@ export async function POST(request: Request) {
       );
     }
 
-    // Honeypot simple: si el campo oculto viene relleno, ignoramos el registro.
     if (!honeypot) {
+      const trimmed = email.trim();
       await appendSignup({
-        email: email.trim(),
+        email: trimmed,
+        project: project || undefined,
         source,
         createdAt: new Date().toISOString(),
       });
+
+      const refresh = await getStoredRefreshToken();
+      if (refresh) {
+        const localPart = trimmed.split("@")[0] || "Newsletter";
+        const zoho = await createZohoLead({
+          lastName: localPart.slice(0, 80),
+          email: trimmed,
+          company: project ? `Proyecto: ${project}` : "Newsletter web",
+          leadSource: ZOHO_LEAD_SOURCE_NEWSLETTER,
+          description: [
+            "Suscripción newsletter / desarrollos",
+            project ? `Proyecto: ${project}` : null,
+            source ? `Source: ${source}` : null,
+          ]
+            .filter(Boolean)
+            .join("\n"),
+        });
+        if (!zoho.ok) {
+          console.error("[newsletter] Zoho lead error:", zoho.error);
+        }
+      } else {
+        console.warn(
+          "[newsletter] ZOHO_REFRESH_TOKEN ausente — lead no enviado a Zoho.",
+        );
+      }
     }
 
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("[newsletter] Error al registrar email", error);
     return NextResponse.json(
-      { ok: false, error: "No pudimos registrar tu email. Intentá de nuevo más tarde." },
+      {
+        ok: false,
+        error: "No pudimos registrar tu email. Intentá de nuevo más tarde.",
+      },
       { status: 500 },
     );
   }
 }
-

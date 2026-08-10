@@ -4,10 +4,12 @@ import { GnahsMetasearchTracker } from "@/components/gnahs/GnahsMetasearchTracke
 import { SiteFooter } from "@/components/home/SiteFooter";
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 import { MarketingChrome } from "@/components/marketing/MarketingChrome";
+import { LanguageProvider } from "@/components/i18n/LanguageProvider";
 import { loadMarketingConfig } from "@/lib/marketing/load";
 import { readPageContent } from "@/lib/pageContent/storage";
 import { pickHomeFooter } from "@/lib/pageContent/homeTypes";
 import { getSiteLanguage } from "@/lib/i18nServer";
+import { getUiMessages } from "@/lib/i18n/ui";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -28,12 +30,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [content, marketing, language] = await Promise.all([
-    readPageContent("home"),
+  const language = await getSiteLanguage();
+  const [content, marketing] = await Promise.all([
+    readPageContent("home", language),
     loadMarketingConfig(),
-    getSiteLanguage(),
   ]);
   const footer = pickHomeFooter(content);
+  const ui = getUiMessages(language);
 
   return (
     <html lang={language} className={`${inter.variable} h-full antialiased`}>
@@ -44,11 +47,13 @@ export default async function RootLayout({
         <link rel="dns-prefetch" href="https://hostalric.gnahs.app" />
       </head>
       <body className="flex min-h-full flex-col font-sans">
-        <GnahsMetasearchTracker />
-        <RevealOnScroll />
-        <MarketingChrome config={marketing} />
-        {children}
-        <SiteFooter footer={footer} />
+        <LanguageProvider lang={language}>
+          <GnahsMetasearchTracker />
+          <RevealOnScroll />
+          <MarketingChrome config={marketing} />
+          {children}
+          <SiteFooter footer={footer} designedByLabel={ui.common.designedBy} />
+        </LanguageProvider>
       </body>
     </html>
   );

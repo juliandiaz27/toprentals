@@ -4,12 +4,16 @@ import type { HomeFooterContent } from "@/lib/pageContent/homeTypes";
 
 type Props = {
   footer: HomeFooterContent;
+  designedByLabel?: string;
 };
 
 const footerText = "text-[#AAAAAA]";
 const footerHover = "hover:text-white";
 
-export function SiteFooter({ footer }: Props) {
+export function SiteFooter({
+  footer,
+  designedByLabel = "Diseño y desarrollo web por",
+}: Props) {
   return (
     <footer
       data-reveal
@@ -24,7 +28,7 @@ export function SiteFooter({ footer }: Props) {
           <p className="text-[14px]">{footer.siteUrl}</p>
           <p className="mt-8 text-[12px] lg:mt-12">{footer.copyright}</p>
           <p className="mt-2 text-[12px]">
-            Diseño y desarrollo web por{" "}
+            {designedByLabel}{" "}
             <a
               href="https://magnamadigital.com"
               target="_blank"
@@ -39,7 +43,7 @@ export function SiteFooter({ footer }: Props) {
         <div className="flex flex-col gap-6 lg:items-end lg:text-right">
           <nav
             className="flex flex-wrap gap-x-6 gap-y-2 text-[14px] lg:justify-end"
-            aria-label="Pie de página"
+            aria-label="Footer"
           >
             {footer.links.map((item, index) => (
               <Link

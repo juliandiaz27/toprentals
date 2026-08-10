@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import {
   getTurnstileSiteKey,
   isTurnstileRequired,
@@ -34,6 +35,7 @@ type Props = {
 };
 
 export function TurnstileField({ onTokenChange }: Props) {
+  const { ui } = useLanguage();
   const siteKey = getTurnstileSiteKey();
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
@@ -98,7 +100,7 @@ export function TurnstileField({ onTokenChange }: Props) {
     <div className="mt-1">
       <div ref={containerRef} />
       {!ready ? (
-        <p className="text-[13px] text-neutral-500">Cargando verificación…</p>
+        <p className="text-[13px] text-neutral-500">{ui.common.loadingVerification}</p>
       ) : null}
     </div>
   );

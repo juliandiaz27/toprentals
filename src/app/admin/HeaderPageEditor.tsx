@@ -6,7 +6,12 @@ import type { HeaderEditorNavRow } from "@/lib/pageContent/headerNav";
 import { MEDIA_UPLOAD_GUIDES } from "@/lib/mediaUploadGuide";
 import { MediaUploadGuide } from "./MediaUploadGuide";
 import { AdminStickyAlerts } from "./AdminStickyAlerts";
+import { AdminLanguageSwitcher } from "./AdminLanguageSwitcher";
 import { saveHeaderContent } from "./headerActions";
+import {
+  DEFAULT_SITE_LANGUAGE,
+  type SiteLanguage,
+} from "@/lib/i18n";
 
 type Props = {
   initial: {
@@ -16,6 +21,7 @@ type Props = {
     ctaHref: string;
     nav: HeaderEditorNavRow[];
   };
+  language?: SiteLanguage;
 };
 
 function moveItem<T>(items: T[], index: number, direction: -1 | 1): T[] {
@@ -28,7 +34,10 @@ function moveItem<T>(items: T[], index: number, direction: -1 | 1): T[] {
   return next;
 }
 
-export function HeaderPageEditor({ initial }: Props) {
+export function HeaderPageEditor({
+  initial,
+  language = DEFAULT_SITE_LANGUAGE,
+}: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -62,6 +71,7 @@ export function HeaderPageEditor({ initial }: Props) {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="page-editor w-full">
+      <input type="hidden" name="language" value={language} />
       <div className="admin-sticky-toolbar">
         <div className="admin-sticky-toolbar__head">
           <div className="min-w-0">
@@ -79,11 +89,16 @@ export function HeaderPageEditor({ initial }: Props) {
               >
                 /
               </a>
+              {" · "}
+              Editando {language === "en" ? "inglés" : "español"}
             </p>
           </div>
-          <button type="submit" disabled={pending} className="admin-btn-primary shrink-0">
-            {pending ? "Guardando…" : "Guardar cambios"}
-          </button>
+          <div className="flex shrink-0 flex-wrap items-center gap-3">
+            <AdminLanguageSwitcher language={language} />
+            <button type="submit" disabled={pending} className="admin-btn-primary">
+              {pending ? "Guardando…" : "Guardar cambios"}
+            </button>
+          </div>
         </div>
         <AdminStickyAlerts error={error} success={success} />
       </div>

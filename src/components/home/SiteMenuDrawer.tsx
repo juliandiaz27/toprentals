@@ -10,6 +10,7 @@ import {
 import { reservasLinkProps } from "@/lib/reservasLink";
 import { MobileMenuNavIcon } from "./MobileMenuNavIcons";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 const NAV_ID_BY_HREF = new Map<string, HeaderNavId>(
   HEADER_NAV_CATALOG.map((item) => [item.href, item.id]),
@@ -50,6 +51,7 @@ export function SiteMenuDrawer({
   onClose,
   isLinkActive,
 }: Props) {
+  const { ui } = useLanguage();
   if (typeof document === "undefined") return null;
 
   const panelMotion = open
@@ -63,7 +65,7 @@ export function SiteMenuDrawer({
         className={`fixed inset-0 z-[125] bg-black/40 backdrop-blur-[1px] transition-opacity duration-300 ease-out lg:top-[72px] ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
-        aria-label="Cerrar menú"
+        aria-label={ui.nav.closeMenu}
         aria-hidden={!open}
         tabIndex={open ? 0 : -1}
         onClick={onClose}
@@ -71,7 +73,7 @@ export function SiteMenuDrawer({
 
       <nav
         id={menuId}
-        aria-label="Menú principal"
+        aria-label={ui.nav.mainNav}
         aria-hidden={!open}
         className={`fixed inset-0 z-[130] flex flex-col bg-white transition-transform duration-[350ms] ease-[cubic-bezier(0.32,0.72,0,1)] lg:inset-y-auto lg:left-auto lg:right-0 lg:top-[72px] lg:h-[calc(100dvh-72px)] lg:w-full lg:max-w-[380px] lg:border-l lg:border-neutral-200/80 lg:shadow-[-8px_0_40px_rgba(15,23,42,0.08)] ${panelMotion}`}
       >
@@ -91,12 +93,12 @@ export function SiteMenuDrawer({
             )}
           </Link>
           <p className="hidden text-[13px] font-semibold uppercase tracking-[0.1em] text-neutral-500 lg:block">
-            Menú
+            {ui.nav.menu}
           </p>
           <button
             type="button"
             className="ml-auto inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-neutral-700 transition hover:bg-neutral-100 hover:text-neutral-950"
-            aria-label="Cerrar menú"
+            aria-label={ui.nav.closeMenu}
             onClick={onClose}
           >
             <CloseIcon />

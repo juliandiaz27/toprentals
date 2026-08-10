@@ -1,3 +1,7 @@
+"use client";
+
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 type Props = {
   hasOffer?: boolean;
   isPopular?: boolean;
@@ -46,6 +50,7 @@ export function PropertyHighlightBadges({
   className = "",
   size = "md",
 }: Props) {
+  const { ui } = useLanguage();
   if (!hasOffer && !isPopular) return null;
 
   const pill =
@@ -56,18 +61,18 @@ export function PropertyHighlightBadges({
   return (
     <div
       className={`flex flex-wrap gap-1.5 ${className}`.trim()}
-      aria-label="Destacados de la propiedad"
+      aria-label={ui.properties.highlights}
     >
       {hasOffer ? (
         <span className={`${pill} bg-[#f27438] text-white`}>
           <IconTag />
-          Oferta
+          {ui.properties.offer}
         </span>
       ) : null}
       {isPopular ? (
         <span className={`${pill} bg-[#1d4ed8] text-white`}>
           <IconTrending />
-          Más solicitada
+          {ui.properties.popular}
         </span>
       ) : null}
     </div>

@@ -8,6 +8,7 @@ import {
   type GnahsEngineRegion,
 } from "@/lib/gnahs/config";
 import { DEFAULT_SITE_LANGUAGE, type SiteLanguage } from "@/lib/i18n";
+import { getUiMessages } from "@/lib/i18n/ui";
 import { loadScript } from "@/lib/gnahs/scripts";
 import { pushGnahsStepLoaded } from "@/lib/gnahs/tracking";
 import { GnahsEngineLoadingSkeleton } from "./GnahsEngineLoadingSkeleton";
@@ -37,6 +38,7 @@ export function GnahsBookingEngine({
 }: Props) {
   const [status, setStatus] = useState<EngineStatus>("loading");
   const cleanupScripts = useRef<(() => void) | null>(null);
+  const ui = getUiMessages(language);
 
   const markReady = useCallback(() => {
     setStatus((current) => (current === "error" ? current : "ready"));
@@ -132,11 +134,10 @@ export function GnahsBookingEngine({
           role="alert"
         >
           <p className="text-[15px] font-semibold text-neutral-950">
-            No pudimos cargar el motor de reservas
+            {ui.reservas.engineError}
           </p>
           <p className="mt-2 max-w-md text-[14px] leading-relaxed text-neutral-600">
-            Puede deberse a la conexión o a una demora del proveedor. Intentá de
-            nuevo o contactanos.
+            {ui.reservas.engineErrorHint}
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <button
@@ -144,13 +145,13 @@ export function GnahsBookingEngine({
               onClick={bootEngine}
               className="inline-flex h-10 items-center justify-center rounded-lg bg-neutral-950 px-5 text-[14px] font-medium text-white hover:bg-neutral-800"
             >
-              Reintentar
+              {ui.reservas.retry}
             </button>
             <a
               href="/contacto"
               className="inline-flex h-10 items-center justify-center rounded-lg border border-neutral-300 bg-white px-5 text-[14px] font-medium text-neutral-900 hover:bg-neutral-50"
             >
-              Contacto
+              {ui.reservas.contact}
             </a>
           </div>
         </div>
@@ -161,7 +162,7 @@ export function GnahsBookingEngine({
         className={`min-h-[520px] w-full transition-opacity duration-500 ${
           status === "ready" ? "opacity-100" : "opacity-0"
         }`}
-        aria-label="Motor de reservas"
+        aria-label={ui.reservas.engineAria}
         aria-hidden={status !== "ready"}
       />
     </div>

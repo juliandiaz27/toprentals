@@ -14,6 +14,7 @@ import { PropertyDetailGroupsSection } from "@/components/properties/detail/Prop
 import { PropertyReviewsSection } from "@/components/properties/detail/PropertyReviewsSection";
 import type { PropertyReview } from "@/lib/properties/reviewsTypes";
 import { DEFAULT_SITE_LANGUAGE, type SiteLanguage } from "@/lib/i18n";
+import { getUiMessages } from "@/lib/i18n/ui";
 
 type Props = {
   property: PropertyDetail;
@@ -31,6 +32,7 @@ export function PropertyDetailView({
   language = DEFAULT_SITE_LANGUAGE,
 }: Props) {
   const galleryImages = galleryFromDetail(property);
+  const ui = getUiMessages(language);
 
   return (
     <main className="bg-white">
@@ -55,7 +57,9 @@ export function PropertyDetailView({
           className="mt-16 grid gap-10 lg:grid-cols-[2fr_3fr] lg:items-start lg:gap-12"
         >
           <div>
-            <h2 className="text-xl font-bold text-neutral-950">Sobre el edificio</h2>
+            <h2 className="text-xl font-bold text-neutral-950">
+              {ui.properties.aboutBuilding}
+            </h2>
             <FormattedText
               value={property.about}
               className="mt-4 text-[15px] leading-relaxed text-neutral-600"
@@ -70,7 +74,7 @@ export function PropertyDetailView({
         </section>
 
         <section data-reveal className="mt-16">
-          <h2 className="text-xl font-bold text-neutral-950">Unidades</h2>
+          <h2 className="text-xl font-bold text-neutral-950">{ui.properties.units}</h2>
           <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {property.units.map((unit) => (
               <li
@@ -89,7 +93,7 @@ export function PropertyDetailView({
                       rel="noopener noreferrer"
                       className="inline-flex h-10 w-full items-center justify-center rounded-lg border border-btn text-[13px] font-medium text-btn hover:bg-neutral-50 sm:w-auto sm:min-w-[140px]"
                     >
-                      Tour 360°
+                      {ui.properties.tour360}
                     </a>
                   </div>
                 ) : null}
@@ -115,7 +119,7 @@ export function PropertyDetailView({
 
       {related.length > 0 ? (
         <section data-reveal className="mx-auto max-w-[1440px] px-6 py-16 lg:px-12">
-          <h2 className="text-xl font-bold text-neutral-950">Otras propiedades</h2>
+          <h2 className="text-xl font-bold text-neutral-950">{ui.properties.related}</h2>
           <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((p) => (
               <li key={p.slug}>
@@ -143,7 +147,7 @@ export function PropertyDetailView({
             {...reservasLinkProps(property.finalCtaHref)}
             className="inline-flex h-11 shrink-0 items-center justify-center self-start rounded-lg bg-white px-6 text-[14px] font-semibold text-neutral-950 hover:bg-neutral-100 lg:self-center"
           >
-            Reservar ahora →
+            {ui.properties.bookNowArrow}
           </Link>
         </div>
       </section>

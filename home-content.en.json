@@ -1,0 +1,151 @@
+{
+  "header": {
+    "logoSrc": "",
+    "logoText": "TOP RENTALS",
+    "ctaLabel": "Book now",
+    "nav": [
+      { "id": "home", "label": "Home", "visible": true },
+      { "id": "propiedades", "label": "Properties", "visible": true },
+      { "id": "corporate", "label": "Corporate", "visible": true },
+      { "id": "real-estate", "label": "Real Estate", "visible": true },
+      { "id": "propietarios", "label": "Owners", "visible": true },
+      { "id": "club-top-rentals", "label": "Club Top Rentals", "visible": true },
+      { "id": "nosotros", "label": "About us", "visible": true },
+      { "id": "trabaja-con-nosotros", "label": "Careers", "visible": true },
+      { "id": "blog", "label": "Blog", "visible": true },
+      { "id": "contacto", "label": "Contact", "visible": true }
+    ]
+  },
+  "hero": {
+    "title": "Hotel-serviced apartments.",
+    "subtitle": "Short-term rentals across 15 towers\nBuenos Aires · Quito.",
+    "videoSrc": "/videos/hero-banner.mp4",
+    "videoUrl": "",
+    "posterSrc": "/images/placeholders/home-hero.svg",
+    "playingLabel": "Playing",
+    "videoPlaceholder": "[ Video: buildings, amenities, lifestyle — loop · muted ]",
+    "exploreLabel": "Explore",
+    "ctaPrimary": "Book now",
+    "ctaPrimaryHref": "/reservas",
+    "ctaSecondary": "Corporate solutions",
+    "ctaSecondaryHref": "/corporate",
+    "whatsappUrl": "https://wa.me/",
+    "whatsappEnabled": true
+  },
+  "heroSlides": [
+    {
+      "videoSrc": "/videos/hero-banner.mp4",
+      "posterSrc": "/images/placeholders/home-hero.svg",
+      "durationMs": 25000
+    }
+  ],
+  "stats": {
+    "title": "Top Rentals by the numbers",
+    "label1": "+500",
+    "text1": "apartments operated",
+    "label2": "15",
+    "text2": "towers",
+    "label3": "+100",
+    "text3": "team members",
+    "label4": "+600",
+    "text4": "companies hosted per year",
+    "label5": "10",
+    "text5": "years of operation"
+  },
+  "differentials": {
+    "title": "What sets us apart",
+    "cards": [
+      {
+        "title": "Professional cleaning",
+        "text": "Hotel standards in every apartment"
+      },
+      {
+        "title": "Standardized offering",
+        "text": "Consistent quality across every property"
+      },
+      {
+        "title": "Strategic locations",
+        "text": "Full buildings in key areas"
+      }
+    ]
+  },
+  "featured": {
+    "title": "Featured properties",
+    "linkLabel": "View all →",
+    "linkHref": "/propiedades"
+  },
+  "buildings": {
+    "title": "Our buildings, from the inside.",
+    "subtitle": "A look through the apartments, amenities, and the Top Rentals lifestyle.",
+    "videoSrc": "/videos/hero-banner.mp4",
+    "videoUrl": "",
+    "posterSrc": "",
+    "placeholder": "",
+    "meta": "2:45 min · Buenos Aires · Quito"
+  },
+  "corporateTeaser": {
+    "title": "Housing solutions\nfor companies",
+    "description": "We coordinate your team's lodging with the efficiency and professionalism your company needs.",
+    "bullet1": "Multiple apartments in the same tower",
+    "bullet2": "Flexible contracts for long stays",
+    "bullet3": "Negotiated corporate rates",
+    "ctaLabel": "Request a corporate quote →",
+    "ctaHref": "/corporate",
+    "imageSrc": "/images/corporate/corporate-teaser.png",
+    "imagePlaceholder": ""
+  },
+  "directBenefits": {
+    "title": "Benefits of booking directly with us",
+    "card1Title": "Best rate guaranteed",
+    "card1Text": "Exclusive benefits for members. Always the lowest price.",
+    "card2Title": "Late check-out available",
+    "card2Text": "Subject to availability, at no extra cost.",
+    "card3Title": "24/7 support",
+    "card3Text": "Our team is always at your service.",
+    "card4Title": "Instant confirmation",
+    "card4Text": "No waiting or third-party approvals."
+  },
+  "locations": {
+    "title": "Where we operate",
+    "card1Title": "Argentina",
+    "card1Subtitle": "Buenos Aires · +400 apartments · 7 areas",
+    "card1LinkLabel": "View properties →",
+    "card1Href": "/propiedades",
+    "card2Title": "Ecuador",
+    "card2Subtitle": "Quito · +100 apartments · La Carolina",
+    "card2LinkLabel": "View properties →",
+    "card2Href": "/propiedades"
+  },
+  "investorCta": {
+    "title": "Are you a developer or looking to invest in the sector?",
+    "devLabel": "Developers →",
+    "devHref": "/real-estate",
+    "invLabel": "Investors →",
+    "invHref": "/propietarios"
+  },
+  "footer": {
+    "brand": "TOP RENTALS",
+    "tagline": "Temporary Apartments · Buenos Aires · Quito",
+    "siteUrl": "thetoprentals.com",
+    "copyright": "© 2025 Top Rentals. All rights reserved.",
+    "link1Label": "Properties",
+    "link1Href": "/propiedades",
+    "link2Label": "Corporate",
+    "link2Href": "/corporate",
+    "link3Label": "Club Top Rentals",
+    "link3Href": "/club-top-rentals",
+    "link4Label": "Blog",
+    "link4Href": "/blog",
+    "link5Label": "Real Estate",
+    "link5Href": "/real-estate",
+    "link6Label": "Contact",
+    "link6Href": "/contacto",
+    "instagramUrl": "https://instagram.com/",
+    "facebookUrl": "https://facebook.com/",
+    "whatsappUrl": "https://wa.me/"
+  },
+  "seo": {
+    "title": "Top Rentals — Short-term rentals",
+    "description": "Short-term rentals in Buenos Aires and Quito."
+  }
+}

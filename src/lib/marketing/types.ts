@@ -30,6 +30,11 @@ export type ScrollPopupConfig = {
   /** Dato destacado bajo la descripción (ej. «Más de 45 edificios»). */
   highlight: string;
   ctaLabel: string;
+  /** Textos en inglés; si están vacíos se usa el español. */
+  titleEn: string;
+  descriptionEn: string;
+  highlightEn: string;
+  ctaLabelEn: string;
   ctaHref: string;
   audience: MarketingAudience;
   /** Píxeles de scroll vertical antes de mostrar el popup. */

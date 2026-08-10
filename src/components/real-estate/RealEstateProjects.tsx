@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import type { RealEstateProject } from "@/lib/pageContent/realEstateTypes";
 
 type Props = {
@@ -42,6 +45,7 @@ export function RealEstateProjects({
   closing,
   projects,
 }: Props) {
+  const { ui } = useLanguage();
   if (projects.length === 0) return null;
 
   return (
@@ -98,13 +102,28 @@ export function RealEstateProjects({
                   {project.name}
                 </h3>
                 <div className="mt-3 space-y-1.5">
-                  <ProjectDetailRow label="Ubicación" value={project.address} />
-                  <ProjectDetailRow label="Barrio" value={project.barrio} />
-                  <ProjectDetailRow label="Unidades" value={project.units} />
-                  <ProjectDetailRow label="Tipologías" value={project.typologies} />
-                  <ProjectDetailRow label="Rol" value={project.role} />
                   <ProjectDetailRow
-                    label="Diferenciales"
+                    label={ui.realEstate.location}
+                    value={project.address}
+                  />
+                  <ProjectDetailRow
+                    label={ui.realEstate.neighborhood}
+                    value={project.barrio}
+                  />
+                  <ProjectDetailRow
+                    label={ui.realEstate.units}
+                    value={project.units}
+                  />
+                  <ProjectDetailRow
+                    label={ui.realEstate.typologies}
+                    value={project.typologies}
+                  />
+                  <ProjectDetailRow
+                    label={ui.realEstate.role}
+                    value={project.role}
+                  />
+                  <ProjectDetailRow
+                    label={ui.realEstate.differentials}
                     value={project.differentials}
                   />
                 </div>
