@@ -8,7 +8,12 @@ import {
 } from "@/lib/mediaUploadGuide";
 import { saveUpload } from "@/lib/upload";
 import { normalizeBlogPost } from "@/lib/blog/load";
-import { writeBlogData } from "@/lib/blog/storage";
+import {
+  readBlogData,
+  writeBlogData,
+  writeBlogEnglishOverlay,
+} from "@/lib/blog/storage";
+import { normalizeSiteLanguage } from "@/lib/i18n";
 import type { BlogDataFile, BlogPostStored, BlogSettings } from "@/lib/blog/types";
 import type { ActionResult } from "./actions";
 
@@ -39,6 +44,8 @@ export async function saveBlogData(formData: FormData): Promise<BlogSaveResult> 
       return { ok: false, error: "No autorizado" };
     }
 
+    const language = normalizeSiteLanguage(formData.get("language"));
+
     const settings: BlogSettings = {
       title: String(formData.get("blog.settings.title") ?? "Blog").trim() || "Blog",
       subtitle: String(formData.get("blog.settings.subtitle") ?? "").trim(),
@@ -47,6 +54,16 @@ export async function saveBlogData(formData: FormData): Promise<BlogSaveResult> 
     const posts = parsePostsPayload(String(formData.get("blog.posts") ?? ""));
     if (posts === null) {
       return { ok: false, error: "Datos de entradas inválidos." };
+    }
+
+    if (language === "en") {
+      await writeBlogEnglishOverlay(settings, posts);
+      const merged = await readBlogData("en");
+      revalidatePath("/blog");
+      for (const post of merged.posts) {
+        revalidatePath(`/blog/${post.slug}`);
+      }
+      return { ok: true, settings: merged.settings, posts: merged.posts };
     }
 
     const slugs = new Set<string>();

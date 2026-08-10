@@ -2,12 +2,15 @@
   "stickyReserve": {
     "enabled": true,
     "label": "Reservar ahora",
+    "labelEn": "Book now",
     "href": "/reservas"
   },
   "announcementBar": {
     "enabled": true,
     "message": "15%off",
     "linkLabel": "SDF",
+    "messageEn": "15% off",
+    "linkLabelEn": "SDF",
     "href": "/reservas",
     "backgroundColor": "#111111",
     "textColor": "#ffffff",

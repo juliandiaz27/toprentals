@@ -21,8 +21,17 @@ function readDismissed(storageKey: string): boolean {
 }
 
 export function SiteAnnouncementBar({ config, storageKey }: Props) {
-  const { ui } = useLanguage();
+  const { lang, ui } = useLanguage();
   const [visible, setVisible] = useState(true);
+
+  const message =
+    lang === "en" && config.messageEn.trim()
+      ? config.messageEn
+      : config.message;
+  const linkLabel =
+    lang === "en" && config.linkLabelEn.trim()
+      ? config.linkLabelEn
+      : config.linkLabel;
 
   useLayoutEffect(() => {
     if (!config.dismissible) {
@@ -45,7 +54,7 @@ export function SiteAnnouncementBar({ config, storageKey }: Props) {
     }
   }
 
-  const hasLink = Boolean(config.href && config.linkLabel);
+  const hasLink = Boolean(config.href && linkLabel);
 
   return (
     <div
@@ -59,7 +68,7 @@ export function SiteAnnouncementBar({ config, storageKey }: Props) {
     >
       <div className="relative mx-auto flex max-w-[1440px] items-center justify-center gap-3 pr-8">
         <p className="min-w-0 flex-1">
-          <FormattedText value={config.message} as="inline" />
+          <FormattedText value={message} as="inline" />
           {hasLink ? (
             <>
               {" "}
@@ -67,7 +76,7 @@ export function SiteAnnouncementBar({ config, storageKey }: Props) {
                 href={config.href}
                 className="font-semibold underline underline-offset-2"
               >
-                {config.linkLabel}
+                {linkLabel}
               </Link>
             </>
           ) : null}

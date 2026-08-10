@@ -19,12 +19,16 @@ import {
 } from "@/lib/pageContent/siteRoutes";
 
 import { saveMarketingConfig } from "./marketingActions";
+import { AdminLanguageSwitcher } from "./AdminLanguageSwitcher";
+import { DEFAULT_SITE_LANGUAGE, type SiteLanguage } from "@/lib/i18n";
 
 
 
 type Props = {
 
   initial: MarketingConfigFile;
+
+  language?: SiteLanguage;
 
 };
 
@@ -122,9 +126,13 @@ function IconInfo() {
 
 
 
-export function MarketingManager({ initial }: Props) {
+export function MarketingManager({
+  initial,
+  language = DEFAULT_SITE_LANGUAGE,
+}: Props) {
 
   const router = useRouter();
+  const isEn = language === "en";
 
   const [error, setError] = useState<string | null>(null);
 
@@ -234,7 +242,13 @@ export function MarketingManager({ initial }: Props) {
 
         </div>
 
-        <div className="admin-page-header__actions">
+        <div className="admin-page-header__actions flex flex-wrap items-center gap-3">
+
+          <AdminLanguageSwitcher language={language} />
+
+          <span className="text-xs text-[var(--admin-text-dim)]">
+            Editando {isEn ? "inglés" : "español"}
+          </span>
 
           <button
 
@@ -283,6 +297,8 @@ export function MarketingManager({ initial }: Props) {
 
 
       <form id="marketing-form" onSubmit={handleSubmit} className="space-y-6">
+
+        <input type="hidden" name="language" value={language} />
 
         <section className="admin-section-card">
 
@@ -336,21 +352,22 @@ export function MarketingManager({ initial }: Props) {
 
             <div className="admin-field-row admin-field-row--2 max-w-2xl">
 
+              {!isEn ? (
               <label className="flex flex-col gap-1">
-
                 <span className="admin-field-label">Texto del botón</span>
-
-                <input
-
-                  className="admin-input"
-
-                  name="sticky.label"
-
-                  defaultValue={sticky.label}
-
-                />
-
+                <input className="admin-input" name="sticky.label" defaultValue={sticky.label} />
               </label>
+            ) : (
+              <input type="hidden" name="sticky.label" defaultValue={sticky.label} />
+            )}
+{isEn ? (
+              <label className="flex flex-col gap-1">
+                <span className="admin-field-label">Texto del botón (EN)</span>
+                <input className="admin-input" name="sticky.labelEn" defaultValue={sticky.labelEn} />
+              </label>
+            ) : (
+              <input type="hidden" name="sticky.labelEn" defaultValue={sticky.labelEn} />
+            )}
 
               <div className="flex flex-col gap-1">
 
@@ -404,43 +421,41 @@ export function MarketingManager({ initial }: Props) {
 
 
 
+            {!isEn ? (
             <label className="flex flex-col gap-1 sm:col-span-2">
-
-              <span className="admin-field-label">Mensaje de la campaña</span>
-
-              <textarea
-
-                className="admin-textarea"
-
-                name="announcement.message"
-
-                rows={3}
-
-                defaultValue={bar.message}
-
-                placeholder="Ej: 15% off en estadías de 7+ noches — código VERANO"
-
-              />
-
+              <span className="admin-field-label">Mensaje</span>
+              <textarea className="admin-textarea" name="announcement.message" rows={3} defaultValue={bar.message} />
             </label>
-
-
-
-            <label className="flex flex-col gap-1">
-
-              <span className="admin-field-label">Texto del enlace (opcional)</span>
-
-              <input
-
-                className="admin-input"
-
-                name="announcement.linkLabel"
-
-                defaultValue={bar.linkLabel}
-
-              />
-
+          ) : (
+            <input type="hidden" name="announcement.message" defaultValue={bar.message} />
+          )}
+{isEn ? (
+            <label className="flex flex-col gap-1 sm:col-span-2">
+              <span className="admin-field-label">Mensaje (EN)</span>
+              <textarea className="admin-textarea" name="announcement.messageEn" rows={3} defaultValue={bar.messageEn} />
             </label>
+          ) : (
+            <input type="hidden" name="announcement.messageEn" defaultValue={bar.messageEn} />
+          )}
+
+
+
+            {!isEn ? (
+            <label className="flex flex-col gap-1 sm:col-span-2">
+              <span className="admin-field-label">Texto del link</span>
+              <input className="admin-input" name="announcement.linkLabel" defaultValue={bar.linkLabel} />
+            </label>
+          ) : (
+            <input type="hidden" name="announcement.linkLabel" defaultValue={bar.linkLabel} />
+          )}
+{isEn ? (
+            <label className="flex flex-col gap-1 sm:col-span-2">
+              <span className="admin-field-label">Texto del link (EN)</span>
+              <input className="admin-input" name="announcement.linkLabelEn" defaultValue={bar.linkLabelEn} />
+            </label>
+          ) : (
+            <input type="hidden" name="announcement.linkLabelEn" defaultValue={bar.linkLabelEn} />
+          )}
 
             <label className="flex flex-col gap-1">
 
@@ -667,136 +682,89 @@ export function MarketingManager({ initial }: Props) {
               </p>
 
             </div>
-
-
-
+            {!isEn ? (
             <label className="flex flex-col gap-1 sm:col-span-2">
-
               <span className="admin-field-label">Título</span>
-
               <input
-
                 className="admin-input"
-
                 name="popup.title"
-
                 defaultValue={popup.title}
-
                 placeholder="Ej: Encontrá tu próximo departamento"
-
               />
-
             </label>
-
-
-
+          ) : (
+            <input type="hidden" name="popup.title" defaultValue={popup.title} />
+          )}
+{isEn ? (
             <label className="flex flex-col gap-1 sm:col-span-2">
-
               <span className="admin-field-label">Título (EN)</span>
-
               <input
-
                 className="admin-input"
-
                 name="popup.titleEn"
-
                 defaultValue={popup.titleEn}
-
                 placeholder="E.g. Find your next apartment"
-
               />
-
             </label>
-
-
-
+          ) : (
+            <input type="hidden" name="popup.titleEn" defaultValue={popup.titleEn} />
+          )}
+            {!isEn ? (
             <label className="flex flex-col gap-1 sm:col-span-2">
-
               <span className="admin-field-label">Descripción</span>
-
               <textarea
-
                 className="admin-textarea"
-
                 name="popup.description"
-
                 rows={3}
-
                 defaultValue={popup.description}
-
                 placeholder="Ej: Departamentos amoblados en Palermo, Recoleta y más."
-
               />
-
             </label>
-
-
-
+          ) : (
+            <input type="hidden" name="popup.description" defaultValue={popup.description} />
+          )}
+{isEn ? (
             <label className="flex flex-col gap-1 sm:col-span-2">
-
               <span className="admin-field-label">Descripción (EN)</span>
-
               <textarea
-
                 className="admin-textarea"
-
                 name="popup.descriptionEn"
-
                 rows={3}
-
                 defaultValue={popup.descriptionEn}
-
                 placeholder="E.g. Furnished apartments in Palermo, Recoleta and more."
-
               />
-
             </label>
-
-
-
+          ) : (
+            <input type="hidden" name="popup.descriptionEn" defaultValue={popup.descriptionEn} />
+          )}
+            {!isEn ? (
             <label className="flex flex-col gap-1 sm:col-span-2">
-
               <span className="admin-field-label">Dato destacado (opcional)</span>
-
               <input
-
                 className="admin-input"
-
                 name="popup.highlight"
-
                 defaultValue={popup.highlight}
-
                 placeholder="Ej: Más de 45 edificios en Buenos Aires"
-
               />
-
               <span className="admin-field-hint mb-0">
-
                 Aparece debajo de la descripción, antes de los botones.
-
               </span>
-
             </label>
-
-
-
+          ) : (
+            <input type="hidden" name="popup.highlight" defaultValue={popup.highlight} />
+          )}
+{isEn ? (
             <label className="flex flex-col gap-1 sm:col-span-2">
-
               <span className="admin-field-label">Dato destacado (EN)</span>
-
               <input
-
                 className="admin-input"
-
                 name="popup.highlightEn"
-
                 defaultValue={popup.highlightEn}
-
                 placeholder="E.g. More than 45 buildings in Buenos Aires"
-
               />
-
             </label>
+          ) : (
+            <input type="hidden" name="popup.highlightEn" defaultValue={popup.highlightEn} />
+          )}
 
 
 
@@ -831,42 +799,27 @@ export function MarketingManager({ initial }: Props) {
               </span>
 
             </label>
-
-
-
+            {!isEn ? (
             <label className="flex flex-col gap-1">
-
               <span className="admin-field-label">Texto del botón</span>
-
-              <input
-
-                className="admin-input"
-
-                name="popup.ctaLabel"
-
-                defaultValue={popup.ctaLabel}
-
-              />
-
+              <input className="admin-input" name="popup.ctaLabel" defaultValue={popup.ctaLabel} />
             </label>
-
+          ) : (
+            <input type="hidden" name="popup.ctaLabel" defaultValue={popup.ctaLabel} />
+          )}
+{isEn ? (
             <label className="flex flex-col gap-1">
-
               <span className="admin-field-label">Texto del botón (EN)</span>
-
               <input
-
                 className="admin-input"
-
                 name="popup.ctaLabelEn"
-
                 defaultValue={popup.ctaLabelEn}
-
                 placeholder="View properties"
-
               />
-
             </label>
+          ) : (
+            <input type="hidden" name="popup.ctaLabelEn" defaultValue={popup.ctaLabelEn} />
+          )}
 
             <label className="flex flex-col gap-1">
 

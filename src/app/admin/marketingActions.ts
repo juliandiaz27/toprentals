@@ -19,6 +19,7 @@ function parseSticky(formData: FormData): StickyReserveConfig {
   return {
     enabled: formData.get("sticky.enabled") === "on",
     label: String(formData.get("sticky.label") ?? "").trim() || "Reservar ahora",
+    labelEn: String(formData.get("sticky.labelEn") ?? "").trim(),
     href: STICKY_RESERVE_HREF,
   };
 }
@@ -29,6 +30,8 @@ function parseAnnouncement(formData: FormData): AnnouncementBarConfig {
     enabled: formData.get("announcement.enabled") === "on",
     message: String(formData.get("announcement.message") ?? "").trim(),
     linkLabel: String(formData.get("announcement.linkLabel") ?? "").trim(),
+    messageEn: String(formData.get("announcement.messageEn") ?? "").trim(),
+    linkLabelEn: String(formData.get("announcement.linkLabelEn") ?? "").trim(),
     href: resolveRoutePickerValue(
       String(formData.get("announcement.href") ?? ""),
       "menu",

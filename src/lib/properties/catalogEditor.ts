@@ -2,6 +2,7 @@ import { GNAHS_HOTELS } from "@/lib/gnahs/hotels";
 import { pickPropiedadesFilters } from "@/lib/pageContent/propiedadesTypes";
 import { propertyCityOptionsFromFilters } from "@/lib/pageContent/propertyCityFilters";
 import { readPageContent } from "@/lib/pageContent/storage";
+import type { SiteLanguage } from "@/lib/i18n";
 import { readPropertiesCatalog } from "./catalogStorage";
 import type { PropertyListingStored } from "./catalogTypes";
 
@@ -12,9 +13,11 @@ export type PropertiesCatalogEditorState = {
   cityOptions: string[];
 };
 
-export async function loadPropertiesCatalogEditorState(): Promise<PropertiesCatalogEditorState> {
+export async function loadPropertiesCatalogEditorState(
+  language?: SiteLanguage,
+): Promise<PropertiesCatalogEditorState> {
   const [catalog, propContent] = await Promise.all([
-    readPropertiesCatalog(),
+    readPropertiesCatalog(language),
     readPageContent("propiedades"),
   ]);
   const filters = pickPropiedadesFilters(propContent);

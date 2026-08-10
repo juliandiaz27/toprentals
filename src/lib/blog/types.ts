@@ -24,3 +24,15 @@ export type BlogDataFile = {
   settings: BlogSettings;
   posts: BlogPostStored[];
 };
+
+/** Overlay inglés: solo campos de texto que difieren del español. */
+export type BlogEnOverlay = {
+  settings?: Partial<BlogSettings>;
+  posts?: Array<{
+    id: string;
+    title?: string;
+    excerpt?: string;
+    body?: string;
+    seoDescription?: string;
+  }>;
+};

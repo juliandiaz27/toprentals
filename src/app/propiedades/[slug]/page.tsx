@@ -16,8 +16,9 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const language = await getSiteLanguage();
   const { slug } = await params;
-  const listings = await loadPropertyListings();
+  const listings = await loadPropertyListings({ language });
   const property = listings.find((p) => p.slug === slug && !p.comingSoon);
   if (!property) return { title: "Propiedad | Top Rentals" };
   return { title: `${property.name} | Top Rentals` };
@@ -27,8 +28,8 @@ export default async function PropiedadDetallePage({ params }: Props) {
   const { slug } = await params;
   const language = await getSiteLanguage();
   const [property, listings, homeContent, reviews] = await Promise.all([
-    getPropertyDetail(slug),
-    loadPropertyListings(),
+    getPropertyDetail(slug, language),
+    loadPropertyListings({ language }),
     readPageContent("home", language),
     getVisibleReviewsForProperty(slug),
   ]);

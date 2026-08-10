@@ -24,8 +24,9 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const language = await getSiteLanguage();
   const { slug } = await params;
-  const post = await getBlogPostBySlug(slug);
+  const post = await getBlogPostBySlug(slug, { language });
   if (!post) return { title: "Entrada no encontrada | Top Rentals" };
   return {
     title: `${post.title} | Top Rentals`,
@@ -35,14 +36,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = await getBlogPostBySlug(slug);
+  const language = await getSiteLanguage();
+  const post = await getBlogPostBySlug(slug, { language });
   if (!post) notFound();
 
-  const language = await getSiteLanguage();
   const ui = getUiMessages(language);
   const [homeContent, allPosts] = await Promise.all([
     readPageContent("home", language),
-    loadPublishedBlogPosts(),
+    loadPublishedBlogPosts(language),
   ]);
   const header = pickHomeHeader(homeContent);
   const hero = pickHomeHero(homeContent);

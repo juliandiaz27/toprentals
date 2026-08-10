@@ -45,6 +45,13 @@ export const DEFAULT_PROPERTY_STATS: PropertyStatStored[] = [
   { value: "24/7", label: "Seguridad 24/7" },
 ];
 
+export const DEFAULT_PROPERTY_STATS_EN: PropertyStatStored[] = [
+  { value: "—", label: "Units" },
+  { value: "—", label: "Floors" },
+  { value: "—", label: "Guests" },
+  { value: "24/7", label: "24/7 security" },
+];
+
 export type PropertyListingStored = {
   slug: string;
   gnahsId: number;
@@ -68,4 +75,9 @@ export type PropertyListing = PropertyListingStored;
 export type PropertiesCatalogFile = {
   featuredSlugs: string[];
   listings: PropertyListingStored[];
+};
+
+/** Overlay inglés: solo campos de texto que difieren del español, keyed por slug. */
+export type PropertiesCatalogEnOverlay = {
+  properties: Array<Partial<PropertyListingStored> & { slug: string }>;
 };

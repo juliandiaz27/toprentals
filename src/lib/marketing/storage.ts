@@ -10,6 +10,7 @@ import type {
 const DEFAULT_STICKY: StickyReserveConfig = {
   enabled: true,
   label: "Reservar ahora",
+  labelEn: "Book now",
   href: "/reservas",
 };
 
@@ -17,6 +18,8 @@ const DEFAULT_ANNOUNCEMENT: AnnouncementBarConfig = {
   enabled: false,
   message: "",
   linkLabel: "",
+  messageEn: "",
+  linkLabelEn: "",
   href: "",
   backgroundColor: "#111111",
   textColor: "#ffffff",
@@ -65,13 +68,17 @@ export async function readMarketingConfig(): Promise<MarketingConfigFile> {
   return {
     stickyReserve: {
       enabled: sticky.enabled !== false,
-      label: String(sticky.label ?? DEFAULT_STICKY.label).trim() || DEFAULT_STICKY.label,
+      label:
+        String(sticky.label ?? DEFAULT_STICKY.label).trim() || DEFAULT_STICKY.label,
+      labelEn: String(sticky.labelEn ?? "").trim(),
       href: String(sticky.href ?? DEFAULT_STICKY.href).trim() || DEFAULT_STICKY.href,
     },
     announcementBar: {
       enabled: bar.enabled === true,
       message: String(bar.message ?? "").trim(),
       linkLabel: String(bar.linkLabel ?? "").trim(),
+      messageEn: String(bar.messageEn ?? "").trim(),
+      linkLabelEn: String(bar.linkLabelEn ?? "").trim(),
       href: String(bar.href ?? "").trim(),
       backgroundColor:
         String(bar.backgroundColor ?? DEFAULT_ANNOUNCEMENT.backgroundColor).trim() ||

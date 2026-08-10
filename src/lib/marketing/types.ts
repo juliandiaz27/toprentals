@@ -3,6 +3,8 @@ export type MarketingAudience = "b2c" | "all";
 export type StickyReserveConfig = {
   enabled: boolean;
   label: string;
+  /** Texto del botón en inglés; vacío = fallback ES / UI. */
+  labelEn: string;
   href: string;
 };
 
@@ -10,6 +12,8 @@ export type AnnouncementBarConfig = {
   enabled: boolean;
   message: string;
   linkLabel: string;
+  messageEn: string;
+  linkLabelEn: string;
   href: string;
   backgroundColor: string;
   textColor: string;

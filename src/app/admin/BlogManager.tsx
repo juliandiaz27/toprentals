@@ -9,9 +9,15 @@ import { MEDIA_UPLOAD_GUIDES } from "@/lib/mediaUploadGuide";
 import { saveBlogData } from "./blogActions";
 import { MediaUploadGuide } from "./MediaUploadGuide";
 import { WysiwygField } from "./WysiwygField";
+import { AdminLanguageSwitcher } from "./AdminLanguageSwitcher";
+import {
+  DEFAULT_SITE_LANGUAGE,
+  type SiteLanguage,
+} from "@/lib/i18n";
 
 type Props = {
   initial: BlogDataFile;
+  language?: SiteLanguage;
 };
 
 type View =
@@ -102,7 +108,10 @@ function fromDatetimeLocal(value: string): string {
   return Number.isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
 }
 
-export function BlogManager({ initial }: Props) {
+export function BlogManager({
+  initial,
+  language = DEFAULT_SITE_LANGUAGE,
+}: Props) {
   const router = useRouter();
   const [view, setView] = useState<View>({ mode: "list" });
   const [settings, setSettings] = useState(initial.settings);
@@ -123,6 +132,7 @@ export function BlogManager({ initial }: Props) {
       setError(null);
       setSuccess(null);
       const fd = new FormData();
+      fd.set("language", language);
       fd.set("blog.settings.title", nextSettings.title);
       fd.set("blog.settings.subtitle", nextSettings.subtitle);
       fd.set("blog.posts", JSON.stringify(nextPosts));
@@ -145,7 +155,7 @@ export function BlogManager({ initial }: Props) {
         onDone?.();
       });
     },
-    [router],
+    [router, language],
   );
 
   function saveSettingsOnly() {
@@ -256,23 +266,28 @@ export function BlogManager({ initial }: Props) {
           ← Volver al listado
         </button>
 
-        <header className="admin-page-header">
+        <header className="admin-page-header flex flex-wrap items-start justify-between gap-4">
           <div>
             <h1>{view.mode === "new" ? "Nueva entrada" : "Editar entrada"}</h1>
             <p>
               {view.mode === "new"
                 ? "Completá los datos y guardá para publicar en el blog."
                 : `Editando: ${draft.title || "—"}`}
+              {" · "}
+              {language === "en" ? "inglés" : "español"}
             </p>
           </div>
-          <button
-            type="button"
-            className="admin-btn-primary shrink-0"
-            disabled={pending}
-            onClick={commitDraft}
-          >
-            {pending ? "Guardando…" : "Guardar"}
-          </button>
+          <div className="flex shrink-0 flex-wrap items-center gap-3">
+            <AdminLanguageSwitcher language={language} />
+            <button
+              type="button"
+              className="admin-btn-primary shrink-0"
+              disabled={pending}
+              onClick={commitDraft}
+            >
+              {pending ? "Guardando…" : "Guardar"}
+            </button>
+          </div>
         </header>
 
         {error ? (
@@ -434,16 +449,21 @@ export function BlogManager({ initial }: Props) {
               /blog
             </a>
             .
+            {" · "}
+            Editando {language === "en" ? "inglés" : "español"}
           </p>
         </div>
-        <button
-          type="button"
-          className="admin-btn-primary shrink-0"
-          disabled={pending}
-          onClick={openNew}
-        >
-          + Nueva entrada
-        </button>
+        <div className="flex shrink-0 flex-wrap items-center gap-3">
+          <AdminLanguageSwitcher language={language} />
+          <button
+            type="button"
+            className="admin-btn-primary shrink-0"
+            disabled={pending}
+            onClick={openNew}
+          >
+            + Nueva entrada
+          </button>
+        </div>
       </header>
 
       {error ? (

@@ -1,0 +1,29 @@
+{
+  "settings": {
+    "title": "Blog",
+    "subtitle": "News, tips, and trends on short-term rentals and hospitality."
+  },
+  "posts": [
+    {
+      "id": "post-3",
+      "title": "Corporate rentals: beyond the hotel",
+      "excerpt": "Why companies choose serviced apartments for extended stays.",
+      "body": "<p>For stays lasting several weeks or months, a serviced apartment combines the space of a home with hotel-style operations.</p><h2>Benefits for HR and travelers</h2><ul><li>More square meters and a fully equipped kitchen</li><li>Predictable costs under contract</li><li>Locations close to offices and airports</li></ul><p>Explore our <a href=\"/corporate\">corporate solutions</a> and request access to the booking portal.</p>",
+      "seoDescription": "Benefits of corporate rentals compared with traditional hotels."
+    },
+    {
+      "id": "post-2",
+      "title": "Buenos Aires and Quito: two destinations, one standard",
+      "excerpt": "How we keep the same hospitality experience in Argentina and Ecuador.",
+      "body": "<p>At Top Rentals we operate towers in <strong>Buenos Aires</strong> and <strong>Quito</strong> with a unified standard: equipped apartments, clear check-in processes, and local support teams.</p><blockquote>Consistency across cities makes business travel and regional relocations easier.</blockquote><p>If your company rotates team members between countries, using the same provider reduces operational friction and improves team satisfaction.</p>",
+      "seoDescription": "Consistent hospitality for short-term rentals in Buenos Aires and Quito."
+    },
+    {
+      "id": "post-1",
+      "title": "What to look for in a short-term rental",
+      "excerpt": "Location, included services, and flexibility: a quick guide to choosing your next apartment.",
+      "body": "<p>Choosing a short-term rental goes beyond the nightly rate. Think about <strong>location</strong> relative to work or meetings, <strong>connectivity</strong>, and whether the building offers hotel-style services.</p><h2>Services that make the difference</h2><p>Housekeeping, 24-hour reception, quality Wi‑Fi, and well-kept common areas often define the experience as much as the apartment itself.</p><h2>Flexibility</h2><p>For corporate stays or families, being able to extend the booking without moving mid-stay saves time and cost.</p>",
+      "seoDescription": "Guide to choosing a short-term rental: location, services, and flexibility."
+    }
+  ]
+}

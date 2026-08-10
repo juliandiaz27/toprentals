@@ -33,7 +33,7 @@ export default async function Home() {
   const language = await getSiteLanguage();
   const [content, listings] = await Promise.all([
     readPageContent("home", language),
-    loadPropertyListings(),
+    loadPropertyListings({ language }),
   ]);
   const header = pickHomeHeader(content);
   const hero = pickHomeHero(content);

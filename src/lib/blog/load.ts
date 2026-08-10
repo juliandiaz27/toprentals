@@ -2,6 +2,7 @@ import {
   normalizeStoredRichHtml,
   sanitizeBlogHtml,
 } from "@/lib/richText/sanitize";
+import type { SiteLanguage } from "@/lib/i18n";
 import { readBlogData } from "./storage";
 import type { BlogPost, BlogPostStored, BlogSettings } from "./types";
 
@@ -30,13 +31,17 @@ export function normalizeBlogPost(raw: Partial<BlogPostStored>): BlogPostStored 
   };
 }
 
-export async function loadBlogSettings(): Promise<BlogSettings> {
-  const data = await readBlogData();
+export async function loadBlogSettings(
+  language?: SiteLanguage,
+): Promise<BlogSettings> {
+  const data = await readBlogData(language);
   return data.settings;
 }
 
-export async function loadPublishedBlogPosts(): Promise<BlogPost[]> {
-  const data = await readBlogData();
+export async function loadPublishedBlogPosts(
+  language?: SiteLanguage,
+): Promise<BlogPost[]> {
+  const data = await readBlogData(language);
   return data.posts
     .map((p) => normalizeBlogPost(p))
     .filter((p): p is BlogPost => p != null && p.status === "published")
@@ -48,9 +53,9 @@ export async function loadPublishedBlogPosts(): Promise<BlogPost[]> {
 
 export async function getBlogPostBySlug(
   slug: string,
-  options?: { includeDrafts?: boolean },
+  options?: { includeDrafts?: boolean; language?: SiteLanguage },
 ): Promise<BlogPost | null> {
-  const data = await readBlogData();
+  const data = await readBlogData(options?.language);
   const found = data.posts.find((p) => p.slug === slug);
   if (!found) return null;
   const post = normalizeBlogPost(found);
@@ -59,8 +64,10 @@ export async function getBlogPostBySlug(
   return post;
 }
 
-export async function loadAllBlogPostsForAdmin(): Promise<BlogPost[]> {
-  const data = await readBlogData();
+export async function loadAllBlogPostsForAdmin(
+  language?: SiteLanguage,
+): Promise<BlogPost[]> {
+  const data = await readBlogData(language);
   return data.posts
     .map((p) => normalizeBlogPost(p))
     .filter((p): p is BlogPost => p != null)

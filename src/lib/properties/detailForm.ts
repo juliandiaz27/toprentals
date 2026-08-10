@@ -1,10 +1,15 @@
+import type { SiteLanguage } from "@/lib/i18n";
+import { DEFAULT_SITE_LANGUAGE } from "@/lib/i18n";
 import type {
   PropertyDetailStored,
   PropertyListingStored,
   PropertyStatStored,
   PropertyUnitStored,
 } from "./catalogTypes";
-import { DEFAULT_PROPERTY_STATS } from "./catalogTypes";
+import {
+  DEFAULT_PROPERTY_STATS,
+  DEFAULT_PROPERTY_STATS_EN,
+} from "./catalogTypes";
 import { buildDefaultDetail } from "./propertyDetailDefaults";
 
 export const DEFAULT_GROUPS = {
@@ -13,36 +18,65 @@ export const DEFAULT_GROUPS = {
   groupsCtaHref: "/corporate",
 } as const;
 
+export const DEFAULT_GROUPS_EN = {
+  groupsHeadline: "Groups and corporate stays · Ask us about availability",
+  groupsCtaLabel: "Inquire for groups",
+  groupsCtaHref: "/corporate",
+} as const;
+
 export function emptyUnit(): PropertyUnitStored {
   return { name: "", sqm: "", guests: "", features: "", tourUrl: "" };
 }
 
-export function ensureStats(stats?: PropertyStatStored[]): PropertyStatStored[] {
-  const base = [...DEFAULT_PROPERTY_STATS];
+function defaultStatsForLanguage(language: SiteLanguage): PropertyStatStored[] {
+  return language === "en"
+    ? [...DEFAULT_PROPERTY_STATS_EN]
+    : [...DEFAULT_PROPERTY_STATS];
+}
+
+/** Normaliza etiquetas conocidas ES/EN para alinear valores por índice. */
+function statsLabelKey(label: string): string {
+  const n = label.trim().toLowerCase();
+  if (n === "unidades" || n === "units") return "units";
+  if (n === "pisos" || n === "floors") return "floors";
+  if (n === "huéspedes" || n === "huespedes" || n === "guests") return "guests";
+  if (
+    n === "seguridad 24/7" ||
+    n === "24/7 security" ||
+    n === "tipologías" ||
+    n === "tipologias"
+  ) {
+    return "security";
+  }
+  return n;
+}
+
+export function ensureStats(
+  stats?: PropertyStatStored[],
+  language: SiteLanguage = DEFAULT_SITE_LANGUAGE,
+): PropertyStatStored[] {
+  const base = defaultStatsForLanguage(language);
   if (!stats?.length) return base;
 
-  const valueByLabel = new Map<string, string>();
+  const valueByKey = new Map<string, string>();
   for (const s of stats) {
     const label = s.label?.trim();
     const value = s.value?.trim();
-    if (label) valueByLabel.set(label, value || "—");
-  }
-
-  if (!valueByLabel.has("Seguridad 24/7") && valueByLabel.has("Tipologías")) {
-    valueByLabel.set("Seguridad 24/7", "24/7");
+    if (label) valueByKey.set(statsLabelKey(label), value || "—");
   }
 
   return base.map((def) => ({
     label: def.label,
-    value: valueByLabel.get(def.label) ?? def.value,
+    value: valueByKey.get(statsLabelKey(def.label)) ?? def.value,
   }));
 }
 
 function defaultDetailStored(
   listing: PropertyListingStored,
   allListings: PropertyListingStored[],
+  language: SiteLanguage,
 ): PropertyDetailStored {
-  const defaults = buildDefaultDetail(listing, allListings);
+  const defaults = buildDefaultDetail(listing, allListings, language);
   return {
     subtitle: defaults.subtitle,
     about: defaults.about,
@@ -63,14 +97,15 @@ function defaultDetailStored(
 export function detailForAdminForm(
   listing: PropertyListingStored,
   allListings: PropertyListingStored[],
+  language: SiteLanguage = DEFAULT_SITE_LANGUAGE,
 ): PropertyDetailStored {
-  const base = defaultDetailStored(listing, allListings);
+  const base = defaultDetailStored(listing, allListings, language);
   const stored = listing.detail;
   if (!stored) return base;
 
   const poiLines = (stored.poiLines ?? []).map((l) => l.trim()).filter(Boolean);
   const tags = (stored.tags ?? []).map((t) => t.trim()).filter(Boolean);
-  const stats = ensureStats(stored.stats);
+  const stats = ensureStats(stored.stats, language);
   const hasCustomStats = stats.some((s) => s.value.trim() && s.value !== "—");
 
   return {
@@ -82,7 +117,7 @@ export function detailForAdminForm(
     groupsDescription: stored.groupsDescription?.trim() || base.groupsDescription,
     groupsCtaLabel: stored.groupsCtaLabel?.trim() || base.groupsCtaLabel,
     groupsCtaHref: stored.groupsCtaHref?.trim() || base.groupsCtaHref,
-    stats: hasCustomStats ? stats : base.stats ?? ensureStats(),
+    stats: hasCustomStats ? stats : base.stats ?? ensureStats(undefined, language),
     units: stored.units?.length ? stored.units : base.units ?? [],
     galleryImages: stored.galleryImages?.length
       ? stored.galleryImages
@@ -95,17 +130,19 @@ export function detailForAdminForm(
 
 export function normalizeDetailForForm(
   detail?: PropertyDetailStored,
+  language: SiteLanguage = DEFAULT_SITE_LANGUAGE,
 ): PropertyDetailStored {
+  const groups = language === "en" ? DEFAULT_GROUPS_EN : DEFAULT_GROUPS;
   return {
     subtitle: detail?.subtitle ?? "",
     about: detail?.about ?? "",
     tags: detail?.tags ?? [],
     poiLines: detail?.poiLines ?? [],
-    groupsHeadline: detail?.groupsHeadline ?? DEFAULT_GROUPS.groupsHeadline,
+    groupsHeadline: detail?.groupsHeadline ?? groups.groupsHeadline,
     groupsDescription: detail?.groupsDescription ?? "",
-    groupsCtaLabel: detail?.groupsCtaLabel ?? DEFAULT_GROUPS.groupsCtaLabel,
-    groupsCtaHref: detail?.groupsCtaHref ?? DEFAULT_GROUPS.groupsCtaHref,
-    stats: ensureStats(detail?.stats),
+    groupsCtaLabel: detail?.groupsCtaLabel ?? groups.groupsCtaLabel,
+    groupsCtaHref: detail?.groupsCtaHref ?? groups.groupsCtaHref,
+    stats: ensureStats(detail?.stats, language),
     units: detail?.units?.length ? detail.units : [],
     galleryImages: detail?.galleryImages ?? [],
     relatedSlugs: detail?.relatedSlugs ?? [],

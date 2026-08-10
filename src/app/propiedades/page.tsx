@@ -31,7 +31,7 @@ export default async function PropiedadesPage() {
   const [propContent, homeContent, listings] = await Promise.all([
     readPageContent("propiedades", language),
     readPageContent("home", language),
-    loadPropertyListings(),
+    loadPropertyListings({ language }),
   ]);
   const header = pickHomeHeader(homeContent);
   const homeHero = pickHomeHero(homeContent);

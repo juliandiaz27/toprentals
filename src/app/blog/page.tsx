@@ -13,7 +13,8 @@ import { getSiteLanguage } from "@/lib/i18nServer";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await loadBlogSettings();
+  const language = await getSiteLanguage();
+  const settings = await loadBlogSettings(language);
   return {
     title: `${settings.title} | Top Rentals`,
     description: settings.subtitle || undefined,
@@ -25,8 +26,8 @@ export default async function BlogIndexPage() {
   const ui = getUiMessages(language);
   const [homeContent, settings, posts] = await Promise.all([
     readPageContent("home", language),
-    loadBlogSettings(),
-    loadPublishedBlogPosts(),
+    loadBlogSettings(language),
+    loadPublishedBlogPosts(language),
   ]);
   const header = pickHomeHeader(homeContent);
   const hero = pickHomeHero(homeContent);

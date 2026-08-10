@@ -1,4 +1,10 @@
+import type { SiteLanguage } from "@/lib/i18n";
+import { DEFAULT_SITE_LANGUAGE } from "@/lib/i18n";
 import type { PropertyListing } from "./catalogTypes";
+import {
+  DEFAULT_PROPERTY_STATS,
+  DEFAULT_PROPERTY_STATS_EN,
+} from "./catalogTypes";
 import {
   buildGnahsBookingUrl,
   defaultCheckinCheckout,
@@ -34,7 +40,35 @@ export const DEFAULT_PROPERTY_UNITS: PropertyUnit[] = [
   },
 ];
 
+export const DEFAULT_PROPERTY_UNITS_EN: PropertyUnit[] = [
+  {
+    name: "Studio",
+    sqm: "28–32 m²",
+    guests: "Up to 2 guests",
+    features: "Equipped kitchen · Balcony · WiFi",
+  },
+  {
+    name: "Two Bedroom",
+    sqm: "42–48 m²",
+    guests: "Up to 3 guests",
+    features: "Living dining · Bedroom · Laundry",
+  },
+  {
+    name: "Two Bed. Luxury",
+    sqm: "55–60 m²",
+    guests: "Up to 4 guests",
+    features: "City view · Premium amenities",
+  },
+  {
+    name: "Three Bedroom",
+    sqm: "68–75 m²",
+    guests: "Up to 5 guests",
+    features: "Ideal for families · Two bathrooms",
+  },
+];
+
 export const DEFAULT_POI_SECTION_TITLE = "Puntos de interés cercanos";
+export const DEFAULT_POI_SECTION_TITLE_EN = "Nearby points of interest";
 
 export const DEFAULT_POI_BA = [
   "Transporte público",
@@ -42,6 +76,14 @@ export const DEFAULT_POI_BA = [
   "Comercios",
   "Espacios verdes",
   "Zona corporativa",
+];
+
+export const DEFAULT_POI_BA_EN = [
+  "Public transport",
+  "Dining",
+  "Shops",
+  "Green spaces",
+  "Business district",
 ];
 
 /** Reparte ítems en columnas (fila a fila, como el wireframe 4×2). */
@@ -64,11 +106,20 @@ function propertyShortName(name: string): string {
   return name.replace(/^Top Rentals\s*/i, "").trim() || name;
 }
 
-function defaultGroupsCopy(listing: PropertyListing): {
+function defaultGroupsCopy(
+  listing: PropertyListing,
+  language: SiteLanguage,
+): {
   groupsHeadline: string;
   groupsDescription: string;
 } {
   const shortName = propertyShortName(listing.name);
+  if (language === "en") {
+    return {
+      groupsHeadline: `Groups and corporate stays at ${shortName}`,
+      groupsDescription: `${shortName} is part of the Top Rentals portfolio with capacity to host large groups in the same building—corporate or leisure—with a smooth, coordinated experience.`,
+    };
+  }
   return {
     groupsHeadline: `Grupos y estadías corporativas en ${shortName}`,
     groupsDescription: `${shortName} forma parte del portfolio de Top Rentals con capacidad para alojar grandes grupos en un mismo edificio, ya sean corporativos o turísticos, con una experiencia ágil y coordinada.`,
@@ -93,6 +144,7 @@ function pickRelatedSlugs(
 export function buildDefaultDetail(
   listing: PropertyListing,
   allListings: PropertyListing[],
+  language: SiteLanguage = DEFAULT_SITE_LANGUAGE,
 ): PropertyDetailExtra {
   const location = listing.neighborhood || listing.city;
   const { checkin, checkout } = defaultCheckinCheckout();
@@ -106,33 +158,45 @@ export function buildDefaultDetail(
         })
       : "/reservas";
 
+  const isEn = language === "en";
+
   return {
-    subtitle: `Departamentos con servicio de hotel en ${location}, ${listing.city}.`,
-    tags: [listing.neighborhood, listing.city, "Servicio de hotel"].filter(Boolean),
+    subtitle: isEn
+      ? `Hotel-serviced apartments in ${location}, ${listing.city}.`
+      : `Departamentos con servicio de hotel en ${location}, ${listing.city}.`,
+    tags: [
+      listing.neighborhood,
+      listing.city,
+      isEn ? "Hotel service" : "Servicio de hotel",
+    ].filter(Boolean),
     pdfHref: "#",
-    pdfLabel: "Descargar PDF torre",
+    pdfLabel: isEn ? "Download tower PDF" : "Descargar PDF torre",
     galleryImages: resolvePropertyGalleryImages(
       listing.imageSrc,
       listing.detail?.galleryImages,
     ),
-    about: `${listing.name} forma parte de la red Top Rentals en ${listing.city}. Departamentos totalmente equipados, atención 24 hs y la flexibilidad de un alquiler temporario con estándares de hotel.${listing.address ? ` Ubicación: ${listing.address}.` : ""}`,
+    about: isEn
+      ? `${listing.name} is part of the Top Rentals network in ${listing.city}. Fully equipped apartments, 24/7 service, and the flexibility of a short-term rental with hotel standards.${listing.address ? ` Location: ${listing.address}.` : ""}`
+      : `${listing.name} forma parte de la red Top Rentals en ${listing.city}. Departamentos totalmente equipados, atención 24 hs y la flexibilidad de un alquiler temporario con estándares de hotel.${listing.address ? ` Ubicación: ${listing.address}.` : ""}`,
     poi: {
-      sectionTitle: DEFAULT_POI_SECTION_TITLE,
-      columns: buildPoiColumns(DEFAULT_POI_BA),
+      sectionTitle: isEn
+        ? DEFAULT_POI_SECTION_TITLE_EN
+        : DEFAULT_POI_SECTION_TITLE,
+      columns: buildPoiColumns(isEn ? DEFAULT_POI_BA_EN : DEFAULT_POI_BA),
     },
-    units: DEFAULT_PROPERTY_UNITS,
-    ...defaultGroupsCopy(listing),
-    groupsCtaLabel: "Consultar grupos",
+    units: isEn ? DEFAULT_PROPERTY_UNITS_EN : DEFAULT_PROPERTY_UNITS,
+    ...defaultGroupsCopy(listing, language),
+    groupsCtaLabel: isEn ? "Inquire for groups" : "Consultar grupos",
     groupsCtaHref: "/corporate",
-    stats: [
-      { value: "—", label: "Unidades" },
-      { value: "—", label: "Pisos" },
-      { value: "—", label: "Huéspedes" },
-      { value: "24/7", label: "Seguridad 24/7" },
-    ],
-    finalCtaTitle: `Reservá en ${listing.name} con Top Rentals.`,
-    finalCtaSubtitle:
-      "Contactanos y te ayudamos a encontrar el departamento ideal.",
+    stats: isEn
+      ? [...DEFAULT_PROPERTY_STATS_EN]
+      : [...DEFAULT_PROPERTY_STATS],
+    finalCtaTitle: isEn
+      ? `Book ${listing.name} with Top Rentals.`
+      : `Reservá en ${listing.name} con Top Rentals.`,
+    finalCtaSubtitle: isEn
+      ? "Contact us and we’ll help you find the ideal apartment."
+      : "Contactanos y te ayudamos a encontrar el departamento ideal.",
     finalCtaHref: bookingHref,
     relatedSlugs: pickRelatedSlugs(allListings, listing),
   };

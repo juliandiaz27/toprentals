@@ -20,9 +20,11 @@ import { detailHasContent, ensureStats } from "@/lib/properties/detailForm";
 import { pickPropiedadesFilters } from "@/lib/pageContent/propiedadesTypes";
 import { propertyCityOptionsFromFilters } from "@/lib/pageContent/propertyCityFilters";
 import { readPageContent } from "@/lib/pageContent/storage";
+import { normalizeSiteLanguage } from "@/lib/i18n";
 import {
   readPropertiesCatalog,
   writePropertiesCatalog,
+  writePropertiesCatalogEnglishOverlay,
 } from "@/lib/properties/catalogStorage";
 import type { ActionResult } from "./actions";
 
@@ -35,6 +37,7 @@ async function allowedPropertyCities(): Promise<Set<string>> {
 function parseListingsPayload(
   raw: string,
   validCities: Set<string>,
+  language: ReturnType<typeof normalizeSiteLanguage> = "es",
 ): PropertyListingStored[] | null {
   try {
     const parsed = JSON.parse(raw) as unknown;
@@ -71,6 +74,7 @@ function parseListingsPayload(
                 label: String(row.label ?? "").trim(),
               };
             }),
+            language,
           );
         }
 
@@ -166,10 +170,13 @@ export async function savePropertiesCatalog(
       return { ok: false, error: "No autorizado" };
     }
 
+    const language = normalizeSiteLanguage(formData.get("language"));
+
     const validCities = await allowedPropertyCities();
     const listings = parseListingsPayload(
       String(formData.get("catalog.listings") ?? ""),
       validCities,
+      language,
     );
     if (!listings || listings.length === 0) {
       return {
@@ -185,6 +192,21 @@ export async function savePropertiesCatalog(
         return { ok: false, error: `Slug duplicado: ${item.slug}` };
       }
       slugs.add(item.slug);
+    }
+
+    if (language === "en") {
+      await writePropertiesCatalogEnglishOverlay(listings);
+      const merged = await readPropertiesCatalog("en");
+      revalidatePath("/");
+      revalidatePath("/propiedades");
+      for (const item of merged.listings) {
+        revalidatePath(`/propiedades/${item.slug}`);
+      }
+      return {
+        ok: true,
+        listings: merged.listings,
+        featuredSlugs: merged.featuredSlugs,
+      };
     }
 
     const featuredSlugs =

@@ -12,11 +12,13 @@ type Props = {
 export function StickyReserveFab({ config }: Props) {
   const { lang, ui } = useLanguage();
   const label =
-    lang === "en" &&
-    (!config.label.trim() ||
-      config.label.trim().toLowerCase() === "reservar ahora")
-      ? ui.common.bookNow
-      : config.label;
+    lang === "en"
+      ? config.labelEn.trim() ||
+        (config.label.trim().toLowerCase() === "reservar ahora"
+          ? ui.common.bookNow
+          : config.label.trim()) ||
+        ui.common.bookNow
+      : config.label.trim() || ui.common.bookNow;
 
   return (
     <Link

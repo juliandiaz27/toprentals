@@ -23,7 +23,9 @@ type Props = {
 export function announcementStorageKey(bar: AnnouncementBarConfig): string {
   const slug = [
     bar.message,
+    bar.messageEn,
     bar.linkLabel,
+    bar.linkLabelEn,
     bar.href,
     bar.backgroundColor,
     bar.textColor,

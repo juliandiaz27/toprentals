@@ -13,10 +13,16 @@ import {
 } from "@/lib/properties/detailForm";
 import { MEDIA_UPLOAD_GUIDES } from "@/lib/mediaUploadGuide";
 import { MediaUploadGuide } from "./MediaUploadGuide";
+import { AdminLanguageSwitcher } from "./AdminLanguageSwitcher";
 import { savePropertiesCatalog } from "./propertiesCatalogActions";
+import {
+  DEFAULT_SITE_LANGUAGE,
+  type SiteLanguage,
+} from "@/lib/i18n";
 
 type Props = {
   initial: PropertiesCatalogEditorState;
+  language?: SiteLanguage;
 };
 
 type View =
@@ -79,7 +85,10 @@ function IconEye({ off }: { off?: boolean }) {
   );
 }
 
-export function PropertiesCatalogManager({ initial }: Props) {
+export function PropertiesCatalogManager({
+  initial,
+  language = DEFAULT_SITE_LANGUAGE,
+}: Props) {
   const defaultCity = initial.cityOptions[0] ?? "Buenos Aires";
   const router = useRouter();
   const [view, setView] = useState<View>({ mode: "list" });
@@ -105,6 +114,7 @@ export function PropertiesCatalogManager({ initial }: Props) {
       setError(null);
       setSuccess(null);
       const fd = new FormData();
+      fd.set("language", language);
       fd.set("catalog.listings", JSON.stringify(nextListings));
       fd.set("catalog.featuredSlugs", JSON.stringify(nextFeatured));
       if (uploads?.image) {
@@ -133,11 +143,14 @@ export function PropertiesCatalogManager({ initial }: Props) {
         onDone?.();
       });
     },
-    [router],
+    [router, language],
   );
 
   function openNew() {
-    setDraft({ ...emptyListing(defaultCity), detail: normalizeDetailForForm() });
+    setDraft({
+      ...emptyListing(defaultCity),
+      detail: normalizeDetailForForm(undefined, language),
+    });
     setImageFile(null);
     setGalleryFiles([]);
     setError(null);
@@ -149,7 +162,10 @@ export function PropertiesCatalogManager({ initial }: Props) {
     const item = listings[index]!;
     setDraft({
       ...item,
-      detail: normalizeDetailForForm(detailForAdminForm(item, listings)),
+      detail: normalizeDetailForForm(
+        detailForAdminForm(item, listings, language),
+        language,
+      ),
     });
     setImageFile(null);
     setGalleryFiles([]);
@@ -277,13 +293,18 @@ export function PropertiesCatalogManager({ initial }: Props) {
           ← Volver al listado
         </button>
 
-        <header className="admin-page-header">
-          <h1>{isNew ? "Nueva propiedad" : "Editar propiedad"}</h1>
-          <p>
-            {isNew
-              ? "Completá los datos y guardá para publicar en el sitio."
-              : `Editando: ${draft.name || "—"}`}
-          </p>
+        <header className="admin-page-header flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h1>{isNew ? "Nueva propiedad" : "Editar propiedad"}</h1>
+            <p>
+              {isNew
+                ? "Completá los datos y guardá para publicar en el sitio."
+                : `Editando: ${draft.name || "—"}`}
+              {" · "}
+              {language === "en" ? "inglés" : "español"}
+            </p>
+          </div>
+          <AdminLanguageSwitcher language={language} />
         </header>
 
         {error ? (
@@ -924,11 +945,16 @@ export function PropertiesCatalogManager({ initial }: Props) {
               /propiedades
             </a>{" "}
             y en la home si están destacadas.
+            {" · "}
+            Editando {language === "en" ? "inglés" : "español"}
           </p>
         </div>
-        <button type="button" className="admin-btn-primary shrink-0" onClick={openNew}>
-          + Nueva propiedad
-        </button>
+        <div className="flex shrink-0 flex-wrap items-center gap-3">
+          <AdminLanguageSwitcher language={language} />
+          <button type="button" className="admin-btn-primary shrink-0" onClick={openNew}>
+            + Nueva propiedad
+          </button>
+        </div>
       </header>
 
       {error ? (

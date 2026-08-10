@@ -1,3 +1,4 @@
+import type { SiteLanguage } from "@/lib/i18n";
 import type {
   PropertiesCatalogFile,
   PropertyListing,
@@ -45,15 +46,18 @@ export function listingsWithPlaceholders(
 
 export async function loadPropertyListings(options?: {
   includeHidden?: boolean;
+  language?: SiteLanguage;
 }): Promise<PropertyListing[]> {
-  const catalog = await readPropertiesCatalog();
+  const catalog = await readPropertiesCatalog(options?.language);
   const listings = listingsWithPlaceholders(catalog.listings);
   if (options?.includeHidden) return listings;
   return listings.filter(isPropertyPublic);
 }
 
-export async function loadPropertiesCatalog(): Promise<PropertiesCatalogFile> {
-  return readPropertiesCatalog();
+export async function loadPropertiesCatalog(
+  language?: SiteLanguage,
+): Promise<PropertiesCatalogFile> {
+  return readPropertiesCatalog(language);
 }
 
 export function pickHomeFeaturedProperties(
@@ -76,8 +80,9 @@ export function pickHomeFeaturedProperties(
 
 export async function getPropertyBySlug(
   slug: string,
+  language?: SiteLanguage,
 ): Promise<PropertyListing | undefined> {
-  const listings = await loadPropertyListings();
+  const listings = await loadPropertyListings({ language });
   return listings.find(
     (p) => p.slug === slug && !p.comingSoon && isPropertyPublic(p),
   );

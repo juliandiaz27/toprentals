@@ -25,7 +25,7 @@ export async function ClubLoyaltyPage() {
   const [clubContent, homeContent, listings] = await Promise.all([
     readPageContent("club", language),
     readPageContent("home", language),
-    loadPropertyListings(),
+    loadPropertyListings({ language }),
   ]);
   const page = pickClubPage(clubContent);
   const header = pickHomeHeader(homeContent);

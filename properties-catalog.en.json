@@ -1,0 +1,212 @@
+{
+  "properties": [
+    {
+      "slug": "downtown-torre-bellini",
+      "detail": {
+        "subtitle": "Hotel-serviced apartments in Microcentro, Buenos Aires.",
+        "about": "Top Rentals Downtown is part of the Top Rentals network in Buenos Aires. Fully equipped apartments, 24/7 service, and the flexibility of a short-term rental with hotel standards. Location: Esmeralda 920.",
+        "groupsHeadline": "134 units · Groups of more than 270 people",
+        "groupsDescription": "Downtown is part of the Top Rentals portfolio with capacity to host large groups in the same building—corporate or leisure—with a smooth, coordinated experience.",
+        "groupsCtaLabel": "Inquire for groups",
+        "tags": [
+          "Downtown",
+          "Buenos Aires",
+          "Hotel service"
+        ],
+        "poiLines": [
+          "Public transport",
+          "Business district",
+          "Dining",
+          "Shops",
+          "Green spaces"
+        ],
+        "stats": [
+          {
+            "value": "",
+            "label": "Units"
+          },
+          {
+            "value": "",
+            "label": "Floors"
+          },
+          {
+            "value": "",
+            "label": "Guests"
+          },
+          {
+            "value": "",
+            "label": "24/7 security"
+          }
+        ],
+        "units": [
+          null,
+          {
+            "name": "2 Bedroom"
+          },
+          {
+            "name": "2 Bedroom Superior"
+          },
+          {
+            "name": "3 Bedroom"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "huergo-475",
+      "detail": {
+        "units": [
+          {
+            "features": "Tour pending"
+          },
+          {
+            "name": "Studio apartment"
+          },
+          {
+            "name": "2 Bedroom A"
+          },
+          {
+            "name": "2 Bedroom B"
+          },
+          {
+            "name": "2 Bedroom Plus"
+          },
+          {
+            "name": "3 Bedroom"
+          },
+          {
+            "name": "3 Bedroom Plus"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "palermo-soho",
+      "detail": {
+        "units": [
+          null,
+          {
+            "name": "2 Bedroom"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "dorrego",
+      "detail": {
+        "units": [
+          null,
+          {
+            "name": "2 Bedroom"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "wow-nunez",
+      "name": "Hub Nuñez",
+      "detail": {
+        "units": [
+          null,
+          null,
+          {
+            "name": "Two Bedroom Option 1"
+          },
+          {
+            "name": "Two Bedroom Option 2"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "qorner",
+      "detail": {
+        "units": [
+          {
+            "name": "2 Bedroom"
+          },
+          {
+            "name": "2 Bedroom Plus"
+          },
+          {
+            "name": "3 Bedroom"
+          },
+          {
+            "name": "4 Bedroom"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "montaneses",
+      "detail": {
+        "units": [
+          {
+            "name": "Room"
+          },
+          null,
+          {
+            "name": "2 Bedroom"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "palermo-chico",
+      "detail": {
+        "units": [
+          null,
+          {
+            "name": "2 Bedroom"
+          },
+          {
+            "name": "3 Bedroom"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "palermo-hollywood",
+      "detail": {
+        "units": [
+          null,
+          {
+            "name": "2 Bedroom"
+          },
+          {
+            "name": "3 Bedroom"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "belgrano",
+      "detail": {
+        "units": [
+          null,
+          {
+            "name": "2 Bedroom"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "torre-nunez",
+      "detail": {
+        "units": [
+          null,
+          {
+            "name": "2 Bedroom"
+          },
+          {
+            "name": "3 Bedroom"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "ecuador-proximamente",
+      "name": "Coming soon: More properties in Ecuador"
+    }
+  ]
+}

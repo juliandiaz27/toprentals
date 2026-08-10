@@ -1,3 +1,5 @@
+import type { SiteLanguage } from "@/lib/i18n";
+import { DEFAULT_SITE_LANGUAGE } from "@/lib/i18n";
 import { loadPropertyListings } from "./catalog";
 import type { PropertyListing } from "./catalog";
 import type { PropertyDetailStored } from "./catalogTypes";
@@ -5,14 +7,13 @@ import { resolvePropertyGalleryImages } from "./gallery";
 import {
   buildDefaultDetail,
   buildPoiColumns,
-  DEFAULT_POI_BA,
   DEFAULT_POI_SECTION_TITLE,
+  DEFAULT_POI_SECTION_TITLE_EN,
 } from "./propertyDetailDefaults";
 
 import type {
   PropertyDetail,
   PropertyDetailExtra,
-  PropertyNearbyPoi,
 } from "./propertyDetailTypes";
 
 export type {
@@ -24,25 +25,15 @@ export type {
 } from "./propertyDetailTypes";
 export { buildDefaultDetail, buildPoiColumns } from "./propertyDetailDefaults";
 
-function normalizePoi(
-  raw: PropertyNearbyPoi | string[] | undefined,
-  fallbackItems: string[],
-): PropertyNearbyPoi {
-  if (raw && typeof raw === "object" && "columns" in raw && Array.isArray(raw.columns)) {
-    return {
-      sectionTitle: raw.sectionTitle ?? DEFAULT_POI_SECTION_TITLE,
-      columns: raw.columns,
-    };
-  }
-  const flat = Array.isArray(raw) ? raw : fallbackItems;
-  return {
-    sectionTitle: DEFAULT_POI_SECTION_TITLE,
-    columns: buildPoiColumns(flat),
-  };
+function poiSectionTitle(language: SiteLanguage): string {
+  return language === "en"
+    ? DEFAULT_POI_SECTION_TITLE_EN
+    : DEFAULT_POI_SECTION_TITLE;
 }
 
 function detailOverrideFromStored(
   stored: PropertyDetailStored | undefined,
+  language: SiteLanguage,
 ): Partial<PropertyDetailExtra> {
   if (!stored) return {};
 
@@ -50,7 +41,7 @@ function detailOverrideFromStored(
   const poi =
     poiItems.length > 0
       ? {
-          sectionTitle: DEFAULT_POI_SECTION_TITLE,
+          sectionTitle: poiSectionTitle(language),
           columns: buildPoiColumns(poiItems),
         }
       : undefined;
@@ -102,15 +93,19 @@ function detailOverrideFromStored(
   };
 }
 
-export async function getPropertyDetail(slug: string): Promise<PropertyDetail | null> {
-  const listings = await loadPropertyListings({ includeHidden: true });
+export async function getPropertyDetail(
+  slug: string,
+  language: SiteLanguage = DEFAULT_SITE_LANGUAGE,
+): Promise<PropertyDetail | null> {
+  const listings = await loadPropertyListings({ includeHidden: true, language });
   const listing = listings.find(
     (p) => p.slug === slug && !p.comingSoon && !p.hidden,
   );
   if (!listing) return null;
 
-  const base = buildDefaultDetail(listing, listings.filter((p) => !p.hidden));
-  const override = detailOverrideFromStored(listing.detail);
+  const visible = listings.filter((p) => !p.hidden);
+  const base = buildDefaultDetail(listing, visible, language);
+  const override = detailOverrideFromStored(listing.detail, language);
 
   const galleryImages = resolvePropertyGalleryImages(
     listing.imageSrc,
