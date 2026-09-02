@@ -23,7 +23,8 @@ export type ClubLevelTier = {
   name: string;
   requirement: string;
   benefits: string[];
-  variant: "silver" | "gold" | "platinum";
+  footer?: string;
+  variant: "bronze" | "silver" | "gold" | "platinum";
 };
 
 export type ClubBenefitsColumn = {
@@ -115,40 +116,55 @@ export function parseClubHowItWorksSteps(
 
 const DEFAULT_TIERS: ClubLevelTier[] = [
   {
-    id: "silver",
-    name: "Silver",
-    requirement: "0–9 noches al año",
+    id: "bronce",
+    name: "Nivel Bronce",
+    requirement:
+      "Sumate al Club Top Rentals y empezá a disfrutar beneficios desde tu primera estadía.\n\nTe regalamos 50 puntos para que puedas canjearlos y acceder a beneficios exclusivos en futuras reservas.",
+    variant: "bronze",
+    benefits: [],
+  },
+  {
+    id: "plata",
+    name: "Nivel Plata",
+    requirement: "Más beneficios. Más flexibilidad. Más experiencias.",
     variant: "silver",
     benefits: [
-      "Acumulación de puntos",
-      "Check-in prioritario",
-      "WiFi premium",
+      "Upgrade de categoría sujeto a disponibilidad",
+      "Early check-in para disfrutar antes tu estadía",
+      "Late check-out hasta las 16 hs sujeto a disponibilidad",
+      "10% OFF en todas tus reservas",
     ],
+    footer: "Porque ser parte de Club Top Rentals tiene sus beneficios.",
   },
   {
-    id: "gold",
-    name: "Gold",
-    requirement: "10–24 noches al año",
+    id: "oro",
+    name: "Nivel Oro",
+    requirement:
+      "Una experiencia pensada para quienes buscan más en cada estadía.",
     variant: "gold",
     benefits: [
-      "Todo Silver +",
-      "Upgrade de categoría (sujeto a disponibilidad)",
-      "Late check-out hasta 14hs",
-      "Welcome amenity",
+      "Upgrade prioritario confirmado hasta 48 hs antes del check-in, sujeto a disponibilidad",
+      "Late check-out garantizado hasta las 17 hs",
+      "20% OFF en todas tus reservas",
+      "Puntos de regalo en tu cumpleaños",
     ],
+    footer:
+      "Más beneficios, más flexibilidad y una experiencia premium en cada viaje.",
   },
   {
-    id: "platinum",
-    name: "Platinum",
-    requirement: "25+ noches al año",
+    id: "platino",
+    name: "Nivel Platino",
+    requirement:
+      "El máximo nivel de beneficios para quienes hacen de cada viaje una experiencia premium.",
     variant: "platinum",
     benefits: [
-      "Todo Gold +",
-      "Upgrade garantizado",
-      "Late check-out hasta 18hs",
-      "Early check-in",
-      "Concierge dedicado",
+      "1 upgrade confirmado por año",
+      "Late check-out garantizado hasta las 18 hs",
+      "30% OFF en todas tus reservas",
+      "Puntos de regalo en tu cumpleaños",
     ],
+    footer:
+      "Más exclusividad, más beneficios y una experiencia diseñada para disfrutar Top Rentals al máximo.",
   },
 ];
 
@@ -227,16 +243,24 @@ export function pickClubPage(raw: PageContent): ClubPageContent {
       .map((t, i) => {
         if (!t || typeof t !== "object") return null;
         const row = t as Record<string, unknown>;
-        const variant = String(row.variant ?? DEFAULT_TIERS[i]?.variant ?? "silver");
+        const variant = String(row.variant ?? DEFAULT_TIERS[i]?.variant ?? "bronze");
         const safeVariant =
-          variant === "gold" || variant === "platinum" ? variant : "silver";
-        return {
+          variant === "bronze" ||
+          variant === "silver" ||
+          variant === "gold" ||
+          variant === "platinum"
+            ? variant
+            : "bronze";
+        const tier: ClubLevelTier = {
           id: String(row.id ?? `tier-${i}`),
           name: String(row.name ?? ""),
           requirement: String(row.requirement ?? ""),
           variant: safeVariant as ClubLevelTier["variant"],
           benefits: asStringArray(row.benefits, []),
         };
+        const footer = String(row.footer ?? "").trim();
+        if (footer) tier.footer = footer;
+        return tier;
       })
       .filter((t): t is ClubLevelTier => t !== null && Boolean(t.name));
     if (tiers.length === 0) tiers = DEFAULT_TIERS;

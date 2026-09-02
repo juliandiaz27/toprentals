@@ -38,40 +38,50 @@
     "subtitle": "The more you return, the more benefits you unlock.",
     "tiers": [
       {
-        "id": "silver",
-        "name": "Silver",
-        "requirement": "0–9 nights per year",
+        "id": "bronce",
+        "name": "Bronze Level",
+        "requirement": "Join Club Top Rentals and start enjoying benefits from your first stay.\n\nWe gift you 50 points to redeem and access exclusive benefits on future bookings.",
+        "variant": "bronze",
+        "benefits": []
+      },
+      {
+        "id": "plata",
+        "name": "Silver Level",
+        "requirement": "More benefits. More flexibility. More experiences.",
         "variant": "silver",
         "benefits": [
-          "Points accumulation",
-          "Priority check-in",
-          "Premium WiFi"
-        ]
+          "Category upgrade subject to availability",
+          "Early check-in to enjoy your stay sooner",
+          "Late check-out until 4 PM subject to availability",
+          "10% OFF on all your bookings"
+        ],
+        "footer": "Because being part of Club Top Rentals has its perks."
       },
       {
-        "id": "gold",
-        "name": "Gold",
-        "requirement": "10–24 nights per year",
+        "id": "oro",
+        "name": "Gold Level",
+        "requirement": "An experience designed for those who want more from every stay.",
         "variant": "gold",
         "benefits": [
-          "Everything in Silver +",
-          "Category upgrade (subject to availability)",
-          "Late check-out until 2 PM",
-          "Welcome amenity"
-        ]
+          "Priority upgrade confirmed up to 48 hours before check-in, subject to availability",
+          "Late check-out guaranteed until 5 PM",
+          "20% OFF on all your bookings",
+          "Birthday gift points"
+        ],
+        "footer": "More benefits, more flexibility, and a premium experience on every trip."
       },
       {
-        "id": "platinum",
-        "name": "Platinum",
-        "requirement": "25+ nights per year",
+        "id": "platino",
+        "name": "Platinum Level",
+        "requirement": "The highest level of benefits for those who make every trip a premium experience.",
         "variant": "platinum",
         "benefits": [
-          "Everything in Gold +",
-          "Guaranteed upgrade",
-          "Late check-out until 6 PM",
-          "Early check-in",
-          "Dedicated concierge"
-        ]
+          "1 confirmed upgrade per year",
+          "Late check-out guaranteed until 6 PM",
+          "30% OFF on all your bookings",
+          "Birthday gift points"
+        ],
+        "footer": "More exclusivity, more benefits, and an experience designed to enjoy Top Rentals to the fullest."
       }
     ]
   },

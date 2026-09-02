@@ -123,7 +123,7 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         label: "WhatsApp — URL",
         type: "url",
         section: "Banner principal (video)",
-        fallback: "https://wa.me/",
+        fallback: "https://wa.me/5491163023094",
         hint: "Enlace completo de WhatsApp.",
       },
       {
@@ -677,7 +677,7 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         label: "WhatsApp URL",
         type: "url",
         section: "Redes sociales",
-        fallback: "https://wa.me/",
+        fallback: "https://wa.me/5491163023094",
       },
     ],
   },
