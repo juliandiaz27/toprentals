@@ -110,7 +110,7 @@ export function PropertyDetailView({
         />
 
         {property.elfsightReviewsAppId ? (
-          <div data-reveal className="mt-16">
+          <div className="mt-16">
             <ElfsightGoogleReviews
               appId={property.elfsightReviewsAppId}
               title={ui.googleReviews.title}

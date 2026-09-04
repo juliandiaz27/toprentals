@@ -1,8 +1,12 @@
-import Script from "next/script";
+"use client";
+
+import { useEffect } from "react";
 import {
   ELFSIGHT_PLATFORM_SRC,
   parseElfsightAppId,
 } from "@/lib/elfsight";
+
+const SCRIPT_ID = "elfsight-platform-js";
 
 type Props = {
   /** App ID o snippet completo de Elfsight. */
@@ -10,6 +14,17 @@ type Props = {
   title?: string;
   className?: string;
 };
+
+function ensureElfsightPlatform(): void {
+  if (typeof document === "undefined") return;
+  if (document.getElementById(SCRIPT_ID)) return;
+
+  const script = document.createElement("script");
+  script.id = SCRIPT_ID;
+  script.src = ELFSIGHT_PLATFORM_SRC;
+  script.async = true;
+  document.body.appendChild(script);
+}
 
 /**
  * Carrusel de reseñas Google vía Elfsight.
@@ -21,11 +36,17 @@ export function ElfsightGoogleReviews({
   className = "",
 }: Props) {
   const id = parseElfsightAppId(appId ?? "");
+
+  useEffect(() => {
+    if (!id) return;
+    ensureElfsightPlatform();
+  }, [id]);
+
   if (!id) return null;
 
   return (
     <section
-      className={`border-b border-neutral-200 bg-white ${className}`}
+      className={`bg-white ${className}`}
       aria-label={title || "Google reviews"}
     >
       <div className="mx-auto w-full max-w-[1440px]">
@@ -36,7 +57,6 @@ export function ElfsightGoogleReviews({
         ) : null}
         <div className={`elfsight-app-${id}`} data-elfsight-app-lazy />
       </div>
-      <Script src={ELFSIGHT_PLATFORM_SRC} strategy="lazyOnload" />
     </section>
   );
 }

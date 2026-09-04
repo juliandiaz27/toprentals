@@ -11,6 +11,7 @@ export function normalizeListing(
   item: PropertyListingStored,
   index: number,
 ): PropertyListing {
+  const elfsightReviewsAppId = String(item.elfsightReviewsAppId ?? "").trim();
   return {
     slug: item.slug.trim(),
     gnahsId: Number(item.gnahsId) || 0,
@@ -23,6 +24,7 @@ export function normalizeListing(
     hasOffer: Boolean(item.hasOffer),
     isPopular: Boolean(item.isPopular),
     detail: item.detail,
+    ...(elfsightReviewsAppId ? { elfsightReviewsAppId } : {}),
     imageSrc:
       item.comingSoon || !String(item.imageSrc ?? "").trim()
         ? ""
