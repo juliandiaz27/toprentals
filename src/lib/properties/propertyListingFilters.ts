@@ -37,7 +37,8 @@ function slugifyFilterId(value: string): string {
 
 /** Agrupa nombres de unidad en categorías del listado (Studio, 2 Ambientes, etc.). */
 export function normalizeUnitCategory(unitName: string): string {
-  const n = unitName
+  const raw = String(unitName ?? "").trim();
+  const n = raw
     .toLowerCase()
     .normalize("NFD")
     .replace(/\p{M}/gu, "");
@@ -49,13 +50,15 @@ export function normalizeUnitCategory(unitName: string): string {
   if (/\b3\s*amb|\btres\s*amb|\btwo\s*bedroom\b/.test(n)) return "3 Ambientes";
   if (/\b2\s*amb|\bdos\s*amb|\bone\s*bedroom\b/.test(n)) return "2 Ambientes";
 
-  return unitName.trim();
+  return raw;
 }
 
 export function getListingUnitNames(listing: PropertyListing): string[] {
   const stored = listing.detail?.units;
   if (stored && stored.length > 0) {
-    return stored.map((u) => u.name.trim()).filter(Boolean);
+    return stored
+      .map((u) => String(u?.name ?? "").trim())
+      .filter(Boolean);
   }
   return DEFAULT_PROPERTY_UNITS.map((u) => u.name);
 }
@@ -80,7 +83,7 @@ function sortCategories(categories: string[]): string[] {
 }
 
 export function neighborhoodFilterId(neighborhood: string): string {
-  const trimmed = neighborhood.trim();
+  const trimmed = String(neighborhood ?? "").trim();
   if (!trimmed) return "sin-barrio";
   return slugifyFilterId(trimmed);
 }
@@ -113,7 +116,7 @@ export function neighborhoodOptionsWithCounts(
 ): PropertyFilterOptionWithCount[] {
   const byId = new Map<string, { label: string; count: number }>();
   for (const listing of listings) {
-    const label = listing.neighborhood.trim();
+    const label = String(listing.neighborhood ?? "").trim();
     if (!label) continue;
     const id = neighborhoodFilterId(label);
     const row = byId.get(id);

@@ -10,13 +10,19 @@ import { propertyPlaceholderImage } from "./catalog";
 export function normalizeListing(
   item: PropertyListingStored,
   index: number,
-): PropertyListing {
-  const elfsightReviewsAppId = String(item.elfsightReviewsAppId ?? "").trim();
+): PropertyListing | null {
+  const slug = String(item?.slug ?? "").trim();
+  const name = String(item?.name ?? "").trim();
+  if (!slug || !name) return null;
+
+  const cityRaw = String(item?.city ?? "").trim();
+  const elfsightReviewsAppId = String(item?.elfsightReviewsAppId ?? "").trim();
+
   return {
-    slug: item.slug.trim(),
+    slug,
     gnahsId: Number(item.gnahsId) || 0,
-    name: item.name.trim(),
-    city: item.city === "Quito" ? "Quito" : "Buenos Aires",
+    name,
+    city: cityRaw === "Quito" ? "Quito" : cityRaw || "Buenos Aires",
     neighborhood: String(item.neighborhood ?? "").trim(),
     address: String(item.address ?? "").trim(),
     comingSoon: Boolean(item.comingSoon),
@@ -39,11 +45,17 @@ export function isPropertyPublic(item: PropertyListing): boolean {
 export function listingsWithPlaceholders(
   listings: PropertyListingStored[],
 ): PropertyListing[] {
-  return listings.map((item, index) => {
+  const out: PropertyListing[] = [];
+  listings.forEach((item, index) => {
     const base = normalizeListing(item, index);
-    if (base.comingSoon || base.imageSrc) return base;
-    return { ...base, imageSrc: propertyPlaceholderImage(index) };
+    if (!base) return;
+    if (base.comingSoon || base.imageSrc) {
+      out.push(base);
+      return;
+    }
+    out.push({ ...base, imageSrc: propertyPlaceholderImage(index) });
   });
+  return out;
 }
 
 export async function loadPropertyListings(options?: {
