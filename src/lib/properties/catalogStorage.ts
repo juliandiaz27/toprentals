@@ -1,3 +1,4 @@
+import fs from "fs/promises";
 import { dataFilePath } from "@/lib/repoRoot";
 import { readJsonFile, writeJsonFile } from "@/lib/fsJson";
 import {
@@ -11,6 +12,7 @@ import {
 import type {
   PropertiesCatalogEnOverlay,
   PropertiesCatalogFile,
+  PropertyListingStored,
 } from "./catalogTypes";
 
 const DEFAULT_CATALOG: PropertiesCatalogFile = {
@@ -34,15 +36,59 @@ function catalogEnFilePath(): string {
   return dataFilePath("properties-catalog.en.json");
 }
 
+async function readCatalogFromDeployedDisk(): Promise<PropertiesCatalogFile | null> {
+  try {
+    const raw = await fs.readFile(catalogFilePath(), "utf-8");
+    const data = JSON.parse(raw) as PropertiesCatalogFile;
+    return {
+      featuredSlugs: Array.isArray(data.featuredSlugs) ? data.featuredSlugs : [],
+      listings: Array.isArray(data.listings) ? data.listings : [],
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * En Vercel, Blob puede pisar el array `listings` del repo y perder
+ * `elfsightReviewsAppId` si el Blob se guardó antes de ese campo.
+ * Recuperamos esos IDs desde el JSON del deploy cuando falten.
+ */
+function backfillStructuralFieldsFromDisk(
+  effective: PropertiesCatalogFile,
+  disk: PropertiesCatalogFile | null,
+): PropertiesCatalogFile {
+  if (!disk?.listings?.length) return effective;
+
+  const elfsightBySlug = new Map<string, string>();
+  for (const item of disk.listings) {
+    const id = String(item.elfsightReviewsAppId ?? "").trim();
+    if (id) elfsightBySlug.set(item.slug, id);
+  }
+  if (elfsightBySlug.size === 0) return effective;
+
+  let changed = false;
+  const listings: PropertyListingStored[] = effective.listings.map((item) => {
+    if (String(item.elfsightReviewsAppId ?? "").trim()) return item;
+    const id = elfsightBySlug.get(item.slug);
+    if (!id) return item;
+    changed = true;
+    return { ...item, elfsightReviewsAppId: id };
+  });
+
+  return changed ? { ...effective, listings } : effective;
+}
+
 async function readSpanishCatalog(): Promise<PropertiesCatalogFile> {
-  const data = await readJsonFile<PropertiesCatalogFile>(
-    catalogFilePath(),
-    DEFAULT_CATALOG,
-  );
-  return {
+  const [data, disk] = await Promise.all([
+    readJsonFile<PropertiesCatalogFile>(catalogFilePath(), DEFAULT_CATALOG),
+    readCatalogFromDeployedDisk(),
+  ]);
+  const normalized: PropertiesCatalogFile = {
     featuredSlugs: Array.isArray(data.featuredSlugs) ? data.featuredSlugs : [],
     listings: Array.isArray(data.listings) ? data.listings : [],
   };
+  return backfillStructuralFieldsFromDisk(normalized, disk);
 }
 
 async function readEnglishOverlay(): Promise<PropertiesCatalogEnOverlay> {

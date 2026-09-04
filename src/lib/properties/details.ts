@@ -37,7 +37,9 @@ function detailOverrideFromStored(
 ): Partial<PropertyDetailExtra> {
   if (!stored) return {};
 
-  const poiItems = (stored.poiLines ?? []).map((line) => line.trim()).filter(Boolean);
+  const poiItems = (stored.poiLines ?? [])
+    .map((line) => String(line ?? "").trim())
+    .filter(Boolean);
   const poi =
     poiItems.length > 0
       ? {
@@ -49,32 +51,34 @@ function detailOverrideFromStored(
   const stats =
     stored.stats && stored.stats.length > 0
       ? stored.stats
-          .filter((s) => s.label.trim())
           .map((s) => ({
-            value: s.value.trim() || "—",
-            label: s.label.trim(),
+            value: String(s?.value ?? "").trim() || "—",
+            label: String(s?.label ?? "").trim(),
           }))
+          .filter((s) => s.label)
       : undefined;
 
   const units =
     stored.units && stored.units.length > 0
       ? stored.units
-          .filter((u) => u.name.trim())
           .map((u) => {
-            const tourUrl = u.tourUrl?.trim();
+            const name = String(u?.name ?? "").trim();
+            if (!name) return null;
+            const tourUrl = String(u?.tourUrl ?? "").trim();
             return {
-              name: u.name.trim(),
-              sqm: u.sqm.trim(),
-              guests: u.guests.trim(),
-              features: u.features.trim(),
+              name,
+              sqm: String(u?.sqm ?? "").trim(),
+              guests: String(u?.guests ?? "").trim(),
+              features: String(u?.features ?? "").trim(),
               ...(tourUrl ? { tourUrl } : {}),
             };
           })
+          .filter((u): u is NonNullable<typeof u> => u != null)
       : undefined;
 
   const galleryImages =
     stored.galleryImages && stored.galleryImages.length > 0
-      ? stored.galleryImages.map((s) => s.trim()).filter(Boolean)
+      ? stored.galleryImages.map((s) => String(s ?? "").trim()).filter(Boolean)
       : undefined;
 
   return {
