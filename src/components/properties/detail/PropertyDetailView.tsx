@@ -12,6 +12,7 @@ import { PropertyMap } from "@/components/properties/detail/PropertyMap";
 import { PropertyNearbyPoiList } from "@/components/properties/detail/PropertyNearbyPoi";
 import { PropertyDetailGroupsSection } from "@/components/properties/detail/PropertyDetailGroupsSection";
 import { PropertyReviewsSection } from "@/components/properties/detail/PropertyReviewsSection";
+import { ElfsightGoogleReviews } from "@/components/elfsight/ElfsightGoogleReviews";
 import type { PropertyReview } from "@/lib/properties/reviewsTypes";
 import { DEFAULT_SITE_LANGUAGE, type SiteLanguage } from "@/lib/i18n";
 import { getUiMessages } from "@/lib/i18n/ui";
@@ -107,6 +108,16 @@ export function PropertyDetailView({
           propertyName={property.name}
           reviews={reviews}
         />
+
+        {property.elfsightReviewsAppId ? (
+          <div data-reveal className="mt-16">
+            <ElfsightGoogleReviews
+              appId={property.elfsightReviewsAppId}
+              title={ui.googleReviews.title}
+              className="border-0 px-0 py-0"
+            />
+          </div>
+        ) : null}
       </div>
 
       <PropertyDetailGroupsSection

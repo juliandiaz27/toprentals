@@ -21,8 +21,10 @@ import { pickPropiedadesFilters } from "@/lib/pageContent/propiedadesTypes";
 import { propertyCityOptionsFromFilters } from "@/lib/pageContent/propertyCityFilters";
 import { readPageContent } from "@/lib/pageContent/storage";
 import { normalizeSiteLanguage } from "@/lib/i18n";
+import { parseElfsightAppId } from "@/lib/elfsight";
 import {
   readPropertiesCatalog,
+  readPropertiesCatalogSpanish,
   writePropertiesCatalog,
   writePropertiesCatalogEnglishOverlay,
 } from "@/lib/properties/catalogStorage";
@@ -142,6 +144,10 @@ function parseListingsPayload(
         hidden: row.hidden === true || row.hidden === "true",
         hasOffer: row.hasOffer === true || row.hasOffer === "true",
         isPopular: row.isPopular === true || row.isPopular === "true",
+        elfsightReviewsAppId:
+          parseElfsightAppId(
+            String(row.elfsightReviewsAppId ?? row.elfsightReviewsEmbed ?? ""),
+          ) || undefined,
         detail,
       });
     }
@@ -159,6 +165,30 @@ function parseFeaturedSlugs(raw: string): string[] | null {
     return parsed.map((s) => String(s).trim()).filter(Boolean);
   } catch {
     return null;
+  }
+}
+
+/** Campos no traducibles (p. ej. Elfsight) se guardan siempre en el catálogo ES. */
+async function syncStructuralFieldsToSpanish(
+  drafts: PropertyListingStored[],
+): Promise<void> {
+  const spanish = await readPropertiesCatalogSpanish();
+  let changed = false;
+  const bySlug = new Map(drafts.map((d) => [d.slug, d]));
+  const listings = spanish.listings.map((item) => {
+    const draft = bySlug.get(item.slug);
+    if (!draft) return item;
+    const nextId = draft.elfsightReviewsAppId?.trim() || undefined;
+    const prevId = item.elfsightReviewsAppId?.trim() || undefined;
+    if (nextId === prevId) return item;
+    changed = true;
+    const next = { ...item };
+    if (nextId) next.elfsightReviewsAppId = nextId;
+    else delete next.elfsightReviewsAppId;
+    return next;
+  });
+  if (changed) {
+    await writePropertiesCatalog({ ...spanish, listings });
   }
 }
 
@@ -195,6 +225,7 @@ export async function savePropertiesCatalog(
     }
 
     if (language === "en") {
+      await syncStructuralFieldsToSpanish(listings);
       await writePropertiesCatalogEnglishOverlay(listings);
       const merged = await readPropertiesCatalog("en");
       revalidatePath("/");

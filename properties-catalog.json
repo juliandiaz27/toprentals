@@ -1,4 +1,11 @@
 {
+  "featuredSlugs": [
+    "belgrano",
+    "wow-nunez",
+    "dorrego",
+    "montaneses",
+    "qorner"
+  ],
   "listings": [
     {
       "slug": "downtown-torre-bellini",
@@ -12,6 +19,7 @@
       "hidden": false,
       "hasOffer": true,
       "isPopular": false,
+      "elfsightReviewsAppId": "da5cc129-3a5b-4ea7-9b09-91b87a44a767",
       "detail": {
         "subtitle": "Departamentos con servicio de hotel en Microcentro, Buenos Aires.",
         "about": "Top Rentals Downtown forma parte de la red Top Rentals en Buenos Aires. Departamentos totalmente equipados, atención 24 hs y la flexibilidad de un alquiler temporario con estándares de hotel. Ubicación: Esmeralda 920.",
@@ -33,20 +41,20 @@
         "groupsCtaHref": "/corporate",
         "stats": [
           {
-            "value": "134",
-            "label": "Unidades"
+            "label": "Unidades",
+            "value": "134"
           },
           {
-            "value": "45",
-            "label": "Pisos"
+            "label": "Pisos",
+            "value": "45"
           },
           {
-            "value": "+270",
-            "label": "Huéspedes"
+            "label": "Huéspedes",
+            "value": "+270"
           },
           {
-            "value": "24/7",
-            "label": "Seguridad 24/7"
+            "label": "Seguridad 24/7",
+            "value": "24/7"
           }
         ],
         "units": [
@@ -158,7 +166,8 @@
             "tourUrl": "https://my.matterport.com/show/?m=68ky9fa3Bmh"
           }
         ]
-      }
+      },
+      "elfsightReviewsAppId": "f4c0540c-8730-479b-8a79-2d4a404d3b5d"
     },
     {
       "slug": "palermo-soho",
@@ -191,7 +200,8 @@
             "tourUrl": "https://my.matterport.com/show/?m=dwj1maoeiFw"
           }
         ]
-      }
+      },
+      "elfsightReviewsAppId": "18480e6b-9a75-46e9-b569-b521ed7e0e8a"
     },
     {
       "slug": "dorrego",
@@ -526,12 +536,5 @@
       "hasOffer": false,
       "isPopular": false
     }
-  ],
-  "featuredSlugs": [
-    "belgrano",
-    "wow-nunez",
-    "dorrego",
-    "montaneses",
-    "qorner"
   ]
 }

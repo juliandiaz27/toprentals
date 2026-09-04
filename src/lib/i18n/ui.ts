@@ -126,6 +126,9 @@ export type UiMessages = {
     byAuthor: string;
     more: string;
   };
+  googleReviews: {
+    title: string;
+  };
 };
 
 const ES: UiMessages = {
@@ -259,6 +262,9 @@ const ES: UiMessages = {
     byAuthor: "Por {name}",
     more: "Más en el blog",
   },
+  googleReviews: {
+    title: "Lo que dicen de nosotros",
+  },
 };
 
 const EN: UiMessages = {
@@ -388,6 +394,9 @@ const EN: UiMessages = {
     breadcrumb: "Breadcrumb",
     byAuthor: "By {name}",
     more: "More from the blog",
+  },
+  googleReviews: {
+    title: "What people say about us",
   },
 };
 

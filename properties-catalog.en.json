@@ -41,13 +41,22 @@
         "units": [
           null,
           {
-            "name": "2 Bedroom"
+            "name": "2 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "2 Bedroom Superior"
+            "name": "2 Bedroom Superior",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "3 Bedroom"
+            "name": "3 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           }
         ]
       }
@@ -55,27 +64,83 @@
     {
       "slug": "huergo-475",
       "detail": {
+        "subtitle": "Hotel-serviced apartments in San Telmo, Buenos Aires.",
+        "about": "Top Rentals Huergo is part of the Top Rentals network in Buenos Aires. Fully equipped apartments, 24/7 service, and the flexibility of a short-term rental with hotel standards. Location: Huergo 475.",
+        "groupsHeadline": "Groups and corporate stays at Huergo",
+        "groupsDescription": "Huergo is part of the Top Rentals portfolio with capacity to host large groups in the same building—corporate or leisure—with a smooth, coordinated experience.",
+        "groupsCtaLabel": "Inquire for groups",
+        "tags": [
+          "San Telmo",
+          "Buenos Aires",
+          "Hotel service"
+        ],
+        "poiLines": [
+          "Public transport",
+          "Business district",
+          "Dining",
+          "Shops",
+          "Green spaces"
+        ],
+        "stats": [
+          {
+            "value": "",
+            "label": "Units"
+          },
+          {
+            "value": "",
+            "label": "Floors"
+          },
+          {
+            "value": "",
+            "label": "Guests"
+          },
+          {
+            "value": "",
+            "label": "24/7 security"
+          }
+        ],
         "units": [
           {
+            "name": "",
+            "sqm": "",
+            "guests": "",
             "features": "Tour pending"
           },
           {
-            "name": "Studio apartment"
+            "name": "Studio apartment",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "2 Bedroom A"
+            "name": "2 Bedroom A",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "2 Bedroom B"
+            "name": "2 Bedroom B",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "2 Bedroom Plus"
+            "name": "2 Bedroom Plus",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "3 Bedroom"
+            "name": "3 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "3 Bedroom Plus"
+            "name": "3 Bedroom Plus",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           }
         ]
       }
@@ -83,10 +148,48 @@
     {
       "slug": "palermo-soho",
       "detail": {
+        "subtitle": "Hotel-serviced apartments in Palermo, Buenos Aires.",
+        "about": "Top Rentals Palermo Soho is part of the Top Rentals network in Buenos Aires. Fully equipped apartments, 24/7 service, and the flexibility of a short-term rental with hotel standards. Location: Honduras 4567.",
+        "groupsHeadline": "Groups and corporate stays at Palermo Soho",
+        "groupsDescription": "Palermo Soho is part of the Top Rentals portfolio with capacity to host large groups in the same building—corporate or leisure—with a smooth, coordinated experience.",
+        "groupsCtaLabel": "Inquire for groups",
+        "tags": [
+          "Palermo",
+          "Buenos Aires",
+          "Hotel service"
+        ],
+        "poiLines": [
+          "Public transport",
+          "Business district",
+          "Dining",
+          "Shops",
+          "Green spaces"
+        ],
+        "stats": [
+          {
+            "value": "",
+            "label": "Units"
+          },
+          {
+            "value": "",
+            "label": "Floors"
+          },
+          {
+            "value": "",
+            "label": "Guests"
+          },
+          {
+            "value": "",
+            "label": "24/7 security"
+          }
+        ],
         "units": [
           null,
           {
-            "name": "2 Bedroom"
+            "name": "2 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           }
         ]
       }
@@ -97,7 +200,10 @@
         "units": [
           null,
           {
-            "name": "2 Bedroom"
+            "name": "2 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           }
         ]
       }
@@ -110,10 +216,16 @@
           null,
           null,
           {
-            "name": "Two Bedroom Option 1"
+            "name": "Two Bedroom Option 1",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "Two Bedroom Option 2"
+            "name": "Two Bedroom Option 2",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           }
         ]
       }
@@ -123,16 +235,28 @@
       "detail": {
         "units": [
           {
-            "name": "2 Bedroom"
+            "name": "2 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "2 Bedroom Plus"
+            "name": "2 Bedroom Plus",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "3 Bedroom"
+            "name": "3 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "4 Bedroom"
+            "name": "4 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           }
         ]
       }
@@ -142,11 +266,17 @@
       "detail": {
         "units": [
           {
-            "name": "Room"
+            "name": "Room",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           null,
           {
-            "name": "2 Bedroom"
+            "name": "2 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           }
         ]
       }
@@ -157,10 +287,16 @@
         "units": [
           null,
           {
-            "name": "2 Bedroom"
+            "name": "2 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "3 Bedroom"
+            "name": "3 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           }
         ]
       }
@@ -171,10 +307,16 @@
         "units": [
           null,
           {
-            "name": "2 Bedroom"
+            "name": "2 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "3 Bedroom"
+            "name": "3 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           }
         ]
       }
@@ -185,7 +327,10 @@
         "units": [
           null,
           {
-            "name": "2 Bedroom"
+            "name": "2 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           }
         ]
       }
@@ -196,10 +341,16 @@
         "units": [
           null,
           {
-            "name": "2 Bedroom"
+            "name": "2 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           },
           {
-            "name": "3 Bedroom"
+            "name": "3 Bedroom",
+            "sqm": "",
+            "guests": "",
+            "features": ""
           }
         ]
       }

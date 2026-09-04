@@ -19,6 +19,10 @@ import {
   DEFAULT_SITE_LANGUAGE,
   type SiteLanguage,
 } from "@/lib/i18n";
+import {
+  formatElfsightEmbedSnippet,
+  parseElfsightAppId,
+} from "@/lib/elfsight";
 
 type Props = {
   initial: PropertiesCatalogEditorState;
@@ -100,6 +104,7 @@ export function PropertiesCatalogManager({
   const [draft, setDraft] = useState<PropertyListingStored>(emptyListing(defaultCity));
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const [elfsightEmbedInput, setElfsightEmbedInput] = useState("");
 
   const persist = useCallback(
     (
@@ -153,6 +158,7 @@ export function PropertiesCatalogManager({
     });
     setImageFile(null);
     setGalleryFiles([]);
+    setElfsightEmbedInput("");
     setError(null);
     setSuccess(null);
     setView({ mode: "new" });
@@ -169,6 +175,11 @@ export function PropertiesCatalogManager({
     });
     setImageFile(null);
     setGalleryFiles([]);
+    setElfsightEmbedInput(
+      item.elfsightReviewsAppId
+        ? formatElfsightEmbedSnippet(item.elfsightReviewsAppId)
+        : "",
+    );
     setError(null);
     setSuccess(null);
     setView({ mode: "edit", index });
@@ -224,6 +235,10 @@ export function PropertiesCatalogManager({
       hasOffer: draft.comingSoon || draft.hidden ? false : Boolean(draft.hasOffer),
       isPopular:
         draft.comingSoon || draft.hidden ? false : Boolean(draft.isPopular),
+      elfsightReviewsAppId:
+        parseElfsightAppId(
+          draft.elfsightReviewsAppId ?? elfsightEmbedInput,
+        ) || undefined,
       detail: {
         ...normalizedDetail,
         poiLines: (normalizedDetail.poiLines ?? [])
@@ -232,6 +247,9 @@ export function PropertiesCatalogManager({
         tags: (normalizedDetail.tags ?? []).map((t) => t.trim()).filter(Boolean),
       },
     };
+    if (!entry.elfsightReviewsAppId) {
+      delete entry.elfsightReviewsAppId;
+    }
 
     let nextListings: PropertyListingStored[];
     let nextFeatured = [...featuredSlugs];
@@ -491,6 +509,49 @@ export function PropertiesCatalogManager({
                 />
               </label>
             </div>
+          </section>
+
+          <section>
+            <h2 className="admin-form-section-label">
+              Reseñas Google (Elfsight)
+            </h2>
+            <p className="mb-4 text-sm text-[var(--admin-text-dim)]">
+              Un widget por torre. En Elfsight creá el carrusel de esa propiedad y
+              pegá acá el código de inserción completo. Si no hay código, la
+              sección no se muestra en la ficha.
+            </p>
+            <label className="flex flex-col">
+              <span className="admin-field-label">Código de inserción</span>
+              <textarea
+                rows={5}
+                value={elfsightEmbedInput}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setElfsightEmbedInput(value);
+                  const id = parseElfsightAppId(value);
+                  updateDraft({
+                    elfsightReviewsAppId: id || undefined,
+                  });
+                }}
+                className="admin-textarea font-mono text-sm"
+                placeholder={`<!-- Elfsight Google Reviews -->\n<script src="https://elfsightcdn.com/platform.js" async></script>\n<div class="elfsight-app-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" data-elfsight-app-lazy></div>`}
+              />
+              {draft.elfsightReviewsAppId ? (
+                <span className="admin-field-hint mt-2 mb-0">
+                  Widget detectado:{" "}
+                  <code className="text-xs">{draft.elfsightReviewsAppId}</code>
+                </span>
+              ) : elfsightEmbedInput.trim() ? (
+                <span className="admin-field-hint mt-2 mb-0 text-amber-700">
+                  No se detectó un App ID válido. Pegá el snippet completo de
+                  Elfsight (incluye la clase elfsight-app-…).
+                </span>
+              ) : (
+                <span className="admin-field-hint mt-2 mb-0">
+                  Vacío = sin carrusel de Google en esta ficha.
+                </span>
+              )}
+            </label>
           </section>
 
           <section>

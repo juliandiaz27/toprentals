@@ -67,6 +67,11 @@ export type PropertyListingStored = {
   hasOffer?: boolean;
   /** Muestra sello «Más solicitada» en home, listado y ficha. */
   isPopular?: boolean;
+  /**
+   * App ID del widget Elfsight Google Reviews (uno por torre).
+   * En admin se puede pegar el snippet completo; se guarda solo el ID.
+   */
+  elfsightReviewsAppId?: string;
   detail?: PropertyDetailStored;
 };
 
