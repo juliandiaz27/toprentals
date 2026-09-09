@@ -10,6 +10,7 @@ import {
   defaultCheckinCheckout,
 } from "@/lib/gnahs/buildBookingUrl";
 import { reservasLinkProps } from "@/lib/reservasLink";
+import { resolveSiteWhatsAppUrl } from "@/lib/whatsapp";
 import type { PropertyDetail } from "@/lib/properties/details";
 
 type Props = {
@@ -38,7 +39,7 @@ export function PropertyDetailHero({ property, whatsappUrl }: Props) {
     <header data-reveal className="relative border-y border-neutral-200 bg-[#F8F8F8]">
       {whatsappUrl ? (
         <a
-          href={whatsappUrl}
+          href={resolveSiteWhatsAppUrl(whatsappUrl)}
           target="_blank"
           rel="noopener noreferrer"
           className="absolute right-5 top-[7.5rem] z-10 flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_4px_16px_rgba(0,0,0,0.18)] transition hover:scale-105 lg:right-10 lg:top-[8.25rem]"

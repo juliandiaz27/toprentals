@@ -15,6 +15,7 @@ import {
   type SiteLanguage,
 } from "@/lib/i18n";
 import { deepMerge } from "@/lib/i18n/deepMerge";
+import { resolveSiteWhatsAppUrl } from "@/lib/whatsapp";
 
 function filePath(slug: string): string {
   return dataFilePath(`${resolveStorageSlug(slug)}-content.json`);
@@ -56,6 +57,12 @@ async function readPageContentUncached(
     );
     if (Object.keys(enOverlay).length > 0) {
       content = deepMerge(content as Record<string, unknown>, enOverlay) as PageContent;
+    }
+  }
+
+  if (resolveStorageSlug(slug) === "home") {
+    for (const key of ["hero.whatsappUrl", "footer.whatsappUrl"] as const) {
+      setNested(content, key, resolveSiteWhatsAppUrl(getNested(content, key)));
     }
   }
 

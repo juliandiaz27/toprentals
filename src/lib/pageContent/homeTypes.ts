@@ -6,6 +6,7 @@ import {
   resolveHeaderNavStored,
   headerNavLinksFromStored,
 } from "./headerNav";
+import { resolveSiteWhatsAppUrl } from "@/lib/whatsapp";
 
 export { parseDifferentialCards };
 
@@ -70,7 +71,7 @@ export function pickHomeHero(raw: Record<string, unknown>): HomeHeroContent {
     ctaPrimaryHref: String(hero.ctaPrimaryHref ?? "/propiedades"),
     ctaSecondary: String(hero.ctaSecondary ?? "Soluciones corporativas"),
     ctaSecondaryHref: String(hero.ctaSecondaryHref ?? "/corporate"),
-    whatsappUrl: String(hero.whatsappUrl ?? "https://wa.me/"),
+    whatsappUrl: resolveSiteWhatsAppUrl(hero.whatsappUrl),
     whatsappEnabled: enabled === true || enabled === "true" || enabled === "on",
   };
 }
@@ -420,6 +421,6 @@ export function pickHomeFooter(raw: Record<string, unknown>): HomeFooterContent 
     socialLabel: String(f.socialLabel ?? "Instagram · Facebook · WhatsApp"),
     instagramUrl: String(f.instagramUrl ?? "#"),
     facebookUrl: String(f.facebookUrl ?? "#"),
-    whatsappUrl: String(f.whatsappUrl ?? "#"),
+    whatsappUrl: resolveSiteWhatsAppUrl(f.whatsappUrl),
   };
 }
