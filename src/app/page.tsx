@@ -54,7 +54,7 @@ export default async function Home() {
       <main>
         <HeroBanner hero={hero} slides={slides} />
 
-        <HomeSearchBar config={gnahsWidget} />
+        <HomeSearchBar config={gnahsWidget} listings={listings} />
 
         <HomeAnimatedStats title={stats.title} items={stats.items} />
 
@@ -64,9 +64,7 @@ export default async function Home() {
           properties={listings}
         />
 
-        <div className="bg-black">
-          <BuildingsTourSection content={buildings} />
-        </div>
+        <BuildingsTourSection content={buildings} />
         <CorporateTeaserSection content={corporateTeaser} />
         <DirectBenefitsSection content={directBenefits} />
         <LocationsSection content={locations} />

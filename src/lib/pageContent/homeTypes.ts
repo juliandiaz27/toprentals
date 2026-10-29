@@ -159,6 +159,7 @@ export type HomeDifferentialCard = {
 
 export type HomeDifferentialsContent = {
   title: string;
+  subtitle: string;
   cards: HomeDifferentialCard[];
 };
 
@@ -180,7 +181,8 @@ function statField(
 export function pickHomeStats(raw: Record<string, unknown>): HomeStatsContent {
   const s = (raw.stats ?? {}) as Record<string, string>;
   return {
-    title: statField(s, "title", "Top Rentals en números"),
+    /* Sin aplanar: la cursiva marca la parte en serif del título */
+    title: String(s.title ?? "").trim() || "Top Rentals <em>en números</em>",
     items: [
       {
         value: statField(s, "label1", "+500"),
@@ -209,6 +211,10 @@ export function pickHomeDifferentials(
   const d = (raw.differentials ?? {}) as Record<string, unknown>;
   return {
     title: String(d.title ?? "Nuestros diferenciales"),
+    subtitle: String(
+      d.subtitle ??
+        "El operador profesional de departamentos más grande y confiable del mercado.",
+    ),
     cards: parseDifferentialCards(d),
   };
 }
@@ -253,7 +259,8 @@ export function pickHomeCorporateTeaser(
     String(c.bullet1 ?? "Múltiples departamentos en una misma torre"),
     String(c.bullet2 ?? "Contratos flexibles para estadías largas"),
     String(c.bullet3 ?? "Tarifas corporativas negociadas"),
-  ];
+    String(c.bullet4 ?? ""),
+  ].filter((b) => b.trim() !== "");
   const fromArray =
     Array.isArray(bullets) && bullets.length > 0
       ? bullets.map((b) => String(b))
@@ -282,6 +289,7 @@ export type HomeDirectBenefitsContent = {
 export type HomeLocationCard = {
   title: string;
   subtitle: string;
+  imageSrc: string;
   linkLabel: string;
   href: string;
 };
@@ -293,6 +301,7 @@ export type HomeLocationsContent = {
 
 export type HomeInvestorCtaContent = {
   title: string;
+  imageSrc: string;
   devLabel: string;
   devHref: string;
   invLabel: string;
@@ -359,6 +368,7 @@ export function pickHomeLocations(raw: Record<string, unknown>): HomeLocationsCo
         subtitle: String(
           l.card1Subtitle ?? "Buenos Aires · +400 departamentos · 7 zonas",
         ),
+        imageSrc: String(l.card1ImageSrc ?? ""),
         linkLabel: String(l.card1LinkLabel ?? "Ver propiedades →"),
         href: String(l.card1Href ?? "/propiedades"),
       },
@@ -367,6 +377,7 @@ export function pickHomeLocations(raw: Record<string, unknown>): HomeLocationsCo
         subtitle: String(
           l.card2Subtitle ?? "Quito · +100 departamentos · La Carolina",
         ),
+        imageSrc: String(l.card2ImageSrc ?? ""),
         linkLabel: String(l.card2LinkLabel ?? "Ver propiedades →"),
         href: String(l.card2Href ?? "/propiedades"),
       },
@@ -380,6 +391,7 @@ export function pickHomeInvestorCta(raw: Record<string, unknown>): HomeInvestorC
     title: String(
       i.title ?? "¿Sos un desarrollador o querés invertir en el sector?",
     ),
+    imageSrc: String(i.imageSrc ?? ""),
     devLabel: String(i.devLabel ?? "Desarrolladores →"),
     devHref: String(i.devHref ?? "/real-estate"),
     invLabel: String(i.invLabel ?? "Inversores →"),

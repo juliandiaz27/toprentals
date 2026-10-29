@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inria_Serif, Inter, Manrope, Montserrat } from "next/font/google";
 import { GnahsMetasearchTracker } from "@/components/gnahs/GnahsMetasearchTracker";
 import { SiteFooter } from "@/components/home/SiteFooter";
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
@@ -17,6 +17,28 @@ export const dynamic = "force-dynamic";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+/* Rebranding (Figma): títulos en Fieldwork (Montserrat hasta tener la licencia), acentos en Inria Serif Bold Italic */
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
+
+const accentSerif = Inria_Serif({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-accent-serif",
   display: "swap",
 });
 
@@ -39,7 +61,7 @@ export default async function RootLayout({
   const ui = getUiMessages(language);
 
   return (
-    <html lang={language} className={`${inter.variable} h-full antialiased`}>
+    <html lang={language} className={`${inter.variable} ${manrope.variable} ${montserrat.variable} ${accentSerif.variable} h-full antialiased`}>
       <head>
         <link rel="preconnect" href="https://assets.gnahs.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://hostalric.gnahs.app" crossOrigin="anonymous" />

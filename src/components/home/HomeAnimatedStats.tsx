@@ -58,11 +58,11 @@ function AnimatedStatBlock({
   return (
     <li
       className={`flex flex-col items-center px-3 text-center sm:px-4 lg:px-6 ${
-        showDivider ? "lg:border-l lg:border-neutral-200" : ""
+        showDivider ? "lg:border-l lg:border-neutral-300" : ""
       }`}
     >
       <p
-        className="text-[clamp(2rem,4.5vw,3rem)] font-bold leading-none tracking-tight text-neutral-950 tabular-nums"
+        className="text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-none tracking-tight text-tr-ink tabular-nums"
         aria-label={`${prefix}${target} ${item.label}`}
       >
         <span aria-hidden>
@@ -70,7 +70,7 @@ function AnimatedStatBlock({
           {shown}
         </span>
       </p>
-      <p className="mt-3 max-w-[9.5rem] text-[13px] leading-snug text-neutral-500">
+      <p className="mt-2 max-w-[9.5rem] text-[14px] leading-snug text-tr-ink">
         <FormattedText value={item.label} as="inline" />
       </p>
     </li>
@@ -103,17 +103,18 @@ export function HomeAnimatedStats({ title, items }: Props) {
     <section
       ref={ref}
       data-reveal
-      className="border-b border-neutral-200 bg-[#F8F8F8]"
+      className="bg-white"
       aria-labelledby="home-stats-heading"
     >
-      <div className="mx-auto w-full max-w-[1440px] px-5 py-10 md:px-10 md:py-12">
-        <h2
-          id="home-stats-heading"
-          className="text-[15px] font-bold text-neutral-500"
-        >
-          <FormattedText value={title} as="inline" />
-        </h2>
-        <ul className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:mt-10 lg:grid-cols-5 lg:gap-y-0">
+      <div className="relative mx-auto w-full max-w-[1440px] px-5 pb-16 pt-14 md:px-10 lg:px-16 lg:pb-20">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-6 lg:pl-11">
+          <h2
+            id="home-stats-heading"
+            className="tr-heading shrink-0 text-[22px] leading-none lg:w-[210px] lg:text-[25px] [&_em]:block"
+          >
+            <FormattedText value={title} as="inline" />
+          </h2>
+          <ul className="grid flex-1 grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-5 lg:gap-y-0">
           {items.map((item, index) => (
             <AnimatedStatBlock
               key={`${item.label}-${index}`}
@@ -122,7 +123,13 @@ export function HomeAnimatedStats({ title, items }: Props) {
               showDivider={index > 0}
             />
           ))}
-        </ul>
+          </ul>
+        </div>
+        {/* Trazo curvo del Figma bajo los números */}
+        <span
+          className="pointer-events-none absolute bottom-8 left-5 right-10 hidden h-20 rounded-bl-[64px] border-b border-l border-tr-ink/80 md:left-10 lg:left-16 lg:right-36 lg:block"
+          aria-hidden
+        />
       </div>
     </section>
   );

@@ -6,6 +6,15 @@
   --btn: #121212;
   --btn-hover: #2a2a2a;
   --mobile-bottom-nav-height: 3.75rem;
+
+  /* Paleta rebranding (Figma) */
+  --tr-red: #812525;
+  --tr-orange: #fd5627;
+  --tr-amber: #f1992c;
+  --tr-green: #0a543d;
+  --tr-sky: #cae5f6;
+  --tr-ink: #2b2b2b;
+  --tr-cream: #f9f7f3;
 }
 
 @theme inline {
@@ -13,7 +22,16 @@
   --color-foreground: var(--foreground);
   --color-btn: var(--btn);
   --color-btn-hover: var(--btn-hover);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-manrope), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-montserrat), var(--font-sans);
+  --font-accent: var(--font-accent-serif), Georgia, serif;
+  --color-tr-red: var(--tr-red);
+  --color-tr-orange: var(--tr-orange);
+  --color-tr-amber: var(--tr-amber);
+  --color-tr-green: var(--tr-green);
+  --color-tr-sky: var(--tr-sky);
+  --color-tr-ink: var(--tr-ink);
+  --color-tr-cream: var(--tr-cream);
 }
 
 body {
@@ -98,6 +116,36 @@ body {
 .blog-body h2:first-child,
 .blog-body h3:first-child {
   margin-top: 0;
+}
+
+/* Títulos del rebranding: Montserrat en mayúsculas + palabras en itálica
+   (marcadas con cursiva en el panel) en serif de acento. */
+.tr-heading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+  color: var(--tr-ink);
+}
+
+.tr-heading em,
+.tr-heading i,
+.tr-accent {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: -0.05em;
+  font-size: 1.2em;
+}
+
+/* Subtítulos: el acento en itálica va en serif, sin agrandar */
+.tr-subheading em,
+.tr-subheading i {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 700;
 }
 
 /* —— Reveal al scroll (sitio público) —— */

@@ -10,8 +10,8 @@ import { HomeFeaturedPropertyCard } from "./HomeFeaturedPropertyCard";
 /** px/s — desplazamiento constante */
 const SCROLL_SPEED_PX = 48;
 
-/** Ancho fijo por tarjeta (~5 visibles en 1440px con gaps) */
-const SLIDE_WIDTH_CLASS = "w-[220px] shrink-0 sm:w-[236px] lg:w-[252px]";
+/** Ancho fijo por tarjeta (Figma: 5 × 227px en 1440px) */
+const SLIDE_WIDTH_CLASS = "w-[210px] shrink-0 sm:w-[227px]";
 
 type Props = {
   featured: HomeFeaturedContent;
@@ -78,27 +78,27 @@ export function HomePropertiesCarousel({ featured, properties }: Props) {
 
   return (
     <section
-      className="border-b border-neutral-200 bg-[#F8F8F8]"
+      className="bg-white"
       aria-labelledby="home-featured-properties-heading"
     >
-      <div className="mx-auto w-full max-w-[1440px] px-5 py-10 md:px-10 md:py-12">
+      <div className="mx-auto w-full max-w-[1440px] px-5 pb-16 pt-6 md:px-10 lg:px-16 lg:pt-10">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2
             id="home-featured-properties-heading"
-            className="text-[clamp(1.35rem,2.5vw,1.75rem)] font-bold leading-tight text-neutral-950"
+            className="tr-heading text-[clamp(1.25rem,2vw,1.5rem)]"
           >
             <FormattedText value={featured.title} as="inline" />
           </h2>
           <Link
             href={featured.linkHref}
-            className="text-[14px] font-medium text-neutral-950 hover:underline"
+            className="text-[14px] font-medium text-tr-ink hover:underline"
           >
             {featured.linkLabel}
           </Link>
         </div>
 
         <div
-          className="relative mt-8 w-full"
+          className="relative mt-6 w-full lg:px-11"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocusCapture={() => setPaused(true)}
@@ -111,7 +111,7 @@ export function HomePropertiesCarousel({ featured, properties }: Props) {
           <div className="w-full overflow-hidden" aria-roledescription="carousel">
             <ul
               ref={trackRef}
-              className={`flex w-max flex-nowrap items-stretch gap-5 ${
+              className={`flex w-max flex-nowrap items-stretch gap-[21px] ${
                 canMarquee ? "home-properties-marquee" : ""
               }`}
               style={

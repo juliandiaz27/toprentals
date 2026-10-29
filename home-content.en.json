@@ -40,7 +40,7 @@
     }
   ],
   "stats": {
-    "title": "Top Rentals by the numbers",
+    "title": "Top Rentals <em>by the numbers</em>",
     "label1": "+500",
     "text1": "apartments operated",
     "label2": "15",
@@ -53,7 +53,8 @@
     "text5": "years of operation"
   },
   "differentials": {
-    "title": "What sets us apart",
+    "title": "What sets us <em>apart</em>",
+    "subtitle": "The <em>largest and most trusted</em> professional apartment operator in the market.",
     "cards": [
       {
         "title": "Professional cleaning",
@@ -70,13 +71,13 @@
     ]
   },
   "featured": {
-    "title": "Featured properties",
+    "title": "<em>Featured</em> properties",
     "linkLabel": "View all →",
     "linkHref": "/propiedades"
   },
   "buildings": {
-    "title": "Our buildings, from the inside.",
-    "subtitle": "A look through the apartments, amenities, and the Top Rentals lifestyle.",
+    "title": "<em>Our buildings,</em> from the inside.",
+    "subtitle": "A look through the apartments, amenities, and the Top Rentals <em>lifestyle</em>.",
     "videoSrc": "/videos/hero-banner.mp4",
     "videoUrl": "",
     "posterSrc": "",
@@ -84,18 +85,19 @@
     "meta": "2:45 min · Buenos Aires · Quito"
   },
   "corporateTeaser": {
-    "title": "Housing solutions\nfor companies",
+    "title": "<em>Housing solutions</em><br>for companies",
     "description": "We coordinate your team's lodging with the efficiency and professionalism your company needs.",
     "bullet1": "Multiple apartments in the same tower",
     "bullet2": "Flexible contracts for long stays",
     "bullet3": "Negotiated corporate rates",
+    "bullet4": "Dedicated 24/7 support",
     "ctaLabel": "Request a corporate quote →",
     "ctaHref": "/corporate",
-    "imageSrc": "/images/corporate/corporate-teaser.png",
+    "imageSrc": "/images/home/corporate-teaser.png",
     "imagePlaceholder": ""
   },
   "directBenefits": {
-    "title": "Benefits of booking directly with us",
+    "title": "Benefits of <em>booking direct</em> with us",
     "card1Title": "Best rate guaranteed",
     "card1Text": "Exclusive benefits for members. Always the lowest price.",
     "card2Title": "Late check-out available",
@@ -106,18 +108,21 @@
     "card4Text": "No waiting or third-party approvals."
   },
   "locations": {
-    "title": "Where we operate",
+    "title": "<em>Where We Operate</em>",
     "card1Title": "Argentina",
     "card1Subtitle": "Buenos Aires · +400 apartments · 7 areas",
+    "card1ImageSrc": "/images/home/location-buenos-aires.jpg",
     "card1LinkLabel": "View properties →",
     "card1Href": "/propiedades",
     "card2Title": "Ecuador",
     "card2Subtitle": "Quito · +100 apartments · La Carolina",
+    "card2ImageSrc": "/images/home/location-quito.jpg",
     "card2LinkLabel": "View properties →",
     "card2Href": "/propiedades"
   },
   "investorCta": {
     "title": "Are you a developer or looking to invest in the sector?",
+    "imageSrc": "/images/home/investor-cta.png",
     "devLabel": "Developers →",
     "devHref": "/real-estate",
     "invLabel": "Investors →",

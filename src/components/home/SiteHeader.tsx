@@ -9,6 +9,10 @@ import { MobileBottomNav } from "@/components/home/MobileBottomNav";
 import { SiteMenuDrawer } from "@/components/home/SiteMenuDrawer";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
+import { BrandWordmark } from "@/components/brand/BrandShapes";
+
+/** Links visibles en la barra (Figma); el resto queda en el menú lateral. */
+const INLINE_NAV_HREFS = ["/propiedades", "/corporate", "/club-top-rentals"];
 
 type Props = {
   header: HomeHeaderContent;
@@ -83,10 +87,11 @@ export function SiteHeader({
     };
   }, []);
 
+  /* Rebranding: fondo crema en todas las páginas */
   const headerBg =
     variant === "muted"
-      ? "border-neutral-200/80 bg-[#F8F8F8]"
-      : "border-neutral-200 bg-white";
+      ? "border-black/5 bg-tr-cream"
+      : "border-transparent bg-tr-cream";
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
@@ -120,7 +125,7 @@ export function SiteHeader({
       >
       <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-4 px-6 lg:px-12">
         <Link href="/" className="shrink-0" onClick={closeMenu}>
-          {header.logoSrc ? (
+          {header.logoSrc && !header.logoSrc.includes("placeholders") ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={header.logoSrc}
@@ -128,26 +133,43 @@ export function SiteHeader({
               className="h-8 max-w-[200px] object-contain object-left"
             />
           ) : (
-            <span className="text-[15px] font-bold uppercase tracking-[0.04em] text-neutral-950">
-              {header.logoText}
+            <span className="text-tr-ink" aria-label={header.logoText}>
+              <BrandWordmark className="text-[26px]" />
             </span>
           )}
         </Link>
 
         <div className="flex items-center gap-3 sm:gap-4">
-          <LanguageSwitcher className="hidden md:flex" />
+          <nav className="mr-4 hidden items-center gap-12 lg:flex" aria-label="Principal">
+            {header.navLinks
+              .filter((item) => INLINE_NAV_HREFS.includes(item.href))
+              .map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={isNavActive(item.href) ? "page" : undefined}
+                  className={`text-[15px] text-tr-ink transition hover:opacity-70 ${
+                    isNavActive(item.href) ? "font-semibold" : ""
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+          </nav>
+
+          <LanguageSwitcher className="mr-2 hidden md:flex" />
 
           <Link
             href={header.ctaHref}
             {...reservasLinkProps(header.ctaHref)}
-            className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg bg-btn px-4 text-[13px] font-medium text-white transition-colors hover:bg-btn-hover sm:px-5 sm:text-[14px]"
+            className="inline-flex h-10 shrink-0 items-center justify-center rounded-[3px] bg-tr-ink px-4 text-[13px] font-semibold text-white transition-colors hover:bg-black sm:px-6 sm:text-[14px]"
           >
             {header.ctaLabel}
           </Link>
 
           <button
             type="button"
-            className="hidden h-10 w-10 items-center justify-center rounded-lg border border-neutral-200 text-neutral-950 transition hover:bg-neutral-50 lg:inline-flex"
+            className="hidden h-10 w-10 items-center justify-center rounded-[3px] text-tr-ink transition hover:bg-black/5 lg:inline-flex"
             aria-expanded={menuOpen}
             aria-controls={menuId}
             aria-label={menuOpen ? ui.nav.closeMenu : ui.nav.openMenu}

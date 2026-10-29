@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import {
   buildGnahsBookingUrl,
   defaultCheckinCheckout,
+  formatDateForInput,
+  getGnahsBookingRouteForEstablishment,
 } from "@/lib/gnahs/buildBookingUrl";
 import type { PropertyListing } from "@/lib/properties/catalog";
 import {
@@ -57,6 +59,88 @@ function IconSearch() {
   );
 }
 
+const LABELS = {
+  es: {
+    department: "Departamento",
+    allDepartments: "Todos los departamentos",
+    search: "Buscar",
+    searchAria: "Buscar departamento",
+    noResults: "No hay resultados para",
+    seeAll: "Ver todas las propiedades",
+    thisProperty: "Esta propiedad",
+    checkinLabel: "Entrada",
+    checkoutLabel: "Salida",
+    checkin: "Check-in",
+    checkout: "Check-out",
+    guestsLabel: "Huéspedes",
+    guests: "Nro. de huéspedes",
+    submit: "Buscar disponibilidad",
+  },
+  en: {
+    department: "Apartment",
+    allDepartments: "All apartments",
+    search: "Search",
+    searchAria: "Search apartment",
+    noResults: "No results for",
+    seeAll: "See all properties",
+    thisProperty: "This property",
+    checkinLabel: "Check-in",
+    checkoutLabel: "Check-out",
+    checkin: "Check-in",
+    checkout: "Check-out",
+    guestsLabel: "Guests",
+    guests: "No. of guests",
+    submit: "Check availability",
+  },
+};
+
+function addDays(isoDate: string, days: number): string {
+  const d = new Date(`${isoDate}T12:00:00`);
+  d.setDate(d.getDate() + days);
+  return formatDateForInput(d);
+}
+
+/** Fecha con placeholder (Figma): texto hasta el foco, luego picker nativo. */
+function DateInput({
+  value,
+  min,
+  placeholder,
+  name,
+  onChange,
+}: {
+  value: string;
+  min: string;
+  placeholder: string;
+  name: string;
+  onChange: (value: string) => void;
+}) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <input
+      type={value || focused ? "date" : "text"}
+      name={name}
+      value={value}
+      min={min}
+      placeholder={placeholder}
+      aria-label={placeholder}
+      onFocus={(e) => {
+        setFocused(true);
+        const el = e.currentTarget;
+        window.setTimeout(() => {
+          try {
+            el.showPicker?.();
+          } catch {
+            /* algunos navegadores no permiten showPicker */
+          }
+        }, 0);
+      }}
+      onBlur={() => setFocused(false)}
+      onChange={(e) => onChange(e.target.value)}
+      className={fieldClass}
+    />
+  );
+}
+
 type FieldProps = {
   label: string;
   children: React.ReactNode;
@@ -66,7 +150,7 @@ type FieldProps = {
 function SearchField({ label, children, className = "" }: FieldProps) {
   return (
     <div className={`flex min-w-0 flex-col gap-2 ${className}`}>
-      <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-neutral-950">
+      <span className="text-[10px] font-semibold uppercase tracking-[0.04em] text-tr-ink">
         {label}
       </span>
       {children}
@@ -75,7 +159,7 @@ function SearchField({ label, children, className = "" }: FieldProps) {
 }
 
 const fieldClass =
-  "flex h-12 w-full items-center rounded-lg bg-neutral-100 px-4 text-[15px] text-neutral-900 transition placeholder:text-neutral-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-neutral-950/10";
+  "flex h-10 w-full items-center rounded-[2px] bg-[#F4F3EF] px-3 text-[14px] text-tr-ink transition placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-tr-ink/15";
 
 type Props = {
   listings: PropertyListing[];
@@ -83,6 +167,7 @@ type Props = {
   initialEstablishmentId?: number;
   lockEstablishment?: boolean;
   establishmentLabel?: string;
+  language?: "es" | "en";
 };
 
 export function HomeBookingSearch({
@@ -91,7 +176,9 @@ export function HomeBookingSearch({
   initialEstablishmentId,
   lockEstablishment = false,
   establishmentLabel,
+  language = "es",
 }: Props) {
+  const t = LABELS[language] ?? LABELS.es;
   const router = useRouter();
   const listId = useId();
   const deptRef = useRef<HTMLDivElement>(null);
@@ -105,9 +192,9 @@ export function HomeBookingSearch({
   );
   const [deptOpen, setDeptOpen] = useState(false);
   const [deptQuery, setDeptQuery] = useState("");
-  const [checkin, setCheckin] = useState(defaults.checkin);
-  const [checkout, setCheckout] = useState(defaults.checkout);
-  const [guests, setGuests] = useState(2);
+  const [checkin, setCheckin] = useState("");
+  const [checkout, setCheckout] = useState("");
+  const [guests, setGuests] = useState<number | "">("");
 
   const filtered = useMemo(
     () => filterSearchEstablishments(allOptions, deptQuery),
@@ -126,7 +213,7 @@ export function HomeBookingSearch({
   const lockedLabel =
     establishmentLabel?.trim() ||
     selectedDept?.name ||
-    (lockEstablishment ? "Esta propiedad" : null);
+    (lockEstablishment ? t.thisProperty : null);
 
   useEffect(() => {
     if (!deptOpen) return;
@@ -156,13 +243,19 @@ export function HomeBookingSearch({
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (checkout <= checkin) return;
+    const id = establishmentId === "" ? undefined : establishmentId;
+
+    // Sin fechas: el motor GNAHS muestra su propio calendario
+    if (!checkin) {
+      router.push(id ? getGnahsBookingRouteForEstablishment(id) : bookingRoute);
+      return;
+    }
 
     const url = buildGnahsBookingUrl({
       checkin,
-      checkout,
-      adults: guests,
-      establishmentId: establishmentId === "" ? undefined : establishmentId,
+      checkout: checkout && checkout > checkin ? checkout : addDays(checkin, 1),
+      adults: guests || 2,
+      establishmentId: id,
       bookingRoute,
     });
     router.push(url);
@@ -171,9 +264,9 @@ export function HomeBookingSearch({
   return (
     <form
       onSubmit={onSubmit}
-      className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto] lg:items-end lg:gap-5"
+      className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,320fr)_minmax(0,170fr)_minmax(0,170fr)_minmax(0,170fr)_minmax(0,388fr)] lg:items-end lg:gap-x-5"
     >
-      <SearchField label="Departamento" className="sm:col-span-2 lg:col-span-1">
+      <SearchField label={t.department} className="sm:col-span-2 lg:col-span-1">
         {lockEstablishment ? (
           <div
             className={`${fieldClass} cursor-default text-neutral-900`}
@@ -192,8 +285,8 @@ export function HomeBookingSearch({
             onClick={() => (deptOpen ? setDeptOpen(false) : openDept())}
             className={`${fieldClass} justify-between gap-2 text-left`}
           >
-            <span className={selectedDept ? "text-neutral-900" : "text-neutral-500"}>
-              {selectedDept?.name ?? "Seleccionar departamento"}
+            <span className="truncate">
+              {selectedDept?.name ?? ""}
             </span>
             <IconChevron open={deptOpen} />
           </button>
@@ -213,9 +306,9 @@ export function HomeBookingSearch({
                     type="search"
                     value={deptQuery}
                     onChange={(e) => setDeptQuery(e.target.value)}
-                    placeholder="Buscar"
+                    placeholder={t.search}
                     className="min-w-0 flex-1 bg-transparent text-[14px] text-neutral-900 outline-none placeholder:text-neutral-500"
-                    aria-label="Buscar departamento"
+                    aria-label={t.searchAria}
                   />
                 </div>
               </div>
@@ -227,13 +320,13 @@ export function HomeBookingSearch({
                     className="w-full px-4 py-2.5 text-left text-[14px] text-neutral-700 hover:bg-neutral-50"
                     onClick={() => selectDept("")}
                   >
-                    Todos los departamentos
+                    {t.allDepartments}
                   </button>
                 </div>
 
                 {groups.length === 0 ? (
                   <p className="px-4 py-3 text-[13px] text-neutral-500">
-                    No hay resultados para «{deptQuery}».
+                    {t.noResults} «{deptQuery}».
                   </p>
                 ) : (
                   groups.map((group) => (
@@ -269,7 +362,7 @@ export function HomeBookingSearch({
                   className="text-[13px] font-medium text-neutral-700 underline-offset-2 hover:text-neutral-950 hover:underline"
                   onClick={() => setDeptOpen(false)}
                 >
-                  Ver todas las propiedades
+                  {t.seeAll}
                 </Link>
               </div>
             </div>
@@ -278,50 +371,48 @@ export function HomeBookingSearch({
         )}
       </SearchField>
 
-      <SearchField label="Entrada">
-        <input
-          type="date"
+      <SearchField label={t.checkinLabel}>
+        <DateInput
           name="checkin"
           value={checkin}
           min={defaults.checkin}
-          onChange={(e) => setCheckin(e.target.value)}
-          className={fieldClass}
-          required
+          placeholder={t.checkin}
+          onChange={(value) => {
+            setCheckin(value);
+            if (value && checkout && checkout <= value) setCheckout(addDays(value, 1));
+          }}
         />
       </SearchField>
 
-      <SearchField label="Salida">
-        <input
-          type="date"
+      <SearchField label={t.checkoutLabel}>
+        <DateInput
           name="checkout"
           value={checkout}
-          min={checkin}
-          onChange={(e) => setCheckout(e.target.value)}
-          className={fieldClass}
-          required
+          min={checkin ? addDays(checkin, 1) : defaults.checkout}
+          placeholder={t.checkout}
+          onChange={setCheckout}
         />
       </SearchField>
 
-      <SearchField label="Pasajeros">
+      <SearchField label={t.guestsLabel}>
         <input
           type="number"
           name="guests"
           min={1}
           max={12}
           value={guests}
-          onChange={(e) => setGuests(Number(e.target.value) || 1)}
-          placeholder="Nro. de pasajeros"
+          onChange={(e) => setGuests(e.target.value ? Number(e.target.value) || 1 : "")}
+          placeholder={t.guests}
           className={fieldClass}
-          required
         />
       </SearchField>
 
-      <div className="sm:col-span-2 lg:col-span-1 lg:self-end">
+      <div className="sm:col-span-2 lg:col-span-1 lg:pl-4">
         <button
           type="submit"
-          className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-btn px-6 text-[14px] font-semibold text-white transition hover:bg-btn-hover lg:w-auto lg:min-w-[220px]"
+          className="flex h-14 w-full items-center justify-center gap-2 rounded-[3px] bg-tr-ink px-6 text-[15px] font-medium text-white transition hover:bg-black lg:h-[60px]"
         >
-          <span>Buscar disponibilidad</span>
+          <span>{t.submit}</span>
           <span aria-hidden>→</span>
         </button>
       </div>

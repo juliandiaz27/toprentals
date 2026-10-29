@@ -40,7 +40,7 @@
     }
   ],
   "stats": {
-    "title": "Top Rentals en números",
+    "title": "Top Rentals <em>en números</em>",
     "label1": "+500",
     "text1": "departamentos operados",
     "label2": "15",
@@ -53,7 +53,8 @@
     "text5": "años de operación"
   },
   "differentials": {
-    "title": "Nuestros diferenciales",
+    "title": "Nuestros <em>diferenciales</em>",
+    "subtitle": "El operador profesional de departamentos <em>más grande y confiable</em> del mercado.",
     "cards": [
       {
         "title": "Limpieza profesional",
@@ -70,13 +71,13 @@
     ]
   },
   "featured": {
-    "title": "Propiedades destacadas",
+    "title": "<em>Propiedades</em> destacadas",
     "linkLabel": "Ver todas →",
     "linkHref": "/propiedades"
   },
   "buildings": {
-    "title": "Nuestros edificios, por adentro.",
-    "subtitle": "Un recorrido por los departamentos, amenities y el estilo de vida Top Rentals.",
+    "title": "<em>Nuestros edificios,</em> por adentro.",
+    "subtitle": "Un recorrido por los departamentos, amenities y el <em>estilo de vida</em> Top Rentals.",
     "videoSrc": "/videos/hero-banner.mp4",
     "videoUrl": "",
     "posterSrc": "",
@@ -84,18 +85,19 @@
     "meta": "2:45 min · Buenos Aires · Quito"
   },
   "corporateTeaser": {
-    "title": "Soluciones de alojamiento\npara empresas",
+    "title": "<em>Soluciones de alojamiento</em><br>para empresas",
     "description": "Coordinamos el alojamiento de tu equipo con la eficiencia y el profesionalismo que tu empresa necesita.",
     "bullet1": "Múltiples departamentos en una misma torre",
     "bullet2": "Contratos flexibles para estadías largas",
     "bullet3": "Tarifas corporativas negociadas",
+    "bullet4": "Soporte dedicado 24/7",
     "ctaLabel": "Cotizar alojamiento corporativo →",
     "ctaHref": "/corporate",
-    "imageSrc": "/images/corporate/corporate-teaser.png",
+    "imageSrc": "/images/home/corporate-teaser.png",
     "imagePlaceholder": ""
   },
   "directBenefits": {
-    "title": "Beneficios de reservar directo con nosotros",
+    "title": "Beneficios de <em>reservar directo</em> con nosotros",
     "card1Title": "Mejor tarifa garantizada",
     "card1Text": "Beneficios exclusivos para socios. Siempre el precio más bajo.",
     "card2Title": "Late check-out disponible",
@@ -106,18 +108,21 @@
     "card4Text": "Sin esperas ni aprobaciones de terceros."
   },
   "locations": {
-    "title": "Dónde operamos",
+    "title": "<em>Dónde Operamos</em>",
     "card1Title": "Argentina",
     "card1Subtitle": "Buenos Aires · +400 departamentos · 7 zonas",
+    "card1ImageSrc": "/images/home/location-buenos-aires.jpg",
     "card1LinkLabel": "Ver propiedades →",
     "card1Href": "/propiedades",
     "card2Title": "Ecuador",
     "card2Subtitle": "Quito · +100 departamentos · La Carolina",
+    "card2ImageSrc": "/images/home/location-quito.jpg",
     "card2LinkLabel": "Ver propiedades →",
     "card2Href": "/propiedades"
   },
   "investorCta": {
     "title": "¿Sos un desarrollador o querés invertir en el sector?",
+    "imageSrc": "/images/home/investor-cta.png",
     "devLabel": "Desarrolladores →",
     "devHref": "/real-estate",
     "invLabel": "Inversores →",

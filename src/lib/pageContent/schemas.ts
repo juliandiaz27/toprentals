@@ -138,7 +138,8 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         label: "Título sección números",
         type: "text",
         section: "Debajo del buscador — Números",
-        fallback: "Top Rentals en números",
+        fallback: "Top Rentals <em>en números</em>",
+        hint: "Lo que marques en cursiva se muestra en serif, en otra línea.",
       },
       {
         key: "stats.label1",
@@ -216,6 +217,16 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         type: "text",
         section: "Debajo del buscador — Diferenciales",
         fallback: "Nuestros diferenciales",
+        hint: "Marcá en cursiva la palabra que va en serif (ej. diferenciales).",
+      },
+      {
+        key: "differentials.subtitle",
+        label: "Subtítulo diferenciales",
+        type: "text",
+        section: "Debajo del buscador — Diferenciales",
+        fallback:
+          "El operador profesional de departamentos más grande y confiable del mercado.",
+        hint: "La parte en cursiva se muestra en serif.",
       },
       {
         key: "differentials.cards",
@@ -330,6 +341,13 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         fallback: "Tarifas corporativas negociadas",
       },
       {
+        key: "corporateTeaser.bullet4",
+        label: "Beneficio 4",
+        type: "text",
+        section: "Bloque corporativo (home)",
+        fallback: "Soporte dedicado 24/7",
+      },
+      {
         key: "corporateTeaser.ctaLabel",
         label: "Botón — texto",
         type: "text",
@@ -437,6 +455,13 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         fallback: "Buenos Aires · +400 departamentos · 7 zonas",
       },
       {
+        key: "locations.card1ImageSrc",
+        label: "Argentina — imagen",
+        type: "image",
+        section: "Dónde operamos",
+        fallback: "/images/home/location-buenos-aires.jpg",
+      },
+      {
         key: "locations.card1Href",
         label: "Buenos Aires — destino",
         type: "url",
@@ -459,6 +484,13 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         fallback: "Quito · +100 departamentos · La Carolina",
       },
       {
+        key: "locations.card2ImageSrc",
+        label: "Ecuador — imagen",
+        type: "image",
+        section: "Dónde operamos",
+        fallback: "/images/home/location-quito.jpg",
+      },
+      {
         key: "locations.card2Href",
         label: "Quito — destino",
         type: "url",
@@ -472,6 +504,13 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         type: "text",
         section: "Desarrolladores / Inversores",
         fallback: "¿Sos un desarrollador o querés invertir en el sector?",
+      },
+      {
+        key: "investorCta.imageSrc",
+        label: "Imagen de fondo",
+        type: "image",
+        section: "Desarrolladores / Inversores",
+        fallback: "/images/home/investor-cta.png",
       },
       {
         key: "investorCta.devLabel",

@@ -10,10 +10,10 @@ type Props = {
 /** Tarjeta vertical del carrusel (Figma: imagen + pie con título y enlace). */
 export function HomeFeaturedPropertyCard({ property, href }: Props) {
   return (
-    <article className="flex w-full flex-col overflow-hidden rounded-2xl bg-neutral-200">
+    <article className="flex w-full flex-col overflow-hidden rounded-lg bg-[#111111]">
       <Link
         href={href}
-        className="group relative block aspect-[5/6] w-full shrink-0 overflow-hidden bg-neutral-100"
+        className="group relative block aspect-[227/192] w-full shrink-0 overflow-hidden bg-neutral-100"
         aria-label={`Ver ${property.name}`}
       >
         {property.imageSrc ? (
@@ -32,13 +32,13 @@ export function HomeFeaturedPropertyCard({ property, href }: Props) {
           />
         </div>
       </Link>
-      <div className="flex flex-col gap-1 bg-neutral-200 px-4 py-4">
-        <h3 className="text-[15px] font-bold leading-snug text-neutral-950">
+      <div className="flex min-h-[96px] flex-col justify-end gap-0.5 px-5 pb-5 pt-6 text-white">
+        <h3 className="text-[15px] font-semibold leading-snug">
           {property.name}
         </h3>
         <Link
           href={href}
-          className="inline-flex text-[13px] font-normal text-neutral-600 transition hover:text-neutral-950 hover:underline"
+          className="inline-flex text-[13px] font-normal text-white/85 transition hover:text-white hover:underline"
         >
           Ver detalles →
         </Link>
