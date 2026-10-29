@@ -1,8 +1,10 @@
 "use client";
 
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { preconnect } from "react-dom";
 import {
   getGnahsEngineConfigForEstablishment,
+  GNAHS_API_URL,
   GNAHS_FETCH_SCRIPT,
   GNAHS_RHO_INIT_SCRIPT,
   type GnahsEngineRegion,
@@ -40,11 +42,22 @@ export function GnahsBookingEngine({
   const cleanupScripts = useRef<(() => void) | null>(null);
   const ui = getUiMessages(language);
 
+  // Adelanta DNS/TLS con los servidores de GNAHS mientras se cargan los scripts
+  preconnect("https://assets.gnahs.com");
+  preconnect(GNAHS_API_URL);
+
   const markReady = useCallback(() => {
     setStatus((current) => (current === "error" ? current : "ready"));
   }, []);
 
   const bootEngine = useCallback(() => {
+    // fetch.min.js solo pinta el motor la primera vez que se ejecuta en el documento.
+    // Si ya corrió (navegación interna o reintento), recargamos para arrancarlo limpio.
+    if (document.getElementById("gnahs-booking-fetch")) {
+      window.location.reload();
+      return;
+    }
+
     cleanupScripts.current?.();
     cleanupScripts.current = null;
     setStatus("loading");
