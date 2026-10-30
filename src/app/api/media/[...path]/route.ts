@@ -12,7 +12,9 @@ export async function GET(
   const { path: segments } = await context.params;
   const pathname = segments.map(decodeURIComponent).join("/");
 
-  if (!pathname.startsWith("top-rentals/")) {
+  // Solo archivos subidos (imágenes, videos, CVs con nombre aleatorio). Nunca los JSON de
+  // contenido: ahí viven usuarios del panel, actividad y postulaciones.
+  if (!pathname.startsWith("top-rentals/uploads/") || pathname.includes("..")) {
     return new Response("Not found", { status: 404 });
   }
 
