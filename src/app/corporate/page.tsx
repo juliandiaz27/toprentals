@@ -14,6 +14,7 @@ import { CorporateDestinations } from "@/components/corporate/CorporateDestinati
 import { CorporateAccess } from "@/components/corporate/CorporateAccess";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 import { getSiteLanguage } from "@/lib/i18nServer";
+import { buildPageMetadata, seoOverrides } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const language = await getSiteLanguage();
   const content = await readPageContent("corporate", language);
   const page = pickCorporatePage(content);
-  return { title: pageMetadataTitle(page.hero.title) };
+  const seo = seoOverrides(content);
+  return buildPageMetadata({
+    path: "/corporate",
+    title: seo.title || "Alojamiento corporativo",
+    description: seo.description || page.hero.subtitle || "Alojamiento corporativo en Buenos Aires y Quito: departamentos equipados, tarifas para empresas, facturación centralizada y soporte 24/7.",
+    image: seo.image,
+  });
 }
 
 export default async function CorporatePage() {

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { AgenciesModule } from "@/components/gnahs/AgenciesModule";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Agencias | Top Rentals",
-  description: "Acceso para agencias de viaje — Top Rentals",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata({ path: "/agencias", title: "Agencias", description: "Acceso para agencias de viaje — Top Rentals", noindex: true });
+}
 
 export default function AgenciasPage() {
   return (

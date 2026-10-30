@@ -132,6 +132,8 @@ function parseListingsPayload(
           relatedSlugs: relatedSlugs.length ? relatedSlugs : undefined,
           bannerImage: String(d.bannerImage ?? "").trim() || undefined,
           bannerTitle: String(d.bannerTitle ?? "").trim() || undefined,
+          seoTitle: String(d.seoTitle ?? "").trim() || undefined,
+          seoDescription: String(d.seoDescription ?? "").trim() || undefined,
           bannerPills: Array.isArray(d.bannerPills)
             ? d.bannerPills.map((p) => String(p).trim()).filter(Boolean)
             : undefined,

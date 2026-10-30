@@ -4,13 +4,18 @@ import {
 } from "@/components/gnahs/ReservasEnginePage";
 import { parseGnahsEstablishmentId } from "@/lib/gnahs/buildBookingUrl";
 import { getSiteLanguage } from "@/lib/i18nServer";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = buildReservasMetadata({
-  title: "Reservas | Top Rentals",
-  description: "Reservá en todas nuestras torres — Buenos Aires y Quito.",
-});
+export async function generateMetadata() {
+  return buildPageMetadata({
+    path: "/reservas",
+    title: "Reservas",
+    description: "Reservá en todas nuestras torres — Buenos Aires y Quito.",
+    noindex: true,
+  });
+}
 
 type PageProps = {
   searchParams: Promise<{

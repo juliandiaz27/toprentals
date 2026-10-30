@@ -13,6 +13,7 @@ import { PropertiesGrid } from "@/components/properties/PropertiesGrid";
 import { PropertiesDevelopment } from "@/components/properties/PropertiesDevelopment";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 import { pageMetadataTitle } from "@/lib/pageContent/metadata";
+import { buildPageMetadata, seoOverrides } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +21,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const language = await getSiteLanguage();
   const content = await readPageContent("propiedades", language);
   const hero = pickPropiedadesHero(content);
-  return { title: pageMetadataTitle(hero.title) };
+  const seo = seoOverrides(content);
+  return buildPageMetadata({
+    path: "/propiedades",
+    title: seo.title || hero.title,
+    description: seo.description || "Departamentos temporarios con servicio de hotel en Buenos Aires y Quito: studios, 2 y 3 ambientes en Palermo, Núñez, Belgrano, Microcentro y más.",
+    image: seo.image,
+  });
 }
 
 export default async function PropiedadesPage() {

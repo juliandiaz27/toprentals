@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { buildPageMetadata, seoOverrides } from "@/lib/seo";
 import { readPageContent } from "@/lib/pageContent/storage";
 import { loadPropertyListings } from "@/lib/properties/catalog";
 import {
@@ -28,6 +30,19 @@ import { HomeSearchBar } from "@/components/home/HomeSearchBar";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await readPageContent("home", await getSiteLanguage());
+  const seo = seoOverrides(content);
+  return buildPageMetadata({
+    path: "/",
+    title: seo.title || "Top Rentals — Departamentos temporarios en Buenos Aires y Quito",
+    description:
+      seo.description ||
+      "Departamentos temporarios con servicio de hotel en Buenos Aires y Quito. Studios, 2 y 3 ambientes para estadías cortas, corporativas y grupos.",
+    image: seo.image || pickHomeHero(content).posterSrc,
+  });
+}
 
 export default async function Home() {
   const language = await getSiteLanguage();

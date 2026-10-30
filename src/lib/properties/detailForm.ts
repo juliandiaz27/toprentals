@@ -148,6 +148,8 @@ export function normalizeDetailForForm(
     relatedSlugs: detail?.relatedSlugs ?? [],
     bannerImage: detail?.bannerImage ?? "",
     bannerTitle: detail?.bannerTitle ?? "",
+    seoTitle: detail?.seoTitle ?? "",
+    seoDescription: detail?.seoDescription ?? "",
     bannerPills: detail?.bannerPills ?? [],
     finalCtaTitle: detail?.finalCtaTitle ?? "",
     introText: detail?.introText ?? "",
@@ -180,6 +182,8 @@ export function detailHasContent(d: PropertyDetailStored): boolean {
       d.relatedSlugs?.length ||
       d.bannerImage?.trim() ||
       d.bannerTitle?.trim() ||
+      d.seoTitle?.trim() ||
+      d.seoDescription?.trim() ||
       d.bannerPills?.length ||
       d.finalCtaTitle?.trim() ||
       d.introText?.trim() ||

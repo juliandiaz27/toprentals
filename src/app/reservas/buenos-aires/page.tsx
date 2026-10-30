@@ -4,13 +4,18 @@ import {
 } from "@/components/gnahs/ReservasEnginePage";
 import { parseGnahsEstablishmentId } from "@/lib/gnahs/buildBookingUrl";
 import { getSiteLanguage } from "@/lib/i18nServer";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = buildReservasMetadata({
-  title: "Reservas Buenos Aires | Top Rentals",
-  description: "Reservá departamentos temporarios en Buenos Aires.",
-});
+export async function generateMetadata() {
+  return buildPageMetadata({
+    path: "/reservas/buenos-aires",
+    title: "Reservas Buenos Aires",
+    description: "Reservá departamentos temporarios en Buenos Aires.",
+    noindex: true,
+  });
+}
 
 type PageProps = {
   searchParams: Promise<{

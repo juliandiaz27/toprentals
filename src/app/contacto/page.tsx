@@ -7,6 +7,7 @@ import { FormattedText } from "@/components/content/FormattedText";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 import { getSiteLanguage } from "@/lib/i18nServer";
+import { buildPageMetadata, seoOverrides } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const language = await getSiteLanguage();
   const content = await readPageContent("contacto", language);
   const page = pickContactoPage(content);
-  return { title: `${page.title} | Top Rentals` };
+  const seo = seoOverrides(content);
+  return buildPageMetadata({
+    path: "/contacto",
+    title: seo.title || page.title,
+    description: seo.description || "Contactá a Top Rentals para reservas, estadías corporativas, grupos o propietarios. Respondemos en Buenos Aires y Quito.",
+    image: seo.image,
+  });
 }
 
 export default async function ContactoPage() {

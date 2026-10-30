@@ -14,6 +14,7 @@ import { RealEstateIntegratedModel } from "@/components/real-estate/RealEstateIn
 import { RealEstateFinalCta } from "@/components/real-estate/RealEstateFinalCta";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 import { getSiteLanguage } from "@/lib/i18nServer";
+import { buildPageMetadata, seoOverrides } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const language = await getSiteLanguage();
   const content = await readPageContent("real-estate", language);
   const page = pickRealEstatePage(content);
-  return { title: pageMetadataTitle(page.hero.title) };
+  const seo = seoOverrides(content);
+  return buildPageMetadata({
+    path: "/real-estate",
+    title: seo.title || page.hero.title,
+    description: seo.description || "Real Estate Top Rentals: desarrollos y oportunidades de inversión en renta temporaria en Buenos Aires y Quito.",
+    image: seo.image,
+  });
 }
 
 export default async function RealEstatePage() {

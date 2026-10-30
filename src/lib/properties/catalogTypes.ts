@@ -46,6 +46,10 @@ export type PropertyDetailStored = {
   bannerPills?: string[];
   /** Título de la franja final (admite <em>cursiva</em>). */
   finalCtaTitle?: string;
+  /** Título en Google (vacío = automático). */
+  seoTitle?: string;
+  /** Descripción en Google (vacío = automática). */
+  seoDescription?: string;
   /** Frase de la franja bajo el título del edificio. */
   introText?: string;
   /** Botón de esa franja (si dice «grupo», lleva a grupos). */

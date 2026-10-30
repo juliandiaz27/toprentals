@@ -67,6 +67,7 @@ const PROPERTY_EDITOR_TOC = [
   "Franja corporativa y estadísticas",
   "Unidades",
   "Diseño de la ficha",
+  "SEO (Google)",
   "Otras propiedades sugeridas",
   "Opciones",
 ].map((label) => ({ id: sectionAnchorId(label), label }));
@@ -1270,6 +1271,50 @@ export function PropertiesCatalogManager({
                 placeholder={"Piscina\nSpa / Sauna\nGym\nSUM · Sala de Reuniones"}
               />
             </label>
+          </section>
+
+          <section id={sectionAnchorId("SEO (Google)")}>
+            <h2 className="admin-form-section-label">SEO (Google)</h2>
+            <p className="mb-4 text-sm text-[var(--admin-text-muted)]">
+              Cómo aparece la ficha en Google y al compartir el link. Si los dejás vacíos se arman
+              solos: «{draft.name.replace(/^Top Rentals\s+/i, "") || "Edificio"} — Departamentos temporarios en
+              {" "}
+              {[draft.neighborhood, draft.city].filter(Boolean).join(", ")}» y la descripción del edificio.
+            </p>
+            <div className="grid gap-4">
+              <label className="flex flex-col">
+                <span className="admin-field-label">
+                  Título en Google{" "}
+                  <span className="font-normal text-[var(--admin-text-dim)]">
+                    ({(draft.detail?.seoTitle ?? "").length}/60)
+                  </span>
+                </span>
+                <input
+                  type="text"
+                  value={draft.detail?.seoTitle ?? ""}
+                  onChange={(e) => updateDetail({ seoTitle: e.target.value })}
+                  className="admin-input"
+                  maxLength={90}
+                  placeholder="Automático"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">
+                  Descripción en Google{" "}
+                  <span className="font-normal text-[var(--admin-text-dim)]">
+                    ({(draft.detail?.seoDescription ?? "").length}/155)
+                  </span>
+                </span>
+                <textarea
+                  rows={3}
+                  value={draft.detail?.seoDescription ?? ""}
+                  onChange={(e) => updateDetail({ seoDescription: e.target.value })}
+                  className="admin-input"
+                  maxLength={300}
+                  placeholder="Automática (texto de «Sobre el edificio»)"
+                />
+              </label>
+            </div>
           </section>
 
           <section id={sectionAnchorId("Otras propiedades sugeridas")}>

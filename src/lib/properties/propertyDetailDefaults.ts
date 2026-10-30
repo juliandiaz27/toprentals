@@ -203,6 +203,8 @@ export function buildDefaultDetail(
     bannerImage: "",
     bannerTitle: "",
     bannerPills: [],
+    seoTitle: "",
+    seoDescription: "",
     introText: "",
     introCtaLabel: "",
     aboutTitle: "",

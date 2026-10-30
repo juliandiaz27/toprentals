@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { MyBooking } from "@/components/gnahs/MyBooking";
 import { getGnahsMyBookingConfig } from "@/lib/gnahs/config";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Mis reservas | Top Rentals",
-  description: "Consultá y gestioná tus reservas en Top Rentals",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata({ path: "/mis-reservas", title: "Mis reservas", description: "Consultá y gestioná tus reservas en Top Rentals", noindex: true });
+}
 
 function MyBookingParamsScript() {
   const config = getGnahsMyBookingConfig();

@@ -544,16 +544,18 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
       },
       {
         key: "seo.title",
-        label: "Título SEO",
+        label: "Título en Google",
         type: "text",
         section: "SEO",
+        hint: "Hasta ~60 caracteres. Es el título de la home en Google y al compartir el link.",
         fallback: "Top Rentals — Alquiler temporario",
       },
       {
         key: "seo.description",
-        label: "Descripción SEO",
+        label: "Descripción en Google",
         type: "textarea",
         section: "SEO",
+        hint: "Entre 120 y 155 caracteres.",
         fallback: "Alquileres temporarios en Buenos Aires y Quito.",
       },
     ],
@@ -1523,6 +1525,28 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
     ],
   },
 ];
+
+/* Sección «SEO» en todas las páginas con URL propia (Header y Footer no tienen). */
+for (const page of PAGE_DEFINITIONS) {
+  if (page.slug === "home-header" || page.slug === "home-footer") continue;
+  if (page.fields.some((f) => f.key === "seo.title")) continue;
+  page.fields.push(
+    {
+      key: "seo.title",
+      label: "Título en Google",
+      type: "text",
+      section: "SEO",
+      hint: "Hasta ~60 caracteres. Vacío = se arma solo con el título de la página. Se agrega «| Top Rentals».",
+    },
+    {
+      key: "seo.description",
+      label: "Descripción en Google",
+      type: "textarea",
+      section: "SEO",
+      hint: "Entre 120 y 155 caracteres: qué ofrece la página y dónde. Vacío = texto automático.",
+    },
+  );
+}
 
 export function getPageDefinition(slug: string): PageDefinition | undefined {
   return PAGE_DEFINITIONS.find((p) => p.slug === slug);

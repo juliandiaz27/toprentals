@@ -9,6 +9,7 @@ import { NosotrosHistory } from "@/components/nosotros/NosotrosHistory";
 import { NosotrosValues } from "@/components/nosotros/NosotrosValues";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 import { getSiteLanguage } from "@/lib/i18nServer";
+import { buildPageMetadata, seoOverrides } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const language = await getSiteLanguage();
   const content = await readPageContent("nosotros", language);
   const page = pickNosotrosPage(content);
-  return { title: pageMetadataTitle(page.hero.title) };
+  const seo = seoOverrides(content);
+  return buildPageMetadata({
+    path: "/nosotros",
+    title: seo.title || page.hero.title,
+    description: seo.description || "Conocé Top Rentals: operamos edificios completos de departamentos temporarios con servicio de hotel en Buenos Aires y Quito.",
+    image: seo.image,
+  });
 }
 
 export default async function NosotrosPage() {

@@ -16,6 +16,7 @@ import { PropietariosExperience } from "@/components/propietarios/PropietariosEx
 import { PropietariosFinalCta } from "@/components/propietarios/PropietariosFinalCta";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 import { getSiteLanguage } from "@/lib/i18nServer";
+import { buildPageMetadata, seoOverrides } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -23,10 +24,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const language = await getSiteLanguage();
   const content = await readPageContent("propietarios", language);
   const page = pickPropietariosPage(content);
-  return {
-    title: pageMetadataTitle(language === "en" ? "Owners" : "Propietarios"),
-    description: pageMetadataDescription(page.hero.subtitle),
-  };
+  const seo = seoOverrides(content);
+  return buildPageMetadata({
+    path: "/propietarios",
+    title: seo.title || (language === "en" ? "Owners" : "Propietarios"),
+    description: seo.description || page.hero.subtitle || "Gestionamos tu propiedad en renta temporaria con estándares de hotel: más ocupación, mantenimiento y atención 24 hs.",
+    image: seo.image,
+  });
 }
 
 export default async function PropietariosPage() {

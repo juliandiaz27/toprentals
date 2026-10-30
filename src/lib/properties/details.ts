@@ -139,6 +139,8 @@ export async function getPropertyDetail(
       (override.poi ?? base.poi).columns.flat().map((name) => ({ name, imageSrc: "" })),
     bannerImage: String(listing.detail?.bannerImage ?? "").trim(),
     bannerTitle: String(listing.detail?.bannerTitle ?? "").trim(),
+    seoTitle: String(listing.detail?.seoTitle ?? "").trim(),
+    seoDescription: String(listing.detail?.seoDescription ?? "").trim(),
     bannerPills: (listing.detail?.bannerPills ?? [])
       .map((p) => String(p ?? "").trim())
       .filter(Boolean),

@@ -16,6 +16,7 @@ import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 import { getUiMessages } from "@/lib/i18n/ui";
 import { getSiteLanguage } from "@/lib/i18nServer";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -28,10 +29,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getBlogPostBySlug(slug, { language });
   if (!post) return { title: "Entrada no encontrada | Top Rentals" };
-  return {
-    title: `${post.title} | Top Rentals`,
+  return buildPageMetadata({
+    path: `/blog/${post.slug}`,
+    title: post.title,
     description: post.seoDescription || post.excerpt || undefined,
-  };
+    image: post.coverImageSrc || undefined,
+    type: "article",
+  });
 }
 
 export default async function BlogPostPage({ params }: Props) {

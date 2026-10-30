@@ -10,6 +10,7 @@ import { readPageContent } from "@/lib/pageContent/storage";
 import { pickHomeFooter } from "@/lib/pageContent/homeTypes";
 import { getSiteLanguage } from "@/lib/i18nServer";
 import { getUiMessages } from "@/lib/i18n/ui";
+import { isIndexableHost, jsonLdScript, organizationJsonLd, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -42,10 +43,17 @@ const accentSerif = Inria_Serif({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Top Rentals",
-  description: "Alquileres temporarios en Buenos Aires y Quito",
-};
+/** Base para todas las páginas; cada una completa título, descripción y canonical. */
+export async function generateMetadata(): Promise<Metadata> {
+  const indexable = await isIndexableHost();
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: "Top Rentals",
+    description: "Departamentos temporarios con servicio de hotel en Buenos Aires y Quito.",
+    applicationName: "Top Rentals",
+    robots: indexable ? { index: true, follow: true } : { index: false, follow: true },
+  };
+}
 
 export default async function RootLayout({
   children,
@@ -67,6 +75,12 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://hostalric.gnahs.app" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://assets.gnahs.com" />
         <link rel="dns-prefetch" href="https://hostalric.gnahs.app" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={jsonLdScript(
+            organizationJsonLd([footer.instagramUrl, footer.facebookUrl]),
+          )}
+        />
       </head>
       <body className="flex min-h-full flex-col font-sans">
         <LanguageProvider lang={language}>

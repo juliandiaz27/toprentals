@@ -12,6 +12,7 @@ import { CareersWhy } from "@/components/trabaja/CareersWhy";
 import { CareersSpontaneousForm } from "@/components/trabaja/CareersSpontaneousForm";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 import { getSiteLanguage } from "@/lib/i18nServer";
+import { buildPageMetadata, seoOverrides } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -19,10 +20,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const language = await getSiteLanguage();
   const content = await readPageContent("trabaja", language);
   const page = pickTrabajaPage(content);
-  return {
-    title: pageMetadataTitle(page.hero.title),
-    description: pageMetadataDescription(page.hero.subtitle),
-  };
+  const seo = seoOverrides(content);
+  return buildPageMetadata({
+    path: "/trabaja-con-nosotros",
+    title: seo.title || page.hero.title,
+    description: seo.description || page.hero.subtitle || "Sumate al equipo de Top Rentals: dejanos tu CV para futuras búsquedas en Buenos Aires y Quito.",
+    image: seo.image,
+  });
 }
 
 export default async function TrabajaConNosotrosPage() {

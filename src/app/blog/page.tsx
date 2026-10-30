@@ -9,16 +9,20 @@ import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { WhatsAppFab } from "@/components/properties/WhatsAppFab";
 import { getUiMessages } from "@/lib/i18n/ui";
 import { getSiteLanguage } from "@/lib/i18nServer";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const language = await getSiteLanguage();
   const settings = await loadBlogSettings(language);
-  return {
-    title: `${settings.title} | Top Rentals`,
-    description: settings.subtitle || undefined,
-  };
+  return buildPageMetadata({
+    path: "/blog",
+    title: settings.title,
+    description:
+      settings.subtitle ||
+      "Novedades, consejos y guías sobre alquileres temporarios, viajes de negocios y vivir Buenos Aires y Quito.",
+  });
 }
 
 export default async function BlogIndexPage() {

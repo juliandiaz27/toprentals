@@ -118,3 +118,12 @@ Se actualiza a medida que avanzamos. Última actualización: **30/10/2026**.
 - **Pendiente subir a vercel.app:** Propiedades, Corporate y fichas de edificios.
 - **Transcripciones del Figma:** en `scratchpad/buildings/*.json` de la sesión (incluye Cerviño, República de Siria y Jaramillo, aún no cargadas).
 - **Footer con columnas:** también aparece en el Figma de la ficha de edificio (ver punto 3).
+
+### SEO — checklist del lanzamiento (al apuntar el dominio)
+- El sitio **solo se indexa en el dominio canónico** (`NEXT_PUBLIC_SITE_URL`, por defecto `https://www.thetoprentals.com`). En vercel.app y previews sale `noindex` y `robots.txt` bloquea todo, para no competir con el sitio actual. Al apuntar el dominio se habilita sola.
+- En Vercel: dominio principal `www.thetoprentals.com` y `thetoprentals.com` → redirección 301 (conserva ruta y `gclid`/`fbclid`/`utm_*`).
+- Dar de alta el dominio en **Google Search Console** y enviar `https://www.thetoprentals.com/sitemap.xml`.
+- Redirecciones 301 de las URLs del sitio anterior (Laravel) a las nuevas: pedir el listado de URLs actuales o exportarlo de Search Console.
+- Textos SEO de la Home cargados desde el admin: «Top Rentals — Alquiler temporario» / «Alquileres temporarios en Buenos Aires y Quito.» → conviene uno más completo (admin → Home → SEO).
+- Pendiente para una segunda etapa: URLs propias en inglés (`/en/...`) con `hreflang`; hoy el inglés va por cookie y Google solo ve el español. Revisar el documento GEO/LLM.
+

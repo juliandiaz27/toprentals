@@ -8,6 +8,13 @@ import { getVisibleReviewsForProperty } from "@/lib/properties/reviews";
 import { getSiteLanguage } from "@/lib/i18nServer";
 import { SiteHeader } from "@/components/home/SiteHeader";
 import { PropertyDetailView } from "@/components/properties/detail/PropertyDetailView";
+import { buildPageMetadata, jsonLdScript } from "@/lib/seo";
+import {
+  propertyImage,
+  propertyJsonLd,
+  propertySeoDescription,
+  propertySeoTitle,
+} from "@/lib/properties/propertySeo";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +28,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const listings = await loadPropertyListings({ language });
   const property = listings.find((p) => p.slug === slug && !p.comingSoon);
   if (!property) return { title: "Propiedad | Top Rentals" };
-  return { title: `${property.name} | Top Rentals` };
+  const detail = await getPropertyDetail(slug, language);
+  if (!detail) return { title: `${property.name} | Top Rentals` };
+  return buildPageMetadata({
+    path: `/propiedades/${slug}`,
+    title: propertySeoTitle(detail),
+    description: propertySeoDescription(detail),
+    image: propertyImage(detail),
+  });
 }
 
 export default async function PropiedadDetallePage({ params }: Props) {
@@ -47,6 +61,10 @@ export default async function PropiedadDetallePage({ params }: Props) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdScript(propertyJsonLd(property))}
+      />
       <SiteHeader
         header={header}
         variant="red"

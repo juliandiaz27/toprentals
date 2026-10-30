@@ -49,6 +49,8 @@ export type PropertyDetailExtra = {
   bannerImage: string;
   bannerTitle: string;
   bannerPills: string[];
+  seoTitle: string;
+  seoDescription: string;
   introText: string;
   introCtaLabel: string;
   aboutTitle: string;
