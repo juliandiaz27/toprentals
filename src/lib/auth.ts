@@ -1,15 +1,22 @@
 import { cookies } from "next/headers";
+import {
+  ADMIN_SESSION_COOKIE,
+  readSessionCookieValue,
+  type AdminSession,
+} from "@/lib/adminSession";
 
-export const ADMIN_SESSION_COOKIE = "admin-session";
+export { ADMIN_SESSION_COOKIE };
 
 export function getAdminToken(): string | undefined {
   return process.env.ADMIN_TOKEN;
 }
 
-export async function isAuthed(): Promise<boolean> {
-  const token = getAdminToken();
-  if (!token) return false;
+/** Usuario con sesión iniciada en el panel, o null. */
+export async function getAdminSession(): Promise<AdminSession | null> {
   const cookieStore = await cookies();
-  const session = cookieStore.get(ADMIN_SESSION_COOKIE);
-  return session?.value === token;
+  return readSessionCookieValue(cookieStore.get(ADMIN_SESSION_COOKIE)?.value);
+}
+
+export async function isAuthed(): Promise<boolean> {
+  return (await getAdminSession()) !== null;
 }

@@ -16,6 +16,7 @@ import { readPageContent, writePageContent } from "@/lib/pageContent/storage";
 import { normalizeSiteLanguage } from "@/lib/i18n";
 import type { ActionResult } from "./actions";
 
+import { describeLanguage, logAdminChange } from "@/lib/adminAudit";
 const LEGACY_LINK_KEYS = [
   "link1Label",
   "link1Href",
@@ -117,6 +118,7 @@ export async function saveHeaderContent(formData: FormData): Promise<ActionResul
     content.header = { ...header, ...nextHeader };
 
     await writePageContent("home-header", content, language);
+    await logAdminChange("Guardó", `Header y menú (${describeLanguage(language)})`);
     revalidatePath("/");
     revalidatePath("/", "layout");
 

@@ -2,17 +2,20 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { ADMIN_SESSION_COOKIE, getAdminToken, isAuthed } from "@/lib/auth";
 import {
-  ADMIN_SESSION_COOKIE,
-  getAdminToken,
-  isAuthed,
-} from "@/lib/auth";
+  ADMIN_SESSION_MAX_AGE,
+  createSessionCookieValue,
+  generalPasswordSession,
+} from "@/lib/adminSession";
+import { authenticateAdminUser } from "@/lib/adminUsers";
 import { readImageConfig, writeImageConfig } from "@/lib/imageConfig";
 import { CONFIG_IMAGE_SLOTS } from "@/lib/adminImageSlots";
 import { validateFileAgainstGuide } from "@/lib/mediaUploadGuide";
 import { saveUpload, deleteUploadByUrl } from "@/lib/upload";
 import { revalidateConfigImages } from "@/lib/revalidate";
 
+import { logAdminChange } from "@/lib/adminAudit";
 export type ActionResult = {
   ok: boolean;
   error?: string;
@@ -31,6 +34,7 @@ export async function login(
   _prev: ActionResult | null,
   formData: FormData,
 ): Promise<ActionResult> {
+  const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const token = getAdminToken();
 
@@ -38,18 +42,30 @@ export async function login(
     return { ok: false, error: "ADMIN_TOKEN no está configurado en el servidor." };
   }
 
-  if (password !== token) {
-    return { ok: false, error: "Contraseña incorrecta." };
+  // Con email: usuario del equipo. Sin email: contraseña general («Administrador»).
+  let user: { uid: string; name: string; email: string; role: "owner" | "editor" };
+  if (email) {
+    const found = await authenticateAdminUser(email, password);
+    if (!found) {
+      return { ok: false, error: "Email o contraseña incorrectos." };
+    }
+    user = { uid: found.id, name: found.name, email: found.email, role: found.role };
+  } else {
+    if (password !== token) {
+      return { ok: false, error: "Contraseña incorrecta." };
+    }
+    user = generalPasswordSession();
   }
 
   const cookieStore = await cookies();
-  cookieStore.set(ADMIN_SESSION_COOKIE, token, {
+  cookieStore.set(ADMIN_SESSION_COOKIE, await createSessionCookieValue(user), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: ADMIN_SESSION_MAX_AGE,
   });
+  await logAdminChange("Inició sesión", "Panel", user);
 
   redirect("/admin");
 }
@@ -80,6 +96,7 @@ export async function uploadImage(
     const config = await readImageConfig();
     config[key] = url;
     await writeImageConfig(config);
+    await logAdminChange("Subió imagen", key);
     revalidateConfigImages();
     return { ok: true };
   } catch (e) {
@@ -97,6 +114,7 @@ export async function removeImage(key: string): Promise<ActionResult> {
     }
     delete config[key];
     await writeImageConfig(config);
+    await logAdminChange("Restableció imagen", key);
     revalidateConfigImages();
     return { ok: true };
   } catch (e) {

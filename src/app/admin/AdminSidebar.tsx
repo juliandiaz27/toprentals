@@ -36,6 +36,8 @@ const ICON_PATHS: Record<AdminMenuIcon, React.ReactNode> = {
   ),
   blog: <path d="M5 4.5h14v15H5zM8 8.5h8M8 12h8M8 15.5h5" />,
   marketing: <path d="M4 10v4h3l6 4V6L7 10zM16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11" />,
+  activity: <path d="M12 7v5l3 2M20 12a8 8 0 1 1-2.3-5.6M20 4.5v3.5h-3.5" />,
+  team: <path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 20a6 6 0 0 1 12 0M16 4.5a3.5 3.5 0 0 1 0 6.5M18 14.5a5.5 5.5 0 0 1 3 5" />,
 };
 
 export function AdminMenuIconSvg({ icon }: { icon: AdminMenuIcon }) {
@@ -56,13 +58,21 @@ export function AdminMenuIconSvg({ icon }: { icon: AdminMenuIcon }) {
   );
 }
 
+export type AdminShellUser = {
+  name: string;
+  role: "owner" | "editor";
+  /** true = entró con la contraseña general (sin usuario propio). */
+  general: boolean;
+};
+
 type Props = {
+  user: AdminShellUser;
   /** Cierra el menú en mobile al navegar. */
   onNavigate?: () => void;
 };
 
 /** Menú lateral oscuro (colores invertidos respecto del sitio). */
-export function AdminSidebar({ onNavigate }: Props) {
+export function AdminSidebar({ user, onNavigate }: Props) {
   const pathname = usePathname() ?? "";
   const active = findAdminMenuItem(pathname)?.item.href;
 
@@ -102,6 +112,21 @@ export function AdminSidebar({ onNavigate }: Props) {
       </nav>
 
       <div className="admin-sidebar__footer">
+        <Link href="/admin/equipo" className="admin-sidebar__user" onClick={onNavigate}>
+          <span className="admin-sidebar__avatar" aria-hidden>
+            {user.name
+              .split(/\s+/)
+              .slice(0, 2)
+              .map((w) => w[0]?.toUpperCase() ?? "")
+              .join("")}
+          </span>
+          <span className="min-w-0">
+            <span className="admin-sidebar__user-name">{user.name}</span>
+            <span className="admin-sidebar__user-role">
+              {user.general ? "Contraseña general" : user.role === "owner" ? "Dueño" : "Editor"}
+            </span>
+          </span>
+        </Link>
         <a href="/" target="_blank" rel="noopener noreferrer" className="admin-sidebar__site">
           Ver sitio publicado <span aria-hidden>↗</span>
         </a>

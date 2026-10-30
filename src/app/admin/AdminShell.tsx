@@ -2,14 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { AdminSidebar } from "./AdminSidebar";
+import { AdminSidebar, type AdminShellUser } from "./AdminSidebar";
 import { AdminTopNav } from "./AdminTopNav";
 
 /**
  * Estructura del panel: menú lateral fijo (cajón en mobile), barra superior con la ruta
  * y el contenido con scroll propio.
  */
-export function AdminShell({ children }: { children: React.ReactNode }) {
+export function AdminShell({
+  children,
+  user,
+}: {
+  children: React.ReactNode;
+  user: AdminShellUser;
+}) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -25,7 +31,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="admin-shell fixed inset-0 z-[100] flex">
       <div className={`admin-sidebar-wrap ${menuOpen ? "admin-sidebar-wrap--open" : ""}`}>
-        <AdminSidebar onNavigate={() => setMenuOpen(false)} />
+        <AdminSidebar user={user} onNavigate={() => setMenuOpen(false)} />
       </div>
       {menuOpen ? (
         <button

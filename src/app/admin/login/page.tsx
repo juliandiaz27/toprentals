@@ -24,7 +24,10 @@ export default function AdminLoginPage() {
         <div className="admin-login-card">
           <p className="admin-eyebrow">Panel de gestión</p>
           <h1 className="mt-2">Iniciá sesión</h1>
-          <p className="mt-2 text-sm">Ingresá la contraseña del panel para continuar.</p>
+          <p className="mt-2 text-sm">
+            Ingresá con tu email y contraseña. Si todavía no tenés usuario, dejá el email vacío y
+            usá la contraseña general.
+          </p>
           <div className="mt-7">
             <LoginForm />
           </div>

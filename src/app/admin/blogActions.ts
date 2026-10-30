@@ -17,6 +17,7 @@ import { normalizeSiteLanguage } from "@/lib/i18n";
 import type { BlogDataFile, BlogPostStored, BlogSettings } from "@/lib/blog/types";
 import type { ActionResult } from "./actions";
 
+import { logAdminChange } from "@/lib/adminAudit";
 export type BlogSaveResult = ActionResult & {
   settings?: BlogSettings;
   posts?: BlogPostStored[];
@@ -58,6 +59,7 @@ export async function saveBlogData(formData: FormData): Promise<BlogSaveResult> 
 
     if (language === "en") {
       await writeBlogEnglishOverlay(settings, posts);
+      await logAdminChange("Guardó", "Blog (inglés)");
       const merged = await readBlogData("en");
       revalidatePath("/blog");
       for (const post of merged.posts) {
@@ -99,6 +101,7 @@ export async function saveBlogData(formData: FormData): Promise<BlogSaveResult> 
     }
 
     await writeBlogData(data);
+    await logAdminChange("Guardó", "Blog (español)");
 
     revalidatePath("/blog");
     for (const post of data.posts) {

@@ -32,6 +32,7 @@ import {
 } from "@/lib/properties/catalogStorage";
 import type { ActionResult } from "./actions";
 
+import { logAdminChange } from "@/lib/adminAudit";
 async function allowedPropertyCities(): Promise<Set<string>> {
   const content = await readPageContent("propiedades");
   const options = propertyCityOptionsFromFilters(pickPropiedadesFilters(content));
@@ -218,6 +219,24 @@ async function syncStructuralFieldsToSpanish(
   }
 }
 
+/** «Edificio Hub Núñez», «Edificios: A, B» o «Eliminó edificio X» según qué cambió. */
+function describeCatalogChange(
+  before: PropertyListingStored[],
+  after: PropertyListingStored[],
+): string {
+  const prev = new Map(before.map((l) => [l.slug, l]));
+  const next = new Map(after.map((l) => [l.slug, l]));
+  const added = after.filter((l) => !prev.has(l.slug)).map((l) => `nuevo: ${l.name}`);
+  const removed = before.filter((l) => !next.has(l.slug)).map((l) => `eliminado: ${l.name}`);
+  const changed = after
+    .filter((l) => prev.has(l.slug) && JSON.stringify(prev.get(l.slug)) !== JSON.stringify(l))
+    .map((l) => l.name);
+  const parts = [...changed, ...added, ...removed];
+  if (parts.length === 0) return "Fichas de edificios (orden o destacados)";
+  if (parts.length === 1 && changed.length === 1) return `Edificio ${changed[0]}`;
+  return `Edificios: ${parts.slice(0, 4).join(", ")}${parts.length > 4 ? ` y ${parts.length - 4} más` : ""}`;
+}
+
 export async function savePropertiesCatalog(
   formData: FormData,
 ): Promise<ActionResult> {
@@ -253,6 +272,7 @@ export async function savePropertiesCatalog(
     if (language === "en") {
       await syncStructuralFieldsToSpanish(listings);
       await writePropertiesCatalogEnglishOverlay(listings);
+      await logAdminChange("Guardó", "Fichas de edificios (inglés)");
       const merged = await readPropertiesCatalog("en");
       revalidatePath("/");
       revalidatePath("/propiedades");
@@ -357,7 +377,9 @@ export async function savePropertiesCatalog(
       }
     }
 
+    const previous = await readPropertiesCatalogSpanish();
     await writePropertiesCatalog(catalog);
+    await logAdminChange("Guardó", describeCatalogChange(previous.listings, catalog.listings));
 
     revalidatePath("/");
     revalidatePath("/propiedades");

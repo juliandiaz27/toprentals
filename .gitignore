@@ -48,3 +48,7 @@ zoho-tokens.json
 
 # respaldos locales de Vercel Blob
 /backups/
+
+# datos del panel (usuarios y actividad): viven en Blob, nunca en git
+/admin-users.json
+/admin-audit-log.json

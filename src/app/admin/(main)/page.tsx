@@ -5,6 +5,9 @@ import { loadAllBlogPostsForAdmin } from "@/lib/blog/load";
 import { propertyCompleteness } from "@/lib/properties/completeness";
 import { ADMIN_MENU } from "@/lib/pageContent/adminNav";
 import { AdminMenuIconSvg } from "../AdminSidebar";
+import { readAdminAudit } from "@/lib/adminAudit";
+import { formatAuditDate } from "@/lib/adminAuditFormat";
+import { getAdminSession } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -33,10 +36,12 @@ function todayLabel(): string {
 
 /** Inicio del panel: estado del sitio, qué falta completar y accesos rápidos. */
 export default async function AdminDashboard() {
-  const [catalog, reviews, posts] = await Promise.all([
+  const [catalog, reviews, posts, activity, session] = await Promise.all([
     readPropertiesCatalog(),
     readPropertyReviews(),
     loadAllBlogPostsForAdmin("es"),
+    readAdminAudit(6),
+    getAdminSession(),
   ]);
 
   const buildings = catalog.listings.filter((l) => !l.comingSoon);
@@ -89,7 +94,10 @@ export default async function AdminDashboard() {
       <header className="admin-dashboard__hero">
         <div>
           <p className="admin-eyebrow">{todayLabel()}</p>
-          <h1 className="admin-dashboard__title">{greeting()}</h1>
+          <h1 className="admin-dashboard__title">
+            {greeting()}
+            {session && session.uid !== "owner" ? `, ${session.name.split(" ")[0]}` : ""}
+          </h1>
           <p className="admin-dashboard__lead">
             Desde acá gestionás el contenido del sitio. Los cambios se publican al guardar.
           </p>
@@ -156,6 +164,36 @@ export default async function AdminDashboard() {
           </ul>
         </section>
 
+        <div className="flex flex-col gap-5">
+        <section className="admin-panel">
+          <div className="admin-panel__head">
+            <div>
+              <h2 className="admin-panel__title">Últimos cambios</h2>
+              <p className="admin-panel__desc">Quién guardó qué en el panel.</p>
+            </div>
+            <Link href="/admin/actividad" className="admin-btn-ghost">
+              Ver todo
+            </Link>
+          </div>
+          {activity.length === 0 ? (
+            <p className="px-5 py-6 text-sm text-[var(--admin-text-dim)]">
+              Todavía no hay cambios registrados.
+            </p>
+          ) : (
+            <ul className="admin-activity">
+              {activity.map((entry, i) => (
+                <li key={`${entry.at}-${i}`}>
+                  <span className="admin-activity__who">{entry.userName}</span>{" "}
+                  <span className="admin-activity__what">
+                    {entry.action.toLowerCase()} {entry.target}
+                  </span>
+                  <span className="admin-activity__when">{formatAuditDate(entry.at)}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
         <section className="admin-panel">
           <div className="admin-panel__head">
             <div>
@@ -186,6 +224,7 @@ export default async function AdminDashboard() {
             ))}
           </div>
         </section>
+        </div>
       </div>
     </div>
   );

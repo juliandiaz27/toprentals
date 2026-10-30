@@ -49,7 +49,9 @@ export type AdminMenuIcon =
   | "header"
   | "footer"
   | "blog"
-  | "marketing";
+  | "marketing"
+  | "activity"
+  | "team";
 
 export type AdminMenuGroup = {
   title: string;
@@ -99,6 +101,13 @@ export const ADMIN_MENU: AdminMenuGroup[] = [
     items: [
       { href: "/admin/blog", label: "Blog", icon: "blog", publicPath: "/blog" },
       { href: "/admin/marketing", label: "Marketing", icon: "marketing" },
+    ],
+  },
+  {
+    title: "Administración",
+    items: [
+      { href: "/admin/actividad", label: "Actividad", icon: "activity" },
+      { href: "/admin/equipo", label: "Equipo", icon: "team" },
     ],
   },
 ];

@@ -9,6 +9,7 @@ import {
 import type { PropertyReviewStored } from "@/lib/properties/reviewsTypes";
 import type { ActionResult } from "./actions";
 
+import { logAdminChange } from "@/lib/adminAudit";
 function parseReviewsPayload(raw: string): PropertyReviewStored[] | null {
   try {
     const parsed = JSON.parse(raw) as unknown;
@@ -41,6 +42,7 @@ export async function savePropertyReviews(
     }
 
     await replaceAllPropertyReviews(reviews);
+    await logAdminChange("Guardó", "Comentarios de edificios");
 
     revalidatePath("/propiedades");
     for (const r of reviews) {

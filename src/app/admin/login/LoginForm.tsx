@@ -11,6 +11,16 @@ export function LoginForm() {
   return (
     <form action={formAction} className="flex flex-col gap-4">
       <label className="flex flex-col gap-1.5">
+        <span className="admin-field-label">Email</span>
+        <input
+          name="email"
+          type="email"
+          autoComplete="username"
+          className="admin-input"
+          placeholder="tu@email.com"
+        />
+      </label>
+      <label className="flex flex-col gap-1.5">
         <span className="admin-field-label">Contraseña</span>
         <input
           name="password"

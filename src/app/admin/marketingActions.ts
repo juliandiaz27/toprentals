@@ -15,6 +15,7 @@ import type {
 } from "@/lib/marketing/types";
 import type { ActionResult } from "./actions";
 
+import { logAdminChange } from "@/lib/adminAudit";
 function parseSticky(formData: FormData): StickyReserveConfig {
   return {
     enabled: formData.get("sticky.enabled") === "on",
@@ -96,6 +97,7 @@ export async function saveMarketingConfig(
     };
 
     await writeMarketingConfig(data);
+    await logAdminChange("Guardó", "Marketing (botón, barra de campaña y popup)");
 
     revalidatePath("/", "layout");
 

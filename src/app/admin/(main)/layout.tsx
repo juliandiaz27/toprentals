@@ -1,10 +1,22 @@
+import { getAdminSession } from "@/lib/auth";
 import { AdminShell } from "../AdminShell";
 import "../admin.css";
 
-export default function AdminPanelLayout({
+export default async function AdminPanelLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <AdminShell>{children}</AdminShell>;
+  const session = await getAdminSession();
+  return (
+    <AdminShell
+      user={{
+        name: session?.name ?? "Administrador",
+        role: session?.role ?? "owner",
+        general: !session || session.uid === "owner",
+      }}
+    >
+      {children}
+    </AdminShell>
+  );
 }

@@ -22,6 +22,7 @@ import { normalizeStoredRichHtml } from "@/lib/richText/sanitize";
 import { normalizeSiteLanguage } from "@/lib/i18n";
 import type { ActionResult } from "./actions";
 
+import { describeLanguage, logAdminChange } from "@/lib/adminAudit";
 export async function savePageContent(
   slug: string,
   formData: FormData,
@@ -142,6 +143,7 @@ export async function savePageContent(
     }
 
     await writePageContent(slug, content, language);
+    await logAdminChange("Guardó", `Página ${def.title} (${describeLanguage(language)})`);
     revalidatePath(def.publicPath);
     if (slug === "propiedades") {
       revalidatePath("/admin/propiedades");
