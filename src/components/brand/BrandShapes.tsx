@@ -32,6 +32,14 @@ export function BrandDome({ className = "" }: ShapeProps) {
   );
 }
 
+/** Tamaño y color de cada BenefitShape, en el orden del Figma. */
+export const BENEFIT_SHAPE_STYLES = [
+  "h-5 w-[52px] text-tr-orange",
+  "h-7 w-[42px] text-tr-amber",
+  "h-[30px] w-7 text-tr-red",
+  "h-[26px] w-[42px] text-tr-sky",
+];
+
 /** Íconos de las tarjetas “Beneficios de reservar directo”. */
 export function BenefitShape({
   variant,
@@ -130,6 +138,19 @@ export function BrandBuildings({ className = "" }: ShapeProps) {
           })}
         </g>
       ))}
+    </svg>
+  );
+}
+
+/**
+ * Banda crema con dos arcos (Figma, 2142×770): fondo de «Nuestros edificios» en la home
+ * y de «Sobre el edificio» en la ficha. El frame de 1440 empieza en x=259, así que para
+ * centrarla se posiciona con `left-[calc(50%-979px)]` y `w-[2142px] h-[770px]`.
+ */
+export function BrandWaveBand({ className = "" }: ShapeProps) {
+  return (
+    <svg viewBox="-259 0 2142 770" fill="currentColor" className={className} aria-hidden>
+      <path d="M1218.45 770H1599.06C1755.87 770 1883 642.779 1883 485.861V284.139C1883 127.222 1755.87 0 1599.06 0H1218.45C1190.86 0 1168.5 22.378 1168.5 49.983V284.139C1168.5 127.222 1041.37 0 884.559 0H503.953C476.367 0 454.005 22.378 454.005 49.983V254.966C439.404 111.739 318.513 0 171.554 0H-209.052C-236.638 0 -259 22.378 -259 49.983V719.993C-259 747.598 -236.638 769.975 -209.052 769.975H1218.45V770Z" />
     </svg>
   );
 }

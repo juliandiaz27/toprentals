@@ -168,6 +168,9 @@ type Props = {
   lockEstablishment?: boolean;
   establishmentLabel?: string;
   language?: "es" | "en";
+  /** Ficha de edificio: la torre ya está fija y no se muestra el campo. */
+  hideEstablishment?: boolean;
+  submitLabel?: string;
 };
 
 export function HomeBookingSearch({
@@ -177,6 +180,8 @@ export function HomeBookingSearch({
   lockEstablishment = false,
   establishmentLabel,
   language = "es",
+  hideEstablishment = false,
+  submitLabel,
 }: Props) {
   const t = LABELS[language] ?? LABELS.es;
   const router = useRouter();
@@ -264,9 +269,16 @@ export function HomeBookingSearch({
   return (
     <form
       onSubmit={onSubmit}
-      className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,320fr)_minmax(0,170fr)_minmax(0,170fr)_minmax(0,170fr)_minmax(0,388fr)] lg:items-end lg:gap-x-5"
+      className={`grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:items-end lg:gap-x-5 ${
+        hideEstablishment
+          ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,200px)]"
+          : "lg:grid-cols-[minmax(0,320fr)_minmax(0,170fr)_minmax(0,170fr)_minmax(0,170fr)_minmax(0,388fr)]"
+      }`}
     >
-      <SearchField label={t.department} className="sm:col-span-2 lg:col-span-1">
+      <SearchField
+        label={t.department}
+        className={hideEstablishment ? "hidden" : "sm:col-span-2 lg:col-span-1"}
+      >
         {lockEstablishment ? (
           <div
             className={`${fieldClass} cursor-default text-neutral-900`}
@@ -410,9 +422,11 @@ export function HomeBookingSearch({
       <div className="sm:col-span-2 lg:col-span-1 lg:pl-4">
         <button
           type="submit"
-          className="flex h-14 w-full items-center justify-center gap-2 rounded-[3px] bg-tr-ink px-6 text-[15px] font-medium text-white transition hover:bg-black lg:h-[60px]"
+          className={`flex w-full items-center justify-center gap-2 rounded-[3px] bg-tr-ink px-6 font-medium text-white transition hover:bg-black ${
+            hideEstablishment ? "h-10 text-[13px]" : "h-14 text-[15px] lg:h-[60px]"
+          }`}
         >
-          <span>{t.submit}</span>
+          <span>{submitLabel ?? t.submit}</span>
           <span aria-hidden>→</span>
         </button>
       </div>

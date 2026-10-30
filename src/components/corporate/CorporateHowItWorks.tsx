@@ -3,29 +3,33 @@ import type { CorporateHowItWorksContent } from "@/lib/pageContent/corporateType
 
 type Props = { content: CorporateHowItWorksContent };
 
+/** Color del número de cada paso (Figma). */
+const STEP_COLORS = ["bg-tr-red", "bg-tr-green", "bg-tr-amber", "bg-tr-orange"];
+
+/** Primera parte del bloque crema (sigue en CorporateSpaces). */
 export function CorporateHowItWorks({ content }: Props) {
   return (
-    <section className="border-t border-solid border-[#EEEEEE] bg-white">
-      <div data-reveal className="px-6 py-16 lg:px-12 lg:py-20">
+    <section className="bg-tr-cream">
+      <div data-reveal className="px-6 pb-6 pt-12 lg:px-16 lg:pb-10 lg:pt-14">
         <div className="mx-auto w-full max-w-[1440px]">
-          <h2 className="text-[clamp(1.5rem,2.8vw,2rem)] font-bold text-neutral-950">
+          <h2 className="tr-heading text-[clamp(1.25rem,2vw,1.6rem)] [&_em]:text-[1.25em]">
             <FormattedText value={content.title} as="inline" />
           </h2>
-          <ol className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+          <ol className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
             {content.steps.map((step, index) => (
               <li key={step.title}>
                 <span
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-btn text-[15px] font-bold text-white"
+                  className={`flex h-[22px] w-[22px] items-center justify-center rounded-full text-[10px] font-semibold text-white ${STEP_COLORS[index % STEP_COLORS.length]}`}
                   aria-hidden
                 >
                   {index + 1}
                 </span>
-                <h3 className="mt-4 text-[15px] font-bold text-neutral-950">
+                <h3 className="mt-3 text-[13px] font-semibold text-tr-ink">
                   <FormattedText value={step.title} as="inline" />
                 </h3>
                 <FormattedText
                   value={step.text}
-                  className="mt-2 block text-[14px] leading-relaxed text-neutral-600"
+                  className="mt-1 block max-w-[260px] text-[11px] leading-snug text-tr-ink"
                 />
               </li>
             ))}

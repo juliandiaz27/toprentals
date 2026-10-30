@@ -66,6 +66,7 @@ export { differentialCardsGridClass };
 export type PropiedadesHeroContent = {
   title: string;
   subtitle: string;
+  imageSrc: string;
 };
 
 /** Filtros por ciudad / región en el listado público. */
@@ -78,6 +79,14 @@ export type PropiedadesDevelopmentContent = {
   ctaHref: string;
 };
 
+const DEFAULT_HERO_IMAGE = "/images/properties/propiedades-hero.png";
+
+/** Vacío o placeholder → imagen del Figma (skyline). */
+function heroImage(value: unknown): string {
+  const src = String(value ?? "").trim();
+  return src && !src.includes("placeholders") ? src : DEFAULT_HERO_IMAGE;
+}
+
 export function pickPropiedadesHero(raw: PageContent): PropiedadesHeroContent {
   return {
     title: String(getNested(raw, "hero.title") ?? "Nuestros departamentos"),
@@ -85,6 +94,7 @@ export function pickPropiedadesHero(raw: PageContent): PropiedadesHeroContent {
       getNested(raw, "hero.subtitle") ??
         "Más de 500 departamentos operados en edificios estratégicamente ubicados.",
     ),
+    imageSrc: heroImage(getNested(raw, "hero.imageSrc")),
   };
 }
 

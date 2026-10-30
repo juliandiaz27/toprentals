@@ -1,17 +1,12 @@
 import { FormattedText } from "@/components/content/FormattedText";
-import { BenefitShape } from "@/components/brand/BrandShapes";
+import { BENEFIT_SHAPE_STYLES, BenefitShape } from "@/components/brand/BrandShapes";
 import type { HomeDirectBenefitsContent } from "@/lib/pageContent/homeTypes";
 
 type Props = {
   content: HomeDirectBenefitsContent;
 };
 
-const SHAPE_STYLES = [
-  "h-5 w-[52px] text-tr-orange",
-  "h-7 w-[42px] text-tr-amber",
-  "h-[30px] w-7 text-tr-red",
-  "h-[26px] w-[42px] text-tr-sky",
-];
+const SHAPE_STYLES = BENEFIT_SHAPE_STYLES;
 
 export function DirectBenefitsSection({ content }: Props) {
   return (

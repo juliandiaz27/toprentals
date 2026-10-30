@@ -10,6 +10,8 @@ export type { CorporateCta };
 
 export type CorporateHeroContent = {
   label: string;
+  /** Texto junto a la etiqueta (con viñeta). Vacío = no se muestra. */
+  tagline: string;
   title: string;
   subtitle: string;
   ctaPrimaryLabel: string;
@@ -19,6 +21,8 @@ export type CorporateHeroContent = {
   /** CTAs listos para render (sin Buenos Aires / Ecuador al motor). */
   ctas: CorporateCta[];
   features: string[];
+  /** Foto de fondo del hero (vacío = fondo verde). */
+  imageSrc: string;
 };
 
 export type CorporateTextBlock = { title: string; text: string };
@@ -53,9 +57,16 @@ export type CorporateSpacesContent = {
   cards: string[];
 };
 
+export type CorporateDestinationItem = CorporateTextBlock & {
+  imageSrc: string;
+};
+
 export type CorporateDestinationsContent = {
   title: string;
-  items: CorporateTextBlock[];
+  items: CorporateDestinationItem[];
+  /** Botón bajo cada foto: lleva al listado, no al motor de reservas. */
+  linkLabel: string;
+  linkHref: string;
 };
 
 export type CorporateAccessContent = {
@@ -165,6 +176,20 @@ const DEFAULT_STEPS: CorporateTextBlock[] = [
   },
 ];
 
+/** Banner del Figma (ejecutivos con valijas). */
+const DEFAULT_HERO_IMAGE = "/images/corporate/corporate-hero.png";
+
+/** Fotos por defecto de destinos (mismas que «Ubicaciones» de la home). */
+const DEFAULT_DESTINATION_IMAGES = [
+  "/images/home/location-buenos-aires.jpg",
+  "/images/home/location-quito.jpg",
+];
+
+function imageOrDefault(value: unknown, fallback: string): string {
+  const src = String(value ?? "").trim();
+  return src && !src.includes("placeholders") ? src : fallback;
+}
+
 export function pickCorporatePage(raw: PageContent): CorporatePageContent {
   const hero = (raw.hero ?? {}) as Record<string, unknown>;
   const designedFor = (raw.designedFor ?? {}) as Record<string, unknown>;
@@ -178,6 +203,9 @@ export function pickCorporatePage(raw: PageContent): CorporatePageContent {
   return {
     hero: {
       label: String(hero.label ?? "CORPORATIVO"),
+      tagline: String(
+        hero.tagline ?? "Consultoras y proyectos por tiempo determinado",
+      ).trim(),
       title: String(hero.title ?? "Alojamiento corporativo sin complicaciones."),
       subtitle: String(
         hero.subtitle ??
@@ -198,6 +226,7 @@ export function pickCorporatePage(raw: PageContent): CorporatePageContent {
         ctaSecondaryHref: String(hero.ctaSecondaryHref ?? "#acceso-corporativo"),
       }),
       features: asStringArray(hero.features ?? raw.heroFeatures, DEFAULT_HERO_FEATURES),
+      imageSrc: imageOrDefault(hero.imageSrc, DEFAULT_HERO_IMAGE),
     },
     designedFor: {
       title: String(designedFor.title ?? "Diseñado para equipos que viajan"),
@@ -270,6 +299,8 @@ export function pickCorporatePage(raw: PageContent): CorporatePageContent {
     },
     destinations: {
       title: String(destinations.title ?? "Destinos disponibles"),
+      linkLabel: String(destinations.linkLabel ?? "Ver propiedades →"),
+      linkHref: String(destinations.linkHref ?? "/propiedades"),
       items: asBlocks(destinations.items, [
         {
           title: "Buenos Aires",
@@ -279,7 +310,13 @@ export function pickCorporatePage(raw: PageContent): CorporatePageContent {
           title: "Ecuador",
           text: "Soluciones prácticas para estadías laborales, proyectos temporales y equipos en movimiento.",
         },
-      ]),
+      ]).map((item, i) => ({
+        ...item,
+        imageSrc: imageOrDefault(
+          destinations[`image${i + 1}Src`],
+          DEFAULT_DESTINATION_IMAGES[i] ?? "",
+        ),
+      })),
     },
     access: {
       title: String(access.title ?? "Acceso Corporativo"),

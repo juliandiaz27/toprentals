@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { EditorToc, SaveState, sectionAnchorId, useUnsavedChanges } from "./EditorChrome";
 import { useEffect, useMemo, useRef, useState, useTransition, type ReactNode } from "react";
 import { MediaUploadGuide } from "./MediaUploadGuide";
 import type { MediaUploadGuide as MediaUploadGuideSpec } from "@/lib/mediaUploadGuide";
@@ -398,6 +399,8 @@ export function PageEditor({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [pending, startTransition] = useTransition();
+  const formRef = useRef<HTMLFormElement>(null);
+  const { dirty, markSaved } = useUnsavedChanges(formRef);
 
   const sections = useMemo(() => {
     const map = new Map<string, PageField[]>();
@@ -421,12 +424,13 @@ export function PageEditor({
         return;
       }
       setSuccess(true);
+      markSaved();
       router.refresh();
     });
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="page-editor w-full">
+    <form ref={formRef} onSubmit={handleSubmit} noValidate className="page-editor w-full">
       <input type="hidden" name="language" value={language} />
       <div className="admin-sticky-toolbar">
         <div className="admin-sticky-toolbar__head">
@@ -450,6 +454,7 @@ export function PageEditor({
             </p>
           </div>
           <div className="flex shrink-0 flex-wrap items-center gap-3">
+            <SaveState dirty={dirty} />
             <AdminLanguageSwitcher language={language} />
             <button type="submit" disabled={pending} className="admin-btn-primary">
               {pending ? "Guardando…" : "Guardar cambios"}
@@ -459,18 +464,24 @@ export function PageEditor({
         <AdminStickyAlerts error={error} success={success} />
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-2">
-        {sections.map(([sectionTitle, fields]) => (
-          <section
-            key={sectionTitle}
-            className={`admin-section-card ${fields.length > 4 ? "xl:col-span-2" : ""}`}
-          >
-            <h2 className="admin-section-card__head">{sectionTitle}</h2>
-            <div className="admin-section-card__body grid gap-5 lg:grid-cols-2">
-              {renderSectionFields(fields, content)}
-            </div>
-          </section>
-        ))}
+      <div className="admin-editor-layout">
+        <div className="flex min-w-0 flex-col gap-6">
+          {sections.map(([sectionTitle, fields]) => (
+            <section
+              key={sectionTitle}
+              id={sectionAnchorId(sectionTitle)}
+              className="admin-section-card"
+            >
+              <h2 className="admin-section-card__head">{sectionTitle}</h2>
+              <div className="admin-section-card__body grid gap-5 lg:grid-cols-2">
+                {renderSectionFields(fields, content)}
+              </div>
+            </section>
+          ))}
+        </div>
+        <EditorToc
+          items={sections.map(([title]) => ({ id: sectionAnchorId(title), label: title }))}
+        />
       </div>
 
       <div className="mt-8 flex justify-end border-t border-[var(--admin-border)] pt-6">

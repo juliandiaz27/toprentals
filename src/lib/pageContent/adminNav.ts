@@ -30,3 +30,92 @@ export function resolveStorageSlug(slug: string): string {
 export function adminNavHref(item: AdminNavItem): string {
   return item.href ?? `/admin/paginas/${item.slug}`;
 }
+
+/** Ítem del menú lateral del panel (agrupado por tipo de tarea). */
+export type AdminMenuItem = {
+  href: string;
+  label: string;
+  icon: AdminMenuIcon;
+  /** Página pública que se abre con «Ver en el sitio». */
+  publicPath?: string;
+};
+
+export type AdminMenuIcon =
+  | "dashboard"
+  | "building"
+  | "comments"
+  | "home"
+  | "page"
+  | "header"
+  | "footer"
+  | "blog"
+  | "marketing";
+
+export type AdminMenuGroup = {
+  title: string;
+  items: AdminMenuItem[];
+};
+
+function pageItem(slug: string, label: string, publicPath: string): AdminMenuItem {
+  return { href: `/admin/paginas/${slug}`, label, icon: "page", publicPath };
+}
+
+/** Menú del panel: lo que más se usa arriba, la estructura del sitio abajo. */
+export const ADMIN_MENU: AdminMenuGroup[] = [
+  {
+    title: "General",
+    items: [{ href: "/admin", label: "Inicio", icon: "dashboard", publicPath: "/" }],
+  },
+  {
+    title: "Edificios",
+    items: [
+      { href: "/admin/propiedades", label: "Fichas de edificios", icon: "building", publicPath: "/propiedades" },
+      { href: "/admin/propiedades/comentarios", label: "Comentarios", icon: "comments" },
+    ],
+  },
+  {
+    title: "Páginas del sitio",
+    items: [
+      { ...pageItem("home", "Home", "/"), icon: "home" },
+      pageItem("propiedades", "Propiedades", "/propiedades"),
+      pageItem("corporate", "Corporate", "/corporate"),
+      pageItem("club", "Club Top Rentals", "/club-top-rentals"),
+      pageItem("propietarios", "Propietarios", "/propietarios"),
+      pageItem("real-estate", "Real Estate", "/real-estate"),
+      pageItem("nosotros", "Quiénes somos", "/nosotros"),
+      pageItem("trabaja", "Trabajá con nosotros", "/trabaja-con-nosotros"),
+      pageItem("contacto", "Contacto", "/contacto"),
+    ],
+  },
+  {
+    title: "Estructura",
+    items: [
+      { ...pageItem("home-header", "Header y menú", "/"), icon: "header" },
+      { ...pageItem("home-footer", "Footer", "/"), icon: "footer" },
+    ],
+  },
+  {
+    title: "Contenido y marketing",
+    items: [
+      { href: "/admin/blog", label: "Blog", icon: "blog", publicPath: "/blog" },
+      { href: "/admin/marketing", label: "Marketing", icon: "marketing" },
+    ],
+  },
+];
+
+/** Ítem activo para una ruta (el más específico gana). */
+export function findAdminMenuItem(
+  pathname: string,
+): { group: AdminMenuGroup; item: AdminMenuItem } | null {
+  let best: { group: AdminMenuGroup; item: AdminMenuItem } | null = null;
+  for (const group of ADMIN_MENU) {
+    for (const item of group.items) {
+      const exact = pathname === item.href;
+      const nested = item.href !== "/admin" && pathname.startsWith(`${item.href}/`);
+      if ((exact || nested) && (!best || item.href.length > best.item.href.length)) {
+        best = { group, item };
+      }
+    }
+  }
+  return best;
+}

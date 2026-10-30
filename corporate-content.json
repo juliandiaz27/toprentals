@@ -15,7 +15,7 @@
     ]
   },
   "designedFor": {
-    "title": "<p>Diseñado para equipos que viajan</p>",
+    "title": "<p>Diseñado para <em>equipos que viajan</em></p>",
     "intro": "Top Rentals Corporate está pensado para:",
     "items": [
       "Empresas con equipos en movimiento",
@@ -26,7 +26,7 @@
     "closing": "Todo con un estándar consistente y sin la fricción de alquileres informales."
   },
   "features": {
-    "title": "<p>Más que un departamento</p>",
+    "title": "<p>Más que <em>un departamento</em></p>",
     "items": [
       {
         "title": "Departamentos totalmente equipados",
@@ -47,7 +47,7 @@
     ]
   },
   "benefits": {
-    "title": "<p>Beneficios exclusivos para empresas</p>",
+    "title": "<p><em>Beneficios exclusivos</em> para empresas</p>",
     "leftColumn": [
       "Tarifas corporativas preferenciales",
       "Condiciones flexibles según volumen y duración.",
@@ -62,7 +62,7 @@
     "closing": "Todo gestionado desde una cuenta corporativa única."
   },
   "howItWorks": {
-    "title": "<p>Cómo funciona Top Rentals Corporate</p>",
+    "title": "<p><em>Cómo funciona</em> Top Rentals Corporate</p>",
     "steps": [
       {
         "title": "Solicitud de cuenta",
@@ -83,7 +83,7 @@
     ]
   },
   "spaces": {
-    "title": "<p>Espacios para reuniones y eventos corporativos</p>",
+    "title": "<p>Espacios para reuniones y <em>eventos corporativos</em></p>",
     "subtitle": "<p>Soluciones flexibles para encuentros profesionales, reuniones privadas y eventos empresariales.</p>",
     "cards": [
       "Espacios de cowork",
@@ -92,7 +92,7 @@
     ]
   },
   "destinations": {
-    "title": "<p>Destinos disponibles</p>",
+    "title": "<p>Destinos <em>disponibles</em></p>",
     "items": [
       {
         "title": "Buenos Aires",
@@ -105,7 +105,7 @@
     ]
   },
   "access": {
-    "title": "<p>Acceso Corporativo</p>",
+    "title": "<p>Acceso <em>Corporativo</em></p>",
     "loginQuestion": "¿Ya sos cliente corporate?",
     "loginDescription": "Ingresá a tu cuenta y reservá con tarifas corporativas.",
     "loginCtaLabel": "Acceso corporativo →",

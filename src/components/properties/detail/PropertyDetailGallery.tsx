@@ -80,11 +80,11 @@ export function PropertyDetailGallery({
 
   return (
     <div
-      className="mt-10 grid gap-4 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch"
+      className="grid gap-2.5 lg:grid-cols-[1.6fr_1fr] lg:items-stretch"
       aria-roledescription="carousel"
       aria-label="Galería del edificio"
     >
-      <div className="group relative min-h-[300px] overflow-hidden rounded-2xl bg-neutral-200 sm:min-h-[360px] lg:min-h-[480px]">
+      <div className="group relative min-h-[300px] overflow-hidden rounded-2xl bg-neutral-200 sm:min-h-[360px] lg:min-h-[540px]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           key={images[index]}
@@ -143,7 +143,7 @@ export function PropertyDetailGallery({
         ) : null}
       </div>
 
-      <div className="flex min-h-[280px] flex-col gap-4 lg:min-h-[480px]">
+      <div className="flex min-h-[280px] flex-col gap-2.5 lg:min-h-[540px]">
         {sideImages.map((src, i) => (
           <div
             key={`side-${i}`}

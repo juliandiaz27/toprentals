@@ -1,8 +1,9 @@
 import type { SiteLanguage } from "@/lib/i18n";
-import type {
-  PropertiesCatalogFile,
-  PropertyListing,
-  PropertyListingStored,
+import {
+  normalizeAudience,
+  type PropertiesCatalogFile,
+  type PropertyListing,
+  type PropertyListingStored,
 } from "./catalogTypes";
 import { readPropertiesCatalog } from "./catalogStorage";
 import { propertyPlaceholderImage } from "./catalog";
@@ -29,6 +30,8 @@ export function normalizeListing(
     hidden: Boolean(item.hidden),
     hasOffer: Boolean(item.hasOffer),
     isPopular: Boolean(item.isPopular),
+    audience: normalizeAudience(item.audience),
+    isExclusive: Boolean(item.isExclusive),
     detail: item.detail,
     ...(elfsightReviewsAppId ? { elfsightReviewsAppId } : {}),
     imageSrc:

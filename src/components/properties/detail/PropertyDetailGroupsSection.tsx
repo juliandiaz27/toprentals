@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FormattedText } from "@/components/content/FormattedText";
 import type { PropertyStat } from "@/lib/properties/propertyDetailTypes";
 
 type Props = {
@@ -15,6 +16,7 @@ function ctaText(label: string): string {
   return trimmed.includes("→") ? trimmed : `${trimmed} →`;
 }
 
+/** Franja crema «Grupos de hasta X pax» con cifras a la derecha (Figma). */
 export function PropertyDetailGroupsSection({
   headline,
   description,
@@ -22,38 +24,38 @@ export function PropertyDetailGroupsSection({
   ctaHref,
   stats,
 }: Props) {
+  const visibleStats = stats.filter((s) => s.value && s.value !== "—");
+
   return (
-    <section data-reveal className="bg-neutral-950 px-6 py-12 text-white lg:px-12 lg:py-14">
-      <div className="mx-auto max-w-[1440px]">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
-          <div className="max-w-3xl">
-            <h2 className="text-[clamp(1.35rem,2.8vw,1.75rem)] font-bold leading-snug tracking-tight text-white">
-              {headline}
-            </h2>
-            {description ? (
-              <p className="mt-4 text-[15px] leading-relaxed text-neutral-400 lg:text-base">
-                {description}
-              </p>
-            ) : null}
-          </div>
+    <section data-reveal className="bg-tr-cream px-6 py-12 lg:px-16 lg:py-14">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:px-10">
+        <div className="max-w-[560px]">
+          <h2 className="tr-heading text-[clamp(1.25rem,2vw,1.6rem)] [&_em]:text-[1.25em]">
+            <FormattedText value={headline} as="inline" />
+          </h2>
+          {description ? (
+            <p className="mt-3 text-[13px] leading-relaxed text-tr-ink/70">{description}</p>
+          ) : null}
           <Link
             href={ctaHref}
-            className="inline-flex h-11 shrink-0 items-center justify-center self-start rounded-lg bg-white px-6 text-[14px] font-medium text-neutral-950 transition-colors hover:bg-neutral-100 lg:self-center"
+            className="mt-5 inline-flex h-9 items-center rounded-[2px] bg-tr-red px-4 text-[12px] font-medium text-white transition hover:brightness-110"
           >
             {ctaText(ctaLabel)}
           </Link>
         </div>
 
-        <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 lg:mt-12 lg:gap-8">
-          {stats.map((stat) => (
-            <li key={`${stat.label}-${stat.value}`}>
-              <p className="text-[clamp(2rem,4vw,3rem)] font-bold leading-none text-white">
-                {stat.value}
-              </p>
-              <p className="mt-2 text-[14px] text-neutral-400">{stat.label}</p>
-            </li>
-          ))}
-        </ul>
+        {visibleStats.length > 0 ? (
+          <ul className="grid grid-cols-2 gap-x-12 gap-y-6 text-center sm:grid-cols-4">
+            {visibleStats.map((stat) => (
+              <li key={`${stat.label}-${stat.value}`}>
+                <p className="font-display text-[clamp(2rem,3vw,2.5rem)] font-semibold leading-none text-tr-ink">
+                  {stat.value}
+                </p>
+                <p className="mt-3 text-[12px] text-tr-ink">{stat.label}</p>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     </section>
   );

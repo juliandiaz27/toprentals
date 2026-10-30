@@ -8,7 +8,7 @@ import { useLanguage } from "@/components/i18n/LanguageProvider";
 type Props = { content: CorporateAccessContent };
 
 const inputClass =
-  "mt-1 w-full rounded-md border border-neutral-200 bg-white px-3 py-2.5 text-[14px] text-neutral-950 outline-none focus:border-neutral-400";
+  "mt-1 h-9 w-full rounded-[2px] border border-neutral-300 bg-white px-3 text-[14px] text-tr-ink outline-none focus:border-tr-ink/60";
 
 export function CorporateAccessForm({ content }: Props) {
   const [sent, setSent] = useState(false);
@@ -55,14 +55,14 @@ export function CorporateAccessForm({ content }: Props) {
   }
 
   return (
-    <div className="h-full rounded-lg bg-white p-6 text-neutral-950 lg:p-8">
-      <h3 className="text-lg font-bold">
+    <div className="h-full rounded-[4px] bg-[#F7F7F7] p-6 text-tr-ink lg:px-5 lg:py-5">
+      <h3 className="text-[14px] font-normal">
         <FormattedText value={content.formTitle} as="inline" />
       </h3>
       {sent ? (
         <p className="mt-6 text-[15px] text-neutral-600">{labels.success}</p>
       ) : (
-        <form onSubmit={onSubmit} className="mt-6 space-y-4">
+        <form onSubmit={onSubmit} className="mt-3 space-y-3">
           <input
             type="text"
             name="website"
@@ -72,7 +72,7 @@ export function CorporateAccessForm({ content }: Props) {
             aria-hidden
           />
           <div>
-            <label htmlFor="corp-empresa" className="text-[13px] font-medium text-neutral-700">
+            <label htmlFor="corp-empresa" className="text-[10px] text-neutral-500">
               {labels.company}
             </label>
             <input
@@ -85,7 +85,7 @@ export function CorporateAccessForm({ content }: Props) {
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label htmlFor="corp-nombre" className="text-[13px] font-medium text-neutral-700">
+              <label htmlFor="corp-nombre" className="text-[10px] text-neutral-500">
                 {labels.firstName}
               </label>
               <input
@@ -97,7 +97,7 @@ export function CorporateAccessForm({ content }: Props) {
               />
             </div>
             <div>
-              <label htmlFor="corp-apellido" className="text-[13px] font-medium text-neutral-700">
+              <label htmlFor="corp-apellido" className="text-[10px] text-neutral-500">
                 {labels.lastName}
               </label>
               <input
@@ -110,7 +110,7 @@ export function CorporateAccessForm({ content }: Props) {
             </div>
           </div>
           <div>
-            <label htmlFor="corp-email" className="text-[13px] font-medium text-neutral-700">
+            <label htmlFor="corp-email" className="text-[10px] text-neutral-500">
               {labels.email}
             </label>
             <input
@@ -124,13 +124,13 @@ export function CorporateAccessForm({ content }: Props) {
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label htmlFor="corp-cargo" className="text-[13px] font-medium text-neutral-700">
+              <label htmlFor="corp-cargo" className="text-[10px] text-neutral-500">
                 {labels.jobTitle}
               </label>
               <input id="corp-cargo" name="cargo" type="text" className={inputClass} />
             </div>
             <div>
-              <label htmlFor="corp-telefono" className="text-[13px] font-medium text-neutral-700">
+              <label htmlFor="corp-telefono" className="text-[10px] text-neutral-500">
                 {labels.phone}
               </label>
               <input
@@ -147,11 +147,11 @@ export function CorporateAccessForm({ content }: Props) {
               {error}
             </p>
           ) : null}
-          <div className="flex justify-end pt-2">
+          <div className="flex pt-2">
             <button
               type="submit"
               disabled={pending}
-              className="inline-flex h-11 items-center justify-center rounded-md bg-btn px-6 text-[14px] font-medium text-white hover:bg-btn-hover disabled:opacity-60"
+              className="inline-flex h-9 min-w-[160px] items-center justify-center rounded-[2px] bg-tr-sky px-5 text-[12px] font-medium text-tr-ink transition hover:brightness-95 disabled:opacity-60"
             >
               {pending
                 ? ui.common.sending

@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { FormattedText } from "@/components/content/FormattedText";
 import type { HomeBuildingsContent } from "@/lib/pageContent/homeTypes";
 import { resolveBuildingsVideoSrc } from "@/lib/pageContent/homeTypes";
-import { BrandArch } from "@/components/brand/BrandShapes";
+import { BrandArch, BrandWaveBand } from "@/components/brand/BrandShapes";
 
 type Props = {
   content: HomeBuildingsContent;
@@ -14,18 +14,6 @@ function IconPlay() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
       <path d="M8 5v14l11-7L8 5z" />
-    </svg>
-  );
-}
-
-/**
- * Vector "Nuestros edificios" exportado del Figma (2142×770, frame de 1440 en x=259).
- * Se centra respecto del frame, así los arcos quedan alineados con el video.
- */
-function BuildingsBand({ className }: { className?: string }) {
-  return (
-    <svg viewBox="-259 0 2142 770" fill="currentColor" className={className} aria-hidden>
-      <path d="M1218.45 770H1599.06C1755.87 770 1883 642.779 1883 485.861V284.139C1883 127.222 1755.87 0 1599.06 0H1218.45C1190.86 0 1168.5 22.378 1168.5 49.983V284.139C1168.5 127.222 1041.37 0 884.559 0H503.953C476.367 0 454.005 22.378 454.005 49.983V254.966C439.404 111.739 318.513 0 171.554 0H-209.052C-236.638 0 -259 22.378 -259 49.983V719.993C-259 747.598 -236.638 769.975 -209.052 769.975H1218.45V770Z" />
     </svg>
   );
 }
@@ -75,7 +63,7 @@ export function BuildingsTourSection({ content }: Props) {
           className="pointer-events-none absolute inset-x-0 bottom-0 top-8 bg-tr-cream lg:hidden"
           aria-hidden
         />
-        <BuildingsBand className="pointer-events-none absolute top-7 left-[calc(50%-979px)] hidden h-[770px] w-[2142px] text-tr-cream lg:block" />
+        <BrandWaveBand className="pointer-events-none absolute top-7 left-[calc(50%-979px)] hidden h-[770px] w-[2142px] text-tr-cream lg:block" />
         <BrandArch className="pointer-events-none absolute bottom-14 right-[8%] hidden h-[66px] w-[70px] text-tr-sky lg:block" />
 
         {/* Video: 835×327 px (Figma) — escala en pantallas chicas manteniendo proporción */}

@@ -4,6 +4,7 @@ import { loadPropertyListings } from "./catalog";
 import type { PropertyListing } from "./catalog";
 import type { PropertyDetailStored } from "./catalogTypes";
 import { resolvePropertyGalleryImages } from "./gallery";
+import { normalizeAmenities, parsePoiLine } from "./amenities";
 import {
   buildDefaultDetail,
   buildPoiColumns,
@@ -37,9 +38,10 @@ function detailOverrideFromStored(
 ): Partial<PropertyDetailExtra> {
   if (!stored) return {};
 
-  const poiItems = (stored.poiLines ?? [])
-    .map((line) => String(line ?? "").trim())
-    .filter(Boolean);
+  const poiPlaces = (stored.poiLines ?? [])
+    .map(parsePoiLine)
+    .filter((p) => p.name);
+  const poiItems = poiPlaces.map((p) => p.name);
   const poi =
     poiItems.length > 0
       ? {
@@ -65,12 +67,14 @@ function detailOverrideFromStored(
             const name = String(u?.name ?? "").trim();
             if (!name) return null;
             const tourUrl = String(u?.tourUrl ?? "").trim();
+            const imageSrc = String(u?.imageSrc ?? "").trim();
             return {
               name,
               sqm: String(u?.sqm ?? "").trim(),
               guests: String(u?.guests ?? "").trim(),
               features: String(u?.features ?? "").trim(),
               ...(tourUrl ? { tourUrl } : {}),
+              ...(imageSrc ? { imageSrc } : {}),
             };
           })
           .filter((u): u is NonNullable<typeof u> => u != null)
@@ -86,7 +90,7 @@ function detailOverrideFromStored(
     ...(galleryImages ? { galleryImages } : {}),
     ...(stored.about ? { about: stored.about } : {}),
     ...(stored.tags?.length ? { tags: stored.tags } : {}),
-    ...(poi ? { poi } : {}),
+    ...(poi ? { poi, poiPlaces } : {}),
     ...(stored.groupsHeadline ? { groupsHeadline: stored.groupsHeadline } : {}),
     ...(stored.groupsDescription ? { groupsDescription: stored.groupsDescription } : {}),
     ...(stored.groupsCtaLabel ? { groupsCtaLabel: stored.groupsCtaLabel } : {}),
@@ -130,6 +134,31 @@ export async function getPropertyDetail(
     groupsCtaLabel: override.groupsCtaLabel ?? base.groupsCtaLabel,
     groupsCtaHref: override.groupsCtaHref ?? base.groupsCtaHref,
     relatedSlugs: override.relatedSlugs ?? base.relatedSlugs,
+    poiPlaces:
+      override.poiPlaces ??
+      (override.poi ?? base.poi).columns.flat().map((name) => ({ name, imageSrc: "" })),
+    bannerImage: String(listing.detail?.bannerImage ?? "").trim(),
+    bannerTitle: String(listing.detail?.bannerTitle ?? "").trim(),
+    bannerPills: (listing.detail?.bannerPills ?? [])
+      .map((p) => String(p ?? "").trim())
+      .filter(Boolean),
+    finalCtaTitle:
+      String(listing.detail?.finalCtaTitle ?? "").trim() || base.finalCtaTitle,
+    finalCtaSubtitle:
+      String(listing.detail?.finalCtaSubtitle ?? "").trim() || base.finalCtaSubtitle,
+    introText: String(listing.detail?.introText ?? "").trim(),
+    introCtaLabel: String(listing.detail?.introCtaLabel ?? "").trim(),
+    aboutTitle: String(listing.detail?.aboutTitle ?? "").trim(),
+    highlightTitle: String(listing.detail?.highlightTitle ?? "").trim(),
+    highlightText: String(listing.detail?.highlightText ?? "").trim(),
+    restaurantsTitle: String(listing.detail?.restaurantsTitle ?? "").trim(),
+    unitsIntro: String(listing.detail?.unitsIntro ?? "").trim(),
+    amenitiesIntro: String(listing.detail?.amenitiesIntro ?? "").trim(),
+    finalCtaLabel: String(listing.detail?.finalCtaLabel ?? "").trim(),
+    restaurants: (listing.detail?.restaurants ?? [])
+      .map((r) => String(r ?? "").trim())
+      .filter(Boolean),
+    amenities: normalizeAmenities(listing.detail?.amenities),
   };
 }
 

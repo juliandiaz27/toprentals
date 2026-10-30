@@ -15,6 +15,8 @@ import type {
   PropertyStatStored,
   PropertyUnitStored,
 } from "@/lib/properties/catalogTypes";
+import { normalizeAudience } from "@/lib/properties/catalogTypes";
+import { normalizeAmenities } from "@/lib/properties/amenities";
 import { linesFromText } from "@/lib/properties/catalogText";
 import { detailHasContent, ensureStats } from "@/lib/properties/detailForm";
 import { pickPropiedadesFilters } from "@/lib/pageContent/propiedadesTypes";
@@ -87,12 +89,14 @@ function parseListingsPayload(
             .map((u) => {
               const row = u as Record<string, unknown>;
               const tourUrl = String(row.tourUrl ?? "").trim();
+              const imageSrc = String(row.imageSrc ?? "").trim();
               return {
                 name: String(row.name ?? "").trim(),
                 sqm: String(row.sqm ?? "").trim(),
                 guests: String(row.guests ?? "").trim(),
                 features: String(row.features ?? "").trim(),
                 ...(tourUrl ? { tourUrl } : {}),
+                ...(imageSrc ? { imageSrc } : {}),
               };
             })
             .filter((u) => u.name);
@@ -125,6 +129,26 @@ function parseListingsPayload(
           units,
           galleryImages: galleryImages?.length ? galleryImages : undefined,
           relatedSlugs: relatedSlugs.length ? relatedSlugs : undefined,
+          bannerImage: String(d.bannerImage ?? "").trim() || undefined,
+          bannerTitle: String(d.bannerTitle ?? "").trim() || undefined,
+          bannerPills: Array.isArray(d.bannerPills)
+            ? d.bannerPills.map((p) => String(p).trim()).filter(Boolean)
+            : undefined,
+          finalCtaTitle: String(d.finalCtaTitle ?? "").trim() || undefined,
+          introText: String(d.introText ?? "").trim() || undefined,
+          introCtaLabel: String(d.introCtaLabel ?? "").trim() || undefined,
+          aboutTitle: String(d.aboutTitle ?? "").trim() || undefined,
+          highlightTitle: String(d.highlightTitle ?? "").trim() || undefined,
+          highlightText: String(d.highlightText ?? "").trim() || undefined,
+          restaurantsTitle: String(d.restaurantsTitle ?? "").trim() || undefined,
+          unitsIntro: String(d.unitsIntro ?? "").trim() || undefined,
+          amenitiesIntro: String(d.amenitiesIntro ?? "").trim() || undefined,
+          finalCtaSubtitle: String(d.finalCtaSubtitle ?? "").trim() || undefined,
+          finalCtaLabel: String(d.finalCtaLabel ?? "").trim() || undefined,
+          restaurants: Array.isArray(d.restaurants)
+            ? d.restaurants.map((r) => String(r).trim()).filter(Boolean)
+            : undefined,
+          amenities: normalizeAmenities(d.amenities),
         };
 
         if (!detailHasContent(detail)) {
@@ -144,6 +168,8 @@ function parseListingsPayload(
         hidden: row.hidden === true || row.hidden === "true",
         hasOffer: row.hasOffer === true || row.hasOffer === "true",
         isPopular: row.isPopular === true || row.isPopular === "true",
+        audience: normalizeAudience(row.audience),
+        isExclusive: row.isExclusive === true || row.isExclusive === "true",
         elfsightReviewsAppId:
           parseElfsightAppId(
             String(row.elfsightReviewsAppId ?? row.elfsightReviewsEmbed ?? ""),
@@ -299,6 +325,35 @@ export async function savePropertiesCatalog(
             galleryImages: [...existing, ...uploaded],
           },
         };
+      }
+    }
+
+    /* Fotos de unidades: se guardan en la unidad con el mismo nombre */
+    const unitSlug = String(formData.get("__unitImageSlug") ?? "").trim();
+    const unitFiles = formData.getAll("__unitImageFile");
+    const unitNames = formData.getAll("__unitImageName").map((n) => String(n).trim());
+    if (unitSlug && unitFiles.length > 0) {
+      const idx = catalog.listings.findIndex((p) => p.slug === unitSlug);
+      const item = idx >= 0 ? catalog.listings[idx] : undefined;
+      if (item?.detail?.units?.length) {
+        const unitGuide = MEDIA_UPLOAD_GUIDES.propertyGallery;
+        const units = [...item.detail.units];
+        for (let i = 0; i < unitFiles.length; i++) {
+          const file = unitFiles[i];
+          const unitIndex = units.findIndex((u) => u.name === unitNames[i]);
+          if (!(file instanceof File) || file.size === 0 || unitIndex < 0) continue;
+          const unitError = validateFileAgainstGuide(file, unitGuide);
+          if (unitError) {
+            return { ok: false, error: `Foto de «${unitNames[i]}»: ${unitError}` };
+          }
+          const url = await saveUpload(
+            file,
+            `property-${unitSlug}-unit-${Date.now()}-${i}`,
+            { maxSizeMb: unitGuide.maxSizeMb },
+          );
+          units[unitIndex] = { ...units[unitIndex]!, imageSrc: url };
+        }
+        catalog.listings[idx] = { ...item, detail: { ...item.detail, units } };
       }
     }
 

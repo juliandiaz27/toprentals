@@ -2,7 +2,7 @@
   "hero": {
     "title": "<p>Our apartments</p>",
     "subtitle": "<p>More than 500 apartments operated in strategically located buildings.</p>",
-    "imageSrc": "/images/placeholders/page-hero.svg"
+    "imageSrc": "/images/properties/propiedades-hero.png"
   },
   "filters": {
     "items": [

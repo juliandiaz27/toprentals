@@ -12,10 +12,11 @@ type Props = {
   city: PropertyCity;
 };
 
+/** Mapa de la ficha (Figma: bloque redondeado, sin marco). */
 export function PropertyMap({ address, neighborhood, city }: Props) {
   if (!address?.trim()) {
     return (
-      <div className="flex min-h-[280px] items-center justify-center rounded-lg bg-neutral-200 lg:min-h-[320px]">
+      <div className="flex min-h-[260px] items-center justify-center rounded-2xl bg-neutral-200 lg:min-h-[260px]">
         <span className="text-[13px] text-neutral-500">Ubicación no disponible</span>
       </div>
     );
@@ -25,29 +26,24 @@ export function PropertyMap({ address, neighborhood, city }: Props) {
   const embedUrl = googleMapsEmbedUrl(query);
   const mapsUrl = googleMapsOpenUrl(query);
 
-  const addressLine = [address, neighborhood, city].filter(Boolean).join(" · ");
-
   return (
-    <div className="flex min-h-[280px] flex-col overflow-hidden rounded-lg border border-neutral-200 bg-neutral-100 lg:min-h-[320px]">
-      <div className="border-b border-neutral-200 bg-white px-4 py-3">
-        <p className="text-[13px] font-medium text-neutral-950">{addressLine}</p>
-        <Link
-          href={mapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-1 inline-block text-[12px] text-neutral-600 underline-offset-2 hover:text-neutral-950 hover:underline"
-        >
-          Ver en Google Maps →
-        </Link>
-      </div>
+    <div className="relative overflow-hidden rounded-2xl bg-neutral-100">
       <iframe
         title={`Mapa — ${address}`}
         src={embedUrl}
-        className="min-h-[240px] w-full flex-1 border-0 lg:min-h-[260px]"
+        className="block h-[260px] w-full border-0 lg:h-[270px]"
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
         allowFullScreen
       />
+      <Link
+        href={mapsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute bottom-3 right-3 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-medium text-tr-ink shadow-sm hover:bg-white"
+      >
+        Ver en Google Maps →
+      </Link>
     </div>
   );
 }

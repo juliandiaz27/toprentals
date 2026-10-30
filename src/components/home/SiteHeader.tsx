@@ -14,9 +14,19 @@ import { BrandWordmark } from "@/components/brand/BrandShapes";
 /** Links visibles en la barra (Figma); el resto queda en el menú lateral. */
 const INLINE_NAV_HREFS = ["/propiedades", "/corporate", "/club-top-rentals"];
 
+const COLOR_HEADER_BG = {
+  green: "bg-tr-green",
+  red: "bg-tr-red",
+  orange: "bg-tr-orange",
+  ink: "bg-tr-ink",
+};
+
 type Props = {
   header: HomeHeaderContent;
-  variant?: "default" | "muted";
+  /** Header de color (texto blanco): verde en Propiedades/Corporate, color del edificio en la ficha. */
+  variant?: "default" | "muted" | keyof typeof COLOR_HEADER_BG;
+  /** Botón «Reservar ahora» sobre header de color: rojo (Propiedades) o blanco (Corporate). */
+  ctaTone?: "red" | "white";
   activeHref?: string;
 };
 
@@ -64,6 +74,7 @@ export function SiteHeader({
   header,
   variant = "default",
   activeHref,
+  ctaTone = "red",
 }: Props) {
   const pathname = usePathname() ?? "";
   const { ui } = useLanguage();
@@ -88,10 +99,12 @@ export function SiteHeader({
   }, []);
 
   /* Rebranding: fondo crema en todas las páginas */
-  const headerBg =
-    variant === "muted"
-      ? "border-black/5 bg-tr-cream"
-      : "border-transparent bg-tr-cream";
+  const green = variant in COLOR_HEADER_BG;
+  const headerBg = green
+    ? `border-transparent text-white ${COLOR_HEADER_BG[variant as keyof typeof COLOR_HEADER_BG]}`
+    : variant === "muted"
+      ? "border-black/5 bg-tr-cream text-tr-ink"
+      : "border-transparent bg-tr-cream text-tr-ink";
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
@@ -133,7 +146,7 @@ export function SiteHeader({
               className="h-8 max-w-[200px] object-contain object-left"
             />
           ) : (
-            <span className="text-tr-ink" aria-label={header.logoText}>
+            <span aria-label={header.logoText}>
               <BrandWordmark className="text-[26px]" />
             </span>
           )}
@@ -148,7 +161,7 @@ export function SiteHeader({
                   key={item.href}
                   href={item.href}
                   aria-current={isNavActive(item.href) ? "page" : undefined}
-                  className={`text-[15px] text-tr-ink transition hover:opacity-70 ${
+                  className={`text-[15px] transition hover:opacity-70 ${
                     isNavActive(item.href) ? "font-semibold" : ""
                   }`}
                 >
@@ -157,19 +170,33 @@ export function SiteHeader({
               ))}
           </nav>
 
-          <LanguageSwitcher className="mr-2 hidden md:flex" />
+          <LanguageSwitcher
+            className={`mr-2 hidden md:flex ${
+              green
+                ? "[&_button]:text-white/70 [&_button:hover]:text-white [&_button[aria-pressed=true]]:text-white"
+                : ""
+            }`}
+          />
 
           <Link
             href={header.ctaHref}
             {...reservasLinkProps(header.ctaHref)}
-            className="inline-flex h-10 shrink-0 items-center justify-center rounded-[3px] bg-tr-ink px-4 text-[13px] font-semibold text-white transition-colors hover:bg-black sm:px-6 sm:text-[14px]"
+            className={`inline-flex h-10 shrink-0 items-center justify-center rounded-[3px] px-4 text-[13px] font-semibold text-white transition-colors sm:px-6 sm:text-[14px] ${
+              !green
+                ? "bg-tr-ink hover:bg-black"
+                : ctaTone === "white"
+                  ? "bg-white !text-tr-ink hover:bg-tr-cream"
+                  : "bg-tr-red hover:brightness-110"
+            }`}
           >
             {header.ctaLabel}
           </Link>
 
           <button
             type="button"
-            className="hidden h-10 w-10 items-center justify-center rounded-[3px] text-tr-ink transition hover:bg-black/5 lg:inline-flex"
+            className={`hidden h-10 w-10 items-center justify-center rounded-[3px] transition lg:inline-flex ${
+              green ? "hover:bg-white/10" : "hover:bg-black/5"
+            }`}
             aria-expanded={menuOpen}
             aria-controls={menuId}
             aria-label={menuOpen ? ui.nav.closeMenu : ui.nav.openMenu}

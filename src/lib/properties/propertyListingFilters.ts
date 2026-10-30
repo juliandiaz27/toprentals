@@ -1,6 +1,6 @@
 import { listingMatchesCityFilter } from "@/lib/pageContent/propertyCityFilters";
 import type { PropertyCityFilterItem } from "@/lib/pageContent/propertyCityFilters";
-import type { PropertyListing } from "./catalogTypes";
+import type { PropertyAudience, PropertyListing } from "./catalogTypes";
 import { DEFAULT_PROPERTY_UNITS } from "./propertyDetailDefaults";
 
 export const PROPERTY_FILTER_ALL = "todos";
@@ -199,12 +199,45 @@ export function listingMatchesCategoryFilter(
   );
 }
 
+/**
+ * Capacidad máxima de la propiedad: el mayor número que aparezca en el campo
+ * «Huéspedes» de sus unidades (acepta «4», «Hasta 5 huéspedes», «2-4»…). 0 = sin dato.
+ */
+export function listingMaxGuests(listing: PropertyListing): number {
+  let max = 0;
+  for (const unit of listing.detail?.units ?? []) {
+    for (const match of String(unit?.guests ?? "").matchAll(/\d+/g)) {
+      max = Math.max(max, Number(match[0]));
+    }
+  }
+  return max;
+}
+
+export function listingMatchesGuests(
+  listing: PropertyListing,
+  guests: number,
+): boolean {
+  if (!guests) return true;
+  return listingMaxGuests(listing) >= guests;
+}
+
+export function listingMatchesAudience(
+  listing: PropertyListing,
+  audience: PropertyAudience | "",
+): boolean {
+  if (!audience) return true;
+  return listing.audience?.includes(audience) ?? false;
+}
+
 export function filterPropertyListings(
   listings: PropertyListing[],
   options: {
     cityFilter?: PropertyCityFilterItem;
     neighborhoodId?: string;
     categoryId?: string;
+    guests?: number;
+    audience?: PropertyAudience | "";
+    exclusiveOnly?: boolean;
   },
 ): PropertyListing[] {
   const cityScoped = listingsForCityFilter(listings, options.cityFilter);
@@ -218,6 +251,9 @@ export function filterPropertyListings(
       listingMatchesCategoryFilter(
         listing,
         options.categoryId ?? PROPERTY_FILTER_ALL,
-      ),
+      ) &&
+      listingMatchesGuests(listing, options.guests ?? 0) &&
+      listingMatchesAudience(listing, options.audience ?? "") &&
+      (!options.exclusiveOnly || Boolean(listing.isExclusive)),
   );
 }

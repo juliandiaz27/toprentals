@@ -40,10 +40,14 @@ export default async function CorporatePage() {
 
   return (
     <>
-      <SiteHeader header={header} variant="muted" activeHref="/corporate" />
+      <SiteHeader header={header} variant="green" ctaTone="white" activeHref="/corporate" />
       <main className="bg-white">
         <CorporateHero content={page.hero} />
-        <CorporateDesignedFor content={page.designedFor} />
+        <CorporateDesignedFor
+          content={page.designedFor}
+          ctaLabel={page.hero.ctaSecondaryLabel}
+          ctaHref={page.hero.ctaSecondaryHref}
+        />
         <CorporateFeaturesGrid content={page.features} />
         <CorporateBenefits content={page.benefits} />
         <CorporateHowItWorks content={page.howItWorks} />

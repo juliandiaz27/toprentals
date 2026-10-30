@@ -12,43 +12,40 @@ export function CorporateAccess({ content }: Props) {
   return (
     <section
       id="acceso-corporativo"
-      className="scroll-mt-24 bg-[#111111] px-6 py-16 text-white lg:px-12 lg:py-20"
+      className="scroll-mt-24 bg-tr-green px-6 py-14 text-white lg:px-16 lg:py-16"
     >
       <div className="mx-auto w-full max-w-[1440px]">
         <h2
           data-reveal
-          className="text-[clamp(1.75rem,3vw,2.25rem)] font-bold leading-tight"
+          className="tr-heading text-[clamp(1.25rem,2vw,1.6rem)] !text-white [&_em]:text-[1.3em] lg:pl-2"
         >
           <FormattedText value={content.title} as="inline" />
         </h2>
 
-        <div className="mt-10 grid gap-6 lg:mt-12 lg:grid-cols-[3fr_2fr] lg:items-stretch lg:gap-8">
-          <div data-reveal data-reveal-delay="80" className="min-w-0">
-            <CorporateAccessForm content={content} />
-          </div>
-
+        <div className="mt-6 grid gap-6 lg:grid-cols-[300px_minmax(0,1fr)] lg:items-start lg:gap-10">
           <div
             id="acceso-agencias"
             data-reveal
-            data-reveal-delay="160"
-            className="scroll-mt-24 flex flex-col justify-center rounded-lg bg-[#2a2a2a] px-6 py-8 lg:px-8 lg:py-10"
+            data-reveal-delay="80"
+            className="scroll-mt-24 rounded-[4px] bg-tr-sky px-6 py-7 text-tr-ink"
           >
-            <h3 className="text-[clamp(1.25rem,2vw,1.5rem)] font-bold leading-tight text-white">
-              <FormattedText value={content.title} as="inline" />
-            </h3>
-            <p className="mt-6 text-[15px] font-semibold text-white">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.02em]">
               <FormattedText value={content.loginQuestion} as="inline" />
             </p>
             <FormattedText
               value={content.loginDescription}
-              className="mt-3 block text-[15px] leading-relaxed text-[#AAAAAA]"
+              className="mt-1 block max-w-[200px] text-[11px] leading-snug"
             />
             <Link
               href={sanitizeCorporateLoginHref(content.loginCtaHref)}
-              className="mt-8 inline-flex h-11 w-fit items-center justify-center rounded-lg bg-white px-5 text-[14px] font-semibold text-neutral-950 hover:bg-neutral-100"
+              className="mt-5 inline-flex h-9 min-w-[180px] items-center rounded-[2px] bg-tr-ink px-4 text-[12px] font-medium text-white transition hover:bg-black"
             >
               {loginCta} →
             </Link>
+          </div>
+
+          <div data-reveal data-reveal-delay="160" className="min-w-0">
+            <CorporateAccessForm content={content} />
           </div>
         </div>
       </div>

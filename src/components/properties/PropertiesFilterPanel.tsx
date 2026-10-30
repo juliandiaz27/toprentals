@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
 import type { PropiedadesFiltersContent } from "@/lib/pageContent/propiedadesTypes";
 import type { PropertyFilterOptionWithCount } from "@/lib/properties/propertyListingFilters";
@@ -24,15 +24,15 @@ function FilterPill({ label, active, count, onClick }: PillProps) {
       aria-pressed={active}
       className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-medium transition-all duration-200 ${
         active
-          ? "bg-btn text-white shadow-[0_4px_14px_rgba(0,0,0,0.15)]"
-          : "bg-white text-neutral-700 ring-1 ring-neutral-300 hover:ring-neutral-400 hover:bg-neutral-50"
+          ? "bg-tr-sky text-tr-ink"
+          : "bg-white text-tr-ink ring-1 ring-black/10 hover:ring-black/25"
       }`}
     >
       {label}
       {count != null ? (
         <span
           className={`text-[11px] font-semibold tabular-nums ${
-            active ? "text-white/75" : "text-neutral-400"
+            active ? "text-tr-ink/60" : "text-neutral-400"
           }`}
         >
           {count}
@@ -57,8 +57,8 @@ function FilterListOption({ label, count, active, onClick }: ListOptionProps) {
       aria-pressed={active}
       className={`flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left transition-colors ${
         active
-          ? "bg-neutral-950/[0.04] ring-1 ring-neutral-950/10"
-          : "hover:bg-neutral-50"
+          ? "bg-white ring-1 ring-black/10"
+          : "hover:bg-white/70"
       }`}
     >
       <span className="flex min-w-0 items-center gap-3">
@@ -101,14 +101,101 @@ type SectionProps = {
   title: string;
   children: ReactNode;
   showDivider?: boolean;
+  /** Muestra el encabezado como botón para plegar la sección. */
+  collapsible?: boolean;
 };
 
-function FilterSection({ title, children, showDivider = true }: SectionProps) {
+function FilterSection({
+  title,
+  children,
+  showDivider = true,
+  collapsible = false,
+}: SectionProps) {
+  const [open, setOpen] = useState(true);
   return (
     <section className={showDivider ? "border-t border-neutral-200 pt-5" : ""}>
-      <h3 className="mb-3 text-[13px] font-semibold text-neutral-900">{title}</h3>
-      {children}
+      {collapsible ? (
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+          className="mb-3 flex w-full items-center justify-between text-left text-[13px] font-semibold text-neutral-900"
+        >
+          {title}
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden
+            className={`h-3.5 w-3.5 text-neutral-500 transition-transform ${open ? "rotate-180" : ""}`}
+          >
+            <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
+      ) : (
+        <h3 className="mb-3 text-[13px] font-semibold text-neutral-900">{title}</h3>
+      )}
+      {open ? children : null}
     </section>
+  );
+}
+
+/** Opciones visibles antes de «Ver más». */
+const VISIBLE_OPTIONS = 5;
+
+type OptionListProps = {
+  allLabel: string;
+  allCount: number;
+  options: PropertyFilterOptionWithCount[];
+  active: PropertyFilterId;
+  onChange: (id: PropertyFilterId) => void;
+  moreLabel: string;
+  lessLabel: string;
+};
+
+/** Lista con «Todos» + opciones; las largas se recortan con «Ver más». */
+function FilterOptionList({
+  allLabel,
+  allCount,
+  options,
+  active,
+  onChange,
+  moreLabel,
+  lessLabel,
+}: OptionListProps) {
+  const [expanded, setExpanded] = useState(false);
+  const activeIndex = options.findIndex((o) => o.id === active);
+  // Si la opción elegida quedó fuera del recorte, se muestra todo
+  const showAll = expanded || activeIndex >= VISIBLE_OPTIONS;
+  const shown = showAll ? options : options.slice(0, VISIBLE_OPTIONS);
+  const hidden = options.length - VISIBLE_OPTIONS;
+
+  return (
+    <div className="space-y-0.5">
+      <FilterListOption
+        label={allLabel}
+        count={allCount}
+        active={active === PROPERTY_FILTER_ALL}
+        onClick={() => onChange(PROPERTY_FILTER_ALL)}
+      />
+      {shown.map((option) => (
+        <FilterListOption
+          key={option.id}
+          label={option.label}
+          count={option.count}
+          active={active === option.id}
+          onClick={() => onChange(option.id)}
+        />
+      ))}
+      {hidden > 0 && activeIndex < VISIBLE_OPTIONS ? (
+        <button
+          type="button"
+          onClick={() => setExpanded((e) => !e)}
+          className="px-3 pt-1.5 text-[13px] font-medium text-tr-ink underline underline-offset-2 hover:opacity-70"
+        >
+          {expanded ? lessLabel : `${moreLabel} (${hidden})`}
+        </button>
+      ) : null}
+    </div>
   );
 }
 
@@ -125,6 +212,8 @@ export type PropertiesFilterPanelProps = {
   onCategoryChange: (id: PropertyFilterId) => void;
   hasSecondaryFilters: boolean;
   onClearSecondaryFilters: () => void;
+  /** Resultados con los filtros actuales (se muestra en el encabezado). */
+  resultCount?: number;
   className?: string;
 };
 
@@ -141,18 +230,24 @@ export function PropertiesFilterPanel({
   onCategoryChange,
   hasSecondaryFilters,
   onClearSecondaryFilters,
+  resultCount,
   className = "",
 }: PropertiesFilterPanelProps) {
-  const { ui } = useLanguage();
-  const totalInCity = cityOptions.find((o) => o.id === cityActive)?.count ?? 0;
+  const { ui, lang } = useLanguage();
+  const moreLabel = lang === "en" ? "Show more" : "Ver más";
+  const lessLabel = lang === "en" ? "Show less" : "Ver menos";
+  const totalInCity =
+    cityActive === PROPERTY_FILTER_ALL
+      ? cityOptions.reduce((sum, o) => sum + o.count, 0)
+      : (cityOptions.find((o) => o.id === cityActive)?.count ?? 0);
 
   return (
     <div
-      className={`overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-[0_12px_40px_rgba(0,0,0,0.06)] ${className}`}
+      className={`flex flex-col overflow-hidden rounded-[4px] bg-tr-cream ${className}`}
       role="region"
       aria-label={ui.properties.filterAria}
     >
-      <div className="flex items-center justify-between gap-3 border-b border-neutral-200 bg-neutral-950 px-5 py-4 text-white">
+      <div className="flex shrink-0 items-center justify-between gap-3 bg-tr-ink px-6 py-4 text-white">
         <div className="flex items-center gap-2.5">
           <svg
             viewBox="0 0 20 20"
@@ -167,9 +262,14 @@ export function PropertiesFilterPanel({
               strokeLinecap="round"
             />
           </svg>
-          <p className="text-[13px] font-bold uppercase tracking-[0.08em]">
+          <p className="text-[12px] font-medium uppercase tracking-[0.06em]">
             {ui.properties.filters}
           </p>
+          {resultCount != null ? (
+            <span className="text-[12px] text-white/70" aria-live="polite">
+              · {resultCount} {lang === "en" ? "results" : "resultados"}
+            </span>
+          ) : null}
         </div>
         {hasSecondaryFilters ? (
           <button
@@ -182,9 +282,15 @@ export function PropertiesFilterPanel({
         ) : null}
       </div>
 
-      <div className="space-y-5 p-5">
+      {/* Scroll propio si el panel no entra en la pantalla */}
+      <div className="min-h-0 space-y-5 overflow-y-auto overscroll-contain p-5">
         <FilterSection title={ui.properties.location} showDivider={false}>
           <div className="flex flex-wrap gap-2">
+            <FilterPill
+              label={ui.properties.all}
+              active={cityActive === PROPERTY_FILTER_ALL}
+              onClick={() => onCityChange(PROPERTY_FILTER_ALL)}
+            />
             {(cityOptions.length > 0
               ? cityOptions
               : cityFilters.map((f) => ({ id: f.id, label: f.label, count: 0 }))
@@ -201,46 +307,30 @@ export function PropertiesFilterPanel({
         </FilterSection>
 
         {neighborhoodOptions.length > 0 ? (
-          <FilterSection title={ui.properties.neighborhood}>
-            <div className="space-y-0.5">
-              <FilterListOption
-                label={ui.properties.allNeighborhoods}
-                count={totalInCity}
-                active={neighborhoodActive === PROPERTY_FILTER_ALL}
-                onClick={() => onNeighborhoodChange(PROPERTY_FILTER_ALL)}
-              />
-              {neighborhoodOptions.map((option) => (
-                <FilterListOption
-                  key={option.id}
-                  label={option.label}
-                  count={option.count}
-                  active={neighborhoodActive === option.id}
-                  onClick={() => onNeighborhoodChange(option.id)}
-                />
-              ))}
-            </div>
+          <FilterSection title={ui.properties.neighborhood} collapsible>
+            <FilterOptionList
+              allLabel={ui.properties.allNeighborhoods}
+              allCount={totalInCity}
+              options={neighborhoodOptions}
+              active={neighborhoodActive}
+              onChange={onNeighborhoodChange}
+              moreLabel={moreLabel}
+              lessLabel={lessLabel}
+            />
           </FilterSection>
         ) : null}
 
         {categoryOptions.length > 0 ? (
-          <FilterSection title={ui.properties.category}>
-            <div className="space-y-0.5">
-              <FilterListOption
-                label={ui.properties.allTypologies}
-                count={totalInCity}
-                active={categoryActive === PROPERTY_FILTER_ALL}
-                onClick={() => onCategoryChange(PROPERTY_FILTER_ALL)}
-              />
-              {categoryOptions.map((option) => (
-                <FilterListOption
-                  key={option.id}
-                  label={option.label}
-                  count={option.count}
-                  active={categoryActive === option.id}
-                  onClick={() => onCategoryChange(option.id)}
-                />
-              ))}
-            </div>
+          <FilterSection title={ui.properties.category} collapsible>
+            <FilterOptionList
+              allLabel={ui.properties.allTypologies}
+              allCount={totalInCity}
+              options={categoryOptions}
+              active={categoryActive}
+              onChange={onCategoryChange}
+              moreLabel={moreLabel}
+              lessLabel={lessLabel}
+            />
           </FilterSection>
         ) : null}
       </div>

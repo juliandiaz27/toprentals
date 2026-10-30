@@ -2,7 +2,7 @@
   "hero": {
     "title": "<p>Nuestros departamentos</p>",
     "subtitle": "<p>Más de 500 departamentos operados en edificios estratégicamente ubicados.</p>",
-    "imageSrc": "/images/placeholders/page-hero.svg"
+    "imageSrc": "/images/properties/propiedades-hero.png"
   },
   "filters": {
     "items": [

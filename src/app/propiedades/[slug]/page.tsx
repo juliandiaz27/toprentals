@@ -47,7 +47,12 @@ export default async function PropiedadDetallePage({ params }: Props) {
 
   return (
     <>
-      <SiteHeader header={header} />
+      <SiteHeader
+        header={header}
+        variant="red"
+        ctaTone="white"
+        activeHref="/propiedades"
+      />
       <PropertyDetailView
         property={property}
         related={related}

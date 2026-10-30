@@ -1,10 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useState, useTransition } from "react";
+import { useCallback, useState, useTransition, useRef } from "react";
 import { textFromLines, linesFromText } from "@/lib/properties/catalogText";
 import type { PropertiesCatalogEditorState } from "@/lib/properties/catalogEditor";
-import type { PropertyListingStored } from "@/lib/properties/catalogTypes";
+import {
+  PROPERTY_AUDIENCES,
+  type PropertyAudience,
+  type PropertyListingStored,
+} from "@/lib/properties/catalogTypes";
 import { slugifyPropertyName } from "@/lib/properties/slugify";
 import {
   detailForAdminForm,
@@ -14,6 +18,15 @@ import {
 import { MEDIA_UPLOAD_GUIDES } from "@/lib/mediaUploadGuide";
 import { MediaUploadGuide } from "./MediaUploadGuide";
 import { AdminLanguageSwitcher } from "./AdminLanguageSwitcher";
+import { EditorToc, SaveState, sectionAnchorId, useUnsavedChanges } from "./EditorChrome";
+import { normalizeAmenities } from "@/lib/properties/amenities";
+import { propertyCompleteness } from "@/lib/properties/completeness";
+
+const AUDIENCE_ADMIN_LABELS: Record<PropertyAudience, string> = {
+  grupos: "Grupos",
+  solo: "Solo",
+  familia: "Familia",
+};
 import { savePropertiesCatalog } from "./propertiesCatalogActions";
 import {
   DEFAULT_SITE_LANGUAGE,
@@ -27,7 +40,46 @@ import {
 type Props = {
   initial: PropertiesCatalogEditorState;
   language?: SiteLanguage;
+  /** Abre directamente la ficha de este slug (desde el inicio del panel). */
+  initialEditSlug?: string;
 };
+
+/** Borrador del formulario a partir de una propiedad guardada. */
+function draftFromListing(
+  item: PropertyListingStored,
+  all: PropertyListingStored[],
+  language: SiteLanguage,
+): PropertyListingStored {
+  return {
+    ...item,
+    detail: normalizeDetailForForm(detailForAdminForm(item, all, language), language),
+  };
+}
+
+const PROPERTY_EDITOR_TOC = [
+  "Imagen de listado",
+  "Galería (ficha del edificio)",
+  "Información general",
+  "Reseñas Google (Elfsight)",
+  "Descripción",
+  "Etiquetas",
+  "Puntos de interés cercanos",
+  "Franja corporativa y estadísticas",
+  "Unidades",
+  "Diseño de la ficha",
+  "Otras propiedades sugeridas",
+  "Opciones",
+].map((label) => ({ id: sectionAnchorId(label), label }));
+
+type ListFilter = "all" | "live" | "hidden" | "featured" | "incomplete";
+
+const LIST_FILTERS: { id: ListFilter; label: string }[] = [
+  { id: "all", label: "Todas" },
+  { id: "live", label: "Publicadas" },
+  { id: "hidden", label: "Ocultas" },
+  { id: "featured", label: "Destacadas" },
+  { id: "incomplete", label: "Fichas incompletas" },
+];
 
 type View =
   | { mode: "list" }
@@ -47,6 +99,8 @@ function emptyListing(defaultCity: string): PropertyListingStored {
     hidden: false,
     hasOffer: false,
     isPopular: false,
+    audience: [],
+    isExclusive: false,
     detail: normalizeDetailForForm(),
   };
 }
@@ -92,19 +146,39 @@ function IconEye({ off }: { off?: boolean }) {
 export function PropertiesCatalogManager({
   initial,
   language = DEFAULT_SITE_LANGUAGE,
+  initialEditSlug,
 }: Props) {
   const defaultCity = initial.cityOptions[0] ?? "Buenos Aires";
   const router = useRouter();
-  const [view, setView] = useState<View>({ mode: "list" });
+  const initialEditIndex = initialEditSlug
+    ? initial.listings.findIndex((item) => item.slug === initialEditSlug)
+    : -1;
+  const [view, setView] = useState<View>(
+    initialEditIndex >= 0 ? { mode: "edit", index: initialEditIndex } : { mode: "list" },
+  );
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const [listings, setListings] = useState(initial.listings);
+  const [query, setQuery] = useState("");
+  const editorFormRef = useRef<HTMLFormElement>(null);
+  const { dirty, markSaved } = useUnsavedChanges(editorFormRef);
+  const [statusFilter, setStatusFilter] = useState<ListFilter>("all");
   const [featuredSlugs, setFeaturedSlugs] = useState(initial.featuredSlugs);
-  const [draft, setDraft] = useState<PropertyListingStored>(emptyListing(defaultCity));
+  const [draft, setDraft] = useState<PropertyListingStored>(() =>
+    initialEditIndex >= 0
+      ? draftFromListing(initial.listings[initialEditIndex]!, initial.listings, language)
+      : emptyListing(defaultCity),
+  );
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
-  const [elfsightEmbedInput, setElfsightEmbedInput] = useState("");
+  /** Fotos nuevas por unidad, por nombre de unidad; se suben al guardar. */
+  const [unitImageFiles, setUnitImageFiles] = useState<Record<string, File>>({});
+  const [elfsightEmbedInput, setElfsightEmbedInput] = useState(() => {
+    const appId =
+      initialEditIndex >= 0 ? initial.listings[initialEditIndex]?.elfsightReviewsAppId : "";
+    return appId ? formatElfsightEmbedSnippet(appId) : "";
+  });
 
   const persist = useCallback(
     (
@@ -113,6 +187,7 @@ export function PropertiesCatalogManager({
       uploads?: {
         image?: { file: File; slug: string };
         gallery?: { files: File[]; slug: string };
+        units?: { files: Record<string, File>; slug: string };
       },
       onDone?: () => void,
     ) => {
@@ -132,6 +207,13 @@ export function PropertiesCatalogManager({
           fd.append("__galleryFile", file);
         }
       }
+      if (uploads?.units) {
+        fd.set("__unitImageSlug", uploads.units.slug);
+        for (const [unitName, file] of Object.entries(uploads.units.files)) {
+          fd.append("__unitImageFile", file);
+          fd.append("__unitImageName", unitName);
+        }
+      }
 
       startTransition(async () => {
         const res = await savePropertiesCatalog(fd);
@@ -144,11 +226,13 @@ export function PropertiesCatalogManager({
         setSuccess("Cambios guardados.");
         setImageFile(null);
         setGalleryFiles([]);
+        setUnitImageFiles({});
+        markSaved();
         router.refresh();
         onDone?.();
       });
     },
-    [router, language],
+    [router, language, markSaved],
   );
 
   function openNew() {
@@ -158,23 +242,20 @@ export function PropertiesCatalogManager({
     });
     setImageFile(null);
     setGalleryFiles([]);
+    setUnitImageFiles({});
     setElfsightEmbedInput("");
     setError(null);
     setSuccess(null);
+    markSaved();
     setView({ mode: "new" });
   }
 
   function openEdit(index: number) {
     const item = listings[index]!;
-    setDraft({
-      ...item,
-      detail: normalizeDetailForForm(
-        detailForAdminForm(item, listings, language),
-        language,
-      ),
-    });
+    setDraft(draftFromListing(item, listings, language));
     setImageFile(null);
     setGalleryFiles([]);
+    setUnitImageFiles({});
     setElfsightEmbedInput(
       item.elfsightReviewsAppId
         ? formatElfsightEmbedSnippet(item.elfsightReviewsAppId)
@@ -182,6 +263,7 @@ export function PropertiesCatalogManager({
     );
     setError(null);
     setSuccess(null);
+    markSaved();
     setView({ mode: "edit", index });
   }
 
@@ -281,17 +363,56 @@ export function PropertiesCatalogManager({
     const uploads: {
       image?: { file: File; slug: string };
       gallery?: { files: File[]; slug: string };
+      units?: { files: Record<string, File>; slug: string };
     } = {};
     if (imageFile) uploads.image = { file: imageFile, slug };
     if (galleryFiles.length) uploads.gallery = { files: galleryFiles, slug };
+    if (Object.keys(unitImageFiles).length) {
+      uploads.units = { files: unitImageFiles, slug };
+    }
 
     persist(
       nextListings,
       nextFeatured,
-      uploads.image || uploads.gallery ? uploads : undefined,
+      uploads.image || uploads.gallery || uploads.units ? uploads : undefined,
       () => setView({ mode: "list" }),
     );
   }
+
+  /** Sale del editor; si hay cambios sin guardar, pide confirmación. */
+  function leaveEditor() {
+    if (dirty && !window.confirm("Tenés cambios sin guardar. ¿Salir sin guardar?")) return;
+    markSaved();
+    setView({ mode: "list" });
+  }
+
+  function matchesFilter(item: PropertyListingStored, filter: ListFilter): boolean {
+    switch (filter) {
+      case "live":
+        return !item.hidden && !item.comingSoon;
+      case "hidden":
+        return Boolean(item.hidden);
+      case "featured":
+        return featuredSlugs.includes(item.slug);
+      case "incomplete":
+        return !item.comingSoon && propertyCompleteness(item).score < 100;
+      default:
+        return true;
+    }
+  }
+
+  const normalizedQuery = query.trim().toLowerCase();
+  const visibleRows = listings
+    .map((item, index) => ({ item, index }))
+    .filter(({ item }) => matchesFilter(item, statusFilter))
+    .filter(({ item }) =>
+      !normalizedQuery
+        ? true
+        : [item.name, item.neighborhood, item.city, item.address, item.slug]
+            .join(" ")
+            .toLowerCase()
+            .includes(normalizedQuery),
+    );
 
   if (view.mode === "edit" || view.mode === "new") {
     const isNew = view.mode === "new";
@@ -303,26 +424,34 @@ export function PropertiesCatalogManager({
 
     return (
       <div className="page-editor w-full">
-        <button
-          type="button"
-          className="admin-editor-back"
-          onClick={() => setView({ mode: "list" })}
-        >
+        <button type="button" className="admin-editor-back" onClick={leaveEditor}>
           ← Volver al listado
         </button>
 
         <header className="admin-page-header flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1>{isNew ? "Nueva propiedad" : "Editar propiedad"}</h1>
+            <p className="admin-eyebrow">{isNew ? "Nuevo edificio" : "Editar edificio"}</p>
+            <h1 className="mt-1">{isNew ? "Nueva propiedad" : draft.name || "Sin nombre"}</h1>
             <p>
               {isNew
                 ? "Completá los datos y guardá para publicar en el sitio."
-                : `Editando: ${draft.name || "—"}`}
+                : "Los cambios se publican al guardar."}
               {" · "}
-              {language === "en" ? "inglés" : "español"}
+              Editando {language === "en" ? "inglés" : "español"}
+              {!isNew && draft.slug ? (
+                <>
+                  {" · "}
+                  <a href={`/propiedades/${draft.slug}`} target="_blank" rel="noopener noreferrer">
+                    Ver ficha publicada ↗
+                  </a>
+                </>
+              ) : null}
             </p>
           </div>
-          <AdminLanguageSwitcher language={language} />
+          <div className="flex flex-wrap items-center gap-3">
+            <SaveState dirty={dirty} />
+            <AdminLanguageSwitcher language={language} />
+          </div>
         </header>
 
         {error ? (
@@ -331,8 +460,9 @@ export function PropertiesCatalogManager({
           </p>
         ) : null}
 
-        <form onSubmit={handleSaveForm} className="flex flex-col gap-8">
-          <section>
+        <div className="admin-editor-layout">
+        <form ref={editorFormRef} onSubmit={handleSaveForm} className="flex min-w-0 flex-col gap-8">
+          <section id={sectionAnchorId("Imagen de listado")}>
             <h2 className="admin-form-section-label">Imagen de listado</h2>
             <p className="mb-4 text-sm text-[var(--admin-text-dim)]">
               Miniatura en home y grilla de propiedades.
@@ -363,7 +493,7 @@ export function PropertiesCatalogManager({
             </div>
           </section>
 
-          <section>
+          <section id={sectionAnchorId("Galería (ficha del edificio)")}>
             <h2 className="admin-form-section-label">Galería (ficha del edificio)</h2>
             <p className="mb-4 text-sm text-[var(--admin-text-dim)]">
               Carrusel principal (izquierda) y dos fotos laterales. Orden: la 1.ª
@@ -423,7 +553,7 @@ export function PropertiesCatalogManager({
             />
           </section>
 
-          <section>
+          <section id={sectionAnchorId("Información general")}>
             <h2 className="admin-form-section-label">Información general</h2>
             <div className="grid gap-5 lg:grid-cols-2">
               <label className="flex flex-col lg:col-span-2">
@@ -511,7 +641,7 @@ export function PropertiesCatalogManager({
             </div>
           </section>
 
-          <section>
+          <section id={sectionAnchorId("Reseñas Google (Elfsight)")}>
             <h2 className="admin-form-section-label">
               Reseñas Google (Elfsight)
             </h2>
@@ -554,7 +684,7 @@ export function PropertiesCatalogManager({
             </label>
           </section>
 
-          <section>
+          <section id={sectionAnchorId("Descripción")}>
             <h2 className="admin-form-section-label">Descripción</h2>
             <label className="flex flex-col">
               <span className="admin-field-label">
@@ -570,7 +700,7 @@ export function PropertiesCatalogManager({
             </label>
           </section>
 
-          <section>
+          <section id={sectionAnchorId("Etiquetas")}>
             <h2 className="admin-form-section-label">Etiquetas</h2>
             <label className="flex flex-col">
               <span className="admin-field-label">Etiquetas (uno por línea)</span>
@@ -584,15 +714,16 @@ export function PropertiesCatalogManager({
             </label>
           </section>
 
-          <section>
+          <section id={sectionAnchorId("Puntos de interés cercanos")}>
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 className="admin-form-section-label mb-1">
                   Puntos de interés cercanos
                 </h2>
                 <p className="text-sm text-[var(--admin-text-muted)]">
-                  Agregá todos los que quieras; en el sitio se ordenan solos en columnas
-                  (2–4 según el ancho de pantalla).
+                  Agregá todos los que quieras. Para mostrar foto, escribí el nombre y la
+                  URL separados por «|» (ej. «El Monumental | /uploads/monumental.jpg»).
+                  Las fotos se suben en Admin → Imágenes.
                 </p>
               </div>
               <button
@@ -632,7 +763,7 @@ export function PropertiesCatalogManager({
                         updateDetail({ poiLines: next });
                       }}
                       className="admin-input min-w-0 flex-1"
-                      placeholder="Ej. Puerto Madero"
+                      placeholder="Ej. Puerto Madero | /uploads/puerto-madero.jpg"
                     />
                     <button
                       type="button"
@@ -652,7 +783,7 @@ export function PropertiesCatalogManager({
             )}
           </section>
 
-          <section>
+          <section id={sectionAnchorId("Franja corporativa y estadísticas")}>
             <h2 className="admin-form-section-label">
               Franja corporativa y estadísticas
             </h2>
@@ -735,7 +866,7 @@ export function PropertiesCatalogManager({
             </div>
           </section>
 
-          <section>
+          <section id={sectionAnchorId("Unidades")}>
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 className="admin-form-section-label mb-0">Unidades</h2>
@@ -896,6 +1027,59 @@ export function PropertiesCatalogManager({
                           placeholder="https://my.matterport.com/show/?m=..."
                         />
                       </label>
+                      <div className="flex flex-col gap-2 sm:col-span-2">
+                        <span className="admin-field-label">Foto de la unidad</span>
+                        <span className="admin-field-hint">
+                          Franja horizontal bajo la tarjeta. Recomendado 900×300 px, JPG/PNG/WebP, máx. 2 MB.
+                          Se sube al guardar.
+                        </span>
+                        {unit.imageSrc ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={unit.imageSrc}
+                            alt=""
+                            className="aspect-[420/100] w-full max-w-md rounded-md border border-[var(--admin-border)] object-cover"
+                          />
+                        ) : null}
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp"
+                          disabled={!unit.name.trim()}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            const key = unit.name.trim();
+                            setUnitImageFiles((prev) => {
+                              const next = { ...prev };
+                              if (file) next[key] = file;
+                              else delete next[key];
+                              return next;
+                            });
+                          }}
+                          className="text-sm"
+                        />
+                        {unitImageFiles[unit.name.trim()] ? (
+                          <span className="text-xs text-[var(--admin-text-dim)]">
+                            Archivo nuevo: {unitImageFiles[unit.name.trim()]!.name}
+                          </span>
+                        ) : null}
+                      </div>
+                      <label className="flex flex-col sm:col-span-2">
+                        <span className="admin-field-label">…o URL de la foto</span>
+                        <input
+                          type="text"
+                          value={unit.imageSrc ?? ""}
+                          onChange={(e) => {
+                            const next = units.map((u, i) =>
+                              i === unitIndex
+                                ? { ...u, imageSrc: e.target.value }
+                                : u,
+                            );
+                            updateDetail({ units: next });
+                          }}
+                          className="admin-input font-mono text-xs"
+                          placeholder="/uploads/unidad-studio.jpg"
+                        />
+                      </label>
                     </div>
                   </li>
                 ))}
@@ -903,7 +1087,192 @@ export function PropertiesCatalogManager({
             )}
           </section>
 
-          <section>
+          <section id={sectionAnchorId("Diseño de la ficha")}>
+            <h2 className="admin-form-section-label">Diseño de la ficha</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="flex flex-col">
+                <span className="admin-field-label">Foto de la franja con el nombre (URL)</span>
+                <span className="admin-field-hint">
+                  Recomendado 1920×500 px (fachada). Vacío = primera foto de la galería.
+                </span>
+                <input
+                  type="text"
+                  value={draft.detail?.bannerImage ?? ""}
+                  onChange={(e) => updateDetail({ bannerImage: e.target.value })}
+                  className="admin-input font-mono text-xs"
+                  placeholder="/uploads/fachada.jpg"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">Título de la franja</span>
+                <span className="admin-field-hint">
+                  Vacío = nombre del edificio. Cursiva: {"<em>Núñez</em> Hub"}.
+                </span>
+                <input
+                  type="text"
+                  value={draft.detail?.bannerTitle ?? ""}
+                  onChange={(e) => updateDetail({ bannerTitle: e.target.value })}
+                  className="admin-input"
+                  placeholder="<em>Núñez</em> Hub"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">Etiquetas de la franja (una por línea)</span>
+                <span className="admin-field-hint">
+                  Vacío = se arman con las cifras (Unidades, Huéspedes) y las etiquetas.
+                </span>
+                <textarea
+                  rows={4}
+                  value={textFromLines(draft.detail?.bannerPills ?? [])}
+                  onChange={(e) =>
+                    updateDetail({ bannerPills: linesFromText(e.target.value) })
+                  }
+                  className="admin-input"
+                  placeholder={"29 Unidades\nHasta 60 pax\nNúñez\nCorporativo"}
+                />
+              </label>
+              <label className="flex flex-col sm:col-span-2">
+                <span className="admin-field-label">Título de la franja final</span>
+                <span className="admin-field-hint">
+                  Franja roja con «Reservar ahora». Cursiva: {"<em>moderno</em>"}.
+                </span>
+                <input
+                  type="text"
+                  value={draft.detail?.finalCtaTitle ?? ""}
+                  onChange={(e) => updateDetail({ finalCtaTitle: e.target.value })}
+                  className="admin-input"
+                  placeholder="Estratégico, <em>moderno</em> y a pasos de todo en Núñez"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">Franja bajo el título — frase</span>
+                <span className="admin-field-hint">{"Ej. «¿Necesitás alojar un grupo grande en Buenos Aires?»"}</span>
+                <input
+                  type="text"
+                  value={draft.detail?.introText ?? ""}
+                  onChange={(e) => updateDetail({ introText: e.target.value })}
+                  className="admin-input"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">Franja bajo el título — botón</span>
+                <span className="admin-field-hint">{"Ej. «Consultar grupos». Si menciona grupos, lleva a la página de grupos."}</span>
+                <input
+                  type="text"
+                  value={draft.detail?.introCtaLabel ?? ""}
+                  onChange={(e) => updateDetail({ introCtaLabel: e.target.value })}
+                  className="admin-input"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">Título de «Sobre el edificio»</span>
+                <span className="admin-field-hint">{"Vacío = «Sobre el edificio». Cursiva con <em>."}</span>
+                <input
+                  type="text"
+                  value={draft.detail?.aboutTitle ?? ""}
+                  onChange={(e) => updateDetail({ aboutTitle: e.target.value })}
+                  className="admin-input"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">Banda destacada — título</span>
+                <span className="admin-field-hint">{"Banda oscura opcional (ej. vistas o piscina)."}</span>
+                <input
+                  type="text"
+                  value={draft.detail?.highlightTitle ?? ""}
+                  onChange={(e) => updateDetail({ highlightTitle: e.target.value })}
+                  className="admin-input"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">Banda destacada — texto chico</span>
+                <input
+                  type="text"
+                  value={draft.detail?.highlightText ?? ""}
+                  onChange={(e) => updateDetail({ highlightText: e.target.value })}
+                  className="admin-input"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">Título de restaurantes</span>
+                <span className="admin-field-hint">{"Vacío = «Restaurantes»."}</span>
+                <input
+                  type="text"
+                  value={draft.detail?.restaurantsTitle ?? ""}
+                  onChange={(e) => updateDetail({ restaurantsTitle: e.target.value })}
+                  className="admin-input"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">Línea bajo «Unidades disponibles»</span>
+                <span className="admin-field-hint">{"Vacío = resumen automático (modelos · unidades · huéspedes)."}</span>
+                <input
+                  type="text"
+                  value={draft.detail?.unitsIntro ?? ""}
+                  onChange={(e) => updateDetail({ unitsIntro: e.target.value })}
+                  className="admin-input"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">Línea bajo «Amenities & servicios»</span>
+                <input
+                  type="text"
+                  value={draft.detail?.amenitiesIntro ?? ""}
+                  onChange={(e) => updateDetail({ amenitiesIntro: e.target.value })}
+                  className="admin-input"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">Franja final — subtítulo</span>
+                <input
+                  type="text"
+                  value={draft.detail?.finalCtaSubtitle ?? ""}
+                  onChange={(e) => updateDetail({ finalCtaSubtitle: e.target.value })}
+                  className="admin-input"
+                />
+              </label>
+              <label className="flex flex-col">
+                <span className="admin-field-label">Franja final — botón</span>
+                <span className="admin-field-hint">{"Vacío = «Reservar ahora»."}</span>
+                <input
+                  type="text"
+                  value={draft.detail?.finalCtaLabel ?? ""}
+                  onChange={(e) => updateDetail({ finalCtaLabel: e.target.value })}
+                  className="admin-input"
+                />
+              </label>
+              <label className="flex flex-col sm:col-span-2">
+                <span className="admin-field-label">Restaurantes cercanos (uno por línea)</span>
+                <textarea
+                  rows={4}
+                  value={textFromLines(draft.detail?.restaurants ?? [])}
+                  onChange={(e) =>
+                    updateDetail({ restaurants: linesFromText(e.target.value) })
+                  }
+                  className="admin-input"
+                  placeholder={"La Escondida\nDandy Saavedra"}
+                />
+              </label>
+            </div>
+            <label className="mt-5 flex flex-col">
+              <span className="admin-field-label">Amenities y servicios (uno por línea)</span>
+              <span className="admin-field-hint">
+                Escribilos como se muestran (ej. «Piscina con jardín»). El ícono se elige solo por
+                palabra: piscina, spa/sauna, gym/gimnasio, SUM/sala de reuniones, cowork, lavandería,
+                limpieza, wifi, cocheras/estacionamiento, seguridad, solarium, terraza/rooftop,
+                recepción/concierge, TV, pet, comida, desayuno, traslados, lobby, playroom, A/C.
+              </span>
+              <textarea
+                rows={6}
+                value={textFromLines(normalizeAmenities(draft.detail?.amenities))}
+                onChange={(e) => updateDetail({ amenities: linesFromText(e.target.value) })}
+                className="admin-input"
+                placeholder={"Piscina\nSpa / Sauna\nGym\nSUM · Sala de Reuniones"}
+              />
+            </label>
+          </section>
+
+          <section id={sectionAnchorId("Otras propiedades sugeridas")}>
             <h2 className="admin-form-section-label">Otras propiedades sugeridas</h2>
             <label className="flex flex-col">
               <span className="admin-field-label">Slugs (uno por línea, opcional)</span>
@@ -922,7 +1291,7 @@ export function PropertiesCatalogManager({
             </label>
           </section>
 
-          <section>
+          <section id={sectionAnchorId("Opciones")}>
             <h2 className="admin-form-section-label">Opciones</h2>
             <div className="flex flex-col gap-3">
               <label className="flex items-center gap-3 text-sm text-[var(--admin-text-muted)]">
@@ -974,6 +1343,43 @@ export function PropertiesCatalogManager({
                 />
                 Más solicitada — sello azul en home, listado y ficha
               </label>
+              <label className="flex items-center gap-3 text-sm text-[var(--admin-text-muted)]">
+                <input
+                  type="checkbox"
+                  checked={draft.isExclusive ?? false}
+                  disabled={draft.comingSoon || draft.hidden}
+                  onChange={(e) => updateDraft({ isExclusive: e.target.checked })}
+                />
+                Unidades exclusivas — aparece en el filtro «Unidades exclusivas» del listado
+              </label>
+              <fieldset className="mt-2">
+                <legend className="mb-2 text-sm font-medium">
+                  Ideal para (filtro «Disponibilidad» del listado)
+                </legend>
+                <div className="flex flex-wrap gap-5">
+                  {PROPERTY_AUDIENCES.map((audience) => (
+                    <label
+                      key={audience}
+                      className="flex items-center gap-2 text-sm text-[var(--admin-text-muted)]"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={draft.audience?.includes(audience) ?? false}
+                        disabled={draft.comingSoon || draft.hidden}
+                        onChange={(e) => {
+                          const current = draft.audience ?? [];
+                          updateDraft({
+                            audience: e.target.checked
+                              ? [...current, audience]
+                              : current.filter((a) => a !== audience),
+                          });
+                        }}
+                      />
+                      {AUDIENCE_ADMIN_LABELS[audience]}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
             </div>
           </section>
 
@@ -981,15 +1387,16 @@ export function PropertiesCatalogManager({
             <button type="submit" disabled={pending} className="admin-btn-primary">
               {pending ? "Guardando…" : "Guardar"}
             </button>
-            <button
-              type="button"
-              className="admin-btn-secondary"
-              onClick={() => setView({ mode: "list" })}
-            >
+            <button type="button" className="admin-btn-secondary" onClick={leaveEditor}>
               Cancelar
             </button>
+            <span className="ml-auto">
+              <SaveState dirty={dirty} />
+            </span>
           </div>
         </form>
+        <EditorToc items={PROPERTY_EDITOR_TOC} />
+        </div>
       </div>
     );
   }
@@ -998,9 +1405,10 @@ export function PropertiesCatalogManager({
     <div className="page-editor w-full">
       <header className="admin-page-header flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1>Propiedades</h1>
+          <p className="admin-eyebrow">Edificios</p>
+          <h1 className="mt-1">Fichas de edificios</h1>
           <p>
-            Gestioná los edificios: agregá, editá, ocultá o eliminá según sea necesario.
+            Agregá, editá, ocultá o eliminá edificios.
             Aparecen en{" "}
             <a href="/propiedades" target="_blank" rel="noopener noreferrer">
               /propiedades
@@ -1026,85 +1434,151 @@ export function PropertiesCatalogManager({
       {success ? <p className="admin-alert-success mb-6">{success}</p> : null}
 
       {listings.length === 0 ? (
-        <p className="text-sm text-[var(--admin-text-muted)]">
+        <p className="admin-empty">
           Todavía no hay propiedades. Creá la primera con «Nueva propiedad».
         </p>
       ) : (
-        <ul className="admin-list">
-          {listings.map((item, index) => {
-            const status = propertyStatus(item);
-            const meta = [
-              item.city,
-              item.neighborhood,
-              item.comingSoon ? null : "Ficha activa",
-            ]
-              .filter(Boolean)
-              .join(" · ");
-
-            return (
-              <li key={`${item.slug}-${index}`} className="admin-list-card">
-                <div className="admin-list-card__main">
-                  <span className="admin-list-card__icon" aria-hidden>
-                    🏢
+        <>
+          <div className="admin-list-toolbar">
+            <label className="admin-search">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.5-3.5" strokeLinecap="round" />
+              </svg>
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="admin-input"
+                placeholder="Buscar por nombre, barrio o ciudad…"
+                aria-label="Buscar edificios"
+              />
+            </label>
+            <div className="admin-chips" role="group" aria-label="Filtrar">
+              {LIST_FILTERS.map((f) => (
+                <button
+                  key={f.id}
+                  type="button"
+                  className="admin-chip"
+                  aria-pressed={statusFilter === f.id}
+                  onClick={() => setStatusFilter(f.id)}
+                >
+                  {f.label}
+                  <span className="admin-chip__count">
+                    {listings.filter((item) => matchesFilter(item, f.id)).length}
                   </span>
-                  <div className="min-w-0">
-                    <p className="admin-list-card__title">{item.name}</p>
-                    <div className="admin-list-card__meta-row">
-                      <span
-                        className={`admin-list-card__badge ${status.className}`}
-                      >
-                        {status.label}
-                      </span>
-                      {featuredSlugs.includes(item.slug) ? (
-                        <span className="text-[0.6875rem] font-medium uppercase tracking-wide text-[var(--admin-orange)]">
-                          Destacada en home
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {visibleRows.length === 0 ? (
+            <p className="admin-empty">No hay edificios que coincidan con la búsqueda.</p>
+          ) : (
+            <ul className="admin-list">
+              {visibleRows.map(({ item, index }) => {
+                const status = propertyStatus(item);
+                const meta = [item.city, item.neighborhood, item.address]
+                  .filter(Boolean)
+                  .join(" · ");
+                const thumb = item.imageSrc || item.detail?.galleryImages?.[0] || "";
+                const completeness = item.comingSoon ? null : propertyCompleteness(item);
+
+                return (
+                  <li key={`${item.slug}-${index}`} className="admin-list-card">
+                    <div className="admin-list-card__main">
+                      {thumb ? (
+                        <span className="admin-list-card__thumb">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={thumb} alt="" loading="lazy" />
                         </span>
-                      ) : null}
-                      {item.hasOffer ? (
-                        <span className="text-[0.6875rem] font-semibold uppercase tracking-wide text-[#f27438]">
-                          Oferta
+                      ) : (
+                        <span className="admin-list-card__icon" aria-hidden>
+                          🏢
                         </span>
-                      ) : null}
-                      {item.isPopular ? (
-                        <span className="text-[0.6875rem] font-semibold uppercase tracking-wide text-[var(--admin-blue)]">
-                          Más solicitada
-                        </span>
-                      ) : null}
+                      )}
+                      <div className="min-w-0">
+                        <button
+                          type="button"
+                          onClick={() => openEdit(index)}
+                          className="admin-list-card__title text-left hover:underline"
+                        >
+                          {item.name}
+                        </button>
+                        <div className="admin-list-card__meta-row">
+                          <span className={`admin-list-card__badge ${status.className}`}>
+                            {status.label}
+                          </span>
+                          {featuredSlugs.includes(item.slug) ? (
+                            <span className="admin-list-card__badge">★ Destacada en home</span>
+                          ) : null}
+                          {item.hasOffer ? (
+                            <span className="admin-list-card__badge">Oferta</span>
+                          ) : null}
+                          {item.isPopular ? (
+                            <span className="admin-list-card__badge">Más solicitada</span>
+                          ) : null}
+                        </div>
+                        <p className="admin-list-card__meta">{meta}</p>
+                      </div>
                     </div>
-                    <p className="admin-list-card__meta">{meta}</p>
-                  </div>
-                </div>
-                <div className="admin-list-card__actions">
-                  <button
-                    type="button"
-                    className={`admin-visibility-btn ${item.hidden ? "admin-visibility-btn--off" : ""}`}
-                    disabled={pending}
-                    onClick={() => toggleVisibility(index)}
-                    aria-label={item.hidden ? "Mostrar en el sitio" : "Ocultar del sitio"}
-                    title={item.hidden ? "Mostrar" : "Ocultar"}
-                  >
-                    <IconEye off={item.hidden} />
-                  </button>
-                  <button
-                    type="button"
-                    className="admin-btn-secondary text-sm"
-                    onClick={() => openEdit(index)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    type="button"
-                    className="admin-btn-danger"
-                    disabled={pending}
-                    onClick={() => removeAt(index)}
-                  >
-                    Eliminar
-                  </button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+                    {completeness ? (
+                      <div
+                        className="admin-list-card__progress"
+                        title={
+                          completeness.missing.length
+                            ? `Falta: ${completeness.missing.join(", ")}`
+                            : "Ficha completa"
+                        }
+                      >
+                        <span className="admin-completeness__bar">
+                          <span
+                            style={{ width: `${completeness.score}%` }}
+                            className={
+                              completeness.score >= 80
+                                ? "is-good"
+                                : completeness.score >= 50
+                                  ? "is-mid"
+                                  : "is-low"
+                            }
+                          />
+                        </span>
+                        {completeness.score}%
+                      </div>
+                    ) : null}
+                    <div className="admin-list-card__actions">
+                      <button
+                        type="button"
+                        className={`admin-visibility-btn ${item.hidden ? "admin-visibility-btn--off" : ""}`}
+                        disabled={pending}
+                        onClick={() => toggleVisibility(index)}
+                        aria-label={item.hidden ? "Mostrar en el sitio" : "Ocultar del sitio"}
+                        title={item.hidden ? "Mostrar en el sitio" : "Ocultar del sitio"}
+                      >
+                        <IconEye off={item.hidden} />
+                      </button>
+                      <button
+                        type="button"
+                        className="admin-btn-secondary text-sm"
+                        onClick={() => openEdit(index)}
+                      >
+                        Editar
+                      </button>
+                      <button
+                        type="button"
+                        className="admin-btn-danger"
+                        disabled={pending}
+                        onClick={() => removeAt(index)}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </>
       )}
     </div>
   );

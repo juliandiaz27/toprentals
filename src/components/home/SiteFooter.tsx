@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { FormattedText } from "@/components/content/FormattedText";
-import { BrandWordmark } from "@/components/brand/BrandShapes";
 import type { HomeFooterContent } from "@/lib/pageContent/homeTypes";
 
 type Props = {
@@ -79,7 +78,15 @@ export function SiteFooter({
           </div>
 
           <Link href="/" className="flex flex-col items-center" aria-label={footer.brand}>
-            <BrandWordmark className="text-[34px]" />
+            {/* Logo del Figma (ícono de edificio + wordmark), crema sobre fondo oscuro */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/brand/logo-footer.png"
+              alt={footer.brand}
+              width={186}
+              height={91}
+              className="h-auto w-[150px]"
+            />
             <span className="mt-2 font-display text-[10px] font-semibold uppercase tracking-[0.28em]">
               Temporary Apartments
             </span>

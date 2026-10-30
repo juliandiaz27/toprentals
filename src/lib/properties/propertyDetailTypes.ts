@@ -6,6 +6,7 @@ export type PropertyUnit = {
   guests: string;
   features: string;
   tourUrl?: string;
+  imageSrc?: string;
 };
 
 export type PropertyStat = {
@@ -17,6 +18,12 @@ export type PropertyNearbyPoi = {
   sectionTitle: string;
   /** Cada columna: ítems de arriba a abajo (como en Figma). */
   columns: string[][];
+};
+
+export type PropertyPoiPlace = {
+  name: string;
+  /** Vacío = tarjeta sin foto. */
+  imageSrc: string;
 };
 
 export type PropertyDetailExtra = {
@@ -37,6 +44,23 @@ export type PropertyDetailExtra = {
   finalCtaSubtitle: string;
   finalCtaHref: string;
   relatedSlugs: string[];
+  /** Lugares con foto opcional (de las líneas «Nombre | url»). */
+  poiPlaces: PropertyPoiPlace[];
+  bannerImage: string;
+  bannerTitle: string;
+  bannerPills: string[];
+  introText: string;
+  introCtaLabel: string;
+  aboutTitle: string;
+  highlightTitle: string;
+  highlightText: string;
+  restaurantsTitle: string;
+  unitsIntro: string;
+  amenitiesIntro: string;
+  finalCtaLabel: string;
+  restaurants: string[];
+  /** Nombres tal como se muestran (el ícono se elige por palabra clave). */
+  amenities: string[];
 };
 
 export type PropertyDetail = PropertyListing & PropertyDetailExtra;

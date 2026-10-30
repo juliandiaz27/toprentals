@@ -5,7 +5,7 @@ import { PropertiesCatalogManager } from "../../PropertiesCatalogManager";
 export const dynamic = "force-dynamic";
 
 type Props = {
-  searchParams: Promise<{ lang?: string | string[] }>;
+  searchParams: Promise<{ lang?: string | string[]; editar?: string | string[] }>;
 };
 
 export default async function AdminPropiedadesCatalogPage({ searchParams }: Props) {
@@ -13,6 +13,11 @@ export default async function AdminPropiedadesCatalogPage({ searchParams }: Prop
   const language = normalizeSiteLanguage(sp.lang);
   const initial = await loadPropertiesCatalogEditorState(language);
   return (
-    <PropertiesCatalogManager key={language} initial={initial} language={language} />
+    <PropertiesCatalogManager
+      key={language}
+      initial={initial}
+      language={language}
+      initialEditSlug={typeof sp.editar === "string" ? sp.editar : undefined}
+    />
   );
 }

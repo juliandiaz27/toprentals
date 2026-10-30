@@ -146,6 +146,22 @@ export function normalizeDetailForForm(
     units: detail?.units?.length ? detail.units : [],
     galleryImages: detail?.galleryImages ?? [],
     relatedSlugs: detail?.relatedSlugs ?? [],
+    bannerImage: detail?.bannerImage ?? "",
+    bannerTitle: detail?.bannerTitle ?? "",
+    bannerPills: detail?.bannerPills ?? [],
+    finalCtaTitle: detail?.finalCtaTitle ?? "",
+    introText: detail?.introText ?? "",
+    introCtaLabel: detail?.introCtaLabel ?? "",
+    aboutTitle: detail?.aboutTitle ?? "",
+    highlightTitle: detail?.highlightTitle ?? "",
+    highlightText: detail?.highlightText ?? "",
+    restaurantsTitle: detail?.restaurantsTitle ?? "",
+    unitsIntro: detail?.unitsIntro ?? "",
+    amenitiesIntro: detail?.amenitiesIntro ?? "",
+    finalCtaSubtitle: detail?.finalCtaSubtitle ?? "",
+    finalCtaLabel: detail?.finalCtaLabel ?? "",
+    restaurants: detail?.restaurants ?? [],
+    amenities: detail?.amenities ?? [],
   };
 }
 
@@ -161,6 +177,22 @@ export function detailHasContent(d: PropertyDetailStored): boolean {
       d.stats?.some((s) => s.value.trim() && s.value !== "—") ||
       d.units?.length ||
       d.galleryImages?.length ||
-      d.relatedSlugs?.length,
+      d.relatedSlugs?.length ||
+      d.bannerImage?.trim() ||
+      d.bannerTitle?.trim() ||
+      d.bannerPills?.length ||
+      d.finalCtaTitle?.trim() ||
+      d.introText?.trim() ||
+      d.introCtaLabel?.trim() ||
+      d.aboutTitle?.trim() ||
+      d.highlightTitle?.trim() ||
+      d.highlightText?.trim() ||
+      d.restaurantsTitle?.trim() ||
+      d.unitsIntro?.trim() ||
+      d.amenitiesIntro?.trim() ||
+      d.finalCtaSubtitle?.trim() ||
+      d.finalCtaLabel?.trim() ||
+      d.restaurants?.length ||
+      d.amenities?.length,
   );
 }

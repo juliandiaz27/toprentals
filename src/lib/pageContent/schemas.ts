@@ -853,6 +853,14 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         fallback: "CORPORATIVO",
       },
       {
+        key: "hero.tagline",
+        label: "Texto junto a la etiqueta",
+        type: "text",
+        section: "Hero",
+        fallback: "Consultoras y proyectos por tiempo determinado",
+        hint: "Aparece al lado de «CORPORATIVO» con una viñeta.",
+      },
+      {
         key: "hero.title",
         label: "Título hero",
         type: "text",
@@ -898,6 +906,14 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         fallback: "#acceso-corporativo",
         lockedHref: "#acceso-corporativo",
         hint: "Siempre lleva al formulario corporativo.",
+      },
+      {
+        key: "hero.imageSrc",
+        label: "Foto de fondo del hero",
+        type: "image",
+        section: "Hero",
+        fallback: "/images/corporate/corporate-hero.png",
+        hint: "Recomendado: 1920×750 px, ya oscurecida para que el texto blanco se lea.",
       },
       {
         key: "designedFor.title",
@@ -948,6 +964,29 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         type: "text",
         section: "Destinos",
         fallback: "Destinos disponibles",
+      },
+      {
+        key: "destinations.image1Src",
+        label: "Foto destino 1 (Buenos Aires)",
+        type: "image",
+        section: "Destinos",
+        fallback: "/images/home/location-buenos-aires.jpg",
+        hint: "Recomendado: 1200×300 px (franja horizontal).",
+      },
+      {
+        key: "destinations.image2Src",
+        label: "Foto destino 2 (Quito)",
+        type: "image",
+        section: "Destinos",
+        fallback: "/images/home/location-quito.jpg",
+        hint: "Recomendado: 1200×300 px (franja horizontal).",
+      },
+      {
+        key: "destinations.linkLabel",
+        label: "Botón bajo las fotos — texto",
+        type: "text",
+        section: "Destinos",
+        fallback: "Ver propiedades →",
       },
       {
         key: "access.title",
@@ -1001,6 +1040,14 @@ export const PAGE_DEFINITIONS: PageDefinition[] = [
         section: "Cabecera",
         fallback:
           "Más de 500 departamentos operados en edificios estratégicamente ubicados.",
+      },
+      {
+        key: "hero.imageSrc",
+        label: "Imagen de fondo de la cabecera",
+        type: "image",
+        section: "Cabecera",
+        fallback: "/images/properties/propiedades-hero.png",
+        hint: "Recomendado: 1920×640 px, horizontal (skyline o fachada).",
       },
       {
         key: "filters.items",

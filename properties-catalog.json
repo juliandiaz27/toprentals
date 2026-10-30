@@ -21,83 +21,110 @@
       "isPopular": false,
       "elfsightReviewsAppId": "da5cc129-3a5b-4ea7-9b09-91b87a44a767",
       "detail": {
-        "subtitle": "Departamentos con servicio de hotel en Microcentro, Buenos Aires.",
-        "about": "Top Rentals Downtown forma parte de la red Top Rentals en Buenos Aires. Departamentos totalmente equipados, atención 24 hs y la flexibilidad de un alquiler temporario con estándares de hotel. Ubicación: Esmeralda 920.",
+        "subtitle": "Escala y confort en el corazón financiero de Buenos Aires",
+        "about": "Departamentos totalmente amueblados con diseño cuidado, vistas al río y a la ciudad. Ubicado en Esmeralda 920, en el corazón del Microcentro y a pasos de Puerto Madero. Ideal para estadías corporativas, turismo premium y grupos.",
         "tags": [
           "Microcentro",
           "Buenos Aires",
           "Servicio de hotel"
         ],
         "poiLines": [
-          "Transporte público",
-          "Zona corporativa",
-          "Gastronomía",
-          "Comercios",
-          "Espacios verdes"
+          "Puerto Madero | /images/poi/downtown/puerto-madero.jpg",
+          "Plaza San Martín | /images/poi/downtown/plaza-san-martin.jpg",
+          "9 de Julio / Obelisco | /images/poi/downtown/9-de-julio-obelisco.jpg",
+          "Retiro | /images/poi/downtown/retiro.jpg",
+          "CCK | /images/poi/downtown/cck.jpg",
+          "Recoleta | /images/poi/downtown/recoleta.jpg",
+          "San Telmo | /images/poi/downtown/san-telmo.jpg",
+          "Aeroparque | /images/poi/downtown/aeroparque.jpg"
         ],
-        "groupsHeadline": "134 unidades · Grupos de más de 270 personas",
-        "groupsDescription": "Downtown forma parte del portfolio de Top Rentals con capacidad para alojar grandes grupos en un mismo edificio, ya sean corporativos o turísticos, con una experiencia ágil y coordinada.",
+        "groupsHeadline": "Grupos de más de <em>270 pax</em>",
+        "groupsDescription": "Downtown forma parte del portfolio de Top Rentals con capacidad para alojar grupos corporativos, delegaciones y equipos completos en un mismo edificio.",
         "groupsCtaLabel": "Consultar grupos",
         "groupsCtaHref": "/corporate",
         "stats": [
           {
-            "label": "Unidades",
-            "value": "134"
+            "value": "+270",
+            "label": "Huéspedes"
           },
           {
-            "label": "Pisos",
-            "value": "45"
+            "value": "45",
+            "label": "Pisos"
           },
           {
-            "label": "Huéspedes",
-            "value": "+270"
-          },
-          {
-            "label": "Seguridad 24/7",
-            "value": "24/7"
+            "value": "5",
+            "label": "Modelos"
           }
         ],
         "units": [
           {
             "name": "Studio",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "sqm": "Hasta 32 m²",
+            "guests": "2 huéspedes",
+            "features": "Monoambiente",
+            "imageSrc": "/images/units/downtown/studio.jpg",
             "tourUrl": "https://my.matterport.com/show/?m=Mq7ekmXSUae"
           },
           {
-            "name": "2 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Ambientes",
+            "sqm": "Hasta 50 m²",
+            "guests": "3 huéspedes",
+            "features": "1 dorm + living",
+            "imageSrc": "/images/units/downtown/dos-ambientes.jpg",
             "tourUrl": "https://my.matterport.com/show/?m=Yz3AcrV8SUW"
           },
           {
-            "name": "2 Ambientes Superior",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Amb. Luxury",
+            "sqm": "50 m²",
+            "guests": "3 huéspedes",
+            "features": "Terminaciones premium",
+            "imageSrc": "/images/units/downtown/dos-amb-luxury.jpg",
             "tourUrl": "https://my.matterport.com/show/?m=3SSeJVvaTLr"
           },
           {
-            "name": "3 Ambientes",
-            "sqm": "68-75",
-            "guests": "",
-            "features": "",
+            "name": "Tres Ambientes",
+            "sqm": "70–90 m²",
+            "guests": "4 huéspedes",
+            "features": "2 dorm + living · 2 baños",
+            "imageSrc": "/images/units/downtown/tres-ambientes.jpg",
             "tourUrl": "https://my.matterport.com/show/?m=rr3WzUCaBMJ"
           },
           {
-            "name": "Lounge",
-            "sqm": "",
-            "guests": "",
-            "features": "",
-            "tourUrl": "https://my.matterport.com/show/?m=WEbKzZsDVZq"
+            "name": "Dúplex Piso 45",
+            "sqm": "90 m²",
+            "guests": "2–4 huéspedes",
+            "features": "Vistas 360° · Diseño lujo",
+            "imageSrc": "/images/units/downtown/duplex-piso-45.jpg"
           }
         ],
         "relatedSlugs": [
           "huergo-475",
           "palermo-soho",
           "dorrego"
+        ],
+        "amenities": [
+          "Piscina",
+          "Spa / Sauna",
+          "Gym",
+          "SUM Sala de Reuniones",
+          "Lavandería",
+          "Servicio de limpieza",
+          "Wifi",
+          "Estacionamiento sujeto a disponibilidad",
+          "Servicio de seguridad 24h"
+        ],
+        "bannerTitle": "Downtown - <em>Torre Bellini</em>",
+        "bannerPills": [
+          "+270 Huéspedes",
+          "45 Pisos",
+          "Microcentro"
+        ],
+        "unitsIntro": "134 unidades · Grupos de más de 270 pax · Seleccioná el tipo de unidad",
+        "finalCtaTitle": "El edificio <em>más grande</em> de Top Rentals en Buenos Aires",
+        "galleryImages": [
+          "/images/gallery/downtown/1.jpg",
+          "/images/gallery/downtown/2.jpg",
+          "/images/gallery/downtown/3.jpg"
         ]
       }
     },
@@ -115,57 +142,97 @@
       "isPopular": false,
       "detail": {
         "tags": [],
-        "poiLines": [],
+        "poiLines": [
+          "Puerto Madero | /images/poi/huergo/puerto-madero.jpg",
+          "Centro Financiero | /images/poi/huergo/centro-financiero.jpg",
+          "Plaza de Mayo | /images/poi/huergo/plaza-de-mayo.jpg",
+          "Reserva Ecológica | /images/poi/huergo/reserva-ecologica.jpg",
+          "CCK | /images/poi/huergo/cck.jpg",
+          "San Telmo | /images/poi/huergo/san-telmo.jpg",
+          "Obelisco | /images/poi/huergo/obelisco.jpg",
+          "La Boca | /images/poi/huergo/la-boca.jpg"
+        ],
         "units": [
           {
             "name": "Studio",
-            "sqm": "",
-            "guests": "",
-            "features": "Tour pendiente"
-          },
-          {
-            "name": "Monoambiente",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "sqm": "30 m²",
+            "guests": "2 huéspedes",
+            "features": "Monoambiente",
             "tourUrl": "https://my.matterport.com/show/?m=F6pjmeBmFZX"
           },
           {
-            "name": "2 Ambientes A",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Studio Plus",
+            "sqm": "40 m²",
+            "guests": "2 huéspedes",
+            "features": "Monoambiente amplio"
+          },
+          {
+            "name": "Dos Ambientes",
+            "sqm": "50 m²",
+            "guests": "2–3 huéspedes",
+            "features": "1 dorm + living",
             "tourUrl": "https://my.matterport.com/show/?m=oa6BN3SY72g"
           },
           {
-            "name": "2 Ambientes B",
-            "sqm": "",
-            "guests": "",
-            "features": "",
-            "tourUrl": "https://my.matterport.com/show/?m=RbHyWQEVv94"
-          },
-          {
-            "name": "2 Ambientes Plus",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Amb. Plus",
+            "sqm": "60 m²",
+            "guests": "3 huéspedes",
+            "features": "1 dorm + living grande",
             "tourUrl": "https://my.matterport.com/show/?m=XN9Xe5GUMvw"
           },
           {
-            "name": "3 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Tres Ambientes",
+            "sqm": "70 m²",
+            "guests": "3–4 huéspedes",
+            "features": "2 dorm + living",
             "tourUrl": "https://my.matterport.com/show/?m=DaMr6jLW1oh"
+          }
+        ],
+        "bannerTitle": "Huergo - <em>Torre 475</em>",
+        "subtitle": "Donde la Buenos Aires histórica se encuentra con su faceta más moderna",
+        "bannerPills": [
+          "51 Unidades",
+          "+100 pax",
+          "38 Pisos",
+          "Puerto Madero",
+          "4.300 m² amenities"
+        ],
+        "about": "Ubicado en Av. Ingeniero Huergo 475, en el Paseo del Bajo, donde el centro histórico se conecta con Puerto Madero. Torre de 38 pisos con más de 4.300 m² de amenities de diseño boutique. Ideal para corporativo, grupos y estadías premium.",
+        "unitsIntro": "10 variantes · Modelos Con Vista en pisos 20–38 · 51 unidades",
+        "amenitiesIntro": "Más de 4.300 m² en cinco sectores",
+        "amenities": [
+          "Piscina techada",
+          "Spa / Sauna",
+          "Gym",
+          "Cowork",
+          "Playroom",
+          "Terraza con jardín",
+          "Laundry",
+          "Limpieza",
+          "Seguridad 24hs"
+        ],
+        "groupsHeadline": "Grupos de más de <em>100 pax</em>",
+        "groupsDescription": "Con cowork equipado, salas de reuniones, WiFi de alta velocidad y 4.300 m² de amenities. La opción premium para grupos corporativos y relocation.",
+        "groupsCtaLabel": "Consultar grupos",
+        "stats": [
+          {
+            "value": "51",
+            "label": "Unidades"
           },
           {
-            "name": "3 Ambientes Plus",
-            "sqm": "",
-            "guests": "",
-            "features": "",
-            "tourUrl": "https://my.matterport.com/show/?m=68ky9fa3Bmh"
+            "value": "+100",
+            "label": "Huéspedes"
+          },
+          {
+            "value": "38",
+            "label": "Pisos"
+          },
+          {
+            "value": "4.300 m²",
+            "label": "Amenities"
           }
-        ]
+        ],
+        "finalCtaTitle": "38 pisos. 4.300 m² de amenities en <em>el corazón de Buenos Aires.</em>"
       },
       "elfsightReviewsAppId": "f4c0540c-8730-479b-8a79-2d4a404d3b5d"
     },
@@ -183,23 +250,83 @@
       "isPopular": false,
       "detail": {
         "tags": [],
-        "poiLines": [],
+        "poiLines": [
+          "Plaza Italia",
+          "La Rural",
+          "Distrito Arcos",
+          "Plaza Serrano",
+          "Hipódromo",
+          "Bosques de Palermo",
+          "Santa Fe",
+          "Recoleta"
+        ],
         "units": [
           {
             "name": "Studio",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "sqm": "40 m²",
+            "guests": "2 huéspedes",
+            "features": "Monoambiente",
             "tourUrl": "https://my.matterport.com/show/?m=x1A2znhtkeQ"
           },
           {
-            "name": "2 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Ambientes",
+            "sqm": "55 m²",
+            "guests": "2–3 huéspedes",
+            "features": "1 dorm + living",
             "tourUrl": "https://my.matterport.com/show/?m=dwj1maoeiFw"
           }
-        ]
+        ],
+        "bannerTitle": "Palermo Soho - <em>Top Rentals</em>",
+        "subtitle": "Diseño premium en el corazón gastronómico de Palermo",
+        "bannerPills": [
+          "12 Unidades",
+          "9 Pisos",
+          "Edificio nuevo",
+          "Diseño premium",
+          "Piscina & Cowork"
+        ],
+        "introText": "Diseño, gastronomía y arte urbano en el Palermo más creativo de Buenos Aires",
+        "introCtaLabel": "Consultar disponibilidad",
+        "about": "Top Rentals Palermo Soho está en Godoy Cruz 2573, a metros de Santa Fe, en pleno corazón gastronómico de Palermo. Edificio nuevo de 9 pisos con solo 12 unidades de diseño premium. Piscina con jardín tropical, cowork y acabados de alta calidad.",
+        "restaurants": [
+          "Don Julio",
+          "La Cabrera",
+          "Casa Tsuji",
+          "Ninina"
+        ],
+        "unitsIntro": "2 modelos · 12 unidades",
+        "amenities": [
+          "Piscina con jardín",
+          "Cowork",
+          "Lavandería",
+          "Limpieza",
+          "Seguridad 24hs",
+          "Servicio de comida",
+          "Estacionamiento",
+          "WiFi"
+        ],
+        "groupsHeadline": "Solo 12 unidades <em>Exclusividad</em> en Palermo Soho",
+        "groupsDescription": "Edificio boutique de 9 pisos con acabados de lujo. Ideal para estadías de trabajo de alto nivel, relocation ejecutivo y viajeros que valoran el diseño y la privacidad.",
+        "groupsCtaLabel": "Consultar grupos",
+        "stats": [
+          {
+            "value": "12",
+            "label": "Unidades"
+          },
+          {
+            "value": "9",
+            "label": "Pisos"
+          },
+          {
+            "value": "2",
+            "label": "Modelos"
+          },
+          {
+            "value": "Nuevo",
+            "label": "Edificio"
+          }
+        ],
+        "finalCtaTitle": "12 unidades de <em>diseño premium</em> en el corazón de Palermo"
       },
       "elfsightReviewsAppId": "18480e6b-9a75-46e9-b569-b521ed7e0e8a"
     },
@@ -217,23 +344,66 @@
       "isPopular": false,
       "detail": {
         "tags": [],
-        "poiLines": [],
+        "poiLines": [
+          "Flea Market",
+          "Plaza Serrano",
+          "La Rural",
+          "Hipódromo de Palermo",
+          "Lagos de Palermo",
+          "Recoleta",
+          "Puerto Madero",
+          "Aeroparque"
+        ],
         "units": [
           {
             "name": "Studio",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "sqm": "45 m²",
+            "guests": "2 huéspedes",
+            "features": "Monoambiente",
             "tourUrl": "https://my.matterport.com/show/?m=YRjNF2vCqUp"
           },
           {
-            "name": "2 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Ambientes",
+            "sqm": "50 m²",
+            "guests": "2–3 huéspedes",
+            "features": "1 dorm + living",
             "tourUrl": "https://my.matterport.com/models/2drALy1gQ6d"
           }
-        ]
+        ],
+        "bannerTitle": "Dorrego - <em>Palermo Hollywood</em>",
+        "subtitle": "Amenábar 80, Palermo Hollywood, Buenos Aires",
+        "bannerPills": [
+          "10 Unidades",
+          "Palermo Hollywood",
+          "Premium Amenities"
+        ],
+        "introText": "¿Querés conocer más sobre este edificio?",
+        "introCtaLabel": "Consultar",
+        "about": "Ubicado en Amenábar 80, en pleno corazón de Palermo Hollywood, Dorrego es uno de nuestros edificios más premium. Con solo 10 departamentos, ofrece una experiencia exclusiva en el corazón del barrio más creativo de Buenos Aires, reconocido como el distrito audiovisual de la ciudad. A pasos de los mejores restaurantes, plazas y vida cultural, con una propuesta de amenities que supera cualquier estándar.",
+        "restaurantsTitle": "Los mejores restaurantes a pasos",
+        "restaurants": [
+          "La Cabrera",
+          "Sacro",
+          "La Mar",
+          "Don Julio"
+        ],
+        "unitsIntro": "Dos opciones de departamento, ambas con balcón y amenities completos.",
+        "amenitiesIntro": "Dorrego cuenta con una dotación de amenities única entre nuestros edificios.",
+        "amenities": [
+          "Piscina Exterior",
+          "Piscina Cubierta Climatizada",
+          "Sauna / Spa",
+          "Gimnasio",
+          "Solarium",
+          "SUM + Sala de Reuniones",
+          "Servicio de Comida",
+          "Cocheras (sujeto a disponibilidad)",
+          "Seguridad 24hs",
+          "Wi-Fi"
+        ],
+        "finalCtaTitle": "¿Listo para reservar en <em>Dorrego</em>?",
+        "finalCtaSubtitle": "Contactanos y te ayudamos a encontrar el departamento ideal.",
+        "finalCtaLabel": "Contactar ahora"
       }
     },
     {
@@ -250,46 +420,114 @@
       "isPopular": false,
       "detail": {
         "tags": [],
-        "poiLines": [],
+        "poiLines": [
+          "El Monumental | /images/poi/nunez/el-monumental.jpg",
+          "Parque Saavedra | /images/poi/nunez/parque-saavedra.jpg",
+          "Museo Larreta | /images/poi/nunez/museo-larreta.jpg",
+          "Shopping DOT | /images/poi/nunez/shopping-dot.jpg",
+          "Estadio Obras | /images/poi/nunez/estadio-obras.jpg",
+          "Polo de Innovación | /images/poi/nunez/polo-innovacion.jpg",
+          "Costanera Norte | /images/poi/nunez/costanera-norte.jpg",
+          "Aeroparque | /images/poi/nunez/aeroparque.jpg"
+        ],
         "units": [
           {
             "name": "Studio",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "sqm": "30 m²",
+            "guests": "2 huéspedes",
+            "features": "Monoambiente",
+            "imageSrc": "/images/units/nunez/studio.jpg",
             "tourUrl": "https://my.matterport.com/show/?m=5mdjUzPxyhs"
           },
           {
-            "name": "One Bedroom",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Ambientes",
+            "sqm": "50 m²",
+            "guests": "2–3 huéspedes",
+            "features": "1 dorm + living",
+            "imageSrc": "/images/units/nunez/dos-ambientes.jpg",
             "tourUrl": "https://my.matterport.com/show/?m=wgXHZg5QvEc"
           },
           {
-            "name": "Two Bedroom Opción 1",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Amb. Plus",
+            "sqm": "65 m²",
+            "guests": "3 huéspedes",
+            "features": "1 dorm + living amplio",
+            "imageSrc": "/images/units/nunez/dos-amb-plus.jpg"
+          },
+          {
+            "name": "Tres Ambientes",
+            "sqm": "70 m²",
+            "guests": "3–4 huéspedes",
+            "features": "2 dorm + living",
+            "imageSrc": "/images/units/nunez/tres-ambientes.jpg",
             "tourUrl": "https://my.matterport.com/show/?m=Xqc4VPeKFEv"
           },
           {
-            "name": "Two Bedroom Opción 2",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Tres Amb. Plus",
+            "sqm": "90 m²",
+            "guests": "4 huéspedes",
+            "features": "2 dorm + living grande",
+            "imageSrc": "/images/units/nunez/tres-amb-plus.jpg",
             "tourUrl": "https://my.matterport.com/show/?m=G9bFxpCMr1h"
           }
-        ]
+        ],
+        "restaurants": [
+          "La Escondida",
+          "Dandy Saavedra",
+          "Moshu Saavedra",
+          "Bar Du Marché"
+        ],
+        "amenities": [
+          "piscina",
+          "solarium",
+          "gimnasio",
+          "sum",
+          "lavanderia",
+          "limpieza",
+          "wifi",
+          "cocheras",
+          "seguridad"
+        ],
+        "bannerTitle": "<em>Núñez</em> Hub",
+        "subtitle": "Estratégico, corporativo y con todo lo que necesitás en Núñez",
+        "bannerPills": [
+          "29 Unidades",
+          "Hasta 60 pax",
+          "Núñez",
+          "Corporativo"
+        ],
+        "about": "Núñez Hub es el edificio de Top Rentals ubicado estratégicamente en la intersección de Núñez y el Polo de Innovación. A pasos del Monumental, Parque Saavedra y Shopping DOT. Ideal para viajes corporativos, deportivos y estadías en familia.",
+        "stats": [
+          {
+            "value": "29",
+            "label": "Unidades"
+          },
+          {
+            "value": "60",
+            "label": "Huéspedes"
+          },
+          {
+            "value": "5",
+            "label": "Modelos"
+          },
+          {
+            "value": "24/7",
+            "label": "Seguridad"
+          }
+        ],
+        "groupsHeadline": "Grupos de hasta <em>60 pax</em>",
+        "groupsDescription": "Con SUM / Sala de Reuniones, WiFi de alta velocidad y ubicación junto al Polo de Innovación de Núñez. La opción ideal para equipos corporativos y deportivos.",
+        "groupsCtaLabel": "Consultar grupos",
+        "finalCtaTitle": "Estratégico, <em>moderno</em> y a pasos de todo en Núñez"
       }
     },
     {
       "slug": "qorner",
       "gnahsId": 4,
       "name": "Top Rentals Qorner",
-      "city": "Buenos Aires",
-      "neighborhood": "Palermo",
-      "address": "Costa Rica 5545",
+      "city": "Quito",
+      "neighborhood": "",
+      "address": "Av. Portugal E9-57 y Av. de los Shyris",
       "imageSrc": "",
       "comingSoon": false,
       "hidden": false,
@@ -297,37 +535,67 @@
       "isPopular": false,
       "detail": {
         "tags": [],
-        "poiLines": [],
+        "poiLines": [
+          "Quicentro Shopping",
+          "CC Iñaquito",
+          "Parque La Carolina",
+          "Jardín Botánico",
+          "Zona de Embajadas",
+          "Av. de los Shyris",
+          "Av. Portugal",
+          "El Quseque"
+        ],
         "units": [
           {
-            "name": "2 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Ambientes",
+            "sqm": "60 m² · 1 Dorm + 1 Living · 1 baño",
+            "guests": "4 huéspedes",
+            "features": "Ropa Blanca de algodón Puro · Cama King o 2 twin · Baño completo · Escritorio · Placar · Sofá cama · Horno y Anafe · Smart TV 50\" · Vajilla completa · Heladera · Balcón · Caja Fuerte",
             "tourUrl": "https://my.matterport.com/show/?m=e7WB7hXP8kj"
           },
           {
-            "name": "2 Ambientes Plus",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Ambientes Plus",
+            "sqm": "74 m² · 1 Dorm + 1 Living · 2 baños",
+            "guests": "4 huéspedes",
+            "features": "Ropa Blanca de algodón Puro · Cama King o 2 twin · 2 Baños completos · Escritorio · Placar · Sofá cama · Horno y Anafe · Smart TV 50\" · Vajilla completa · Heladera · Balcón · Caja Fuerte",
             "tourUrl": "https://my.matterport.com/show/?m=67ToSWBVEc5"
           },
           {
-            "name": "3 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Tres Ambientes",
+            "sqm": "100 m² · 2 habitaciones + Living · 2 baños",
+            "guests": "4 huéspedes",
+            "features": "Ropa Blanca de algodón Puro · 1 Cama King + 2 camas twin · Mesa para 4 personas · Sofá cama · Horno y Anafe · Smart TV 50\" · Vajilla completa · Heladera · Balcón · Caja Fuerte · 3 baños",
             "tourUrl": "https://my.matterport.com/show/?m=hJMF2vndC13"
-          },
-          {
-            "name": "4 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
-            "tourUrl": "https://my.matterport.com/show/?m=DMUea78o9bv"
           }
-        ]
+        ],
+        "bannerTitle": "Qorner - <em>Torre Qorner</em>",
+        "subtitle": "Av. Portugal E9-57 y Av. de los Shyris, Quito, Ecuador",
+        "bannerPills": [
+          "13 Unidades",
+          "Quito, Ecuador",
+          "Pet Friendly",
+          "Vistas a los Andes"
+        ],
+        "introText": "¿Querés conocer más sobre este edificio?",
+        "introCtaLabel": "Consultar",
+        "aboutTitle": "Tu hogar en <em>Quito</em>",
+        "about": "Top Rentals Qorner se encuentra en el corazón de Quito, una de las zonas más dinámicas y exclusivas de la ciudad. A pasos del emblemático Parque La Carolina, rodeado de torres corporativas, restaurantes de primer nivel y las sedes de las empresas más importantes del país. Un entorno vibrante y seguro, ideal tanto para estadías ejecutivas como para explorar la ciudad.",
+        "highlightTitle": "Piscina con vistas panorámicas a los Andes y la ciudad de Quito",
+        "highlightText": "Una experiencia única en Sudamérica.",
+        "unitsIntro": "Tres opciones para estadías cortas, medianas o corporativas en Quito.",
+        "amenitiesIntro": "Qorner combina diseño arquitectónico de autor con amenities de primer nivel.",
+        "amenities": [
+          "Piscina con Vista Panorámica",
+          "Spa / Sauna",
+          "Gym con Vistas a la Ciudad",
+          "Pet Friendly",
+          "Lobby de Diseño",
+          "Seguridad 24hs",
+          "Estacionamiento (disponibilidad)"
+        ],
+        "finalCtaTitle": "¿Listo para reservar en <em>Qorner – Quito</em>?",
+        "finalCtaSubtitle": "Contactanos y te ayudamos a planificar tu estadía en Ecuador.",
+        "finalCtaLabel": "Contactar ahora"
       }
     },
     {
@@ -344,30 +612,76 @@
       "isPopular": false,
       "detail": {
         "tags": [],
-        "poiLines": [],
+        "poiLines": [
+          "Barrio Chino",
+          "Estadio River Plate",
+          "Hipódromo de Palermo",
+          "Aeroparque Jorge Newbery",
+          "Hospital Fleni / ICBA",
+          "Accesos a Provincia"
+        ],
         "units": [
           {
-            "name": "Habitación",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Habitación Individual",
+            "sqm": "30 m² · 1 Monoambiente",
+            "guests": "2 huéspedes",
+            "features": "Room · Ropa blanca 100% algodón · Cama Queen · Baño totalmente equipado · Armario · Escritorio · TV inteligente 40'' · A/C frío-calor",
             "tourUrl": "https://my.matterport.com/show/?m=YMTY5s16CPR"
           },
           {
-            "name": "Studio",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Departamento Studio",
+            "sqm": "40 m² · 1 Monoambiente · Balcón",
+            "guests": "2 huéspedes",
+            "features": "Depto · Ropa blanca 100% algodón · Cama King o 2 individuales · Baño equipado · Mesa 3 personas · Armario · Escritorio · Horno eléctrico · Placa cocción · Vajilla completa · TV 40'' · Nevera · Balcón · A/…",
             "tourUrl": "https://my.matterport.com/show/?m=e7bEYCrBecp"
           },
           {
-            "name": "2 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dúplex Dos Ambientes",
+            "sqm": "50 m² · 1 Dorm + 1 Living · 2 baños",
+            "guests": "2–3 huéspedes",
+            "features": "Dúplex · Ropa blanca 100% algodón · Cama King o 2 individuales · 2 baños · Mesa comedor 3 personas · Armario · Placa cocción eléctrica · Microondas · Caja fuerte · TV 40'' · Vajilla completa · Nevera · Bal…",
             "tourUrl": "https://my.matterport.com/show/?m=kuNMRKGkS52"
           }
-        ]
+        ],
+        "bannerTitle": "<em>Montañeses</em>",
+        "subtitle": "Montañeses 2585, Belgrano, Buenos Aires",
+        "bannerPills": [
+          "24 Depts + 5 Rooms",
+          "+50 pax",
+          "Belgrano",
+          "Dúplex Disponibles"
+        ],
+        "introText": "Habitaciones, studios y dúplex en pleno Belgrano. Ideal para grupos.",
+        "introCtaLabel": "Consultar grupos",
+        "about": "Top Rentals Montañeses está ubicado en el vibrante distrito de negocios de Belgrano. Conecta estratégicamente el área norte con el centro de Buenos Aires, rodeado de avenidas principales como Libertador y Figueroa Alcorta. Con acabados de alta calidad y recepción 24 horas, ofrece una propuesta única que combina habitaciones estilo hotelero con studios y dúplex.",
+        "unitsIntro": "Tres opciones de alojamiento: habitaciones estilo hotel, studios con cocina y dúplex de dos niveles.",
+        "amenitiesIntro": "Todo lo necesario para una estadía cómoda y sin inconvenientes.",
+        "amenities": [
+          "Recepción 24hs",
+          "Servicio de Limpieza",
+          "Wi-Fi",
+          "Smart TV"
+        ],
+        "groupsHeadline": "Grupos corporativos y equipos en Belgrano <em>Montañeses</em>",
+        "groupsDescription": "Con 24 departamentos y 5 habitaciones, Montañeses puede alojar grupos de hasta 50 personas. Ideal para equipos ejecutivos, delegaciones o grupos que buscan comodidad y buena ubicación en el norte de la ciudad.",
+        "groupsCtaLabel": "Consultar para grupos",
+        "stats": [
+          {
+            "value": "29",
+            "label": "Unidades totales"
+          },
+          {
+            "value": "+50",
+            "label": "Pax en simultáneo"
+          },
+          {
+            "value": "24hs",
+            "label": "Recepción"
+          }
+        ],
+        "finalCtaTitle": "¿Listo para reservar en <em>Montañeses</em>?",
+        "finalCtaSubtitle": "Contactanos para reservas individuales o para tu grupo en Belgrano.",
+        "finalCtaLabel": "Contactar ahora"
       }
     },
     {
@@ -384,30 +698,86 @@
       "isPopular": false,
       "detail": {
         "tags": [],
-        "poiLines": [],
+        "poiLines": [
+          "MALBA",
+          "Bellas Artes",
+          "Museo Evita",
+          "Rosedal",
+          "Lagos de Palermo",
+          "Jardín Botánico",
+          "La Rural",
+          "Centro de Convenciones"
+        ],
         "units": [
           {
             "name": "Studio",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "sqm": "30 m²",
+            "guests": "2 huéspedes",
+            "features": "Monoambiente",
             "tourUrl": "https://my.matterport.com/show/?m=4GopdQSiPAF"
           },
           {
-            "name": "2 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Ambientes",
+            "sqm": "47 m²",
+            "guests": "2–3 huéspedes",
+            "features": "1 dorm + living",
             "tourUrl": "https://my.matterport.com/show/?m=u6n5zX9mwoS"
           },
           {
-            "name": "3 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Tres Ambientes",
+            "sqm": "70 m²",
+            "guests": "3–4 huéspedes",
+            "features": "2 dorm + living",
             "tourUrl": "https://my.matterport.com/show/?m=C9nLXHiA8GE"
           }
-        ]
+        ],
+        "bannerTitle": "Palermo Chico - <em>Cabello 3620</em>",
+        "subtitle": "Lo mejor de un hotel con la calidez de un hogar, en el barrio más verde de Palermo",
+        "bannerPills": [
+          "29 Unidades",
+          "Hasta 60 pax",
+          "Boutique",
+          "Palermo Chico",
+          "Recepción 24h"
+        ],
+        "introText": "Lo mejor de un hotel con la calidez de un hogar, en el barrio más verde de Palermo",
+        "introCtaLabel": "Consultar disponibilidad",
+        "about": "Top Rentals Palermo Chico se encuentra en Cabello 3620, en el corazón cultural de Buenos Aires. A pasos del MALBA, los Lagos de Palermo y el Rosedal. La propiedad más boutique de Top Rentals: diseño cuidado, atención personalizada y ubicación premium.",
+        "unitsIntro": "3 modelos · Diseño boutique · Equipamiento premium incluido",
+        "amenitiesIntro": "Experiencia boutique con atención personalizada",
+        "amenities": [
+          "Coworking",
+          "Limpieza",
+          "Lavandería",
+          "Smart TV",
+          "Seguridad 24hs",
+          "Recepción 24h",
+          "WiFi",
+          "Desayuno opcional",
+          "Traslados aeropuerto"
+        ],
+        "groupsHeadline": "La experiencia más boutique de <em>top rentals</em>",
+        "groupsDescription": "Capacidad para grupos de hasta 60 huéspedes con atención personalizada, desayuno opcional y traslados incluidos.",
+        "groupsCtaLabel": "Consultar grupos",
+        "stats": [
+          {
+            "value": "29",
+            "label": "Unidades"
+          },
+          {
+            "value": "+60",
+            "label": "Huéspedes"
+          },
+          {
+            "value": "3",
+            "label": "Modelos"
+          },
+          {
+            "value": "24h",
+            "label": "Recepción"
+          }
+        ],
+        "finalCtaTitle": "Boutique, personalizado y <em>en el corazón de palermo chico</em>"
       }
     },
     {
@@ -424,30 +794,92 @@
       "isPopular": false,
       "detail": {
         "tags": [],
-        "poiLines": [],
+        "poiLines": [
+          "Feria de Pulgas",
+          "Plaza Serrano",
+          "La Rural",
+          "Hipódromo de Palermo",
+          "Lagos de Palermo",
+          "Bosques de Palermo",
+          "Recoleta | /images/poi/palermo-hollywood/recoleta.jpg",
+          "Palermo Soho"
+        ],
         "units": [
           {
             "name": "Studio",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "sqm": "30 m²",
+            "guests": "2 huéspedes",
+            "features": "Monoambiente",
+            "imageSrc": "/images/units/palermo-hollywood/studio.jpg",
             "tourUrl": "https://my.matterport.com/show/?m=oZxy1BUsNZ5"
           },
           {
-            "name": "2 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Ambientes",
+            "sqm": "55 m²",
+            "guests": "2–3 huéspedes",
+            "features": "1 dorm + living",
+            "imageSrc": "/images/units/palermo-hollywood/dos-ambientes.jpg",
             "tourUrl": "https://my.matterport.com/show/?m=3utFbDWgM9q"
           },
           {
-            "name": "3 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Tres Ambientes",
+            "sqm": "80 m²",
+            "guests": "3–4 huéspedes",
+            "features": "2 dorm + living",
+            "imageSrc": "/images/units/palermo-hollywood/tres-ambientes.jpg",
             "tourUrl": "https://my.matterport.com/show/?m=LaDoMbJKvQm"
           }
-        ]
+        ],
+        "bannerTitle": "Palermo - <em>Hollywood</em>",
+        "subtitle": "Gastronomía, cultura y diseño en el barrio más vibrante de Buenos Aires",
+        "bannerPills": [
+          "32 Unidades",
+          "+70 pax",
+          "Rooftop + Piscina",
+          "Palermo Hollywood",
+          "Dist. Audiovisual"
+        ],
+        "about": "Top Rentals Palermo Hollywood está ubicado en Gorriti 6066, en el vibrante corazón del distrito audiovisual. A pasos de Plaza Serrano, La Cabrera y los mejores bares de la ciudad. Con rooftop, piscina y gimnasio para estadías que combinan trabajo y placer.",
+        "restaurants": [
+          "La Cabrera",
+          "Sacro",
+          "La Mar",
+          "Don Julio"
+        ],
+        "unitsIntro": "3 modelos · 32 unidades",
+        "amenities": [
+          "Piscina",
+          "Rooftop",
+          "Gimnasio",
+          "Coworking",
+          "Lavandería",
+          "Limpieza",
+          "Seguridad 24hs",
+          "WiFi",
+          "Cocheras"
+        ],
+        "groupsHeadline": "Grupos de más de <em>70 pax</em>",
+        "groupsDescription": "Con rooftop, piscina y gimnasio, Palermo Hollywood es ideal para grupos corporativos, equipos creativos y agencias en estadías de trabajo.",
+        "groupsCtaLabel": "Consultar grupos",
+        "stats": [
+          {
+            "value": "32",
+            "label": "Unidades"
+          },
+          {
+            "value": "+70",
+            "label": "Huéspedes"
+          },
+          {
+            "value": "3",
+            "label": "Modelos"
+          },
+          {
+            "value": "24/7",
+            "label": "Seguridad"
+          }
+        ],
+        "finalCtaTitle": "Rooftop, piscina y el barrio <em>más creativo</em> de Buenos Aires"
       }
     },
     {
@@ -464,23 +896,81 @@
       "isPopular": false,
       "detail": {
         "tags": [],
-        "poiLines": [],
+        "poiLines": [
+          "Lagos de Palermo | /images/poi/libertador/lagos-de-palermo.jpg",
+          "Parque El Rosedal | /images/poi/libertador/parque-el-rosedal.jpg",
+          "Estadio River Plate | /images/poi/libertador/estadio-river-plate.jpg",
+          "Plaza Serrano | /images/poi/libertador/plaza-serrano.jpg",
+          "Av. Libertador | /images/poi/libertador/av-libertador.jpg",
+          "Belgrano | /images/poi/libertador/belgrano.jpg",
+          "Palermo | /images/poi/libertador/palermo.jpg",
+          "Aeroparque | /images/poi/libertador/aeroparque.jpg"
+        ],
         "units": [
           {
-            "name": "Studio",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Monoambiente",
+            "sqm": "1 Monoambiente",
+            "guests": "2 huéspedes",
+            "features": "Ropa blanca de algodón puro · Cama King o 2 Twin · Baño completo · Mesa para 3 personas · Placard · Escritorio de trabajo · Kichinette · Microondas · Cocina eléctrica · Smart TV 42' · Vajilla completa · Heladera · Balcón · AA inverter frío-calor",
             "tourUrl": "https://my.matterport.com/show/?m=XS3jXVkMVFK"
           },
           {
-            "name": "2 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Ambientes",
+            "sqm": "1 Dormitorio + 1 Living",
+            "guests": "2–3 huéspedes",
+            "features": "Ropa blanca de algodón puro · Cama King o 2 Twin · Baño completo · Living · Sofá cama · Mesa para 4 personas · Placard · Escritorio · Kichinette · Horno · Microondas · Cocina eléctrica · Smart TV 42' · Vajilla completa · Heladera · Balcón · AA inverter frío-calor",
             "tourUrl": "https://my.matterport.com/show/?m=hRT8FqoYvu7"
           }
-        ]
+        ],
+        "bannerTitle": "Libertador - <em>Av. del Libertador</em>",
+        "subtitle": "Av. Libertador 6299, Belgrano, Buenos Aires",
+        "bannerPills": [
+          "68 Unidades",
+          "+130 pax",
+          "Belgrano",
+          "Terraza Verde + Piscina"
+        ],
+        "introText": "¿Necesitás alojar un grupo grande en Buenos Aires?",
+        "introCtaLabel": "Consultar grupos",
+        "about": "Ubicado sobre la icónica Av. del Libertador en Belgrano, este edificio combina una ubicación de primer nivel con una propuesta de servicios integral. Cuenta con recepción las 24 hs., centro de fitness, terraza verde con solarium y piscina, servicio de concierge, lavandería y salas de reuniones. Todas las habitaciones están completamente equipadas con baño privado.",
+        "unitsIntro": "Dos opciones completamente equipadas, cada una con baño privado y balcón.",
+        "amenitiesIntro": "Una propuesta de servicios completa para estadías ejecutivas y grupos.",
+        "amenities": [
+          "Piscina en Terraza Verde",
+          "Solarium",
+          "Terraza / Sauna",
+          "Gimnasio",
+          "SUM / Salas de Reuniones",
+          "Servicio de Concierge",
+          "Lavandería",
+          "Servicio de Limpieza",
+          "Recepción 24hs",
+          "Cocheras (disponibilidad)"
+        ],
+        "groupsHeadline": "Ideal para grupos <em>corporativos</em> y equipos",
+        "groupsDescription": "Libertador cuenta con 68 unidades capaces de alojar grupos de hasta 130 personas. Salas de reuniones, servicio de concierge y recepción 24hs para una experiencia sin fricciones para grupos ejecutivos, congresos o eventos corporativos.",
+        "groupsCtaLabel": "Consultar para grupos",
+        "stats": [
+          {
+            "value": "68",
+            "label": "Unidades disponibles"
+          },
+          {
+            "value": "+130",
+            "label": "Pax en simultáneo"
+          },
+          {
+            "value": "24hs",
+            "label": "Recepción y concierge"
+          },
+          {
+            "value": "2",
+            "label": "Salas de reuniones"
+          }
+        ],
+        "finalCtaTitle": "¿Listo para reservar en <em>Libertador</em>?",
+        "finalCtaSubtitle": "Contactanos para reservas individuales, corporativas o de grupos.",
+        "finalCtaLabel": "Contactar ahora"
       }
     },
     {
@@ -497,30 +987,69 @@
       "isPopular": false,
       "detail": {
         "tags": [],
-        "poiLines": [],
+        "poiLines": [
+          "Av. Cabildo y Libertador",
+          "Lagos de Palermo",
+          "Estadio River Plate",
+          "Aeroparque J. Newbery",
+          "Restaurantes premium",
+          "Palermo Hollywood",
+          "Belgrano C",
+          "Puerto Madero"
+        ],
         "units": [
           {
             "name": "Studio",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "sqm": "40 m² · 1 Monoambiente · Balcón",
+            "guests": "2 huéspedes",
+            "features": "1 cama King · Ropa blanca algodón puro · Mesa 2 personas · Placard · Escritorio · Microondas · Cocina eléctrica · Smart TV 42' · Vajilla completa · Heladera · Balcón · A/C frío-calor",
             "tourUrl": "https://my.matterport.com/show/?m=Azokk7QYCUh"
           },
           {
-            "name": "2 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Dos Ambientes",
+            "sqm": "60 m² · Suite + Living · Balcón",
+            "guests": "2–3 huéspedes",
+            "features": "Habitación tipo suite · Toilette · Cama King · Baño equipado · Sala de estar · Sofá cama · Mesa 3 personas · Armario · Escritorio · Microondas · Caja fuerte · Cocina eléctrica · TV 42'' · Vajilla · Never…",
             "tourUrl": "https://my.matterport.com/show/?m=ypryC2enX6P&play=1&ts=3&hl=0&guides=0&lp=1"
           },
           {
-            "name": "3 Ambientes",
-            "sqm": "",
-            "guests": "",
-            "features": "",
+            "name": "Tres Ambientes",
+            "sqm": "100 m² · 2 Suites + Living · Balcón",
+            "guests": "3–4 huéspedes",
+            "features": "2 habitaciones tipo suite · Toilette · 2 camas King o 4 individuales · Baño equipado · Sala de estar · Sofá cama · Mesa 5 personas · Armario · Escritorio · Microondas · Caja fuerte · Cocina eléctrica · T…",
             "tourUrl": "https://my.matterport.com/show/?m=sTzsheQ5wdP&utm_source=4"
           }
-        ]
+        ],
+        "bannerTitle": "WOW Núñez - <em>Torre Boutique</em>",
+        "subtitle": "Núñez 2422, Núñez, Buenos Aires",
+        "bannerPills": [
+          "11 Unidades",
+          "Boutique Corporativo",
+          "Piscina + Solarium",
+          "Vistas a la Ciudad"
+        ],
+        "introText": "La experiencia de un hotel boutique, sin su formalidad.",
+        "introCtaLabel": "Consultar",
+        "aboutTitle": "Un nuevo concepto de <em>alojamiento</em>",
+        "about": "WOW Núñez ofrece las comodidades de un hotel boutique sin su formalidad. Un check-in fácil te lleva a amenities boutique y acogedoras que brindan una experiencia inolvidable. Ubicado en la intersección de Núñez y Av. Cabildo, combina acceso estratégico a toda la ciudad con vistas panorámicas desde los pisos superiores. Confort, excelencia y servicio personalizado.",
+        "highlightTitle": "Vistas fantásticas a la Ciudad de Buenos Aires desde los pisos superiores",
+        "highlightText": "Acceso directo a Av. Cabildo y Av. del Libertador.",
+        "unitsIntro": "Desde studios compactos hasta suites de tres ambientes con vistas a la ciudad.",
+        "amenitiesIntro": "Todo lo que necesitás para una estadía premium en Buenos Aires.",
+        "amenities": [
+          "Piscina",
+          "Solarium",
+          "Gimnasio",
+          "SUM / Sala de Reuniones",
+          "Lavandería",
+          "Servicio de Limpieza",
+          "Seguridad 24hs",
+          "Cocheras (disponibilidad)",
+          "Wi-Fi",
+          "Smart TV"
+        ],
+        "finalCtaTitle": "¿Listo para reservar en <em>WOW Núñez</em>?",
+        "finalCtaSubtitle": "Viví la experiencia boutique. Check-in fácil, amenities de primer nivel."
       }
     },
     {

@@ -51,7 +51,7 @@ export async function login(
     maxAge: 60 * 60 * 24 * 7,
   });
 
-  redirect("/admin/paginas/home-header");
+  redirect("/admin");
 }
 
 export async function logout(): Promise<void> {
