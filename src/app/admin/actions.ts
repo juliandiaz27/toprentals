@@ -1,6 +1,6 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { ADMIN_SESSION_COOKIE, getAdminToken, isAuthed } from "@/lib/auth";
 import {
@@ -16,6 +16,11 @@ import { saveUpload, deleteUploadByUrl } from "@/lib/upload";
 import { revalidateConfigImages } from "@/lib/revalidate";
 
 import { logAdminChange } from "@/lib/adminAudit";
+import {
+  clearLoginFailures,
+  loginBlockedMinutes,
+  recordLoginFailure,
+} from "@/lib/loginRateLimit";
 export type ActionResult = {
   ok: boolean;
   error?: string;
@@ -42,21 +47,34 @@ export async function login(
     return { ok: false, error: "ADMIN_TOKEN no está configurado en el servidor." };
   }
 
+  const h = await headers();
+  const ip = (h.get("x-forwarded-for") ?? "").split(",")[0]?.trim() || h.get("x-real-ip") || "local";
+  const blocked = loginBlockedMinutes(ip);
+  if (blocked) {
+    return {
+      ok: false,
+      error: `Demasiados intentos fallidos. Probá de nuevo en ${blocked} minuto(s).`,
+    };
+  }
+
   // Con email: usuario del equipo. Sin email: contraseña general («Administrador»).
   let user: { uid: string; name: string; email: string; role: "owner" | "editor" };
   if (email) {
     const found = await authenticateAdminUser(email, password);
     if (!found) {
+      await recordLoginFailure(ip);
       return { ok: false, error: "Email o contraseña incorrectos." };
     }
     user = { uid: found.id, name: found.name, email: found.email, role: found.role };
   } else {
     if (password !== token) {
+      await recordLoginFailure(ip);
       return { ok: false, error: "Contraseña incorrecta." };
     }
     user = generalPasswordSession();
   }
 
+  clearLoginFailures(ip);
   const cookieStore = await cookies();
   cookieStore.set(ADMIN_SESSION_COOKIE, await createSessionCookieValue(user), {
     httpOnly: true,
