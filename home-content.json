@@ -4,16 +4,56 @@
     "logoText": "TOP RENTALS",
     "ctaLabel": "Reservar ahora",
     "nav": [
-      { "id": "home", "label": "Home", "visible": true },
-      { "id": "propiedades", "label": "Propiedades", "visible": true },
-      { "id": "corporate", "label": "Corporativo", "visible": true },
-      { "id": "real-estate", "label": "Real Estate", "visible": true },
-      { "id": "propietarios", "label": "Propietarios", "visible": true },
-      { "id": "club-top-rentals", "label": "Club Top Rentals", "visible": true },
-      { "id": "nosotros", "label": "Quiénes somos", "visible": true },
-      { "id": "trabaja-con-nosotros", "label": "Trabajá con nosotros", "visible": true },
-      { "id": "blog", "label": "Blog", "visible": true },
-      { "id": "contacto", "label": "Contacto", "visible": true }
+      {
+        "id": "home",
+        "label": "Home",
+        "visible": true
+      },
+      {
+        "id": "propiedades",
+        "label": "Propiedades",
+        "visible": true
+      },
+      {
+        "id": "corporate",
+        "label": "Corporativo",
+        "visible": true
+      },
+      {
+        "id": "propietarios",
+        "label": "Propietarios",
+        "visible": true
+      },
+      {
+        "id": "real-estate",
+        "label": "Real Estate",
+        "visible": true
+      },
+      {
+        "id": "club-top-rentals",
+        "label": "Club Top Rentals",
+        "visible": true
+      },
+      {
+        "id": "nosotros",
+        "label": "Quiénes somos",
+        "visible": true
+      },
+      {
+        "id": "trabaja-con-nosotros",
+        "label": "Trabajá con nosotros",
+        "visible": true
+      },
+      {
+        "id": "blog",
+        "label": "Blog",
+        "visible": true
+      },
+      {
+        "id": "contacto",
+        "label": "Contacto",
+        "visible": true
+      }
     ]
   },
   "hero": {
@@ -21,7 +61,7 @@
     "subtitle": "Alquileres temporarios en 15 torres\nBuenos Aires · Quito.",
     "videoSrc": "/videos/hero-banner.mp4",
     "videoUrl": "",
-    "posterSrc": "/images/placeholders/home-hero.svg",
+    "posterSrc": "/api/media/top-rentals/uploads/page-home-hero-posterSrc.png",
     "playingLabel": "Reproduciendo",
     "videoPlaceholder": "[ Video: edificios, amenidades, lifestyle — loop · sin sonido ]",
     "exploreLabel": "Explorar",
@@ -30,7 +70,8 @@
     "ctaSecondary": "Soluciones corporativas",
     "ctaSecondaryHref": "/corporate",
     "whatsappUrl": "https://wspk.link/a/HPplAmzS",
-    "whatsappEnabled": true
+    "whatsappEnabled": true,
+    "slideDurationSec": "8"
   },
   "heroSlides": [
     {
@@ -109,24 +150,24 @@
   },
   "locations": {
     "title": "<em>Dónde Operamos</em>",
-    "card1Title": "Argentina",
-    "card1Subtitle": "Buenos Aires · +400 departamentos · 7 zonas",
+    "card1Title": "<p>Buenos Aires</p>",
+    "card1Subtitle": "<p>+400 departamentos · 7 zonas</p>",
     "card1ImageSrc": "/images/home/location-buenos-aires.jpg",
     "card1LinkLabel": "Ver propiedades →",
-    "card1Href": "/propiedades",
-    "card2Title": "Ecuador",
-    "card2Subtitle": "Quito · +100 departamentos · La Carolina",
+    "card1Href": "/reservas/buenos-aires",
+    "card2Title": "<p>Quito, Ecuador</p>",
+    "card2Subtitle": "<p>+100 departamentos · La Carolina</p>",
     "card2ImageSrc": "/images/home/location-quito.jpg",
     "card2LinkLabel": "Ver propiedades →",
-    "card2Href": "/propiedades"
+    "card2Href": "/reservas/quito"
   },
   "investorCta": {
     "title": "¿Sos un desarrollador o querés invertir en el sector?",
     "imageSrc": "/images/home/investor-cta.png",
     "devLabel": "Desarrolladores →",
-    "devHref": "/real-estate",
+    "devHref": "/desarrolladores",
     "invLabel": "Inversores →",
-    "invHref": "/propietarios"
+    "invHref": "/inversores"
   },
   "footer": {
     "brand": "TOP RENTALS",
@@ -139,15 +180,17 @@
     "link2Href": "/corporate",
     "link3Label": "Club Top Rentals",
     "link3Href": "/club-top-rentals",
-    "link4Label": "Blog",
-    "link4Href": "/blog",
+    "link4Label": "Propietarios",
+    "link4Href": "/propietarios",
     "link5Label": "Real Estate",
     "link5Href": "/real-estate",
     "link6Label": "Contacto",
     "link6Href": "/contacto",
     "instagramUrl": "https://instagram.com/",
     "facebookUrl": "https://facebook.com/",
-    "whatsappUrl": "https://wspk.link/a/HPplAmzS"
+    "whatsappUrl": "https://wspk.link/a/HPplAmzS",
+    "link7Label": "",
+    "link7Href": "/"
   },
   "seo": {
     "title": "Top Rentals — Alquiler temporario",

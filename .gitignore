@@ -45,3 +45,6 @@ newsletter-signups.json
 
 # Zoho OAuth tokens (local fallback; production uses ZOHO_REFRESH_TOKEN)
 zoho-tokens.json
+
+# respaldos locales de Vercel Blob
+/backups/

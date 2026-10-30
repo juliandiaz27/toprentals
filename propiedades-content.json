@@ -7,8 +7,8 @@
   "filters": {
     "items": [
       {
-        "id": "argentina",
-        "label": "Argentina",
+        "id": "buenos-aires",
+        "label": "Buenos Aires",
         "matchCities": [
           "Buenos Aires"
         ],
@@ -32,7 +32,7 @@
         "text": "90 unidades en el centro de la ciudad. Amenities de primer nivel. Próximamente."
       }
     ],
-    "ctaLabel": "Quiero recibir novedades →",
+    "ctaLabel": "Registrarme para recibir novedades →",
     "ctaHref": "/"
   }
 }

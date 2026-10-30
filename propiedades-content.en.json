@@ -7,8 +7,8 @@
   "filters": {
     "items": [
       {
-        "id": "argentina",
-        "label": "Argentina",
+        "id": "buenos-aires",
+        "label": "Buenos Aires",
         "matchCities": [
           "Buenos Aires"
         ],
